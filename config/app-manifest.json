@@ -1,0 +1,12 @@
+{
+  "defaultAppId": "example-app",
+  "apps": {
+    "example-app": {
+      "appId": "example-app",
+      "displayName": "Example App",
+      "routerRoot": "app-example-app",
+      "routeBase": "/example-app",
+      "storageNamespace": "example-app"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+name: Deploy Example App
+
+on:
+  push:
+    branches:
+      - deploy/example-app
+    paths:
+      - 'app-example-app/**'
+      - 'src/apps/example-app/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/deploy-example-app.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Placeholder deploy step
+        run: echo "Deploy example-app here"

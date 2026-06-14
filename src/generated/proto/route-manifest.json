@@ -1,0 +1,32 @@
+{
+  "auth.v1.AuthService.SessionLogin": {
+    "method": "POST",
+    "path": "/session/login",
+    "requestType": "auth.v1.SessionLoginRequest",
+    "responseType": "auth.v1.SessionLoginResponse"
+  },
+  "auth.v1.AuthService.SessionLogout": {
+    "method": "POST",
+    "path": "/session/logout",
+    "requestType": "auth.v1.SessionLogoutRequest",
+    "responseType": "auth.v1.SessionLogoutResponse"
+  },
+  "auth.v1.AuthService.SessionMe": {
+    "method": "GET",
+    "path": "/session/me",
+    "requestType": "auth.v1.SessionMeRequest",
+    "responseType": "auth.v1.SessionMeResponse"
+  },
+  "users.v1.UsersService.GetUserProfile": {
+    "method": "GET",
+    "path": "/users/me",
+    "requestType": "users.v1.GetUserProfileRequest",
+    "responseType": "users.v1.GetUserProfileResponse"
+  },
+  "users.v1.UsersService.UpdateUserProfile": {
+    "method": "PUT",
+    "path": "/users/me",
+    "requestType": "users.v1.UpdateUserProfileRequest",
+    "responseType": "users.v1.UpdateUserProfileResponse"
+  }
+}

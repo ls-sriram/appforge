@@ -1,0 +1,43 @@
+node_modules/
+build/
+dist/
+dist-desktop/
+*.log
+.env
+.env.local
+.env.*.local
+secrets/*.env
+secrets/*.local
+.metro-health-check*
+.husky/.gitignore
+.pids/
+
+# Native build artifacts
+ios/
+android/
+.expo/
+
+# Generated local artifacts
+.generated/
+.openapi/
+.logs/
+test-results/
+tools/db-dashboard/out/
+
+# Generated API artifacts
+src/generated/proto/**/*.ts
+server/src/generated/proto/
+
+# Local config and runtime state
+infra.env
+tools/config-manager/*.db
+server/dump/
+*.sqlite
+*.sqlite3
+*.db
+
+# Local secret material
+*service-account*.json
+firebase-adminsdk-*.json
+*.pem
+*.p12

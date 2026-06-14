@@ -1,0 +1,26 @@
+// Composition entry — owns scaffold wiring only.
+// Does not call hooks or derive state. Chrome-aware, workspace-blind.
+
+import React from "react";
+import { useRouter } from "expo-router";
+import { DIP_DASHBOARD_ROUTE_MAP } from "../../navigation/dashboard-nav";
+import { dipRoutes } from "../../navigation/routes";
+import { DipHomeMark } from "../../ui/components/navigation/DipHomeMark";
+import { DipNavigationBackButton } from "../../ui/components/navigation/DipNavigationBackButton";
+import { DipNavigationScaffold } from "../../ui/scaffolds/DipNavigationScaffold";
+import { {{PASCAL_FEATURE}}Workspace } from "../../features/{{FEATURE}}/{{FEATURE}}.workspace";
+
+export function Dip{{PASCAL_FEATURE}}Entry() {
+  const router = useRouter();
+
+  return (
+    <DipNavigationScaffold
+      activeId="{{FEATURE}}"
+      homeSlot={<DipHomeMark onPress={() => router.replace(dipRoutes.home)} />}
+      pathSlot={[{ label: "{{LABEL}}" }]}
+      navigationSlot={<DipNavigationBackButton onPress={() => router.back()} />}
+      onNavigate={(id) => router.replace(DIP_DASHBOARD_ROUTE_MAP[id])}
+      workspace={<{{PASCAL_FEATURE}}Workspace />}
+    />
+  );
+}

@@ -1,0 +1,66 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "lib": [
+      "ES2020",
+      "DOM"
+    ],
+    "jsx": "react-native",
+    "strict": true,
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@theme/*": [
+        "src/theme/*"
+      ],
+      "@core/*": [
+        "src/core/*"
+      ],
+      "@primitives/*": [
+        "src/ui/primitives/*"
+      ],
+      "@layouts/*": [
+        "src/ui/primitives/*"
+      ],
+      "@surfaces/*": [
+        "src/ui/primitives/*"
+      ],
+      "@scaffolds/*": [
+        "src/ui/scaffolds/*"
+      ],
+      "@components/*": [
+        "src/ui/components/*"
+      ],
+      "@panels/*": [
+        "src/ui/panels/*"
+      ],
+      "@blocks/*": [
+        "src/ui/blocks/*"
+      ],
+      "@features/*": [
+        "src/features/*"
+      ],
+      "@services/*": [
+        "src/services/*"
+      ],
+      "@navigation/*": [
+        "src/navigation/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "build"
+  ],
+  "extends": "expo/tsconfig.base"
+}

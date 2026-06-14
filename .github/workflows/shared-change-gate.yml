@@ -1,0 +1,30 @@
+name: Shared Change Gate
+
+on:
+  push:
+    branches:
+      - deploy/example-app
+    paths:
+      - 'src/config/**'
+      - 'src/core/**'
+      - 'src/features/**'
+      - 'src/hooks/**'
+      - 'src/navigation/**'
+      - 'src/providers/**'
+      - 'src/services/**'
+      - 'src/theme/**'
+      - 'src/ui/**'
+      - 'server/**'
+      - 'tools/**'
+      - 'scripts/**'
+  workflow_dispatch:
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require explicit starter impact review
+        run: |
+          echo "Shared AppForge platform modules changed."
+          echo "Review frontend, backend, scaffold, and config-manager impact before deployment."

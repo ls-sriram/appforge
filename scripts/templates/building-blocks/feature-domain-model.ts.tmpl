@@ -1,0 +1,13 @@
+// {{FEATURE}} model — pure types and domain constants, no imports
+
+export interface {{PASCAL_FEATURE}}ItemModel {
+  id: string;
+}
+
+export interface {{PASCAL_FEATURE}}ViewState {
+  items: {{PASCAL_FEATURE}}ItemModel[];
+}
+
+export interface {{PASCAL_FEATURE}}ViewActions {
+  onSelect: (id: string) => void;
+}

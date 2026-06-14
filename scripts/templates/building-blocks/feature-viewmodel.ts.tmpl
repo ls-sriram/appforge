@@ -1,0 +1,32 @@
+// {{FEATURE}}.viewmodel — derives display-ready state and actions from raw data.
+// Imports: hook (data), model (types), router, platform utilities.
+// Must NOT import any UI file.
+
+import * as React from "react";
+import { useRouter } from "expo-router";
+import { use{{PASCAL_FEATURE}}Data } from "./{{FEATURE}}.hook";
+import type { {{PASCAL_FEATURE}}ViewActions, {{PASCAL_FEATURE}}ViewState } from "./{{FEATURE}}.model";
+
+export function use{{PASCAL_FEATURE}}ViewModel(): {
+  state: {{PASCAL_FEATURE}}ViewState;
+  actions: {{PASCAL_FEATURE}}ViewActions;
+} {
+  const router = useRouter();
+  const data = use{{PASCAL_FEATURE}}Data();
+
+  const actions: {{PASCAL_FEATURE}}ViewActions = React.useMemo(
+    () => ({
+      onSelect: (id: string) => {
+        // TODO
+      },
+    }),
+    [router]
+  );
+
+  return {
+    state: {
+      items: [],
+    },
+    actions,
+  };
+}
