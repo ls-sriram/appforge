@@ -1,0 +1,3471 @@
+
+digraph G {
+rankdir=LR;
+overlap=false;
+
+node [
+  shape=box
+  style=filled
+];
+
+
+"src/App.tsx" [
+label="App.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/index.web.ts" [
+label="index.web.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/api/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/api/proto-client.ts" [
+label="proto-client.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/api/routes.ts" [
+label="routes.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/api/types.ts" [
+label="types.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/config/access.ts" [
+label="access.ts\nunknown\nbackend"
+fillcolor="white"
+];
+
+
+"src/config/app.ts" [
+label="app.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/config/environments.ts" [
+label="environments.ts\nunknown\nbackend"
+fillcolor="white"
+];
+
+
+"src/config/firebase.ts" [
+label="firebase.ts\nunknown\nbackend"
+fillcolor="white"
+];
+
+
+"src/core/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/core/runtime.ts" [
+label="runtime.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/core/types.ts" [
+label="types.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/generated/build-app-config.ts" [
+label="build-app-config.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/hooks/index.ts" [
+label="index.ts\nhook"
+fillcolor="pink"
+];
+
+
+"src/hooks/useDashboardData.ts" [
+label="useDashboardData.ts\nhook"
+fillcolor="pink"
+];
+
+
+"src/hooks/useSession.ts" [
+label="useSession.ts\nhook"
+fillcolor="pink"
+];
+
+
+"src/navigation/routes.ts" [
+label="routes.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/providers/EntitlementProvider.tsx" [
+label="EntitlementProvider.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/providers/SessionProvider.tsx" [
+label="SessionProvider.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/services/ApiClient.ts" [
+label="ApiClient.ts\nservice\nhttp,backend"
+fillcolor="lightgreen"
+];
+
+
+"src/services/AuthService.ts" [
+label="AuthService.ts\nservice"
+fillcolor="lightgreen"
+];
+
+
+"src/services/BackendAuthService.ts" [
+label="BackendAuthService.ts\nservice\nhttp,backend"
+fillcolor="lightgreen"
+];
+
+
+"src/services/BillingService.ts" [
+label="BillingService.ts\nservice"
+fillcolor="lightgreen"
+];
+
+
+"src/services/EntitlementService.ts" [
+label="EntitlementService.ts\nservice"
+fillcolor="lightgreen"
+];
+
+
+"src/services/SessionClient.test.ts" [
+label="SessionClient.test.ts\nservice"
+fillcolor="lightgreen"
+];
+
+
+"src/services/SessionClient.ts" [
+label="SessionClient.ts\nservice"
+fillcolor="lightgreen"
+];
+
+
+"src/services/TaskService.ts" [
+label="TaskService.ts\nservice"
+fillcolor="lightgreen"
+];
+
+
+"src/services/UserProfileService.test.ts" [
+label="UserProfileService.test.ts\nservice"
+fillcolor="lightgreen"
+];
+
+
+"src/services/UserProfileService.ts" [
+label="UserProfileService.ts\nservice"
+fillcolor="lightgreen"
+];
+
+
+"src/theme/factory.ts" [
+label="factory.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/theme/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/theme/theme.test.ts" [
+label="theme.test.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/theme/ThemeProvider.tsx" [
+label="ThemeProvider.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/theme/tokens.ts" [
+label="tokens.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/theme/Viewport.ts" [
+label="Viewport.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/core/dates/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/core/formatters/boolean.ts" [
+label="boolean.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/core/formatters/currency.ts" [
+label="currency.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/core/formatters/text.ts" [
+label="text.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/core/ids/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/core/metadata/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/core/providers/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/core/storage/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/ForgotPasswordRouteScreen.tsx" [
+label="ForgotPasswordRouteScreen.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/login/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/login/LoginController.ts" [
+label="LoginController.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/login/LoginModel.ts" [
+label="LoginModel.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/login/LoginRouteScreen.tsx" [
+label="LoginRouteScreen.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/recording.config.ts" [
+label="recording.config.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/register/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/register/RegisterController.ts" [
+label="RegisterController.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/register/RegisterModel.ts" [
+label="RegisterModel.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/shared-entity/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/sharing/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/text-editor/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/text-editor/storage.ts" [
+label="storage.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/upgrade/use-upgrade-page.ts" [
+label="use-upgrade-page.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/generated/proto/route-manifest.json" [
+label="route-manifest.json\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/ActionBlock.tsx" [
+label="ActionBlock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/ActivityFeed.tsx" [
+label="ActivityFeed.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/BottomNavItemBlock.tsx" [
+label="BottomNavItemBlock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/ChartBlock.tsx" [
+label="ChartBlock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/ChartLegend.tsx" [
+label="ChartLegend.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/DividerBlock.tsx" [
+label="DividerBlock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/ErrorBanner.tsx" [
+label="ErrorBanner.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/FormBlock.tsx" [
+label="FormBlock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/ListBlock.tsx" [
+label="ListBlock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/MetricCard.tsx" [
+label="MetricCard.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/MetricRow.tsx" [
+label="MetricRow.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/NavigationTileGrid.tsx" [
+label="NavigationTileGrid.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/NavItem.tsx" [
+label="NavItem.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/OverviewMetricsStrip.tsx" [
+label="OverviewMetricsStrip.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/QuickActionCard.tsx" [
+label="QuickActionCard.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/QuickActionsGrid.tsx" [
+label="QuickActionsGrid.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/RecordingTimer.tsx" [
+label="RecordingTimer.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/SearchBar.tsx" [
+label="SearchBar.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/SectionHeader.tsx" [
+label="SectionHeader.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/SelectableRow.tsx" [
+label="SelectableRow.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/SettingsRow.tsx" [
+label="SettingsRow.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/StatPill.tsx" [
+label="StatPill.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/TableBlock.tsx" [
+label="TableBlock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/blocks/TileBlock.tsx" [
+label="TileBlock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/layouts/CenteredPageLayout.tsx" [
+label="CenteredPageLayout.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/layouts/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/panels/CalloutPanel.tsx" [
+label="CalloutPanel.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/panels/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/panels/OverlaySheetShell.tsx" [
+label="OverlaySheetShell.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/panels/Panel.tsx" [
+label="Panel.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/panels/SectionPanel.tsx" [
+label="SectionPanel.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/Avatar.tsx" [
+label="Avatar.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/Badge.tsx" [
+label="Badge.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/Block.tsx" [
+label="Block.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/Button.tsx" [
+label="Button.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/Chip.tsx" [
+label="Chip.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/EmptyState.tsx" [
+label="EmptyState.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/Icon.tsx" [
+label="Icon.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/Input.tsx" [
+label="Input.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/Layout.tsx" [
+label="Layout.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/LayoutGrid.test.tsx" [
+label="LayoutGrid.test.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/LayoutGrid.tsx" [
+label="LayoutGrid.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/Link.tsx" [
+label="Link.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/ProgressBar.tsx" [
+label="ProgressBar.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/SelectableChip.tsx" [
+label="SelectableChip.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/SemanticTone.ts" [
+label="SemanticTone.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/Skeleton.tsx" [
+label="Skeleton.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/Tag.tsx" [
+label="Tag.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/TapTarget.tsx" [
+label="TapTarget.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/Text.tsx" [
+label="Text.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/TextArea.tsx" [
+label="TextArea.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/TextRoles.tsx" [
+label="TextRoles.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/ui/primitives/Toggle.tsx" [
+label="Toggle.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/appforge-site/navigation/routes.ts" [
+label="routes.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/appforge-site/theme/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/appforge-site/ui/SiteContainer.tsx" [
+label="SiteContainer.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/appforge-site/ui/SplitHero.tsx" [
+label="SplitHero.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/example-app/navigation/routes.ts" [
+label="routes.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/core/providers/ids/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/core/providers/metadata/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/core/providers/timestamp/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/app-gate/viewmodel/use-gate-state.ts" [
+label="use-gate-state.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/data/backend-auth.repository.ts" [
+label="backend-auth.repository.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/domain/repository.ts" [
+label="repository.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/usecases/check-auth-state.ts" [
+label="check-auth-state.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/usecases/send-password-reset-link.ts" [
+label="send-password-reset-link.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/usecases/sign-in.ts" [
+label="sign-in.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/usecases/sign-out.ts" [
+label="sign-out.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/usecases/sign-up.ts" [
+label="sign-up.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/entitlements/domain/catalog.ts" [
+label="catalog.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/entitlements/domain/feature-keys.ts" [
+label="feature-keys.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/entitlements/domain/handler.ts" [
+label="handler.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/entitlements/domain/model.ts" [
+label="model.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/entitlements/domain/policy.ts" [
+label="policy.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/entitlements/state/store.ts" [
+label="store.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/login/__tests__/login-controller.test.ts" [
+label="login-controller.test.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/login/views/LoginSurface.tsx" [
+label="LoginSurface.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/onboarding/ui/FeatureCard.tsx" [
+label="FeatureCard.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/onboarding/ui/index.ts" [
+label="index.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/onboarding/ui/OnboardingActionDock.tsx" [
+label="OnboardingActionDock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/onboarding/ui/OnboardingCard.tsx" [
+label="OnboardingCard.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/onboarding/ui/OnboardingCarousel.tsx" [
+label="OnboardingCarousel.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/onboarding/ui/OnboardingFrame.tsx" [
+label="OnboardingFrame.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/onboarding/ui/OnboardingProgress.tsx" [
+label="OnboardingProgress.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/onboarding/ui/OnboardingQuestionPanel.tsx" [
+label="OnboardingQuestionPanel.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/onboarding/ui/OnboardingScaffold.tsx" [
+label="OnboardingScaffold.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/data/backend-recording-shares.repository.ts" [
+label="backend-recording-shares.repository.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/data/backend-recordings.repository.ts" [
+label="backend-recordings.repository.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/domain/model.ts" [
+label="model.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/domain/repository.ts" [
+label="repository.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/domain/share-model.ts" [
+label="share-model.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/domain/share-repository.ts" [
+label="share-repository.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/runtime/adapter.ts" [
+label="adapter.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/runtime/audio-recording.capability.ts" [
+label="audio-recording.capability.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/runtime/default-recording.adapter.ts" [
+label="default-recording.adapter.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/runtime/native-audio-recording.capability.ts" [
+label="native-audio-recording.capability.ts\nunknown\nhttp"
+fillcolor="white"
+];
+
+
+"src/features/recordings/services/recording-share.service.ts" [
+label="recording-share.service.ts\nservice"
+fillcolor="lightgreen"
+];
+
+
+"src/features/recordings/ui/RecordingPanel.tsx" [
+label="RecordingPanel.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/usecases/recording-actions.ts" [
+label="recording-actions.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/usecases/recording-share.usecase.ts" [
+label="recording-share.usecase.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/viewmodel/use-recording-shares-viewmodel.ts" [
+label="use-recording-shares-viewmodel.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/viewmodel/use-recordings-viewmodel.ts" [
+label="use-recordings-viewmodel.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/register/views/RegisterSurface.tsx" [
+label="RegisterSurface.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/reviews-public/ui/PublicReviewScreen.tsx" [
+label="PublicReviewScreen.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/data/backend-settings.repository.ts" [
+label="backend-settings.repository.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/domain/model.ts" [
+label="model.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/domain/plan.ts" [
+label="plan.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/domain/repository.ts" [
+label="repository.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/domain/types.ts" [
+label="types.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/domain/upgrade-offers.ts" [
+label="upgrade-offers.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/state/store.ts" [
+label="store.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/ui/AccountCard.tsx" [
+label="AccountCard.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/ui/PlanCard.tsx" [
+label="PlanCard.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/ui/ProfileCard.tsx" [
+label="ProfileCard.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/ui/UsageCard.tsx" [
+label="UsageCard.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/usecases/delete-account.ts" [
+label="delete-account.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/usecases/load-profile-edit-state.ts" [
+label="load-profile-edit-state.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/usecases/load-settings-identity.ts" [
+label="load-settings-identity.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/usecases/save-profile-name.ts" [
+label="save-profile-name.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/usecases/sign-out.ts" [
+label="sign-out.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/viewmodel/use-profile-edit-viewmodel.ts" [
+label="use-profile-edit-viewmodel.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/viewmodel/use-settings-viewmodel.ts" [
+label="use-settings-viewmodel.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/shared-entity/domain/model.ts" [
+label="model.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/shared-entity/mapping/to-shared-entity-view-data.ts" [
+label="to-shared-entity-view-data.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/shared-entity/renderers/AudioSharedEntityRenderer.tsx" [
+label="AudioSharedEntityRenderer.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/shared-entity/renderers/GenericSharedEntityRenderer.tsx" [
+label="GenericSharedEntityRenderer.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/shared-entity/renderers/SharedEntityRenderer.tsx" [
+label="SharedEntityRenderer.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/shared-entity/ui/SharedEntityScreen.tsx" [
+label="SharedEntityScreen.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/shared-entity/viewmodel/use-shared-entity-viewmodel.ts" [
+label="use-shared-entity-viewmodel.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/sharing/data/backend-public-share.repository.ts" [
+label="backend-public-share.repository.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/sharing/domain/model.ts" [
+label="model.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/text-editor/data/backend-text-editor.repository.ts" [
+label="backend-text-editor.repository.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/text-editor/domain/model.ts" [
+label="model.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/text-editor/domain/repository.ts" [
+label="repository.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/text-editor/ui/TextEditorPanel.tsx" [
+label="TextEditorPanel.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/text-editor/usecases/text-editor-actions.ts" [
+label="text-editor-actions.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/text-editor/viewmodel/use-text-editor-viewmodel.ts" [
+label="use-text-editor-viewmodel.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/appforge-site/features/home/home.screen.tsx" [
+label="home.screen.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/appforge-site/features/studio/studio.screen.tsx" [
+label="studio.screen.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/example-app/features/auth/example-app-disabled-auth.ts" [
+label="example-app-disabled-auth.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/example-app/features/auth/ExampleAppForgotPasswordRouteScreen.tsx" [
+label="ExampleAppForgotPasswordRouteScreen.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/example-app/features/auth/ExampleAppLoginRouteScreen.tsx" [
+label="ExampleAppLoginRouteScreen.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/example-app/features/auth/ExampleAppRegisterRouteScreen.tsx" [
+label="ExampleAppRegisterRouteScreen.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/example-app/features/home/home.screen.tsx" [
+label="home.screen.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/example-app/features/onboarding/onboarding.screen.tsx" [
+label="onboarding.screen.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/example-app/features/profile/profile.screen.tsx" [
+label="profile.screen.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/ui/blocks/AuthBrandBlock.tsx" [
+label="AuthBrandBlock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/ui/blocks/AuthCard.tsx" [
+label="AuthCard.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/ui/blocks/AuthDarkField.tsx" [
+label="AuthDarkField.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/ui/blocks/AuthFieldBlock.tsx" [
+label="AuthFieldBlock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/ui/blocks/AuthFooterLinks.tsx" [
+label="AuthFooterLinks.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/ui/blocks/AuthSubmitBlock.tsx" [
+label="AuthSubmitBlock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/ui/blocks/AuthTermsBlock.tsx" [
+label="AuthTermsBlock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/usecases/__tests__/sign-in.test.ts" [
+label="sign-in.test.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/usecases/__tests__/sign-up.test.ts" [
+label="sign-up.test.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/data/__tests__/backend-recordings.repository.test.ts" [
+label="backend-recordings.repository.test.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/runtime/__tests__/native-audio-recording.capability.test.ts" [
+label="native-audio-recording.capability.test.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/usecases/__tests__/load-recording-content.test.ts" [
+label="load-recording-content.test.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/recordings/viewmodel/__tests__/use-recordings-viewmodel.test.ts" [
+label="use-recordings-viewmodel.test.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/domain/__tests__/plan.test.ts" [
+label="plan.test.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/settings/viewmodel/__tests__/use-settings-viewmodel.test.ts" [
+label="use-settings-viewmodel.test.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/text-editor/viewmodel/__tests__/use-text-editor-viewmodel.test.ts" [
+label="use-text-editor-viewmodel.test.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/generated/proto/auth/v1/auth.ts" [
+label="auth.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/generated/proto/common/v1/user.ts" [
+label="user.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/generated/proto/google/api/annotations.ts" [
+label="annotations.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/generated/proto/google/api/http.ts" [
+label="http.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/generated/proto/google/protobuf/descriptor.ts" [
+label="descriptor.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/generated/proto/google/protobuf/timestamp.ts" [
+label="timestamp.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/generated/proto/users/v1/users.ts" [
+label="users.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/appforge-site/features/studio/data/repo-structure.repository.ts" [
+label="repo-structure.repository.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/appforge-site/features/studio/domain/repo-structure.types.ts" [
+label="repo-structure.types.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/appforge-site/features/studio/services/repo-scan.generated.json" [
+label="repo-scan.generated.json\nservice"
+fillcolor="lightgreen"
+];
+
+
+"src/apps/appforge-site/features/studio/services/repo-structure.service.ts" [
+label="repo-structure.service.ts\nservice"
+fillcolor="lightgreen"
+];
+
+
+"src/apps/appforge-site/features/studio/usecases/get-architecture-overview.ts" [
+label="get-architecture-overview.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/appforge-site/features/studio/usecases/get-repo-catalog.ts" [
+label="get-repo-catalog.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/appforge-site/features/studio/viewmodel/use-architecture-view.ts" [
+label="use-architecture-view.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/apps/appforge-site/features/studio/viewmodel/use-studio.ts" [
+label="use-studio.ts\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/ui/blocks/welcome/WelcomeActionsBlock.tsx" [
+label="WelcomeActionsBlock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+"src/features/auth/ui/blocks/welcome/WelcomeHeroBlock.tsx" [
+label="WelcomeHeroBlock.tsx\nunknown"
+fillcolor="white"
+];
+
+
+
+"src/App.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/App.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/App.tsx" -> "src/features/login/index.ts";
+
+
+"src/index.ts" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/index.ts" -> "src/App.tsx";
+
+
+"src/index.web.ts" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/index.web.ts" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/index.web.ts" -> "src/App.tsx";
+
+
+"src/api/proto-client.ts" -> "src/services/ApiClient.ts";
+
+
+"src/api/proto-client.ts" -> "src/api/routes.ts";
+
+
+"src/api/routes.ts" -> "src/api/types.ts";
+
+
+"src/api/routes.ts" -> "src/generated/proto/route-manifest.json";
+
+
+"src/config/app.ts" -> "src/generated/build-app-config.ts";
+
+
+"src/config/environments.ts" -> "src/config/app.ts";
+
+
+"src/config/firebase.ts" -> "node_modules/firebase/app/dist/app/index.d.ts";
+
+
+"src/config/firebase.ts" -> "node_modules/firebase/auth/dist/auth/index.d.ts";
+
+
+"src/core/runtime.ts" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/hooks/useDashboardData.ts" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/hooks/useDashboardData.ts" -> "src/services/UserProfileService.ts";
+
+
+"src/hooks/useDashboardData.ts" -> "src/services/EntitlementService.ts";
+
+
+"src/hooks/useDashboardData.ts" -> "src/services/ApiClient.ts";
+
+
+"src/hooks/useDashboardData.ts" -> "src/providers/EntitlementProvider.tsx";
+
+
+"src/hooks/useDashboardData.ts" -> "src/features/entitlements/state/store.ts";
+
+
+"src/hooks/useDashboardData.ts" -> "src/features/entitlements/domain/model.ts";
+
+
+"src/hooks/useDashboardData.ts" -> "src/features/entitlements/domain/handler.ts";
+
+
+"src/hooks/useDashboardData.ts" -> "src/features/entitlements/domain/policy.ts";
+
+
+"src/hooks/useDashboardData.ts" -> "src/features/entitlements/domain/feature-keys.ts";
+
+
+"src/hooks/useDashboardData.ts" -> "src/core/dates/index.ts";
+
+
+"src/hooks/useSession.ts" -> "src/services/ApiClient.ts";
+
+
+"src/hooks/useSession.ts" -> "src/providers/SessionProvider.tsx";
+
+
+"src/hooks/useSession.ts" -> "src/core/dates/index.ts";
+
+
+"src/providers/EntitlementProvider.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/providers/EntitlementProvider.tsx" -> "src/services/EntitlementService.ts";
+
+
+"src/providers/EntitlementProvider.tsx" -> "src/features/entitlements/domain/model.ts";
+
+
+"src/providers/EntitlementProvider.tsx" -> "src/features/entitlements/state/store.ts";
+
+
+"src/providers/EntitlementProvider.tsx" -> "src/providers/SessionProvider.tsx";
+
+
+"src/providers/SessionProvider.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/providers/SessionProvider.tsx" -> "src/services/SessionClient.ts";
+
+
+"src/services/ApiClient.ts" -> "src/generated/build-app-config.ts";
+
+
+"src/services/AuthService.ts" -> "src/core/types.ts";
+
+
+"src/services/AuthService.ts" -> "src/config/firebase.ts";
+
+
+"src/services/AuthService.ts" -> "src/features/auth/domain/repository.ts";
+
+
+"src/services/BackendAuthService.ts" -> "src/core/types.ts";
+
+
+"src/services/BackendAuthService.ts" -> "src/api/proto-client.ts";
+
+
+"src/services/BackendAuthService.ts" -> "src/services/ApiClient.ts";
+
+
+"src/services/BackendAuthService.ts" -> "src/features/auth/domain/repository.ts";
+
+
+"src/services/BackendAuthService.ts" -> "src/generated/proto/auth/v1/auth.ts";
+
+
+"src/services/BillingService.ts" -> "src/core/types.ts";
+
+
+"src/services/BillingService.ts" -> "src/services/ApiClient.ts";
+
+
+"src/services/EntitlementService.ts" -> "src/core/types.ts";
+
+
+"src/services/EntitlementService.ts" -> "src/services/ApiClient.ts";
+
+
+"src/services/EntitlementService.ts" -> "src/features/entitlements/domain/model.ts";
+
+
+"src/services/EntitlementService.ts" -> "src/features/entitlements/domain/model.ts";
+
+
+"src/services/SessionClient.test.ts" -> "src/services/ApiClient.ts";
+
+
+"src/services/SessionClient.test.ts" -> "src/services/SessionClient.ts";
+
+
+"src/services/SessionClient.ts" -> "src/services/ApiClient.ts";
+
+
+"src/services/SessionClient.ts" -> "src/services/ApiClient.ts";
+
+
+"src/services/SessionClient.ts" -> "src/core/dates/index.ts";
+
+
+"src/services/TaskService.ts" -> "src/services/ApiClient.ts";
+
+
+"src/services/UserProfileService.test.ts" -> "src/services/UserProfileService.ts";
+
+
+"src/services/UserProfileService.test.ts" -> "src/services/ApiClient.ts";
+
+
+"src/services/UserProfileService.test.ts" -> "src/api/proto-client.ts";
+
+
+"src/services/UserProfileService.ts" -> "src/core/types.ts";
+
+
+"src/services/UserProfileService.ts" -> "src/services/ApiClient.ts";
+
+
+"src/services/UserProfileService.ts" -> "src/types/api.d.ts";
+
+
+"src/services/UserProfileService.ts" -> "src/core/dates/index.ts";
+
+
+"src/services/UserProfileService.ts" -> "src/api/proto-client.ts";
+
+
+"src/services/UserProfileService.ts" -> "src/generated/proto/auth/v1/auth.ts";
+
+
+"src/theme/factory.ts" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/theme/index.ts" -> "src/theme/factory.ts";
+
+
+"src/theme/theme.test.ts" -> "node_modules/@testing-library/react-native/build/index.d.ts";
+
+
+"src/theme/theme.test.ts" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/theme/ThemeProvider.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/theme/ThemeProvider.tsx" -> "src/theme/index.ts";
+
+
+"src/theme/Viewport.ts" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/theme/Viewport.ts" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/features/auth/ForgotPasswordRouteScreen.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/auth/ForgotPasswordRouteScreen.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/auth/ForgotPasswordRouteScreen.tsx" -> "node_modules/expo-router/build/index.d.ts";
+
+
+"src/features/auth/ForgotPasswordRouteScreen.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/auth/ForgotPasswordRouteScreen.tsx" -> "src/ui/layouts/index.ts";
+
+
+"src/features/auth/ForgotPasswordRouteScreen.tsx" -> "src/features/auth/ui/blocks/AuthCard.tsx";
+
+
+"src/features/auth/ForgotPasswordRouteScreen.tsx" -> "src/features/auth/ui/blocks/AuthBrandBlock.tsx";
+
+
+"src/features/auth/ForgotPasswordRouteScreen.tsx" -> "src/features/auth/ui/blocks/AuthFieldBlock.tsx";
+
+
+"src/features/auth/ForgotPasswordRouteScreen.tsx" -> "src/features/auth/ui/blocks/AuthSubmitBlock.tsx";
+
+
+"src/features/auth/ForgotPasswordRouteScreen.tsx" -> "src/config/app.ts";
+
+
+"src/features/auth/ForgotPasswordRouteScreen.tsx" -> "src/features/auth/data/backend-auth.repository.ts";
+
+
+"src/features/auth/ForgotPasswordRouteScreen.tsx" -> "src/features/auth/usecases/send-password-reset-link.ts";
+
+
+"src/features/login/LoginController.ts" -> "src/core/types.ts";
+
+
+"src/features/login/LoginController.ts" -> "src/features/login/LoginModel.ts";
+
+
+"src/features/login/LoginController.ts" -> "src/features/entitlements/domain/model.ts";
+
+
+"src/features/login/LoginController.ts" -> "src/features/entitlements/state/store.ts";
+
+
+"src/features/login/LoginModel.ts" -> "src/core/types.ts";
+
+
+"src/features/login/LoginModel.ts" -> "src/features/auth/domain/repository.ts";
+
+
+"src/features/login/LoginModel.ts" -> "src/features/auth/data/backend-auth.repository.ts";
+
+
+"src/features/login/LoginModel.ts" -> "src/features/auth/usecases/sign-in.ts";
+
+
+"src/features/login/LoginModel.ts" -> "src/features/auth/usecases/sign-out.ts";
+
+
+"src/features/login/LoginModel.ts" -> "src/features/auth/usecases/check-auth-state.ts";
+
+
+"src/features/login/LoginRouteScreen.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/login/LoginRouteScreen.tsx" -> "node_modules/expo-router/build/index.d.ts";
+
+
+"src/features/login/LoginRouteScreen.tsx" -> "src/navigation/routes.ts";
+
+
+"src/features/login/LoginRouteScreen.tsx" -> "src/features/login/index.ts";
+
+
+"src/features/register/RegisterController.ts" -> "src/core/types.ts";
+
+
+"src/features/register/RegisterController.ts" -> "src/features/register/RegisterModel.ts";
+
+
+"src/features/register/RegisterModel.ts" -> "src/core/types.ts";
+
+
+"src/features/register/RegisterModel.ts" -> "src/features/auth/domain/repository.ts";
+
+
+"src/features/register/RegisterModel.ts" -> "src/features/auth/data/backend-auth.repository.ts";
+
+
+"src/features/register/RegisterModel.ts" -> "src/features/auth/usecases/sign-up.ts";
+
+
+"src/features/text-editor/storage.ts" -> "src/features/text-editor/domain/model.ts";
+
+
+"src/features/upgrade/use-upgrade-page.ts" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/upgrade/use-upgrade-page.ts" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/upgrade/use-upgrade-page.ts" -> "src/services/BillingService.ts";
+
+
+"src/features/upgrade/use-upgrade-page.ts" -> "src/services/UserProfileService.ts";
+
+
+"src/ui/blocks/ActionBlock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/ActionBlock.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/ActionBlock.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/ui/blocks/ActivityFeed.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/ActivityFeed.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/ActivityFeed.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/ui/blocks/BottomNavItemBlock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/BottomNavItemBlock.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/ChartBlock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/ChartBlock.tsx" -> "node_modules/react-native-svg/lib/typescript/index.d.ts";
+
+
+"src/ui/blocks/ChartBlock.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/blocks/ChartBlock.tsx" -> "src/ui/blocks/ChartLegend.tsx";
+
+
+"src/ui/blocks/ChartBlock.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/ChartBlock.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/ui/blocks/ChartLegend.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/ChartLegend.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/blocks/ChartLegend.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/blocks/ChartLegend.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/DividerBlock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/DividerBlock.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/ErrorBanner.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/ErrorBanner.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/FormBlock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/FormBlock.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/FormBlock.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/ui/blocks/ListBlock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/ListBlock.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/ListBlock.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/ui/blocks/MetricCard.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/MetricCard.tsx" -> "src/ui/blocks/MetricRow.tsx";
+
+
+"src/ui/blocks/MetricCard.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/MetricCard.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/ui/blocks/MetricRow.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/MetricRow.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/blocks/MetricRow.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/MetricRow.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/NavigationTileGrid.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/NavigationTileGrid.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/blocks/NavigationTileGrid.tsx" -> "node_modules/react-native-safe-area-context/lib/typescript/src/index.d.ts";
+
+
+"src/ui/blocks/NavigationTileGrid.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/blocks/NavigationTileGrid.tsx" -> "src/theme/Viewport.ts";
+
+
+"src/ui/blocks/NavigationTileGrid.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/NavItem.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/NavItem.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/blocks/NavItem.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/blocks/NavItem.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/OverviewMetricsStrip.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/OverviewMetricsStrip.tsx" -> "src/ui/blocks/MetricCard.tsx";
+
+
+"src/ui/blocks/OverviewMetricsStrip.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/QuickActionCard.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/QuickActionCard.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/blocks/QuickActionCard.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/blocks/QuickActionCard.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/QuickActionsGrid.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/QuickActionsGrid.tsx" -> "src/ui/blocks/QuickActionCard.tsx";
+
+
+"src/ui/blocks/QuickActionsGrid.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/RecordingTimer.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/RecordingTimer.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/RecordingTimer.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/SearchBar.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/SearchBar.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/blocks/SearchBar.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/blocks/SearchBar.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/SectionHeader.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/SectionHeader.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/SelectableRow.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/SelectableRow.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/SettingsRow.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/SettingsRow.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/blocks/SettingsRow.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/blocks/SettingsRow.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/SettingsRow.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/ui/blocks/StatPill.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/StatPill.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/TableBlock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/TableBlock.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/blocks/TableBlock.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/ui/blocks/TileBlock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/blocks/TileBlock.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/layouts/CenteredPageLayout.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/layouts/CenteredPageLayout.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/layouts/CenteredPageLayout.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/layouts/CenteredPageLayout.tsx" -> "src/theme/Viewport.ts";
+
+
+"src/ui/layouts/CenteredPageLayout.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/panels/CalloutPanel.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/panels/CalloutPanel.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/panels/CalloutPanel.tsx" -> "src/ui/panels/Panel.tsx";
+
+
+"src/ui/panels/OverlaySheetShell.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/panels/OverlaySheetShell.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/panels/OverlaySheetShell.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/panels/OverlaySheetShell.tsx" -> "src/theme/tokens.ts";
+
+
+"src/ui/panels/OverlaySheetShell.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/panels/OverlaySheetShell.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/ui/panels/Panel.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/panels/Panel.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/panels/Panel.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/panels/SectionPanel.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/panels/SectionPanel.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/ui/panels/SectionPanel.tsx" -> "src/ui/panels/Panel.tsx";
+
+
+"src/ui/panels/SectionPanel.tsx" -> "src/ui/panels/Panel.tsx";
+
+
+"src/ui/primitives/Avatar.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/Avatar.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/Avatar.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/Badge.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/Badge.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/Badge.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/Block.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/Block.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/Block.tsx" -> "node_modules/react-native-safe-area-context/lib/typescript/src/index.d.ts";
+
+
+"src/ui/primitives/Block.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/Block.tsx" -> "src/theme/tokens.ts";
+
+
+"src/ui/primitives/Button.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/Button.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/Button.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/Chip.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/Chip.tsx" -> "src/ui/primitives/Block.tsx";
+
+
+"src/ui/primitives/Chip.tsx" -> "src/ui/primitives/Block.tsx";
+
+
+"src/ui/primitives/EmptyState.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/EmptyState.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/EmptyState.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/EmptyState.tsx" -> "src/ui/primitives/Block.tsx";
+
+
+"src/ui/primitives/EmptyState.tsx" -> "src/ui/primitives/Text.tsx";
+
+
+"src/ui/primitives/EmptyState.tsx" -> "src/ui/primitives/Button.tsx";
+
+
+"src/ui/primitives/EmptyState.tsx" -> "src/ui/primitives/Icon.tsx";
+
+
+"src/ui/primitives/Icon.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/Icon.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/Icon.tsx" -> "node_modules/react-native-svg/lib/typescript/index.d.ts";
+
+
+"src/ui/primitives/Icon.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/Icon.tsx" -> "src/ui/primitives/SemanticTone.ts";
+
+
+"src/ui/primitives/Input.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/Input.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/Input.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/Layout.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/Layout.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/LayoutGrid.test.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/LayoutGrid.test.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/LayoutGrid.test.tsx" -> "src/theme/Viewport.ts";
+
+
+"src/ui/primitives/LayoutGrid.test.tsx" -> "src/ui/primitives/LayoutGrid.tsx";
+
+
+"src/ui/primitives/LayoutGrid.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/LayoutGrid.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/LayoutGrid.tsx" -> "src/theme/Viewport.ts";
+
+
+"src/ui/primitives/Link.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/Link.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/Link.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/ProgressBar.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/ProgressBar.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/ProgressBar.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/ProgressBar.tsx" -> "src/ui/primitives/Text.tsx";
+
+
+"src/ui/primitives/SelectableChip.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/SelectableChip.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/SelectableChip.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/SelectableChip.tsx" -> "src/ui/primitives/Text.tsx";
+
+
+"src/ui/primitives/SemanticTone.ts" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/Skeleton.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/Skeleton.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/Skeleton.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/Tag.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/Tag.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/Tag.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/Tag.tsx" -> "src/ui/primitives/SemanticTone.ts";
+
+
+"src/ui/primitives/TapTarget.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/TapTarget.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/Text.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/Text.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/Text.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/TextArea.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/TextArea.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/TextArea.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/TextRoles.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/TextRoles.tsx" -> "src/ui/primitives/Text.tsx";
+
+
+"src/ui/primitives/TextRoles.tsx" -> "src/ui/primitives/Text.tsx";
+
+
+"src/ui/primitives/Toggle.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/ui/primitives/Toggle.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/ui/primitives/Toggle.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/ui/primitives/Toggle.tsx" -> "src/theme/tokens.ts";
+
+
+"src/apps/appforge-site/theme/index.ts" -> "src/theme/index.ts";
+
+
+"src/apps/appforge-site/ui/SiteContainer.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/apps/appforge-site/ui/SiteContainer.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/apps/appforge-site/ui/SplitHero.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/apps/appforge-site/ui/SplitHero.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/core/providers/ids/index.ts" -> "src/core/providers/timestamp/index.ts";
+
+
+"src/core/providers/metadata/index.ts" -> "src/core/providers/timestamp/index.ts";
+
+
+"src/core/providers/metadata/index.ts" -> "src/core/providers/ids/index.ts";
+
+
+"src/features/app-gate/viewmodel/use-gate-state.ts" -> "src/providers/SessionProvider.tsx";
+
+
+"src/features/auth/data/backend-auth.repository.ts" -> "src/features/auth/domain/repository.ts";
+
+
+"src/features/auth/data/backend-auth.repository.ts" -> "src/services/AuthService.ts";
+
+
+"src/features/auth/data/backend-auth.repository.ts" -> "src/services/BackendAuthService.ts";
+
+
+"src/features/auth/data/backend-auth.repository.ts" -> "src/core/types.ts";
+
+
+"src/features/auth/domain/repository.ts" -> "src/core/types.ts";
+
+
+"src/features/auth/usecases/check-auth-state.ts" -> "src/core/types.ts";
+
+
+"src/features/auth/usecases/check-auth-state.ts" -> "src/features/auth/domain/repository.ts";
+
+
+"src/features/auth/usecases/send-password-reset-link.ts" -> "src/core/types.ts";
+
+
+"src/features/auth/usecases/send-password-reset-link.ts" -> "src/features/auth/domain/repository.ts";
+
+
+"src/features/auth/usecases/sign-in.ts" -> "src/core/types.ts";
+
+
+"src/features/auth/usecases/sign-in.ts" -> "src/features/auth/domain/repository.ts";
+
+
+"src/features/auth/usecases/sign-out.ts" -> "src/core/types.ts";
+
+
+"src/features/auth/usecases/sign-out.ts" -> "src/features/auth/domain/repository.ts";
+
+
+"src/features/auth/usecases/sign-up.ts" -> "src/core/types.ts";
+
+
+"src/features/auth/usecases/sign-up.ts" -> "src/features/auth/domain/repository.ts";
+
+
+"src/features/entitlements/domain/catalog.ts" -> "src/features/entitlements/domain/feature-keys.ts";
+
+
+"src/features/entitlements/domain/catalog.ts" -> "src/features/entitlements/domain/model.ts";
+
+
+"src/features/entitlements/domain/handler.ts" -> "src/core/dates/index.ts";
+
+
+"src/features/entitlements/domain/handler.ts" -> "src/services/UserProfileService.ts";
+
+
+"src/features/entitlements/domain/handler.ts" -> "src/features/entitlements/domain/feature-keys.ts";
+
+
+"src/features/entitlements/domain/handler.ts" -> "src/features/entitlements/domain/catalog.ts";
+
+
+"src/features/entitlements/domain/handler.ts" -> "src/features/entitlements/domain/model.ts";
+
+
+"src/features/entitlements/domain/model.ts" -> "src/core/dates/index.ts";
+
+
+"src/features/entitlements/domain/model.ts" -> "src/features/entitlements/domain/feature-keys.ts";
+
+
+"src/features/entitlements/domain/model.ts" -> "src/features/entitlements/domain/feature-keys.ts";
+
+
+"src/features/entitlements/domain/model.ts" -> "src/features/entitlements/domain/catalog.ts";
+
+
+"src/features/entitlements/domain/policy.ts" -> "src/features/entitlements/domain/model.ts";
+
+
+"src/features/entitlements/domain/policy.ts" -> "src/features/entitlements/domain/feature-keys.ts";
+
+
+"src/features/entitlements/domain/policy.ts" -> "src/features/entitlements/domain/feature-keys.ts";
+
+
+"src/features/entitlements/domain/policy.ts" -> "src/features/entitlements/domain/catalog.ts";
+
+
+"src/features/entitlements/state/store.ts" -> "src/features/entitlements/domain/model.ts";
+
+
+"src/features/login/__tests__/login-controller.test.ts" -> "src/features/login/LoginController.ts";
+
+
+"src/features/login/views/LoginSurface.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/login/views/LoginSurface.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/login/views/LoginSurface.tsx" -> "src/core/types.ts";
+
+
+"src/features/login/views/LoginSurface.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/login/views/LoginSurface.tsx" -> "src/ui/layouts/index.ts";
+
+
+"src/features/login/views/LoginSurface.tsx" -> "src/features/auth/ui/blocks/AuthCard.tsx";
+
+
+"src/features/login/views/LoginSurface.tsx" -> "src/features/auth/ui/blocks/AuthBrandBlock.tsx";
+
+
+"src/features/login/views/LoginSurface.tsx" -> "src/features/auth/ui/blocks/AuthFieldBlock.tsx";
+
+
+"src/features/login/views/LoginSurface.tsx" -> "src/features/auth/ui/blocks/AuthSubmitBlock.tsx";
+
+
+"src/features/login/views/LoginSurface.tsx" -> "src/features/auth/ui/blocks/AuthFooterLinks.tsx";
+
+
+"src/features/login/views/LoginSurface.tsx" -> "src/features/auth/ui/blocks/AuthTermsBlock.tsx";
+
+
+"src/features/login/views/LoginSurface.tsx" -> "src/features/login/LoginController.ts";
+
+
+"src/features/login/views/LoginSurface.tsx" -> "src/config/app.ts";
+
+
+"src/features/onboarding/ui/FeatureCard.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/onboarding/ui/FeatureCard.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/onboarding/ui/FeatureCard.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/features/onboarding/ui/FeatureCard.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/onboarding/ui/OnboardingActionDock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/onboarding/ui/OnboardingActionDock.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/onboarding/ui/OnboardingCard.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/onboarding/ui/OnboardingCard.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/onboarding/ui/OnboardingCarousel.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/onboarding/ui/OnboardingCarousel.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/onboarding/ui/OnboardingCarousel.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/features/onboarding/ui/OnboardingCarousel.tsx" -> "src/ui/primitives/Text.tsx";
+
+
+"src/features/onboarding/ui/OnboardingCarousel.tsx" -> "src/ui/primitives/Button.tsx";
+
+
+"src/features/onboarding/ui/OnboardingCarousel.tsx" -> "src/features/onboarding/ui/FeatureCard.tsx";
+
+
+"src/features/onboarding/ui/OnboardingCarousel.tsx" -> "src/ui/primitives/Icon.tsx";
+
+
+"src/features/onboarding/ui/OnboardingCarousel.tsx" -> "src/theme/tokens.ts";
+
+
+"src/features/onboarding/ui/OnboardingCarousel.tsx" -> "src/theme/Viewport.ts";
+
+
+"src/features/onboarding/ui/OnboardingFrame.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/onboarding/ui/OnboardingFrame.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/onboarding/ui/OnboardingProgress.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/onboarding/ui/OnboardingProgress.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/onboarding/ui/OnboardingProgress.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/onboarding/ui/OnboardingProgress.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/features/onboarding/ui/OnboardingQuestionPanel.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/onboarding/ui/OnboardingQuestionPanel.tsx" -> "src/features/onboarding/ui/OnboardingCard.tsx";
+
+
+"src/features/onboarding/ui/OnboardingQuestionPanel.tsx" -> "src/features/onboarding/ui/OnboardingScaffold.tsx";
+
+
+"src/features/onboarding/ui/OnboardingScaffold.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/onboarding/ui/OnboardingScaffold.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/recordings/data/backend-recording-shares.repository.ts" -> "src/core/dates/index.ts";
+
+
+"src/features/recordings/data/backend-recording-shares.repository.ts" -> "src/core/types.ts";
+
+
+"src/features/recordings/data/backend-recording-shares.repository.ts" -> "src/services/ApiClient.ts";
+
+
+"src/features/recordings/data/backend-recording-shares.repository.ts" -> "src/features/recordings/domain/share-repository.ts";
+
+
+"src/features/recordings/data/backend-recording-shares.repository.ts" -> "src/features/recordings/domain/share-model.ts";
+
+
+"src/features/recordings/data/backend-recordings.repository.ts" -> "src/core/dates/index.ts";
+
+
+"src/features/recordings/data/backend-recordings.repository.ts" -> "src/core/types.ts";
+
+
+"src/features/recordings/data/backend-recordings.repository.ts" -> "src/services/ApiClient.ts";
+
+
+"src/features/recordings/data/backend-recordings.repository.ts" -> "src/features/recordings/domain/repository.ts";
+
+
+"src/features/recordings/data/backend-recordings.repository.ts" -> "src/features/recordings/domain/model.ts";
+
+
+"src/features/recordings/domain/model.ts" -> "src/core/dates/index.ts";
+
+
+"src/features/recordings/domain/repository.ts" -> "src/core/types.ts";
+
+
+"src/features/recordings/domain/repository.ts" -> "src/features/recordings/domain/model.ts";
+
+
+"src/features/recordings/domain/share-model.ts" -> "src/core/dates/index.ts";
+
+
+"src/features/recordings/domain/share-repository.ts" -> "src/core/types.ts";
+
+
+"src/features/recordings/domain/share-repository.ts" -> "src/features/recordings/domain/share-model.ts";
+
+
+"src/features/recordings/runtime/adapter.ts" -> "src/core/types.ts";
+
+
+"src/features/recordings/runtime/audio-recording.capability.ts" -> "src/features/recordings/recording.config.ts";
+
+
+"src/features/recordings/runtime/default-recording.adapter.ts" -> "src/core/runtime.ts";
+
+
+"src/features/recordings/runtime/default-recording.adapter.ts" -> "src/core/types.ts";
+
+
+"src/features/recordings/runtime/default-recording.adapter.ts" -> "src/features/recordings/recording.config.ts";
+
+
+"src/features/recordings/runtime/default-recording.adapter.ts" -> "src/features/recordings/runtime/audio-recording.capability.ts";
+
+
+"src/features/recordings/runtime/default-recording.adapter.ts" -> "src/features/recordings/runtime/native-audio-recording.capability.ts";
+
+
+"src/features/recordings/runtime/default-recording.adapter.ts" -> "src/features/recordings/runtime/adapter.ts";
+
+
+"src/features/recordings/runtime/native-audio-recording.capability.ts" -> "node_modules/expo-av/build/index.d.ts";
+
+
+"src/features/recordings/runtime/native-audio-recording.capability.ts" -> "src/features/recordings/recording.config.ts";
+
+
+"src/features/recordings/services/recording-share.service.ts" -> "src/core/types.ts";
+
+
+"src/features/recordings/services/recording-share.service.ts" -> "src/features/recordings/data/backend-recording-shares.repository.ts";
+
+
+"src/features/recordings/services/recording-share.service.ts" -> "src/features/recordings/domain/share-model.ts";
+
+
+"src/features/recordings/services/recording-share.service.ts" -> "src/features/recordings/domain/share-repository.ts";
+
+
+"src/features/recordings/ui/RecordingPanel.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/recordings/ui/RecordingPanel.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/recordings/ui/RecordingPanel.tsx" -> "src/core/runtime.ts";
+
+
+"src/features/recordings/ui/RecordingPanel.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/recordings/ui/RecordingPanel.tsx" -> "src/ui/blocks/index.ts";
+
+
+"src/features/recordings/ui/RecordingPanel.tsx" -> "src/features/recordings/index.ts";
+
+
+"src/features/recordings/ui/RecordingPanel.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/features/recordings/usecases/recording-actions.ts" -> "src/core/types.ts";
+
+
+"src/features/recordings/usecases/recording-actions.ts" -> "src/features/recordings/data/backend-recordings.repository.ts";
+
+
+"src/features/recordings/usecases/recording-actions.ts" -> "src/features/recordings/domain/model.ts";
+
+
+"src/features/recordings/usecases/recording-share.usecase.ts" -> "src/features/recordings/services/recording-share.service.ts";
+
+
+"src/features/recordings/viewmodel/use-recording-shares-viewmodel.ts" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/recordings/viewmodel/use-recording-shares-viewmodel.ts" -> "src/features/recordings/domain/model.ts";
+
+
+"src/features/recordings/viewmodel/use-recording-shares-viewmodel.ts" -> "src/features/recordings/domain/share-model.ts";
+
+
+"src/features/recordings/viewmodel/use-recording-shares-viewmodel.ts" -> "src/features/recordings/usecases/recording-share.usecase.ts";
+
+
+"src/features/recordings/viewmodel/use-recordings-viewmodel.ts" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/recordings/viewmodel/use-recordings-viewmodel.ts" -> "src/features/recordings/usecases/recording-actions.ts";
+
+
+"src/features/recordings/viewmodel/use-recordings-viewmodel.ts" -> "src/features/recordings/domain/model.ts";
+
+
+"src/features/recordings/viewmodel/use-recordings-viewmodel.ts" -> "src/features/recordings/recording.config.ts";
+
+
+"src/features/recordings/viewmodel/use-recordings-viewmodel.ts" -> "src/features/recordings/runtime/default-recording.adapter.ts";
+
+
+"src/features/recordings/viewmodel/use-recordings-viewmodel.ts" -> "src/features/recordings/runtime/adapter.ts";
+
+
+"src/features/register/views/RegisterSurface.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/register/views/RegisterSurface.tsx" -> "src/core/types.ts";
+
+
+"src/features/register/views/RegisterSurface.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/register/views/RegisterSurface.tsx" -> "src/ui/layouts/index.ts";
+
+
+"src/features/register/views/RegisterSurface.tsx" -> "src/features/auth/ui/blocks/AuthCard.tsx";
+
+
+"src/features/register/views/RegisterSurface.tsx" -> "src/features/auth/ui/blocks/AuthBrandBlock.tsx";
+
+
+"src/features/register/views/RegisterSurface.tsx" -> "src/features/auth/ui/blocks/AuthFieldBlock.tsx";
+
+
+"src/features/register/views/RegisterSurface.tsx" -> "src/features/auth/ui/blocks/AuthSubmitBlock.tsx";
+
+
+"src/features/register/views/RegisterSurface.tsx" -> "src/features/auth/ui/blocks/AuthFooterLinks.tsx";
+
+
+"src/features/register/views/RegisterSurface.tsx" -> "src/features/auth/ui/blocks/AuthTermsBlock.tsx";
+
+
+"src/features/register/views/RegisterSurface.tsx" -> "src/features/register/RegisterController.ts";
+
+
+"src/features/register/views/RegisterSurface.tsx" -> "src/config/app.ts";
+
+
+"src/features/reviews-public/ui/PublicReviewScreen.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/reviews-public/ui/PublicReviewScreen.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/reviews-public/ui/PublicReviewScreen.tsx" -> "src/services/ApiClient.ts";
+
+
+"src/features/settings/data/backend-settings.repository.ts" -> "src/core/types.ts";
+
+
+"src/features/settings/data/backend-settings.repository.ts" -> "src/services/ApiClient.ts";
+
+
+"src/features/settings/data/backend-settings.repository.ts" -> "src/services/UserProfileService.ts";
+
+
+"src/features/settings/data/backend-settings.repository.ts" -> "src/config/firebase.ts";
+
+
+"src/features/settings/data/backend-settings.repository.ts" -> "src/features/settings/domain/repository.ts";
+
+
+"src/features/settings/data/backend-settings.repository.ts" -> "src/features/settings/domain/model.ts";
+
+
+"src/features/settings/domain/model.ts" -> "src/core/dates/index.ts";
+
+
+"src/features/settings/domain/plan.ts" -> "src/core/dates/index.ts";
+
+
+"src/features/settings/domain/repository.ts" -> "src/core/types.ts";
+
+
+"src/features/settings/domain/repository.ts" -> "src/features/settings/domain/types.ts";
+
+
+"src/features/settings/state/store.ts" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/settings/state/store.ts" -> "src/features/settings/domain/model.ts";
+
+
+"src/features/settings/ui/AccountCard.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/settings/ui/AccountCard.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/features/settings/ui/AccountCard.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/settings/ui/AccountCard.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/features/settings/ui/AccountCard.tsx" -> "src/core/dates/index.ts";
+
+
+"src/features/settings/ui/PlanCard.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/settings/ui/PlanCard.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/features/settings/ui/PlanCard.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/settings/ui/PlanCard.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/features/settings/ui/PlanCard.tsx" -> "src/services/UserProfileService.ts";
+
+
+"src/features/settings/ui/ProfileCard.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/settings/ui/ProfileCard.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/settings/ui/ProfileCard.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/features/settings/ui/ProfileCard.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/settings/ui/ProfileCard.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/features/settings/ui/UsageCard.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/settings/ui/UsageCard.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/settings/ui/UsageCard.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/features/settings/ui/UsageCard.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/settings/ui/UsageCard.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/features/settings/ui/UsageCard.tsx" -> "src/services/UserProfileService.ts";
+
+
+"src/features/settings/usecases/delete-account.ts" -> "src/core/types.ts";
+
+
+"src/features/settings/usecases/delete-account.ts" -> "src/features/settings/data/backend-settings.repository.ts";
+
+
+"src/features/settings/usecases/load-profile-edit-state.ts" -> "src/core/types.ts";
+
+
+"src/features/settings/usecases/load-profile-edit-state.ts" -> "src/features/settings/data/backend-settings.repository.ts";
+
+
+"src/features/settings/usecases/load-settings-identity.ts" -> "src/core/types.ts";
+
+
+"src/features/settings/usecases/load-settings-identity.ts" -> "src/features/settings/domain/model.ts";
+
+
+"src/features/settings/usecases/load-settings-identity.ts" -> "src/features/settings/data/backend-settings.repository.ts";
+
+
+"src/features/settings/usecases/save-profile-name.ts" -> "src/features/settings/data/backend-settings.repository.ts";
+
+
+"src/features/settings/usecases/sign-out.ts" -> "src/core/types.ts";
+
+
+"src/features/settings/usecases/sign-out.ts" -> "src/features/settings/data/backend-settings.repository.ts";
+
+
+"src/features/settings/viewmodel/use-profile-edit-viewmodel.ts" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/settings/viewmodel/use-profile-edit-viewmodel.ts" -> "src/features/settings/usecases/load-profile-edit-state.ts";
+
+
+"src/features/settings/viewmodel/use-profile-edit-viewmodel.ts" -> "src/features/settings/usecases/save-profile-name.ts";
+
+
+"src/features/settings/viewmodel/use-profile-edit-viewmodel.ts" -> "src/features/settings/state/store.ts";
+
+
+"src/features/settings/viewmodel/use-settings-viewmodel.ts" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/settings/viewmodel/use-settings-viewmodel.ts" -> "src/features/settings/usecases/load-settings-identity.ts";
+
+
+"src/features/settings/viewmodel/use-settings-viewmodel.ts" -> "src/features/settings/usecases/delete-account.ts";
+
+
+"src/features/settings/viewmodel/use-settings-viewmodel.ts" -> "src/features/settings/usecases/sign-out.ts";
+
+
+"src/features/settings/viewmodel/use-settings-viewmodel.ts" -> "src/features/settings/state/store.ts";
+
+
+"src/features/shared-entity/domain/model.ts" -> "src/features/sharing/index.ts";
+
+
+"src/features/shared-entity/mapping/to-shared-entity-view-data.ts" -> "src/features/sharing/index.ts";
+
+
+"src/features/shared-entity/mapping/to-shared-entity-view-data.ts" -> "src/features/shared-entity/domain/model.ts";
+
+
+"src/features/shared-entity/renderers/AudioSharedEntityRenderer.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/shared-entity/renderers/AudioSharedEntityRenderer.tsx" -> "node_modules/expo-av/build/index.d.ts";
+
+
+"src/features/shared-entity/renderers/AudioSharedEntityRenderer.tsx" -> "src/core/runtime.ts";
+
+
+"src/features/shared-entity/renderers/AudioSharedEntityRenderer.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/shared-entity/renderers/AudioSharedEntityRenderer.tsx" -> "src/features/shared-entity/domain/model.ts";
+
+
+"src/features/shared-entity/renderers/GenericSharedEntityRenderer.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/shared-entity/renderers/GenericSharedEntityRenderer.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/shared-entity/renderers/GenericSharedEntityRenderer.tsx" -> "src/features/shared-entity/domain/model.ts";
+
+
+"src/features/shared-entity/renderers/SharedEntityRenderer.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/shared-entity/renderers/SharedEntityRenderer.tsx" -> "src/features/shared-entity/domain/model.ts";
+
+
+"src/features/shared-entity/renderers/SharedEntityRenderer.tsx" -> "src/features/shared-entity/renderers/AudioSharedEntityRenderer.tsx";
+
+
+"src/features/shared-entity/renderers/SharedEntityRenderer.tsx" -> "src/features/shared-entity/renderers/GenericSharedEntityRenderer.tsx";
+
+
+"src/features/shared-entity/ui/SharedEntityScreen.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/shared-entity/ui/SharedEntityScreen.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/shared-entity/ui/SharedEntityScreen.tsx" -> "src/core/dates/index.ts";
+
+
+"src/features/shared-entity/ui/SharedEntityScreen.tsx" -> "src/features/shared-entity/renderers/SharedEntityRenderer.tsx";
+
+
+"src/features/shared-entity/ui/SharedEntityScreen.tsx" -> "src/features/shared-entity/viewmodel/use-shared-entity-viewmodel.ts";
+
+
+"src/features/shared-entity/viewmodel/use-shared-entity-viewmodel.ts" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/shared-entity/viewmodel/use-shared-entity-viewmodel.ts" -> "src/features/sharing/index.ts";
+
+
+"src/features/shared-entity/viewmodel/use-shared-entity-viewmodel.ts" -> "src/features/shared-entity/domain/model.ts";
+
+
+"src/features/shared-entity/viewmodel/use-shared-entity-viewmodel.ts" -> "src/features/shared-entity/mapping/to-shared-entity-view-data.ts";
+
+
+"src/features/sharing/data/backend-public-share.repository.ts" -> "src/core/dates/index.ts";
+
+
+"src/features/sharing/data/backend-public-share.repository.ts" -> "src/core/types.ts";
+
+
+"src/features/sharing/data/backend-public-share.repository.ts" -> "src/services/ApiClient.ts";
+
+
+"src/features/sharing/data/backend-public-share.repository.ts" -> "src/features/sharing/domain/model.ts";
+
+
+"src/features/sharing/domain/model.ts" -> "src/core/dates/index.ts";
+
+
+"src/features/text-editor/data/backend-text-editor.repository.ts" -> "src/core/dates/index.ts";
+
+
+"src/features/text-editor/data/backend-text-editor.repository.ts" -> "src/core/types.ts";
+
+
+"src/features/text-editor/data/backend-text-editor.repository.ts" -> "src/services/ApiClient.ts";
+
+
+"src/features/text-editor/data/backend-text-editor.repository.ts" -> "src/features/text-editor/domain/model.ts";
+
+
+"src/features/text-editor/data/backend-text-editor.repository.ts" -> "src/features/text-editor/domain/repository.ts";
+
+
+"src/features/text-editor/domain/model.ts" -> "src/core/dates/index.ts";
+
+
+"src/features/text-editor/domain/repository.ts" -> "src/core/types.ts";
+
+
+"src/features/text-editor/domain/repository.ts" -> "src/features/text-editor/domain/model.ts";
+
+
+"src/features/text-editor/ui/TextEditorPanel.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/text-editor/ui/TextEditorPanel.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/text-editor/ui/TextEditorPanel.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/text-editor/ui/TextEditorPanel.tsx" -> "src/features/text-editor/index.ts";
+
+
+"src/features/text-editor/ui/TextEditorPanel.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/features/text-editor/usecases/text-editor-actions.ts" -> "src/core/types.ts";
+
+
+"src/features/text-editor/usecases/text-editor-actions.ts" -> "src/features/text-editor/data/backend-text-editor.repository.ts";
+
+
+"src/features/text-editor/usecases/text-editor-actions.ts" -> "src/features/text-editor/domain/model.ts";
+
+
+"src/features/text-editor/usecases/text-editor-actions.ts" -> "src/features/text-editor/storage.ts";
+
+
+"src/features/text-editor/viewmodel/use-text-editor-viewmodel.ts" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/text-editor/viewmodel/use-text-editor-viewmodel.ts" -> "src/core/dates/index.ts";
+
+
+"src/features/text-editor/viewmodel/use-text-editor-viewmodel.ts" -> "src/core/providers/index.ts";
+
+
+"src/features/text-editor/viewmodel/use-text-editor-viewmodel.ts" -> "src/features/text-editor/domain/model.ts";
+
+
+"src/features/text-editor/viewmodel/use-text-editor-viewmodel.ts" -> "src/features/text-editor/usecases/text-editor-actions.ts";
+
+
+"src/apps/appforge-site/features/home/home.screen.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/apps/appforge-site/features/home/home.screen.tsx" -> "node_modules/expo-router/build/index.d.ts";
+
+
+"src/apps/appforge-site/features/home/home.screen.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/apps/appforge-site/features/home/home.screen.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/apps/appforge-site/features/home/home.screen.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/apps/appforge-site/features/home/home.screen.tsx" -> "src/apps/appforge-site/ui/SiteContainer.tsx";
+
+
+"src/apps/appforge-site/features/home/home.screen.tsx" -> "src/apps/appforge-site/ui/SplitHero.tsx";
+
+
+"src/apps/appforge-site/features/studio/studio.screen.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/apps/appforge-site/features/studio/studio.screen.tsx" -> "node_modules/expo-router/build/index.d.ts";
+
+
+"src/apps/appforge-site/features/studio/studio.screen.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/apps/appforge-site/features/studio/studio.screen.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/apps/appforge-site/features/studio/studio.screen.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/apps/appforge-site/features/studio/studio.screen.tsx" -> "src/ui/blocks/index.ts";
+
+
+"src/apps/appforge-site/features/studio/studio.screen.tsx" -> "src/apps/appforge-site/ui/SiteContainer.tsx";
+
+
+"src/apps/appforge-site/features/studio/studio.screen.tsx" -> "src/apps/appforge-site/features/studio/viewmodel/use-architecture-view.ts";
+
+
+"src/apps/appforge-site/features/studio/studio.screen.tsx" -> "src/apps/appforge-site/features/studio/domain/repo-structure.types.ts";
+
+
+"src/apps/example-app/features/auth/example-app-disabled-auth.ts" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/apps/example-app/features/auth/example-app-disabled-auth.ts" -> "src/core/types.ts";
+
+
+"src/apps/example-app/features/auth/example-app-disabled-auth.ts" -> "src/features/auth/domain/repository.ts";
+
+
+"src/apps/example-app/features/auth/example-app-disabled-auth.ts" -> "src/features/login/index.ts";
+
+
+"src/apps/example-app/features/auth/example-app-disabled-auth.ts" -> "src/features/register/index.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppForgotPasswordRouteScreen.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppForgotPasswordRouteScreen.tsx" -> "node_modules/expo-router/build/index.d.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppForgotPasswordRouteScreen.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppForgotPasswordRouteScreen.tsx" -> "src/ui/layouts/index.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppForgotPasswordRouteScreen.tsx" -> "src/features/auth/ui/blocks/AuthCard.tsx";
+
+
+"src/apps/example-app/features/auth/ExampleAppForgotPasswordRouteScreen.tsx" -> "src/features/auth/ui/blocks/AuthBrandBlock.tsx";
+
+
+"src/apps/example-app/features/auth/ExampleAppForgotPasswordRouteScreen.tsx" -> "src/features/auth/ui/blocks/AuthFieldBlock.tsx";
+
+
+"src/apps/example-app/features/auth/ExampleAppForgotPasswordRouteScreen.tsx" -> "src/features/auth/ui/blocks/AuthSubmitBlock.tsx";
+
+
+"src/apps/example-app/features/auth/ExampleAppForgotPasswordRouteScreen.tsx" -> "src/config/app.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppForgotPasswordRouteScreen.tsx" -> "src/apps/example-app/features/auth/example-app-disabled-auth.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppLoginRouteScreen.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppLoginRouteScreen.tsx" -> "node_modules/expo-router/build/index.d.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppLoginRouteScreen.tsx" -> "src/features/login/index.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppLoginRouteScreen.tsx" -> "src/navigation/routes.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppLoginRouteScreen.tsx" -> "src/apps/example-app/features/auth/example-app-disabled-auth.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppRegisterRouteScreen.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppRegisterRouteScreen.tsx" -> "node_modules/expo-router/build/index.d.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppRegisterRouteScreen.tsx" -> "src/features/register/index.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppRegisterRouteScreen.tsx" -> "src/navigation/routes.ts";
+
+
+"src/apps/example-app/features/auth/ExampleAppRegisterRouteScreen.tsx" -> "src/apps/example-app/features/auth/example-app-disabled-auth.ts";
+
+
+"src/apps/example-app/features/home/home.screen.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/apps/example-app/features/home/home.screen.tsx" -> "node_modules/expo-router/build/index.d.ts";
+
+
+"src/apps/example-app/features/home/home.screen.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/apps/example-app/features/home/home.screen.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/apps/example-app/features/home/home.screen.tsx" -> "src/features/settings/index.ts";
+
+
+"src/apps/example-app/features/home/home.screen.tsx" -> "src/providers/SessionProvider.tsx";
+
+
+"src/apps/example-app/features/home/home.screen.tsx" -> "src/apps/example-app/navigation/routes.ts";
+
+
+"src/apps/example-app/features/onboarding/onboarding.screen.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/apps/example-app/features/onboarding/onboarding.screen.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/apps/example-app/features/onboarding/onboarding.screen.tsx" -> "node_modules/expo-router/build/index.d.ts";
+
+
+"src/apps/example-app/features/onboarding/onboarding.screen.tsx" -> "src/services/ApiClient.ts";
+
+
+"src/apps/example-app/features/onboarding/onboarding.screen.tsx" -> "src/providers/SessionProvider.tsx";
+
+
+"src/apps/example-app/features/onboarding/onboarding.screen.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/apps/example-app/features/onboarding/onboarding.screen.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/apps/example-app/features/onboarding/onboarding.screen.tsx" -> "src/apps/example-app/navigation/routes.ts";
+
+
+"src/apps/example-app/features/profile/profile.screen.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/apps/example-app/features/profile/profile.screen.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/apps/example-app/features/profile/profile.screen.tsx" -> "node_modules/expo-router/build/index.d.ts";
+
+
+"src/apps/example-app/features/profile/profile.screen.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/apps/example-app/features/profile/profile.screen.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/apps/example-app/features/profile/profile.screen.tsx" -> "src/features/settings/index.ts";
+
+
+"src/apps/example-app/features/profile/profile.screen.tsx" -> "src/apps/example-app/navigation/routes.ts";
+
+
+"src/features/auth/ui/blocks/AuthBrandBlock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/auth/ui/blocks/AuthBrandBlock.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/auth/ui/blocks/AuthBrandBlock.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/features/auth/ui/blocks/AuthBrandBlock.tsx" -> "src/config/app.ts";
+
+
+"src/features/auth/ui/blocks/AuthCard.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/auth/ui/blocks/AuthCard.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/auth/ui/blocks/AuthCard.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/features/auth/ui/blocks/AuthDarkField.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/auth/ui/blocks/AuthDarkField.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/auth/ui/blocks/AuthDarkField.tsx" -> "src/theme/ThemeProvider.tsx";
+
+
+"src/features/auth/ui/blocks/AuthDarkField.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/auth/ui/blocks/AuthFieldBlock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/auth/ui/blocks/AuthFieldBlock.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/auth/ui/blocks/AuthFieldBlock.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/auth/ui/blocks/AuthFieldBlock.tsx" -> "src/features/auth/ui/blocks/AuthDarkField.tsx";
+
+
+"src/features/auth/ui/blocks/AuthFieldBlock.tsx" -> "src/ui/primitives/Icon.tsx";
+
+
+"src/features/auth/ui/blocks/AuthFooterLinks.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/auth/ui/blocks/AuthFooterLinks.tsx" -> "node_modules/react-native/types/index.d.ts";
+
+
+"src/features/auth/ui/blocks/AuthFooterLinks.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/auth/ui/blocks/AuthSubmitBlock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/auth/ui/blocks/AuthSubmitBlock.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/auth/ui/blocks/AuthSubmitBlock.tsx" -> "src/ui/blocks/index.ts";
+
+
+"src/features/auth/ui/blocks/AuthTermsBlock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/auth/ui/blocks/AuthTermsBlock.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/auth/usecases/__tests__/sign-in.test.ts" -> "src/features/auth/usecases/sign-in.ts";
+
+
+"src/features/auth/usecases/__tests__/sign-up.test.ts" -> "src/features/auth/usecases/sign-up.ts";
+
+
+"src/features/recordings/data/__tests__/backend-recordings.repository.test.ts" -> "src/features/recordings/data/backend-recordings.repository.ts";
+
+
+"src/features/recordings/data/__tests__/backend-recordings.repository.test.ts" -> "src/services/ApiClient.ts";
+
+
+"src/features/recordings/runtime/__tests__/native-audio-recording.capability.test.ts" -> "src/features/recordings/runtime/native-audio-recording.capability.ts";
+
+
+"src/features/recordings/usecases/__tests__/load-recording-content.test.ts" -> "src/features/recordings/usecases/recording-actions.ts";
+
+
+"src/features/recordings/viewmodel/__tests__/use-recordings-viewmodel.test.ts" -> "node_modules/@testing-library/react-native/build/index.d.ts";
+
+
+"src/features/recordings/viewmodel/__tests__/use-recordings-viewmodel.test.ts" -> "src/features/recordings/viewmodel/use-recordings-viewmodel.ts";
+
+
+"src/features/settings/domain/__tests__/plan.test.ts" -> "src/features/settings/domain/plan.ts";
+
+
+"src/features/settings/viewmodel/__tests__/use-settings-viewmodel.test.ts" -> "node_modules/@testing-library/react-native/build/index.d.ts";
+
+
+"src/features/settings/viewmodel/__tests__/use-settings-viewmodel.test.ts" -> "src/features/settings/viewmodel/use-settings-viewmodel.ts";
+
+
+"src/features/text-editor/viewmodel/__tests__/use-text-editor-viewmodel.test.ts" -> "node_modules/@testing-library/react-native/build/index.d.ts";
+
+
+"src/features/text-editor/viewmodel/__tests__/use-text-editor-viewmodel.test.ts" -> "src/features/text-editor/viewmodel/use-text-editor-viewmodel.ts";
+
+
+"src/generated/proto/auth/v1/auth.ts" -> "node_modules/@bufbuild/protobuf/dist/esm/wire/index.d.ts";
+
+
+"src/generated/proto/auth/v1/auth.ts" -> "src/generated/proto/common/v1/user.ts";
+
+
+"src/generated/proto/common/v1/user.ts" -> "node_modules/@bufbuild/protobuf/dist/esm/wire/index.d.ts";
+
+
+"src/generated/proto/common/v1/user.ts" -> "src/generated/proto/google/protobuf/timestamp.ts";
+
+
+"src/generated/proto/google/api/http.ts" -> "node_modules/@bufbuild/protobuf/dist/esm/wire/index.d.ts";
+
+
+"src/generated/proto/google/protobuf/descriptor.ts" -> "node_modules/@bufbuild/protobuf/dist/esm/wire/index.d.ts";
+
+
+"src/generated/proto/google/protobuf/timestamp.ts" -> "node_modules/@bufbuild/protobuf/dist/esm/wire/index.d.ts";
+
+
+"src/generated/proto/users/v1/users.ts" -> "node_modules/@bufbuild/protobuf/dist/esm/wire/index.d.ts";
+
+
+"src/generated/proto/users/v1/users.ts" -> "src/generated/proto/common/v1/user.ts";
+
+
+"src/apps/appforge-site/features/studio/data/repo-structure.repository.ts" -> "src/apps/appforge-site/features/studio/services/repo-structure.service.ts";
+
+
+"src/apps/appforge-site/features/studio/data/repo-structure.repository.ts" -> "src/apps/appforge-site/features/studio/domain/repo-structure.types.ts";
+
+
+"src/apps/appforge-site/features/studio/services/repo-structure.service.ts" -> "src/apps/appforge-site/features/studio/domain/repo-structure.types.ts";
+
+
+"src/apps/appforge-site/features/studio/services/repo-structure.service.ts" -> "src/apps/appforge-site/features/studio/services/repo-scan.generated.json";
+
+
+"src/apps/appforge-site/features/studio/usecases/get-architecture-overview.ts" -> "src/apps/appforge-site/features/studio/data/repo-structure.repository.ts";
+
+
+"src/apps/appforge-site/features/studio/usecases/get-architecture-overview.ts" -> "src/apps/appforge-site/features/studio/domain/repo-structure.types.ts";
+
+
+"src/apps/appforge-site/features/studio/usecases/get-repo-catalog.ts" -> "src/apps/appforge-site/features/studio/data/repo-structure.repository.ts";
+
+
+"src/apps/appforge-site/features/studio/usecases/get-repo-catalog.ts" -> "src/apps/appforge-site/features/studio/domain/repo-structure.types.ts";
+
+
+"src/apps/appforge-site/features/studio/viewmodel/use-architecture-view.ts" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/apps/appforge-site/features/studio/viewmodel/use-architecture-view.ts" -> "src/apps/appforge-site/features/studio/usecases/get-architecture-overview.ts";
+
+
+"src/apps/appforge-site/features/studio/viewmodel/use-studio.ts" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/apps/appforge-site/features/studio/viewmodel/use-studio.ts" -> "src/apps/appforge-site/features/studio/usecases/get-repo-catalog.ts";
+
+
+"src/features/auth/ui/blocks/welcome/WelcomeActionsBlock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/auth/ui/blocks/welcome/WelcomeActionsBlock.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/auth/ui/blocks/welcome/WelcomeActionsBlock.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/features/auth/ui/blocks/welcome/WelcomeHeroBlock.tsx" -> "node_modules/@types/react/index.d.ts";
+
+
+"src/features/auth/ui/blocks/welcome/WelcomeHeroBlock.tsx" -> "src/ui/primitives/index.ts";
+
+
+"src/features/auth/ui/blocks/welcome/WelcomeHeroBlock.tsx" -> "src/ui/panels/index.ts";
+
+
+"src/features/auth/ui/blocks/welcome/WelcomeHeroBlock.tsx" -> "src/config/app.ts";
+
+}

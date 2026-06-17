@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AppForge Cheat Sheet</title>
+<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">◧</span>
+      <span class="brand-name">AppForge Cheat Sheet</span>
+    </div>
+    <div class="search-wrap">
+      <input id="search" type="search" placeholder="Search screens, tokens, components, services, routes…" />
+      <kbd>/</kbd>
+    </div>
+    <div class="topbar-right">
+      <button id="rescan" class="primary-btn">Rescan</button>
+      <span id="generatedAt" class="muted"></span>
+    </div>
+  </header>
+  <div class="body">
+    <nav class="sidebar" id="sidebar"></nav>
+    <main id="content"></main>
+  </div>
+</div>
+<script src="/app.js"></script>
+</body>
+</html>

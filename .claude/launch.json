@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "appforge-site-web",
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "APP_ID=appforge-site npx expo start --web --port 8088"],
+      "port": 8088,
+      "autoPort": false
+    }
+  ]
+}

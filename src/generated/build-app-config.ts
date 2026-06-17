@@ -4,4 +4,4 @@ export const BUILD_APP_DISPLAY_NAME = 'Example App' as const;
 export const BUILD_ROUTER_ROOT = 'app-example-app' as const;
 export const BUILD_APP_ROUTE_BASE = '/example-app' as const;
 export const BUILD_APP_STORAGE_NAMESPACE = 'example-app' as const;
-export const BUILD_SUPPORTED_APP_IDS = ["example-app"] as const;
+export const BUILD_SUPPORTED_APP_IDS = ["example-app","appforge-site"] as const;
