@@ -7,7 +7,7 @@ import { config } from './config'
 // that still use useTheme()) as a child of this provider.
 export function UIProvider({ children }: { children: React.ReactNode }) {
   return (
-    <TamaguiProvider config={config} defaultTheme="light">
+    <TamaguiProvider config={config} defaultTheme="dark">
       {children}
     </TamaguiProvider>
   )

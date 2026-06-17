@@ -2,58 +2,84 @@ import { createTamagui, createFont, createTokens } from '@tamagui/core'
 import { animations } from '@tamagui/config/v4'
 
 // ── Color tokens ──────────────────────────────────────────────────────────────
-// Single source of truth registered as Tamagui tokens so styled() components
-// can reference them via '$name'. Derived from AppForge brand palette.
+// Raw palette — light and dark values live here so both themes can reference
+// them. Theme objects below map these to semantic roles.
 const color = {
-  // Brand
-  primary:      '#2558D4',
-  primaryMuted: 'rgba(37,88,212,0.15)',
-  primaryGlow:  'rgba(37,88,212,0.25)',
+  // Dark palette
+  ink:           '#0A0A0A',
+  inkLift:       '#111111',
+  inkCard:       '#161616',
+  inkMuted:      '#1C1C1C',
+  inkSubtle:     '#222222',
 
-  // Semantic status
-  success:      '#237A49',
-  successMuted: 'rgba(35,122,73,0.12)',
-  warning:      '#A8681A',
-  warningMuted: 'rgba(168,104,26,0.12)',
-  error:        '#C03228',
-  errorMuted:   'rgba(192,50,40,0.12)',
-  info:         '#0E7490',
-  infoMuted:    'rgba(14,116,144,0.12)',
-  accent:       '#1D4ED8',
-  accentMuted:  'rgba(29,78,216,0.12)',
+  // Light text on dark
+  snowBright:    '#F2F2F2',
+  snowDim:       '#A3A3A3',
+  snowFaint:     '#525252',
+  snowTertiary:  '#404040',
 
-  // Surfaces
-  bg:            '#FAFAFA',
-  surface:       '#FFFFFF',
-  surfaceAlt:    '#F5F5F5',
-  surfaceStrong: '#FFFFFF',
-  surfaceMuted:  '#F5F5F5',
-  surfaceWash:   '#F4F4F0',
+  // Light palette
+  offWhite:      '#FAFAFA',
+  white:         '#FFFFFF',
+  surfaceLight:  '#F5F5F5',
 
-  // Borders
-  border:        '#E5E5E5',
-  borderSubtle:  '#E5E5E5',
-  borderFocus:   '#2558D4',
-  borderLight:   '#D4D4D4',
+  // Dark text on light
+  nearBlack:     '#171717',
+  charcoal:      '#525252',
+  stone:         '#A3A3A3',
+  slate:         '#737373',
 
-  // Text
-  textPrimary:   '#171717',
-  textSecondary: '#525252',
-  textMuted:     '#A3A3A3',
-  textTertiary:  '#737373',
-  textInverse:   '#FFFFFF',
+  // Brand blue — two tones for light/dark
+  blue:          '#2558D4',   // light mode
+  blueBright:    '#4F8EF7',   // dark mode (more legible on near-black)
+  blueMuted:     'rgba(37,88,212,0.14)',
+  blueBrightMuted: 'rgba(79,142,247,0.14)',
 
-  // Chip / segment control
-  chipBg:     'rgba(0,0,0,0.04)',
-  chipBorder: 'rgba(0,0,0,0.08)',
+  // Status
+  greenBright:   '#34D399',
+  greenMuted:    'rgba(52,211,153,0.12)',
+  green:         '#237A49',
+  greenDark:     'rgba(35,122,73,0.12)',
 
-  white:       '#FFFFFF',
-  transparent: 'transparent',
+  amberBright:   '#F59E0B',
+  amberMuted:    'rgba(245,158,11,0.12)',
+  amber:         '#A8681A',
+  amberDark:     'rgba(168,104,26,0.12)',
+
+  redBright:     '#F87171',
+  redMuted:      'rgba(248,113,113,0.12)',
+  red:           '#C03228',
+  redDark:       'rgba(192,50,40,0.12)',
+
+  teal:          '#0E7490',
+  tealMuted:     'rgba(14,116,144,0.12)',
+  tealBright:    '#22D3EE',
+  tealBrightMuted: 'rgba(34,211,238,0.12)',
+
+  // Borders (dark)
+  borderDark:    'rgba(255,255,255,0.08)',
+  borderDarkSub: 'rgba(255,255,255,0.05)',
+  borderDarkFoc: '#4F8EF7',
+
+  // Borders (light)
+  borderLight:   '#E5E5E5',
+  borderLightSub:'#E5E5E5',
+  borderLightFoc:'#2558D4',
+
+  // Chip (dark)
+  chipDarkBg:    'rgba(255,255,255,0.05)',
+  chipDarkBdr:   'rgba(255,255,255,0.10)',
+
+  // Chip (light)
+  chipLightBg:   'rgba(0,0,0,0.04)',
+  chipLightBdr:  'rgba(0,0,0,0.08)',
+
+  transparent:   'transparent',
 } as const
 
 const tokens = createTokens({
   color,
-  // Space scale: xxs=4 xs=6 sm=10 md=16 lg=22 xl=30 2xl=44 3xl=64
+  // Space scale: 1=4 2=6 3=10 4=16 5=22 6=30 7=44 8=64
   space: {
     true: 16,
     0: 0, 1: 4, 2: 6, 3: 10, 4: 16, 5: 22, 6: 30, 7: 44, 8: 64,
@@ -62,7 +88,6 @@ const tokens = createTokens({
     true: 16,
     0: 0, 1: 4, 2: 6, 3: 10, 4: 16, 5: 22, 6: 30, 7: 44, 8: 64,
   },
-  // Radius scale (× 1.45 from base): sm=9 md=15 lg=20 xl=29 pill=9999
   radius: {
     true: 15,
     0: 0, 1: 9, 2: 15, 3: 20, 4: 29, 5: 9999,
@@ -73,57 +98,123 @@ const tokens = createTokens({
 })
 
 // ── Fonts ─────────────────────────────────────────────────────────────────────
-// System font, two weights. size/lineHeight scales align with Display/Heading/
-// Label/Body atoms in Text.tsx — keep both in sync when adding a size.
 function makeFont(weight: string) {
   return createFont({
     family: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, sans-serif",
     size: {
-      1: 11, // xs  — caption
-      2: 13, // sm  — Label, displaySm
-      3: 15, // md  — Body
-      4: 18, // lg
-      5: 24, // xl  — Heading
-      6: 26, // page title
-      7: 32, // 2xl — Display
-      8: 42, // 3xl
+      1: 11, 2: 13, 3: 15, 4: 18, 5: 24, 6: 26, 7: 32, 8: 42,
     },
     lineHeight: {
-      1: 16,  // xs
-      2: 20,  // sm
-      3: 22,  // md  — Body
-      4: 26,  // lg
-      5: 30,  // xl  — Heading
-      6: 32,
-      7: 40,  // 2xl — Display
-      8: 52,
+      1: 16, 2: 20, 3: 22, 4: 26, 5: 30, 6: 32, 7: 40, 8: 52,
     },
     weight: { 1: weight },
     letterSpacing: { 1: 0 },
   })
 }
 
-// ── Theme ─────────────────────────────────────────────────────────────────────
+// ── Themes ────────────────────────────────────────────────────────────────────
+// Keys listed here are THEME VARIABLES — they override same-named color tokens
+// when the theme is active. Primitives reference these via '$key'.
+
+const darkTheme = {
+  // Surfaces
+  bg:            tokens.color.ink,
+  surface:       tokens.color.inkLift,
+  surfaceStrong: tokens.color.inkCard,
+  surfaceAlt:    tokens.color.inkMuted,
+  surfaceMuted:  tokens.color.inkLift,
+
+  // Borders
+  border:        tokens.color.borderDark,
+  borderSubtle:  tokens.color.borderDarkSub,
+  borderFocus:   tokens.color.borderDarkFoc,
+
+  // Text
+  textPrimary:   tokens.color.snowBright,
+  textSecondary: tokens.color.snowDim,
+  textMuted:     tokens.color.snowFaint,
+  textTertiary:  tokens.color.snowTertiary,
+  textInverse:   tokens.color.ink,
+
+  // Semantic (for dim/soft/tertiary/onDark variants in Text atoms)
+  colorFaint:    tokens.color.snowFaint,
+  colorSoft:     tokens.color.snowDim,
+  colorTertiary: tokens.color.snowTertiary,
+  colorInverse:  tokens.color.snowBright,
+
+  // Brand
+  primary:       tokens.color.blueBright,
+  primaryMuted:  tokens.color.blueBrightMuted,
+  accent:        tokens.color.blueBright,
+  accentMuted:   tokens.color.blueBrightMuted,
+
+  // Status
+  success:       tokens.color.greenBright,
+  successMuted:  tokens.color.greenMuted,
+  warning:       tokens.color.amberBright,
+  warningMuted:  tokens.color.amberMuted,
+  error:         tokens.color.redBright,
+  errorMuted:    tokens.color.redMuted,
+  info:          tokens.color.tealBright,
+  infoMuted:     tokens.color.tealBrightMuted,
+
+  // Chip controls
+  chipBg:        tokens.color.chipDarkBg,
+  chipBorder:    tokens.color.chipDarkBdr,
+}
+
 const lightTheme = {
-  background:         tokens.color.bg,
-  backgroundStrong:   tokens.color.surfaceStrong,
-  color:              tokens.color.textPrimary,
-  colorSoft:          tokens.color.textSecondary,
-  colorFaint:         tokens.color.textMuted,
-  colorTertiary:      tokens.color.textTertiary,
-  colorInverse:       tokens.color.textInverse,
-  accent:             tokens.color.primary,
-  accentMuted:        tokens.color.primaryMuted,
-  borderColor:        tokens.color.border,
-  borderSubtle:       tokens.color.borderSubtle,
-  borderFocus:        tokens.color.borderFocus,
+  // Surfaces
+  bg:            tokens.color.offWhite,
+  surface:       tokens.color.white,
+  surfaceStrong: tokens.color.white,
+  surfaceAlt:    tokens.color.surfaceLight,
+  surfaceMuted:  tokens.color.surfaceLight,
+
+  // Borders
+  border:        tokens.color.borderLight,
+  borderSubtle:  tokens.color.borderLightSub,
+  borderFocus:   tokens.color.borderLightFoc,
+
+  // Text
+  textPrimary:   tokens.color.nearBlack,
+  textSecondary: tokens.color.charcoal,
+  textMuted:     tokens.color.stone,
+  textTertiary:  tokens.color.slate,
+  textInverse:   tokens.color.white,
+
+  // Semantic
+  colorFaint:    tokens.color.stone,
+  colorSoft:     tokens.color.charcoal,
+  colorTertiary: tokens.color.slate,
+  colorInverse:  tokens.color.white,
+
+  // Brand
+  primary:       tokens.color.blue,
+  primaryMuted:  tokens.color.blueMuted,
+  accent:        tokens.color.blue,
+  accentMuted:   tokens.color.blueMuted,
+
+  // Status
+  success:       tokens.color.green,
+  successMuted:  tokens.color.greenDark,
+  warning:       tokens.color.amber,
+  warningMuted:  tokens.color.amberDark,
+  error:         tokens.color.red,
+  errorMuted:    tokens.color.redDark,
+  info:          tokens.color.teal,
+  infoMuted:     tokens.color.tealMuted,
+
+  // Chip controls
+  chipBg:        tokens.color.chipLightBg,
+  chipBorder:    tokens.color.chipLightBdr,
 }
 
 // ── Config ────────────────────────────────────────────────────────────────────
 export const config = createTamagui({
   animations,
   tokens,
-  themes: { light: lightTheme },
+  themes: { dark: darkTheme, light: lightTheme },
   fonts: {
     reg:  makeFont('500'),
     bold: makeFont('700'),

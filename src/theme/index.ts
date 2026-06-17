@@ -13,28 +13,62 @@ import { createTheme } from "./factory";
 // Change these to rebrand. Every other color is derived from them.
 
 const BRAND = {
-  primary: "#2558D4",
-  primaryHover: "#1D4ED8",
-  success: "#237A49",
-  warning: "#A8681A",
-  error: "#C03228",
-  info: "#0E7490",
+  primary: "#4F8EF7",
+  primaryHover: "#3B7CF6",
+  success: "#34D399",
+  warning: "#F59E0B",
+  error: "#F87171",
+  info: "#22D3EE",
 };
 
 // ─── Generated Theme ───────────────────────────────────────────────
+// Base from factory (dark: true generates structure), then override
+// surface/text colors with a true near-black canvas.
 
-export const tokens = createTheme({
+const _base = createTheme({
   brand: BRAND,
-  dark: false,
+  dark: true,
   fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
   radiusScale: 1.45,
 });
+
+export const tokens = {
+  ..._base,
+  colors: {
+    ..._base.colors,
+    bg:            "#0A0A0A",
+    surface:       "#111111",
+    surfaceAlt:    "#191919",
+    surfaceStrong: "#161616",
+    surfaceMuted:  "#111111",
+    surfaceInset:  "#0C0C0C",
+    surfaceWash:   "#161616",
+    border:        "rgba(255,255,255,0.08)",
+    borderSubtle:  "rgba(255,255,255,0.06)",
+    borderHover:   "rgba(255,255,255,0.14)",
+    borderLight:   "rgba(255,255,255,0.10)",
+    textPrimary:   "#F2F2F2",
+    textSecondary: "#A3A3A3",
+    textMuted:     "#525252",
+    textTertiary:  "#666666",
+    textQuaternary:"#3A3A3A",
+    textInverse:   "#0A0A0A",
+  },
+} as ReturnType<typeof createTheme>;
+
+type Tokens = ReturnType<typeof createTheme>;
 
 // ─── Re-exports for backwards compatibility ────────────────────────
 
 export const { colors } = tokens;
 
-export const shapes = {
+// ─── Semantic builders (shapes/surfaces from any token set) ────────
+// Extracted so per-app themes can re-derive component shapes from
+// their own (e.g. dark/branded) color tokens instead of inheriting the
+// default light palette. `createAppTheme()` below consumes these.
+
+function buildShapes(tokens: Tokens) {
+  return {
   button: {
     primary: {
       backgroundColor: tokens.colors.primary,
@@ -212,9 +246,11 @@ export const shapes = {
     backgroundColor: tokens.colors.surfaceAlt,
     borderRadius: tokens.colors.radii.sm,
   },
-} as const;
+  } as const;
+}
 
-export const surfaces = {
+function buildSurfaces(tokens: Tokens, shapes: ReturnType<typeof buildShapes>) {
+  return {
   authPage: {
     backgroundColor: tokens.colors.bg,
     minHeight: "100%",
@@ -235,11 +271,17 @@ export const surfaces = {
     alignItems: "center",
     padding: tokens.colors.space.xl,
   },
-} as const;
+  } as const;
+}
+
+// ─── Default app theme (light brand) ───────────────────────────────
+
+export const shapes = buildShapes(tokens);
+export const surfaces = buildSurfaces(tokens, shapes);
 
 export type Theme = typeof tokens & {
-  shapes: typeof shapes;
-  surfaces: typeof surfaces;
+  shapes: ReturnType<typeof buildShapes>;
+  surfaces: ReturnType<typeof buildSurfaces>;
 };
 
 export const theme: Theme = {
@@ -247,5 +289,24 @@ export const theme: Theme = {
   shapes,
   surfaces,
 };
+
+// ─── Per-app theming ───────────────────────────────────────────────
+// Build a complete Theme from brand options plus optional raw color
+// overrides (e.g. a true dark palette). Component shapes/surfaces are
+// re-derived from the overridden tokens, so Buttons/Badges/Panels all
+// recolor correctly — this is the "edit design globally" primitive.
+
+export function createAppTheme(
+  options: Parameters<typeof createTheme>[0],
+  colorOverrides?: Partial<Tokens["colors"]>,
+): Theme {
+  const base = createTheme(options);
+  const merged: Tokens = colorOverrides
+    ? { ...base, colors: { ...base.colors, ...colorOverrides } }
+    : base;
+  const appShapes = buildShapes(merged);
+  const appSurfaces = buildSurfaces(merged, appShapes);
+  return { ...merged, shapes: appShapes, surfaces: appSurfaces };
+}
 
 export { createTheme } from "./factory";
