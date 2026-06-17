@@ -1,6 +1,6 @@
 import React from "react";
 import { TextInput } from "react-native";
-import { Block, Text } from "../../../../ui/primitives"
+import { Col, Label } from "../../../../ui/primitives";
 import { AuthDarkField, type InputHandle } from "./AuthDarkField";
 import type { IconName } from "../../../../ui/primitives/Icon";
 
@@ -38,7 +38,7 @@ export function AuthFieldBlock({
   testID,
 }: AuthFieldBlockProps) {
   return (
-    <Block space="xs">
+    <Col between="xs">
       <AuthDarkField
         icon={icon}
         placeholder={placeholder}
@@ -55,7 +55,7 @@ export function AuthFieldBlock({
         inputRef={inputRef}
         testID={testID}
       />
-      {error ? <Text variant="caption">{error}</Text> : null}
-    </Block>
+      {error ? <Label size="sm" error>{error}</Label> : null}
+    </Col>
   );
 }

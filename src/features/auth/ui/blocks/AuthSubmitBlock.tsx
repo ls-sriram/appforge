@@ -1,5 +1,5 @@
 import React from "react";
-import { Block, Button } from "../../../../ui/primitives"
+import { Col, Button } from "../../../../ui/primitives";
 import { ErrorBanner } from "../../../../ui/blocks";
 
 interface AuthSubmitBlockProps {
@@ -20,7 +20,7 @@ export function AuthSubmitBlock({
   testID,
 }: AuthSubmitBlockProps) {
   return (
-    <Block space="sm">
+    <Col between="sm">
       {generalError ? <ErrorBanner message={generalError} /> : null}
       <Button
         label={label}
@@ -30,6 +30,6 @@ export function AuthSubmitBlock({
         disabled={disabled ?? loading}
         testID={testID}
       />
-    </Block>
+    </Col>
   );
 }

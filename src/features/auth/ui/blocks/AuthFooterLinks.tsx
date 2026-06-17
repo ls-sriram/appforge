@@ -1,6 +1,6 @@
 import React from "react";
-import { TouchableOpacity, View } from "react-native";
-import { Text } from "../../../../ui/primitives";
+import { TouchableOpacity } from "react-native";
+import { Row, Body, Label } from "../../../../ui/primitives";
 
 interface AuthFooterLinksProps {
   prompt: string;
@@ -10,11 +10,11 @@ interface AuthFooterLinksProps {
 
 export function AuthFooterLinks({ prompt, linkLabel, onPress }: AuthFooterLinksProps) {
   return (
-    <View>
-      <Text variant="body">{prompt}</Text>
+    <Row centered between="xs">
+      <Body size="sm" dim>{prompt}</Body>
       <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
-        <Text variant="link">{linkLabel}</Text>
+        <Label primary bold>{linkLabel}</Label>
       </TouchableOpacity>
-    </View>
+    </Row>
   );
 }

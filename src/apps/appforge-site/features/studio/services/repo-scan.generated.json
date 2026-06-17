@@ -1,0 +1,3210 @@
+{
+  "generatedAt": "2026-06-16T19:29:58.141Z",
+  "architecture": {
+    "uiCompositionLayers": [
+      {
+        "id": "tokens",
+        "label": "Design Tokens",
+        "path": "src/theme/**",
+        "rule": "Palette, spacing, typography, radii, elevation. No feature/route/service/viewmodel logic.",
+        "count": 5
+      },
+      {
+        "id": "primitives",
+        "label": "Primitives",
+        "path": "src/ui/primitives/**",
+        "rule": "Block + leaf atoms. No `style` prop. Every visual decision is a named token prop.",
+        "count": 20
+      },
+      {
+        "id": "panels",
+        "label": "Panels",
+        "path": "src/ui/panels/**",
+        "rule": "Surface wrappers mapping semantic variants to Block paint. No feature imports.",
+        "count": 4
+      },
+      {
+        "id": "blocks",
+        "label": "Blocks",
+        "path": "src/ui/blocks/**",
+        "rule": "App-agnostic composites of primitives + panels. No feature, router, or domain imports.",
+        "count": 24
+      },
+      {
+        "id": "app-shared-ui",
+        "label": "App-Shared UI",
+        "path": "src/apps/<app>/ui/**",
+        "rule": "App-shared components, scaffolds, theme overrides. No repository/store/router imports.",
+        "count": 8
+      },
+      {
+        "id": "feature-ui",
+        "label": "Feature UI",
+        "path": "src/apps/<app>/features/**, src/features/**/ui",
+        "rule": "Feature composition and behavior wiring. Maps viewmodel state to visual layers.",
+        "count": 32
+      },
+      {
+        "id": "routes",
+        "label": "Routes",
+        "path": "app-example-app/**",
+        "rule": "Thin navigation wiring only. No visual styling or domain rendering.",
+        "count": 8
+      }
+    ],
+    "mvvmLayers": [
+      {
+        "id": "view",
+        "label": "View",
+        "path": "src/features/*/views/*, src/features/*/ui/*",
+        "rule": "Dumb render only. Emits typed intents only. No service/API/storage imports."
+      },
+      {
+        "id": "viewmodel",
+        "label": "ViewModel / Controller",
+        "path": "src/features/*/viewmodel/*, *Controller.ts",
+        "rule": "Owns UI state transitions. Calls use-cases only. No direct service/API imports."
+      },
+      {
+        "id": "usecase",
+        "label": "UseCase",
+        "path": "src/features/*/usecases/*",
+        "rule": "One business action per use-case. Orchestrates repository methods. No UI imports."
+      },
+      {
+        "id": "repository",
+        "label": "Repository",
+        "path": "src/features/*/data/*, src/features/*/domain/*",
+        "rule": "Stable feature data contract. Chooses datasource implementation(s). No view/viewmodel imports."
+      },
+      {
+        "id": "datasource",
+        "label": "DataSource",
+        "path": "src/services/*",
+        "rule": "Transport/persistence details only. No feature UI imports."
+      },
+      {
+        "id": "backend",
+        "label": "Backend (proto contract → Kotlin routes)",
+        "path": "src/generated/proto/route-manifest.json → server/.../routing/*.kt",
+        "rule": "Cross-process boundary. Client depends on the proto contract, not server internals."
+      }
+    ],
+    "prohibitedEdges": [
+      {
+        "from": "view",
+        "to": "datasource",
+        "reason": "view -> service: must go through viewmodel -> usecase -> repository"
+      },
+      {
+        "from": "view",
+        "to": "repository",
+        "reason": "view -> data layer: must go through viewmodel -> usecase"
+      },
+      {
+        "from": "viewmodel",
+        "to": "datasource",
+        "reason": "viewmodel -> service: must go through usecase -> repository"
+      },
+      {
+        "from": "viewmodel",
+        "to": "repository",
+        "reason": "viewmodel -> data layer: must go through usecase"
+      },
+      {
+        "from": "routes",
+        "to": "datasource",
+        "reason": "route -> service: routes must not import services directly"
+      }
+    ],
+    "featureLayerMatrix": [
+      {
+        "name": "app-gate",
+        "layers": {
+          "view": false,
+          "viewmodel": true,
+          "usecase": false,
+          "repository": false,
+          "datasource": false,
+          "runtime": false
+        }
+      },
+      {
+        "name": "auth",
+        "layers": {
+          "view": true,
+          "viewmodel": false,
+          "usecase": true,
+          "repository": true,
+          "datasource": false,
+          "runtime": false
+        }
+      },
+      {
+        "name": "entitlements",
+        "layers": {
+          "view": false,
+          "viewmodel": false,
+          "usecase": false,
+          "repository": true,
+          "datasource": false,
+          "runtime": false
+        }
+      },
+      {
+        "name": "login",
+        "layers": {
+          "view": true,
+          "viewmodel": true,
+          "usecase": false,
+          "repository": false,
+          "datasource": false,
+          "runtime": false
+        }
+      },
+      {
+        "name": "onboarding",
+        "layers": {
+          "view": true,
+          "viewmodel": false,
+          "usecase": false,
+          "repository": false,
+          "datasource": false,
+          "runtime": false
+        }
+      },
+      {
+        "name": "recordings",
+        "layers": {
+          "view": true,
+          "viewmodel": true,
+          "usecase": true,
+          "repository": true,
+          "datasource": true,
+          "runtime": true
+        }
+      },
+      {
+        "name": "register",
+        "layers": {
+          "view": true,
+          "viewmodel": true,
+          "usecase": false,
+          "repository": false,
+          "datasource": false,
+          "runtime": false
+        }
+      },
+      {
+        "name": "reviews-public",
+        "layers": {
+          "view": true,
+          "viewmodel": false,
+          "usecase": false,
+          "repository": false,
+          "datasource": false,
+          "runtime": false
+        }
+      },
+      {
+        "name": "settings",
+        "layers": {
+          "view": true,
+          "viewmodel": true,
+          "usecase": true,
+          "repository": true,
+          "datasource": false,
+          "runtime": false
+        }
+      },
+      {
+        "name": "shared-entity",
+        "layers": {
+          "view": true,
+          "viewmodel": true,
+          "usecase": false,
+          "repository": true,
+          "datasource": false,
+          "runtime": false
+        }
+      },
+      {
+        "name": "sharing",
+        "layers": {
+          "view": false,
+          "viewmodel": false,
+          "usecase": false,
+          "repository": true,
+          "datasource": false,
+          "runtime": false
+        }
+      },
+      {
+        "name": "text-editor",
+        "layers": {
+          "view": true,
+          "viewmodel": true,
+          "usecase": true,
+          "repository": true,
+          "datasource": false,
+          "runtime": false
+        }
+      },
+      {
+        "name": "upgrade",
+        "layers": {
+          "view": false,
+          "viewmodel": false,
+          "usecase": false,
+          "repository": false,
+          "datasource": false,
+          "runtime": false
+        }
+      }
+    ],
+    "violations": []
+  },
+  "screens": {
+    "apps": [
+      {
+        "appId": "example-app",
+        "displayName": "Example App",
+        "routerRoot": "app-example-app",
+        "routeBase": "/example-app",
+        "isDefault": true,
+        "routes": [
+          {
+            "name": "welcome",
+            "path": "/"
+          },
+          {
+            "name": "login",
+            "path": "/login"
+          },
+          {
+            "name": "register",
+            "path": "/register"
+          },
+          {
+            "name": "forgotPassword",
+            "path": "/forgot-password"
+          },
+          {
+            "name": "onboarding",
+            "path": "/onboarding"
+          },
+          {
+            "name": "dashboard",
+            "path": "/dashboard"
+          },
+          {
+            "name": "settings",
+            "path": "/settings"
+          },
+          {
+            "name": "settingsProfile",
+            "path": "/settings/profile"
+          },
+          {
+            "name": "recordings",
+            "path": "/recordings"
+          },
+          {
+            "name": "tasks",
+            "path": "/tasks"
+          },
+          {
+            "name": "textEditor",
+            "path": "/text-editor"
+          },
+          {
+            "name": "sharedRecordings",
+            "path": "/shared-recordings"
+          },
+          {
+            "name": "upgrade",
+            "path": "/upgrade"
+          }
+        ],
+        "screenFiles": [
+          {
+            "file": "app-example-app/example-app/index.tsx",
+            "routePath": "/example-app"
+          },
+          {
+            "file": "app-example-app/example-app/profile.tsx",
+            "routePath": "/example-app/profile"
+          },
+          {
+            "file": "app-example-app/forgot-password.tsx",
+            "routePath": "/forgot-password"
+          },
+          {
+            "file": "app-example-app/index.tsx",
+            "routePath": "/"
+          },
+          {
+            "file": "app-example-app/login.tsx",
+            "routePath": "/login"
+          },
+          {
+            "file": "app-example-app/onboarding.tsx",
+            "routePath": "/onboarding"
+          },
+          {
+            "file": "app-example-app/register.tsx",
+            "routePath": "/register"
+          }
+        ],
+        "featureRoutes": [
+          {
+            "name": "home",
+            "path": "/example-app"
+          },
+          {
+            "name": "onboarding",
+            "path": "/onboarding"
+          },
+          {
+            "name": "profile",
+            "path": "/example-app/profile"
+          }
+        ]
+      },
+      {
+        "appId": "appforge-site",
+        "displayName": "AppForge",
+        "routerRoot": "app-appforge-site",
+        "routeBase": "/",
+        "isDefault": false,
+        "routes": [
+          {
+            "name": "welcome",
+            "path": "/"
+          },
+          {
+            "name": "login",
+            "path": "/login"
+          },
+          {
+            "name": "register",
+            "path": "/register"
+          },
+          {
+            "name": "forgotPassword",
+            "path": "/forgot-password"
+          },
+          {
+            "name": "onboarding",
+            "path": "/onboarding"
+          },
+          {
+            "name": "dashboard",
+            "path": "/dashboard"
+          },
+          {
+            "name": "settings",
+            "path": "/settings"
+          },
+          {
+            "name": "settingsProfile",
+            "path": "/settings/profile"
+          },
+          {
+            "name": "recordings",
+            "path": "/recordings"
+          },
+          {
+            "name": "tasks",
+            "path": "/tasks"
+          },
+          {
+            "name": "textEditor",
+            "path": "/text-editor"
+          },
+          {
+            "name": "sharedRecordings",
+            "path": "/shared-recordings"
+          },
+          {
+            "name": "upgrade",
+            "path": "/upgrade"
+          }
+        ],
+        "screenFiles": [
+          {
+            "file": "app-example-app/example-app/index.tsx",
+            "routePath": "/example-app"
+          },
+          {
+            "file": "app-example-app/example-app/profile.tsx",
+            "routePath": "/example-app/profile"
+          },
+          {
+            "file": "app-example-app/forgot-password.tsx",
+            "routePath": "/forgot-password"
+          },
+          {
+            "file": "app-example-app/index.tsx",
+            "routePath": "/"
+          },
+          {
+            "file": "app-example-app/login.tsx",
+            "routePath": "/login"
+          },
+          {
+            "file": "app-example-app/onboarding.tsx",
+            "routePath": "/onboarding"
+          },
+          {
+            "file": "app-example-app/register.tsx",
+            "routePath": "/register"
+          }
+        ]
+      }
+    ]
+  },
+  "designTokens": {
+    "layoutTokenBlocks": [
+      {
+        "name": "section",
+        "entries": [
+          {
+            "key": "paddingHorizontal",
+            "value": "16"
+          },
+          {
+            "key": "gap",
+            "value": "24"
+          },
+          {
+            "key": "headerGap",
+            "value": "12"
+          },
+          {
+            "key": "cardGap",
+            "value": "12"
+          },
+          {
+            "key": "maxWidth",
+            "value": "960"
+          }
+        ]
+      },
+      {
+        "name": "workspaceShell",
+        "entries": [
+          {
+            "key": "sidebarWidth",
+            "value": "232"
+          },
+          {
+            "key": "mobileNavMinWidth",
+            "value": "280"
+          },
+          {
+            "key": "mobileNavMaxWidth",
+            "value": "356"
+          }
+        ]
+      },
+      {
+        "name": "grid",
+        "entries": [
+          {
+            "key": "mobileCols",
+            "value": "1"
+          },
+          {
+            "key": "tabletCols",
+            "value": "2"
+          },
+          {
+            "key": "desktopCols",
+            "value": "4"
+          },
+          {
+            "key": "gap",
+            "value": "12"
+          },
+          {
+            "key": "metricMinHeight",
+            "value": "100"
+          }
+        ]
+      },
+      {
+        "name": "onboarding",
+        "entries": [
+          {
+            "key": "dotSize",
+            "value": "8"
+          },
+          {
+            "key": "dotActiveSize",
+            "value": "24"
+          },
+          {
+            "key": "dotGap",
+            "value": "6"
+          },
+          {
+            "key": "maxContentWidth",
+            "value": "400"
+          },
+          {
+            "key": "illustrationHeight",
+            "value": "200"
+          },
+          {
+            "key": "stepCount",
+            "value": "4"
+          }
+        ]
+      },
+      {
+        "name": "anim",
+        "entries": [
+          {
+            "key": "fast",
+            "value": "150"
+          },
+          {
+            "key": "normal",
+            "value": "250"
+          },
+          {
+            "key": "slow",
+            "value": "400"
+          }
+        ]
+      },
+      {
+        "name": "elevation",
+        "entries": [
+          {
+            "key": "base",
+            "value": "0"
+          },
+          {
+            "key": "raised",
+            "value": "1"
+          },
+          {
+            "key": "card",
+            "value": "2"
+          },
+          {
+            "key": "dropdown",
+            "value": "3"
+          },
+          {
+            "key": "sticky",
+            "value": "4"
+          },
+          {
+            "key": "overlay",
+            "value": "5"
+          },
+          {
+            "key": "modal",
+            "value": "10"
+          },
+          {
+            "key": "toast",
+            "value": "20"
+          }
+        ]
+      },
+      {
+        "name": "iconSizes",
+        "entries": [
+          {
+            "key": "xs",
+            "value": "12"
+          },
+          {
+            "key": "sm",
+            "value": "16"
+          },
+          {
+            "key": "md",
+            "value": "20"
+          },
+          {
+            "key": "lg",
+            "value": "24"
+          },
+          {
+            "key": "xl",
+            "value": "32"
+          }
+        ]
+      },
+      {
+        "name": "borderWidths",
+        "entries": [
+          {
+            "key": "none",
+            "value": "0"
+          },
+          {
+            "key": "thin",
+            "value": "0.5"
+          },
+          {
+            "key": "normal",
+            "value": "1"
+          },
+          {
+            "key": "thick",
+            "value": "2"
+          }
+        ]
+      },
+      {
+        "name": "opacity",
+        "entries": [
+          {
+            "key": "disabled",
+            "value": "0.5"
+          },
+          {
+            "key": "overlay",
+            "value": "0.6"
+          },
+          {
+            "key": "backdrop",
+            "value": "0.8"
+          }
+        ]
+      }
+    ],
+    "colorPalette": {
+      "palettes": [
+        {
+          "label": "dark",
+          "colors": {
+            "bg": "#F5F8FF",
+            "surface": "#FFFFFF",
+            "surfaceAlt": "#F3F7FF",
+            "surfaceStrong": "#FFFFFF",
+            "surfaceMuted": "#EEF4FF",
+            "surfaceInset": "#E8F0FF",
+            "surfaceWash": "#DCE9FF",
+            "border": "rgba(37,99,235,0.12)",
+            "borderSubtle": "rgba(37,99,235,0.08)",
+            "borderHover": "rgba(37,99,235,0.18)",
+            "borderLight": "rgba(37,99,235,0.24)",
+            "textPrimary": "#0F172A",
+            "textSecondary": "#334155",
+            "textMuted": "#64748B",
+            "textTertiary": "#94A3B8",
+            "textQuaternary": "#CBD5E1",
+            "textInverse": "#FFFFFF",
+            "shadowSm": "0 1px 2px rgba(15,23,42,0.06)",
+            "shadowMd": "0 6px 16px rgba(15,23,42,0.08)",
+            "shadowLg": "0 14px 30px rgba(15,23,42,0.12)",
+            "shadowXl": "0 24px 52px rgba(15,23,42,0.16)",
+            "hover": "rgba(37,99,235,0.05)",
+            "pressed": "rgba(37,99,235,0.12)",
+            "rowHover": "rgba(37,99,235,0.03)",
+            "rowSelected": "rgba(124,58,237,0.08)",
+            "disabled": "rgba(15,23,42,0.24)",
+            "tier1": "0 2px 10px rgba(15,23,42,0.06)",
+            "tier2": "0 10px 24px rgba(15,23,42,0.09)",
+            "tier3": "0 18px 40px rgba(15,23,42,0.14)"
+          }
+        },
+        {
+          "label": "light",
+          "colors": {
+            "bg": "#FAFAFA",
+            "surface": "#FFFFFF",
+            "surfaceAlt": "#F5F5F5",
+            "surfaceStrong": "#FFFFFF",
+            "surfaceMuted": "#F5F5F5",
+            "surfaceInset": "#FFFFFF",
+            "surfaceWash": "#F4F4F0",
+            "border": "#E5E5E5",
+            "borderSubtle": "#E5E5E5",
+            "borderHover": "rgba(0,0,0,0.12)",
+            "borderLight": "#D4D4D4",
+            "textPrimary": "#171717",
+            "textSecondary": "#525252",
+            "textMuted": "#A3A3A3",
+            "textTertiary": "#737373",
+            "textQuaternary": "#D4D4D4",
+            "textInverse": "#FFFFFF",
+            "shadowSm": "0 1px 2px rgba(0,0,0,0.03)",
+            "shadowMd": "0 2px 8px rgba(0,0,0,0.05)",
+            "shadowLg": "0 8px 24px rgba(0,0,0,0.06)",
+            "shadowXl": "0 16px 48px rgba(0,0,0,0.08)",
+            "hover": "rgba(0,0,0,0.03)",
+            "pressed": "rgba(0,0,0,0.08)",
+            "rowHover": "rgba(0,0,0,0.025)",
+            "disabled": "rgba(0,0,0,0.15)",
+            "tier1": "0 2px 8px rgba(0,0,0,0.06)",
+            "tier2": "0 10px 26px rgba(0,0,0,0.1)",
+            "tier3": "0 18px 42px rgba(0,0,0,0.14)"
+          }
+        }
+      ],
+      "defaults": {
+        "success": "#10B981",
+        "warning": "#F59E0B",
+        "error": "#F43F5E",
+        "info": "#0EA5E9"
+      }
+    },
+    "themeShape": [
+      {
+        "name": "primary",
+        "type": "string"
+      },
+      {
+        "name": "primaryHover",
+        "type": "string"
+      },
+      {
+        "name": "primaryMuted",
+        "type": "string"
+      },
+      {
+        "name": "primaryGlow",
+        "type": "string"
+      },
+      {
+        "name": "success",
+        "type": "string"
+      },
+      {
+        "name": "successMuted",
+        "type": "string"
+      },
+      {
+        "name": "warning",
+        "type": "string"
+      },
+      {
+        "name": "warningMuted",
+        "type": "string"
+      },
+      {
+        "name": "error",
+        "type": "string"
+      },
+      {
+        "name": "errorMuted",
+        "type": "string"
+      },
+      {
+        "name": "info",
+        "type": "string"
+      },
+      {
+        "name": "infoMuted",
+        "type": "string"
+      },
+      {
+        "name": "accent",
+        "type": "string"
+      },
+      {
+        "name": "accentMuted",
+        "type": "string"
+      },
+      {
+        "name": "accentHover",
+        "type": "string"
+      },
+      {
+        "name": "alertAccent",
+        "type": "string"
+      },
+      {
+        "name": "alertAccentMuted",
+        "type": "string"
+      },
+      {
+        "name": "successAccent",
+        "type": "string"
+      },
+      {
+        "name": "successAccentMuted",
+        "type": "string"
+      },
+      {
+        "name": "actionAccent",
+        "type": "string"
+      },
+      {
+        "name": "actionAccentMuted",
+        "type": "string"
+      },
+      {
+        "name": "bg",
+        "type": "string"
+      },
+      {
+        "name": "surface",
+        "type": "string"
+      },
+      {
+        "name": "surfaceAlt",
+        "type": "string"
+      },
+      {
+        "name": "surfaceStrong",
+        "type": "string"
+      },
+      {
+        "name": "surfaceMuted",
+        "type": "string"
+      },
+      {
+        "name": "surfaceInset",
+        "type": "string"
+      },
+      {
+        "name": "surfaceWash",
+        "type": "string"
+      },
+      {
+        "name": "border",
+        "type": "string"
+      },
+      {
+        "name": "borderSubtle",
+        "type": "string"
+      },
+      {
+        "name": "borderHover",
+        "type": "string"
+      },
+      {
+        "name": "borderLight",
+        "type": "string"
+      },
+      {
+        "name": "borderFocus",
+        "type": "string"
+      },
+      {
+        "name": "textPrimary",
+        "type": "string"
+      },
+      {
+        "name": "textSecondary",
+        "type": "string"
+      },
+      {
+        "name": "textMuted",
+        "type": "string"
+      },
+      {
+        "name": "textTertiary",
+        "type": "string"
+      },
+      {
+        "name": "textQuaternary",
+        "type": "string"
+      },
+      {
+        "name": "textInverse",
+        "type": "string"
+      },
+      {
+        "name": "textLink",
+        "type": "string"
+      },
+      {
+        "name": "shadowSm",
+        "type": "string"
+      },
+      {
+        "name": "shadowMd",
+        "type": "string"
+      },
+      {
+        "name": "shadowLg",
+        "type": "string"
+      },
+      {
+        "name": "shadowXl",
+        "type": "string"
+      },
+      {
+        "name": "glowSm",
+        "type": "string"
+      },
+      {
+        "name": "glowMd",
+        "type": "string"
+      },
+      {
+        "group": {
+          "name": "state",
+          "fields": [
+            {
+              "name": "hover",
+              "type": "string"
+            },
+            {
+              "name": "pressed",
+              "type": "string"
+            },
+            {
+              "name": "selected",
+              "type": "string"
+            },
+            {
+              "name": "rowHover",
+              "type": "string"
+            },
+            {
+              "name": "rowSelected",
+              "type": "string"
+            },
+            {
+              "name": "disabled",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "group": {
+          "name": "elevation",
+          "fields": [
+            {
+              "name": "tier1",
+              "type": "string"
+            },
+            {
+              "name": "tier2",
+              "type": "string"
+            },
+            {
+              "name": "tier3",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      {
+        "group": {
+          "name": "space",
+          "fields": [
+            {
+              "name": "xxs",
+              "type": "number"
+            },
+            {
+              "name": "xs",
+              "type": "number"
+            },
+            {
+              "name": "sm",
+              "type": "number"
+            },
+            {
+              "name": "md",
+              "type": "number"
+            },
+            {
+              "name": "lg",
+              "type": "number"
+            },
+            {
+              "name": "xl",
+              "type": "number"
+            },
+            {
+              "name": "2xl",
+              "type": "number"
+            },
+            {
+              "name": "3xl",
+              "type": "number"
+            }
+          ]
+        }
+      },
+      {
+        "group": {
+          "name": "radii",
+          "fields": [
+            {
+              "name": "none",
+              "type": "number"
+            },
+            {
+              "name": "sm",
+              "type": "number"
+            },
+            {
+              "name": "md",
+              "type": "number"
+            },
+            {
+              "name": "lg",
+              "type": "number"
+            },
+            {
+              "name": "xl",
+              "type": "number"
+            },
+            {
+              "name": "pill",
+              "type": "number"
+            },
+            {
+              "name": "full",
+              "type": "number"
+            }
+          ]
+        }
+      },
+      {
+        "group": {
+          "name": "typography",
+          "fields": [
+            {
+              "name": "fontFamily",
+              "type": "string"
+            },
+            {
+              "name": "fontFamilyMono",
+              "type": "string"
+            },
+            {
+              "group": {
+                "name": "sizes",
+                "fields": [
+                  {
+                    "name": "xs",
+                    "type": "number"
+                  },
+                  {
+                    "name": "sm",
+                    "type": "number"
+                  },
+                  {
+                    "name": "md",
+                    "type": "number"
+                  },
+                  {
+                    "name": "lg",
+                    "type": "number"
+                  },
+                  {
+                    "name": "xl",
+                    "type": "number"
+                  },
+                  {
+                    "name": "2xl",
+                    "type": "number"
+                  },
+                  {
+                    "name": "3xl",
+                    "type": "number"
+                  }
+                ]
+              }
+            },
+            {
+              "group": {
+                "name": "roles",
+                "fields": [
+                  {
+                    "name": "pageTitle",
+                    "type": "number"
+                  },
+                  {
+                    "name": "displayLg",
+                    "type": "number"
+                  },
+                  {
+                    "name": "displaySm",
+                    "type": "number"
+                  },
+                  {
+                    "name": "tableHeader",
+                    "type": "number"
+                  },
+                  {
+                    "name": "statLabel",
+                    "type": "number"
+                  },
+                  {
+                    "name": "statValue",
+                    "type": "number"
+                  },
+                  {
+                    "name": "numericLg",
+                    "type": "number"
+                  },
+                  {
+                    "name": "action",
+                    "type": "number"
+                  }
+                ]
+              }
+            },
+            {
+              "group": {
+                "name": "weights",
+                "fields": [
+                  {
+                    "name": "regular",
+                    "type": "NonNullable<TextStyle[\"fontWeight\"]>"
+                  },
+                  {
+                    "name": "medium",
+                    "type": "NonNullable<TextStyle[\"fontWeight\"]>"
+                  },
+                  {
+                    "name": "semibold",
+                    "type": "NonNullable<TextStyle[\"fontWeight\"]>"
+                  },
+                  {
+                    "name": "bold",
+                    "type": "NonNullable<TextStyle[\"fontWeight\"]>"
+                  },
+                  {
+                    "name": "extrabold",
+                    "type": "NonNullable<TextStyle[\"fontWeight\"]>"
+                  }
+                ]
+              }
+            },
+            {
+              "group": {
+                "name": "lineHeights",
+                "fields": [
+                  {
+                    "name": "tight",
+                    "type": "number"
+                  },
+                  {
+                    "name": "normal",
+                    "type": "number"
+                  },
+                  {
+                    "name": "relaxed",
+                    "type": "number"
+                  }
+                ]
+              }
+            },
+            {
+              "group": {
+                "name": "letterSpacing",
+                "fields": [
+                  {
+                    "name": "tight",
+                    "type": "number"
+                  },
+                  {
+                    "name": "normal",
+                    "type": "number"
+                  },
+                  {
+                    "name": "wide",
+                    "type": "number"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "group": {
+          "name": "breakpoints",
+          "fields": [
+            {
+              "name": "mobile",
+              "type": "number"
+            },
+            {
+              "name": "tablet",
+              "type": "number"
+            },
+            {
+              "name": "desktop",
+              "type": "number"
+            },
+            {
+              "name": "wide",
+              "type": "number"
+            }
+          ]
+        }
+      },
+      {
+        "group": {
+          "name": "layout",
+          "fields": [
+            {
+              "name": "maxContentWidth",
+              "type": "number"
+            },
+            {
+              "name": "maxPageWidth",
+              "type": "number"
+            },
+            {
+              "name": "pagePadding",
+              "type": "number"
+            },
+            {
+              "name": "headerHeight",
+              "type": "number"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "ui": {
+    "primitives": [
+      {
+        "name": "Avatar",
+        "file": "src/ui/primitives/Avatar.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "name",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "optional": true,
+            "type": "\"sm\" | \"md\" | \"lg\""
+          }
+        ]
+      },
+      {
+        "name": "Badge",
+        "file": "src/ui/primitives/Badge.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "label",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "variant",
+            "optional": true,
+            "type": "BadgeVariant"
+          },
+          {
+            "name": "size",
+            "optional": true,
+            "type": "BadgeSize"
+          },
+          {
+            "name": "dot",
+            "optional": true,
+            "type": "boolean"
+          }
+        ]
+      },
+      {
+        "name": "Block",
+        "file": "src/ui/primitives/Block.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "frame",
+            "optional": true,
+            "type": "FrameVariant"
+          },
+          {
+            "name": "paint",
+            "optional": true,
+            "type": "PaintVariant"
+          },
+          {
+            "name": "direction",
+            "optional": true,
+            "type": "DirectionVariant"
+          },
+          {
+            "name": "space",
+            "optional": true,
+            "type": "SpaceToken"
+          },
+          {
+            "name": "align",
+            "optional": true,
+            "type": "AlignToken"
+          },
+          {
+            "name": "justify",
+            "optional": true,
+            "type": "JustifyToken"
+          },
+          {
+            "name": "wrap",
+            "optional": true,
+            "type": "boolean"
+          },
+          {
+            "name": "pad",
+            "optional": true,
+            "type": "SpaceToken"
+          },
+          {
+            "name": "padH",
+            "optional": true,
+            "type": "SpaceToken"
+          },
+          {
+            "name": "padV",
+            "optional": true,
+            "type": "SpaceToken"
+          },
+          {
+            "name": "overflow",
+            "optional": true,
+            "type": "\"hidden\" | \"visible\""
+          },
+          {
+            "name": "safeArea",
+            "optional": true,
+            "type": "SafeAreaEdge"
+          },
+          {
+            "name": "children",
+            "optional": true,
+            "type": "React.ReactNode"
+          },
+          {
+            "name": "testID",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "accessible",
+            "optional": true,
+            "type": "boolean"
+          },
+          {
+            "name": "accessibilityLabel",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "accessibilityRole",
+            "optional": true,
+            "type": "React.ComponentProps<typeof View>[\"accessibilityRole\"]"
+          },
+          {
+            "name": "accessibilityState",
+            "optional": true,
+            "type": "React.ComponentProps<typeof View>[\"accessibilityState\"]"
+          },
+          {
+            "name": "onLayout",
+            "optional": true,
+            "type": "React.ComponentProps<typeof View>[\"onLayout\"]"
+          },
+          {
+            "name": "onTouchEnd",
+            "optional": true,
+            "type": "React.ComponentProps<typeof View>[\"onTouchEnd\"]"
+          },
+          {
+            "name": "pointerEvents",
+            "optional": true,
+            "type": "React.ComponentProps<typeof View>[\"pointerEvents\"]"
+          }
+        ]
+      },
+      {
+        "name": "Button",
+        "file": "src/ui/primitives/Button.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "label",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "onPress",
+            "optional": false,
+            "type": "() => void"
+          },
+          {
+            "name": "variant",
+            "optional": true,
+            "type": "ButtonVariant"
+          },
+          {
+            "name": "loading",
+            "optional": true,
+            "type": "boolean"
+          },
+          {
+            "name": "disabled",
+            "optional": true,
+            "type": "boolean"
+          },
+          {
+            "name": "testID",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "fullWidth",
+            "optional": true,
+            "type": "boolean"
+          },
+          {
+            "name": "size",
+            "optional": true,
+            "type": "ButtonSize"
+          }
+        ]
+      },
+      {
+        "name": "Chip",
+        "file": "src/ui/primitives/Chip.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "tone",
+            "optional": false,
+            "type": "ChipTone"
+          },
+          {
+            "name": "pad",
+            "optional": true,
+            "type": "SpaceToken"
+          },
+          {
+            "name": "children",
+            "optional": false,
+            "type": "React.ReactNode"
+          }
+        ]
+      },
+      {
+        "name": "EmptyState",
+        "file": "src/ui/primitives/EmptyState.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "icon",
+            "optional": true,
+            "type": "IconName"
+          },
+          {
+            "name": "title",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "description",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "actionLabel",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "onAction",
+            "optional": true,
+            "type": "() => void"
+          }
+        ]
+      },
+      {
+        "name": "Icon",
+        "file": "src/ui/primitives/Icon.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "name",
+            "optional": false,
+            "type": "IconName"
+          },
+          {
+            "name": "size",
+            "optional": true,
+            "type": "IconSize"
+          },
+          {
+            "name": "tone",
+            "optional": true,
+            "type": "IconTone"
+          }
+        ]
+      },
+      {
+        "name": "Input",
+        "file": "src/ui/primitives/Input.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "value",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "onChangeText",
+            "optional": false,
+            "type": "(value: string) => void"
+          },
+          {
+            "name": "placeholder",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "variant",
+            "optional": true,
+            "type": "InputVariant"
+          },
+          {
+            "name": "secureTextEntry",
+            "optional": true,
+            "type": "boolean"
+          },
+          {
+            "name": "autoCapitalize",
+            "optional": true,
+            "type": "\"none\" | \"sentences\" | \"words\" | \"characters\""
+          },
+          {
+            "name": "keyboardType",
+            "optional": true,
+            "type": "\"default\" | \"email-address\""
+          },
+          {
+            "name": "autoComplete",
+            "optional": true,
+            "type": "React.ComponentProps<typeof TextInput>[\"autoComplete\"]"
+          },
+          {
+            "name": "testID",
+            "optional": true,
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "Layout",
+        "file": "src/ui/primitives/Layout.tsx",
+        "exported": false,
+        "props": []
+      },
+      {
+        "name": "LayoutGrid",
+        "file": "src/ui/primitives/LayoutGrid.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "columns",
+            "optional": true,
+            "type": "1 | 2 | 3 | 4"
+          },
+          {
+            "name": "gap",
+            "optional": true,
+            "type": "number"
+          },
+          {
+            "name": "width",
+            "optional": true,
+            "type": "LayoutGridWidth"
+          },
+          {
+            "name": "children",
+            "optional": false,
+            "type": "React.ReactNode"
+          },
+          {
+            "name": "testID",
+            "optional": true,
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "Link",
+        "file": "src/ui/primitives/Link.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "label",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "onPress",
+            "optional": false,
+            "type": "() => void"
+          },
+          {
+            "name": "testID",
+            "optional": true,
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "ProgressBar",
+        "file": "src/ui/primitives/ProgressBar.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "value",
+            "optional": false,
+            "type": "number"
+          },
+          {
+            "name": "max",
+            "optional": true,
+            "type": "number"
+          },
+          {
+            "name": "label",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "showPercentage",
+            "optional": true,
+            "type": "boolean"
+          },
+          {
+            "name": "tone",
+            "optional": true,
+            "type": "ProgressBarTone"
+          },
+          {
+            "name": "size",
+            "optional": true,
+            "type": "\"sm\" | \"md\" | \"lg\""
+          }
+        ]
+      },
+      {
+        "name": "SelectableChip",
+        "file": "src/ui/primitives/SelectableChip.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "label",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "selected",
+            "optional": false,
+            "type": "boolean"
+          },
+          {
+            "name": "onPress",
+            "optional": false,
+            "type": "() => void"
+          },
+          {
+            "name": "size",
+            "optional": true,
+            "type": "SelectableChipSize"
+          },
+          {
+            "name": "shape",
+            "optional": true,
+            "type": "SelectableChipShape"
+          },
+          {
+            "name": "frame",
+            "optional": true,
+            "type": "SelectableChipFrame"
+          },
+          {
+            "name": "disabled",
+            "optional": true,
+            "type": "boolean"
+          }
+        ]
+      },
+      {
+        "name": "Skeleton",
+        "file": "src/ui/primitives/Skeleton.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "width",
+            "optional": true,
+            "type": "number | `${number}%` | \"auto\""
+          },
+          {
+            "name": "height",
+            "optional": true,
+            "type": "number"
+          },
+          {
+            "name": "variant",
+            "optional": true,
+            "type": "\"text\" | \"circle\" | \"rect\""
+          },
+          {
+            "name": "radius",
+            "optional": true,
+            "type": "RadiusToken"
+          }
+        ]
+      },
+      {
+        "name": "Tag",
+        "file": "src/ui/primitives/Tag.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "label",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "tone",
+            "optional": true,
+            "type": "Extract<SemanticTone, \"muted\" | \"secondary\" | \"accent\" | \"action\" | \"success\" | \"warning\" | \"danger\" | \"info\">"
+          }
+        ]
+      },
+      {
+        "name": "TapTarget",
+        "file": "src/ui/primitives/TapTarget.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "children",
+            "optional": false,
+            "type": "React.ReactNode"
+          },
+          {
+            "name": "onPress",
+            "optional": true,
+            "type": "() => void"
+          },
+          {
+            "name": "feedback",
+            "optional": true,
+            "type": "TapTargetFeedback"
+          },
+          {
+            "name": "disabled",
+            "optional": true,
+            "type": "boolean"
+          }
+        ]
+      },
+      {
+        "name": "Text",
+        "file": "src/ui/primitives/Text.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "variant",
+            "optional": true,
+            "type": "TextVariant"
+          },
+          {
+            "name": "tone",
+            "optional": true,
+            "type": "TextTone"
+          },
+          {
+            "name": "weight",
+            "optional": true,
+            "type": "TextWeight"
+          },
+          {
+            "name": "align",
+            "optional": true,
+            "type": "\"left\" | \"center\" | \"right\""
+          },
+          {
+            "name": "frame",
+            "optional": true,
+            "type": "TextFrame"
+          },
+          {
+            "name": "children",
+            "optional": false,
+            "type": "React.ReactNode"
+          },
+          {
+            "name": "numberOfLines",
+            "optional": true,
+            "type": "number"
+          }
+        ]
+      },
+      {
+        "name": "TextArea",
+        "file": "src/ui/primitives/TextArea.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "value",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "onChangeText",
+            "optional": false,
+            "type": "(value: string) => void"
+          },
+          {
+            "name": "placeholder",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "size",
+            "optional": true,
+            "type": "TextAreaSize"
+          },
+          {
+            "name": "testID",
+            "optional": true,
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "TextRoles",
+        "file": "src/ui/primitives/TextRoles.tsx",
+        "exported": false,
+        "props": []
+      },
+      {
+        "name": "Toggle",
+        "file": "src/ui/primitives/Toggle.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "value",
+            "optional": false,
+            "type": "boolean"
+          },
+          {
+            "name": "onValueChange",
+            "optional": false,
+            "type": "(value: boolean) => void"
+          },
+          {
+            "name": "disabled",
+            "optional": true,
+            "type": "boolean"
+          },
+          {
+            "name": "size",
+            "optional": true,
+            "type": "\"sm\" | \"md\" | \"lg\""
+          }
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "name": "ActionBlock",
+        "file": "src/ui/blocks/ActionBlock.tsx",
+        "exported": true,
+        "props": []
+      },
+      {
+        "name": "ActivityFeed",
+        "file": "src/ui/blocks/ActivityFeed.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "config",
+            "optional": false,
+            "type": "ActivityFeedConfig"
+          },
+          {
+            "name": "loading",
+            "optional": true,
+            "type": "boolean"
+          }
+        ]
+      },
+      {
+        "name": "BottomNavItemBlock",
+        "file": "src/ui/blocks/BottomNavItemBlock.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "label",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "icon",
+            "optional": false,
+            "type": "React.ComponentProps<typeof Icon>[\"name\"]"
+          },
+          {
+            "name": "active",
+            "optional": true,
+            "type": "boolean"
+          },
+          {
+            "name": "onPress",
+            "optional": false,
+            "type": "() => void"
+          }
+        ]
+      },
+      {
+        "name": "ChartBlock",
+        "file": "src/ui/blocks/ChartBlock.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "config",
+            "optional": false,
+            "type": "ChartBlockConfig"
+          },
+          {
+            "name": "loading",
+            "optional": true,
+            "type": "boolean"
+          }
+        ]
+      },
+      {
+        "name": "ChartLegend",
+        "file": "src/ui/blocks/ChartLegend.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "items",
+            "optional": false,
+            "type": "LegendItem[]"
+          }
+        ]
+      },
+      {
+        "name": "DividerBlock",
+        "file": "src/ui/blocks/DividerBlock.tsx",
+        "exported": true,
+        "props": []
+      },
+      {
+        "name": "ErrorBanner",
+        "file": "src/ui/blocks/ErrorBanner.tsx",
+        "exported": true,
+        "props": []
+      },
+      {
+        "name": "FormBlock",
+        "file": "src/ui/blocks/FormBlock.tsx",
+        "exported": true,
+        "props": []
+      },
+      {
+        "name": "ListBlock",
+        "file": "src/ui/blocks/ListBlock.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "config",
+            "optional": false,
+            "type": "ListBlockConfig"
+          },
+          {
+            "name": "loading",
+            "optional": true,
+            "type": "boolean"
+          },
+          {
+            "name": "onItemPress",
+            "optional": true,
+            "type": "(item: ListItem) => void"
+          }
+        ]
+      },
+      {
+        "name": "MetricCard",
+        "file": "src/ui/blocks/MetricCard.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "config",
+            "optional": false,
+            "type": "MetricCardConfig"
+          }
+        ]
+      },
+      {
+        "name": "MetricRow",
+        "file": "src/ui/blocks/MetricRow.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "label",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "optional": false,
+            "type": "string | number"
+          },
+          {
+            "name": "unit",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "trend",
+            "optional": true,
+            "type": "number"
+          },
+          {
+            "name": "accentColor",
+            "optional": true,
+            "type": "\"violet\" | \"emerald\" | \"amber\" | \"sky\" | \"rose\""
+          }
+        ]
+      },
+      {
+        "name": "NavItem",
+        "file": "src/ui/blocks/NavItem.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "icon",
+            "optional": false,
+            "type": "IconName"
+          },
+          {
+            "name": "label",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "active",
+            "optional": true,
+            "type": "boolean"
+          },
+          {
+            "name": "disabled",
+            "optional": true,
+            "type": "boolean"
+          },
+          {
+            "name": "badge",
+            "optional": true,
+            "type": "number"
+          },
+          {
+            "name": "onPress",
+            "optional": false,
+            "type": "() => void"
+          }
+        ]
+      },
+      {
+        "name": "NavigationTileGrid",
+        "file": "src/ui/blocks/NavigationTileGrid.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "items",
+            "optional": false,
+            "type": "NavigationTileGridItem[]"
+          },
+          {
+            "name": "activeId",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "onPress",
+            "optional": false,
+            "type": "(id: string) => void"
+          }
+        ]
+      },
+      {
+        "name": "OverviewMetricsStrip",
+        "file": "src/ui/blocks/OverviewMetricsStrip.tsx",
+        "exported": true,
+        "props": []
+      },
+      {
+        "name": "QuickActionCard",
+        "file": "src/ui/blocks/QuickActionCard.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "icon",
+            "optional": false,
+            "type": "IconName"
+          },
+          {
+            "name": "label",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "onPress",
+            "optional": false,
+            "type": "() => void"
+          },
+          {
+            "name": "tone",
+            "optional": true,
+            "type": "QuickActionTone"
+          }
+        ]
+      },
+      {
+        "name": "QuickActionsGrid",
+        "file": "src/ui/blocks/QuickActionsGrid.tsx",
+        "exported": true,
+        "props": []
+      },
+      {
+        "name": "RecordingTimer",
+        "file": "src/ui/blocks/RecordingTimer.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "elapsedSeconds",
+            "optional": false,
+            "type": "number"
+          },
+          {
+            "name": "maxSeconds",
+            "optional": false,
+            "type": "number"
+          }
+        ]
+      },
+      {
+        "name": "SearchBar",
+        "file": "src/ui/blocks/SearchBar.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "value",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "onChange",
+            "optional": true,
+            "type": "(v: string) => void"
+          },
+          {
+            "name": "onClear",
+            "optional": true,
+            "type": "() => void"
+          },
+          {
+            "name": "placeholder",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "fullWidth",
+            "optional": true,
+            "type": "boolean"
+          }
+        ]
+      },
+      {
+        "name": "SectionHeader",
+        "file": "src/ui/blocks/SectionHeader.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "title",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "actionLabel",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "onAction",
+            "optional": true,
+            "type": "() => void"
+          }
+        ]
+      },
+      {
+        "name": "SelectableRow",
+        "file": "src/ui/blocks/SelectableRow.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "title",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "subtitle",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "selected",
+            "optional": false,
+            "type": "boolean"
+          },
+          {
+            "name": "onToggleSelected",
+            "optional": false,
+            "type": "() => void"
+          },
+          {
+            "name": "trailing",
+            "optional": true,
+            "type": "React.ReactNode"
+          }
+        ]
+      },
+      {
+        "name": "SettingsRow",
+        "file": "src/ui/blocks/SettingsRow.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "icon",
+            "optional": true,
+            "type": "IconName"
+          },
+          {
+            "name": "label",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "trailing",
+            "optional": true,
+            "type": "SettingsRowTrailing"
+          },
+          {
+            "name": "destructive",
+            "optional": true,
+            "type": "boolean"
+          },
+          {
+            "name": "onPress",
+            "optional": true,
+            "type": "() => void"
+          }
+        ]
+      },
+      {
+        "name": "StatPill",
+        "file": "src/ui/blocks/StatPill.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "label",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "suffix",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "tone",
+            "optional": true,
+            "type": "\"primary\" | \"secondary\" | \"accent\" | \"success\" | \"warning\" | \"danger\""
+          }
+        ]
+      },
+      {
+        "name": "TableBlock",
+        "file": "src/ui/blocks/TableBlock.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "config",
+            "optional": false,
+            "type": "TableBlockConfig"
+          },
+          {
+            "name": "loading",
+            "optional": true,
+            "type": "boolean"
+          },
+          {
+            "name": "onRowPress",
+            "optional": true,
+            "type": "(row: TableRow) => void"
+          }
+        ]
+      },
+      {
+        "name": "TileBlock",
+        "file": "src/ui/blocks/TileBlock.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "label",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "tone",
+            "optional": true,
+            "type": "TileBlockTone"
+          }
+        ]
+      }
+    ],
+    "panels": [
+      {
+        "name": "CalloutPanel",
+        "file": "src/ui/panels/CalloutPanel.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "label",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "message",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "icon",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "tone",
+            "optional": true,
+            "type": "CalloutTone"
+          }
+        ]
+      },
+      {
+        "name": "OverlaySheetShell",
+        "file": "src/ui/panels/OverlaySheetShell.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "visible",
+            "optional": false,
+            "type": "boolean"
+          },
+          {
+            "name": "title",
+            "optional": false,
+            "type": "string"
+          },
+          {
+            "name": "onClose",
+            "optional": false,
+            "type": "() => void"
+          },
+          {
+            "name": "children",
+            "optional": false,
+            "type": "React.ReactNode"
+          },
+          {
+            "name": "footer",
+            "optional": true,
+            "type": "React.ReactNode"
+          }
+        ]
+      },
+      {
+        "name": "Panel",
+        "file": "src/ui/panels/Panel.tsx",
+        "exported": true,
+        "props": []
+      },
+      {
+        "name": "SectionPanel",
+        "file": "src/ui/panels/SectionPanel.tsx",
+        "exported": true,
+        "props": [
+          {
+            "name": "title",
+            "optional": true,
+            "type": "string"
+          },
+          {
+            "name": "children",
+            "optional": false,
+            "type": "React.ReactNode"
+          },
+          {
+            "name": "footer",
+            "optional": true,
+            "type": "React.ReactNode"
+          },
+          {
+            "name": "variant",
+            "optional": true,
+            "type": "Extract<PanelVariant, \"default\" | \"strong\" | \"muted\" | \"subtle\">"
+          },
+          {
+            "name": "overflow",
+            "optional": true,
+            "type": "\"hidden\" | \"visible\""
+          }
+        ]
+      }
+    ],
+    "layouts": [
+      {
+        "name": "CenteredPageLayout",
+        "file": "src/ui/layouts/CenteredPageLayout.tsx",
+        "exported": true,
+        "props": []
+      }
+    ]
+  },
+  "services": [
+    {
+      "name": "ApiClient",
+      "file": "src/services/ApiClient.ts",
+      "methods": [
+        {
+          "name": "buildUrl",
+          "returnType": "string"
+        }
+      ],
+      "protoCalls": [],
+      "directCalls": []
+    },
+    {
+      "name": "AuthService",
+      "file": "src/services/AuthService.ts",
+      "methods": [
+        {
+          "name": "signIn",
+          "returnType": "Promise<Result<{ userId: string }>>"
+        },
+        {
+          "name": "signUp",
+          "returnType": "Promise<Result<{ userId: string }>>"
+        },
+        {
+          "name": "signOut",
+          "returnType": "Promise<Result<void>>"
+        },
+        {
+          "name": "sendPasswordResetLink",
+          "returnType": "Promise<Result<void>>"
+        },
+        {
+          "name": "checkAuthState",
+          "returnType": "Promise<Result<AuthState>>"
+        }
+      ],
+      "protoCalls": [],
+      "directCalls": []
+    },
+    {
+      "name": "BackendAuthService",
+      "file": "src/services/BackendAuthService.ts",
+      "methods": [
+        {
+          "name": "signIn",
+          "returnType": "Promise<Result<{ userId: string }>>"
+        },
+        {
+          "name": "signUp",
+          "returnType": "Promise<Result<{ userId: string }>>"
+        },
+        {
+          "name": "signOut",
+          "returnType": "Promise<Result<void>>"
+        },
+        {
+          "name": "sendPasswordResetLink",
+          "returnType": "Promise<Result<void>>"
+        },
+        {
+          "name": "checkAuthState",
+          "returnType": "Promise<Result<AuthState>>"
+        }
+      ],
+      "protoCalls": [
+        "auth.v1.AuthService.SessionLogin",
+        "auth.v1.AuthService.SessionLogin"
+      ],
+      "directCalls": []
+    },
+    {
+      "name": "BillingService",
+      "file": "src/services/BillingService.ts",
+      "methods": [
+        {
+          "name": "listPricingCards",
+          "returnType": "Promise<Result<PricingCard[]>>"
+        },
+        {
+          "name": "createCheckoutSession",
+          "returnType": "Promise<Result<{ sessionId: string; url?: string }>>"
+        }
+      ],
+      "protoCalls": [],
+      "directCalls": []
+    },
+    {
+      "name": "EntitlementService",
+      "file": "src/services/EntitlementService.ts",
+      "methods": [
+        {
+          "name": "getSnapshot",
+          "returnType": "Promise<Result<EntitlementSnapshot>>"
+        }
+      ],
+      "protoCalls": [],
+      "directCalls": []
+    },
+    {
+      "name": "TaskService",
+      "file": "src/services/TaskService.ts",
+      "methods": [
+        {
+          "name": "list",
+          "returnType": "Promise<ApiResult<{ tasks: Task[] }>>"
+        },
+        {
+          "name": "create",
+          "returnType": "Promise<ApiResult<Task>>"
+        },
+        {
+          "name": "update",
+          "returnType": "Promise<ApiResult<Task>>"
+        },
+        {
+          "name": "complete",
+          "returnType": "Promise<ApiResult<Task>>"
+        },
+        {
+          "name": "delete",
+          "returnType": "Promise<ApiResult<{ success: boolean }>>"
+        }
+      ],
+      "protoCalls": [],
+      "directCalls": []
+    },
+    {
+      "name": "UserProfileService",
+      "file": "src/services/UserProfileService.ts",
+      "methods": [
+        {
+          "name": "getIdentity",
+          "returnType": "Promise<Result<UserProfile>>"
+        },
+        {
+          "name": "updateProfileName",
+          "returnType": "Promise<Result<void>>"
+        },
+        {
+          "name": "getUsageSummary",
+          "returnType": "Promise<Result<UsageTrendSummary>>"
+        }
+      ],
+      "protoCalls": [],
+      "directCalls": []
+    }
+  ],
+  "backendRoutes": {
+    "protoContract": [
+      {
+        "key": "auth.v1.AuthService.SessionLogin",
+        "service": "auth.v1.AuthService",
+        "method": "POST",
+        "path": "/session/login",
+        "requestType": "auth.v1.SessionLoginRequest",
+        "responseType": "auth.v1.SessionLoginResponse"
+      },
+      {
+        "key": "auth.v1.AuthService.SessionLogout",
+        "service": "auth.v1.AuthService",
+        "method": "POST",
+        "path": "/session/logout",
+        "requestType": "auth.v1.SessionLogoutRequest",
+        "responseType": "auth.v1.SessionLogoutResponse"
+      },
+      {
+        "key": "auth.v1.AuthService.SessionMe",
+        "service": "auth.v1.AuthService",
+        "method": "GET",
+        "path": "/session/me",
+        "requestType": "auth.v1.SessionMeRequest",
+        "responseType": "auth.v1.SessionMeResponse"
+      },
+      {
+        "key": "users.v1.UsersService.GetUserProfile",
+        "service": "users.v1.UsersService",
+        "method": "GET",
+        "path": "/users/me",
+        "requestType": "users.v1.GetUserProfileRequest",
+        "responseType": "users.v1.GetUserProfileResponse"
+      },
+      {
+        "key": "users.v1.UsersService.UpdateUserProfile",
+        "service": "users.v1.UsersService",
+        "method": "PUT",
+        "path": "/users/me",
+        "requestType": "users.v1.UpdateUserProfileRequest",
+        "responseType": "users.v1.UpdateUserProfileResponse"
+      }
+    ],
+    "kotlinImplementation": [
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AnalyticsRoutes.kt",
+        "method": "GET",
+        "path": "/users/{userId}",
+        "baseHint": "/internal/analytics"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AnalyticsRoutes.kt",
+        "method": "POST",
+        "path": "/init",
+        "baseHint": "/internal/analytics"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AuthRoutes.kt",
+        "method": "POST",
+        "path": "/early-access/check",
+        "baseHint": "/api/v1/session"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AuthRoutes.kt",
+        "method": "POST",
+        "path": "/early-access/join",
+        "baseHint": "/api/v1/session"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AuthRoutes.kt",
+        "method": "GET",
+        "path": "/early-access/status",
+        "baseHint": "/api/v1/session"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AuthRoutes.kt",
+        "method": "GET",
+        "path": "/me",
+        "baseHint": "/api/v1/session"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AuthRoutes.kt",
+        "method": "POST",
+        "path": "/login",
+        "baseHint": "/api/v1/session"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AuthRoutes.kt",
+        "method": "POST",
+        "path": "/logout",
+        "baseHint": "/api/v1/session"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AuthRoutes.kt",
+        "method": "POST",
+        "path": "/password/reset-link",
+        "baseHint": "/api/v1/session"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AuthRoutes.kt",
+        "method": "POST",
+        "path": "/init",
+        "baseHint": "/api/v1/signup"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AuthRoutes.kt",
+        "method": "GET",
+        "path": "/flow",
+        "baseHint": "/api/v1/onboarding"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AuthRoutes.kt",
+        "method": "POST",
+        "path": "/submit",
+        "baseHint": "/api/v1/onboarding"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AuthRoutes.kt",
+        "method": "GET",
+        "path": "/me",
+        "baseHint": "/api/v1/users"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AuthRoutes.kt",
+        "method": "PUT",
+        "path": "/me",
+        "baseHint": "/api/v1/users"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AuthRoutes.kt",
+        "method": "DELETE",
+        "path": "/me",
+        "baseHint": "/api/v1/users"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/AuthRoutes.kt",
+        "method": "GET",
+        "path": "/me/usage",
+        "baseHint": "/api/v1/users"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/BillingRoutes.kt",
+        "method": "GET",
+        "path": "/pricing-cards",
+        "baseHint": "/api/v1/billing"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/BillingRoutes.kt",
+        "method": "POST",
+        "path": "/cancel",
+        "baseHint": "/subscription"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/BillingRoutes.kt",
+        "method": "POST",
+        "path": "/dodo",
+        "baseHint": "/webhook"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/EntityShareCollectionRoutes.kt",
+        "method": "GET",
+        "path": "/shares",
+        "baseHint": null
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/EntityShareCollectionRoutes.kt",
+        "method": "POST",
+        "path": "/shares/{token}/revoke",
+        "baseHint": null
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/PublicShareRoutes.kt",
+        "method": "POST",
+        "path": "/reviews",
+        "baseHint": "/shares/{token}"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/PublicShareRoutes.kt",
+        "method": "GET",
+        "path": "/recording/content",
+        "baseHint": "/shares/{token}"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/PublicShareRoutes.kt",
+        "method": "GET",
+        "path": "/content",
+        "baseHint": "/shares/{token}"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/RecordingRoutes.kt",
+        "method": "GET",
+        "path": "/{id}/content",
+        "baseHint": "/api/v1/recordings"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/ReviewRoutes.kt",
+        "method": "GET",
+        "path": "/reviews",
+        "baseHint": "/api/v1/reviews"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/ReviewRoutes.kt",
+        "method": "POST",
+        "path": "/ai-review",
+        "baseHint": "/api/v1/reviews"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/ShareRoutes.kt",
+        "method": "POST",
+        "path": "/shares",
+        "baseHint": null
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/ShareRoutes.kt",
+        "method": "GET",
+        "path": "/shares",
+        "baseHint": null
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/ShareRoutes.kt",
+        "method": "POST",
+        "path": "/shares/{token}/revoke",
+        "baseHint": null
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/ShareRoutes.kt",
+        "method": "POST",
+        "path": "/shares/{token}/email",
+        "baseHint": null
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/SystemRoutes.kt",
+        "method": "POST",
+        "path": "/trigger",
+        "baseHint": "/api/v1/system"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/SystemRoutes.kt",
+        "method": "POST",
+        "path": "/early-access/approve",
+        "baseHint": "/api/v1/system"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/TaskRoutes.kt",
+        "method": "GET",
+        "path": "/{id}",
+        "baseHint": "/api/v1/tasks"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/TaskRoutes.kt",
+        "method": "PATCH",
+        "path": "/{id}",
+        "baseHint": "/api/v1/tasks"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/TaskRoutes.kt",
+        "method": "POST",
+        "path": "/{id}/complete",
+        "baseHint": "/api/v1/tasks"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/TaskRoutes.kt",
+        "method": "POST",
+        "path": "/{id}/reopen",
+        "baseHint": "/api/v1/tasks"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/TaskRoutes.kt",
+        "method": "DELETE",
+        "path": "/{id}",
+        "baseHint": "/api/v1/tasks"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/UploadEventRoutes.kt",
+        "method": "POST",
+        "path": "/complete",
+        "baseHint": "/api/v1/upload-events"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/UploadRoutes.kt",
+        "method": "POST",
+        "path": "/init",
+        "baseHint": "/api/v1/uploads"
+      },
+      {
+        "file": "server/src/main/kotlin/com/appforge/server/routing/UploadRoutes.kt",
+        "method": "GET",
+        "path": "/access/{assetId}",
+        "baseHint": "/api/v1/uploads"
+      }
+    ]
+  },
+  "features": [
+    {
+      "name": "app-gate",
+      "layers": {
+        "viewmodel": [
+          "src/features/app-gate/viewmodel/use-gate-state.ts"
+        ]
+      }
+    },
+    {
+      "name": "auth",
+      "layers": {
+        "ui": [
+          "src/features/auth/ui/blocks/AuthBrandBlock.tsx",
+          "src/features/auth/ui/blocks/AuthCard.tsx",
+          "src/features/auth/ui/blocks/AuthDarkField.tsx",
+          "src/features/auth/ui/blocks/AuthFieldBlock.tsx",
+          "src/features/auth/ui/blocks/AuthFooterLinks.tsx",
+          "src/features/auth/ui/blocks/AuthSubmitBlock.tsx",
+          "src/features/auth/ui/blocks/AuthTermsBlock.tsx",
+          "src/features/auth/ui/blocks/welcome/WelcomeActionsBlock.tsx",
+          "src/features/auth/ui/blocks/welcome/WelcomeHeroBlock.tsx"
+        ],
+        "usecases": [
+          "src/features/auth/usecases/check-auth-state.ts",
+          "src/features/auth/usecases/send-password-reset-link.ts",
+          "src/features/auth/usecases/sign-in.ts",
+          "src/features/auth/usecases/sign-out.ts",
+          "src/features/auth/usecases/sign-up.ts"
+        ],
+        "domain": [
+          "src/features/auth/domain/repository.ts"
+        ],
+        "data": [
+          "src/features/auth/data/backend-auth.repository.ts"
+        ]
+      }
+    },
+    {
+      "name": "entitlements",
+      "layers": {
+        "domain": [
+          "src/features/entitlements/domain/catalog.ts",
+          "src/features/entitlements/domain/feature-keys.ts",
+          "src/features/entitlements/domain/handler.ts",
+          "src/features/entitlements/domain/model.ts",
+          "src/features/entitlements/domain/policy.ts"
+        ]
+      }
+    },
+    {
+      "name": "login",
+      "layers": {}
+    },
+    {
+      "name": "onboarding",
+      "layers": {
+        "ui": [
+          "src/features/onboarding/ui/FeatureCard.tsx",
+          "src/features/onboarding/ui/OnboardingActionDock.tsx",
+          "src/features/onboarding/ui/OnboardingCard.tsx",
+          "src/features/onboarding/ui/OnboardingCarousel.tsx",
+          "src/features/onboarding/ui/OnboardingFrame.tsx",
+          "src/features/onboarding/ui/OnboardingProgress.tsx",
+          "src/features/onboarding/ui/OnboardingQuestionPanel.tsx",
+          "src/features/onboarding/ui/OnboardingScaffold.tsx",
+          "src/features/onboarding/ui/index.ts"
+        ]
+      }
+    },
+    {
+      "name": "recordings",
+      "layers": {
+        "ui": [
+          "src/features/recordings/ui/RecordingPanel.tsx"
+        ],
+        "viewmodel": [
+          "src/features/recordings/viewmodel/use-recording-shares-viewmodel.ts",
+          "src/features/recordings/viewmodel/use-recordings-viewmodel.ts"
+        ],
+        "usecases": [
+          "src/features/recordings/usecases/recording-actions.ts",
+          "src/features/recordings/usecases/recording-share.usecase.ts"
+        ],
+        "domain": [
+          "src/features/recordings/domain/model.ts",
+          "src/features/recordings/domain/repository.ts",
+          "src/features/recordings/domain/share-model.ts",
+          "src/features/recordings/domain/share-repository.ts"
+        ],
+        "data": [
+          "src/features/recordings/data/backend-recording-shares.repository.ts",
+          "src/features/recordings/data/backend-recordings.repository.ts"
+        ],
+        "services": [
+          "src/features/recordings/services/recording-share.service.ts"
+        ],
+        "runtime": [
+          "src/features/recordings/runtime/adapter.ts",
+          "src/features/recordings/runtime/audio-recording.capability.ts",
+          "src/features/recordings/runtime/default-recording.adapter.ts",
+          "src/features/recordings/runtime/native-audio-recording.capability.ts"
+        ]
+      }
+    },
+    {
+      "name": "register",
+      "layers": {}
+    },
+    {
+      "name": "reviews-public",
+      "layers": {
+        "ui": [
+          "src/features/reviews-public/ui/PublicReviewScreen.tsx"
+        ]
+      }
+    },
+    {
+      "name": "settings",
+      "layers": {
+        "ui": [
+          "src/features/settings/ui/AccountCard.tsx",
+          "src/features/settings/ui/PlanCard.tsx",
+          "src/features/settings/ui/ProfileCard.tsx",
+          "src/features/settings/ui/UsageCard.tsx"
+        ],
+        "viewmodel": [
+          "src/features/settings/viewmodel/use-profile-edit-viewmodel.ts",
+          "src/features/settings/viewmodel/use-settings-viewmodel.ts"
+        ],
+        "usecases": [
+          "src/features/settings/usecases/delete-account.ts",
+          "src/features/settings/usecases/load-profile-edit-state.ts",
+          "src/features/settings/usecases/load-settings-identity.ts",
+          "src/features/settings/usecases/save-profile-name.ts",
+          "src/features/settings/usecases/sign-out.ts"
+        ],
+        "domain": [
+          "src/features/settings/domain/model.ts",
+          "src/features/settings/domain/plan.ts",
+          "src/features/settings/domain/repository.ts",
+          "src/features/settings/domain/types.ts",
+          "src/features/settings/domain/upgrade-offers.ts"
+        ],
+        "data": [
+          "src/features/settings/data/backend-settings.repository.ts"
+        ]
+      }
+    },
+    {
+      "name": "shared-entity",
+      "layers": {
+        "ui": [
+          "src/features/shared-entity/ui/SharedEntityScreen.tsx"
+        ],
+        "viewmodel": [
+          "src/features/shared-entity/viewmodel/use-shared-entity-viewmodel.ts"
+        ],
+        "domain": [
+          "src/features/shared-entity/domain/model.ts"
+        ]
+      }
+    },
+    {
+      "name": "sharing",
+      "layers": {
+        "domain": [
+          "src/features/sharing/domain/model.ts"
+        ],
+        "data": [
+          "src/features/sharing/data/backend-public-share.repository.ts"
+        ]
+      }
+    },
+    {
+      "name": "text-editor",
+      "layers": {
+        "ui": [
+          "src/features/text-editor/ui/TextEditorPanel.tsx"
+        ],
+        "viewmodel": [
+          "src/features/text-editor/viewmodel/use-text-editor-viewmodel.ts"
+        ],
+        "usecases": [
+          "src/features/text-editor/usecases/text-editor-actions.ts"
+        ],
+        "domain": [
+          "src/features/text-editor/domain/model.ts",
+          "src/features/text-editor/domain/repository.ts"
+        ],
+        "data": [
+          "src/features/text-editor/data/backend-text-editor.repository.ts"
+        ]
+      }
+    },
+    {
+      "name": "upgrade",
+      "layers": {}
+    }
+  ],
+  "hooks": [
+    {
+      "name": "useDashboardData",
+      "file": "src/hooks/useDashboardData.ts",
+      "params": "",
+      "returnFields": [
+        "data",
+        "usageTrendGranularity",
+        "setUsageTrendGranularity"
+      ]
+    },
+    {
+      "name": "useSession",
+      "file": "src/hooks/useSession.ts",
+      "params": "",
+      "returnFields": [
+        "session",
+        "loading"
+      ]
+    }
+  ],
+  "providers": [
+    {
+      "name": "EntitlementProvider",
+      "file": "src/providers/EntitlementProvider.tsx",
+      "contextHook": "useEntitlementContext",
+      "props": [
+        "children"
+      ]
+    },
+    {
+      "name": "SessionProvider",
+      "file": "src/providers/SessionProvider.tsx",
+      "contextHook": "useSessionContext",
+      "props": [
+        "children"
+      ]
+    }
+  ],
+  "core": [
+    {
+      "name": "formatYesNo",
+      "params": "value: boolean",
+      "returnType": "string",
+      "file": "src/core/formatters/boolean.ts"
+    },
+    {
+      "name": "formatCurrencyWholeDollars",
+      "params": "value: number | undefined, fallback = \"Unknown\"",
+      "returnType": "string",
+      "file": "src/core/formatters/currency.ts"
+    },
+    {
+      "name": "formatDisplayName",
+      "params": "primary: string | undefined, fallback: string, separator = \" — \"",
+      "returnType": "string",
+      "file": "src/core/formatters/text.ts"
+    },
+    {
+      "name": "formatFallback",
+      "params": "value: string | undefined, fallback = \"Unknown\"",
+      "returnType": "string",
+      "file": "src/core/formatters/text.ts"
+    }
+  ]
+}

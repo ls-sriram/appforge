@@ -1,7 +1,6 @@
 import React from "react";
 import { useRouter } from "expo-router";
-import { Block, Button, Text } from "../../../../ui/primitives";
-import { Panel } from "../../../../ui/panels";
+import { Block, Col, Row, Card, Display, Heading, Body, Button } from "../../../../ui/primitives";
 import { ProfileCard } from "../../../../features/settings";
 import { useSessionContext } from "../../../../providers/SessionProvider";
 import { exampleAppRoutes } from "../../navigation/routes";
@@ -20,26 +19,26 @@ export function ExampleAppHomeScreen() {
   const identity = resolveIdentity(session);
 
   return (
-    <Block frame="fill" paint="page" safeArea="all" pad="md" space="md">
-      <Block space="xs">
-        <Text variant="pageTitle">Example App</Text>
-        <Text variant="bodySm" tone="secondary">
-          Example member workspace wired into session and onboarding state.
-        </Text>
-      </Block>
-      <ProfileCard identity={identity} onPress={() => router.push(exampleAppRoutes.profile)} />
-      <Panel variant="muted" pad="md">
-        <Block space="xs">
-          <Text variant="h3">Backend session</Text>
-          <Text variant="bodySm" tone="secondary">User ID: {identity.uid || "Unavailable"}</Text>
-          <Text variant="bodySm" tone="secondary">Email: {identity.email || "Unavailable"}</Text>
-          <Text variant="bodySm" tone="secondary">Onboarding complete: {session?.onboardingCompleted ? "Yes" : "No"}</Text>
-        </Block>
-      </Panel>
-      <Block direction="horizontal" space="sm" wrap>
-        <Button label="Refresh session" onPress={() => { void refreshSession(); }} fullWidth={false} />
-        <Button label="Profile" variant="secondary" onPress={() => router.push(exampleAppRoutes.profile)} fullWidth={false} />
-      </Block>
+    <Block frame="fill" paint="page" safeArea="all">
+      <Col fill between="md" pad="md">
+        <Col between="xs">
+          <Display>Example App</Display>
+          <Body dim>Example member workspace wired into session and onboarding state.</Body>
+        </Col>
+        <ProfileCard identity={identity} onPress={() => router.push(exampleAppRoutes.profile)} />
+        <Card variant="subtle" pad="sm">
+          <Col between="xs">
+            <Heading size="sm">Backend session</Heading>
+            <Body size="sm" dim>User ID: {identity.uid || "Unavailable"}</Body>
+            <Body size="sm" dim>Email: {identity.email || "Unavailable"}</Body>
+            <Body size="sm" dim>Onboarding complete: {session?.onboardingCompleted ? "Yes" : "No"}</Body>
+          </Col>
+        </Card>
+        <Row between="sm" flexWrap="wrap">
+          <Button label="Refresh session" onPress={() => { void refreshSession(); }} fullWidth={false} />
+          <Button label="Profile" variant="secondary" onPress={() => router.push(exampleAppRoutes.profile)} fullWidth={false} />
+        </Row>
+      </Col>
     </Block>
   );
 }

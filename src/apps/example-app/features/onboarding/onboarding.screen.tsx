@@ -3,8 +3,7 @@ import { ActivityIndicator, Alert } from "react-native";
 import { useRouter } from "expo-router";
 import { api } from "../../../../services/ApiClient";
 import { useSessionContext } from "../../../../providers/SessionProvider";
-import { Block, Button, Input, SelectableChip, Text } from "../../../../ui/primitives";
-import { Panel } from "../../../../ui/panels";
+import { Block, Col, Row, Card, Display, Heading, Body, Label, Button, Input, SelectableChip } from "../../../../ui/primitives";
 import { exampleAppRoutes } from "../../navigation/routes";
 
 type OnboardingQuestionType = "single_select" | "multi_select" | "text";
@@ -91,63 +90,71 @@ export function ExampleAppOnboardingScreen() {
   };
 
   if (loading) {
-    return <Block frame="fill" paint="page" safeArea="all" justify="center" align="center"><ActivityIndicator size="large" /></Block>;
+    return (
+      <Block frame="fill" paint="page" safeArea="all" justify="center" align="center">
+        <ActivityIndicator size="large" />
+      </Block>
+    );
   }
 
   if (!flow || !currentStep) {
     return (
-      <Block frame="fill" paint="page" safeArea="all" pad="md" justify="center">
-        <Panel variant="muted" pad="md">
-          <Block space="sm">
-            <Text variant="h3">Unable to load onboarding</Text>
-            <Text variant="bodySm" tone="secondary">{error || "The onboarding flow is not available right now."}</Text>
-            <Button label="Try again" onPress={() => router.replace(exampleAppRoutes.onboarding)} />
-          </Block>
-        </Panel>
+      <Block frame="fill" paint="page" safeArea="all">
+        <Col fill between="sm" pad="md" centered>
+          <Card variant="subtle" pad="md">
+            <Col between="sm">
+              <Heading>Unable to load onboarding</Heading>
+              <Body dim>{error || "The onboarding flow is not available right now."}</Body>
+              <Button label="Try again" onPress={() => router.replace(exampleAppRoutes.onboarding)} />
+            </Col>
+          </Card>
+        </Col>
       </Block>
     );
   }
 
   return (
-    <Block frame="fill" paint="page" safeArea="all" pad="md" space="md">
-      <Block space="xs">
-        <Text variant="pageTitle">{currentStep.title}</Text>
-        <Text variant="bodySm" tone="secondary">{currentStep.description}</Text>
-      </Block>
-      <Panel pad="md">
-        <Block space="md">
-          {currentStep.fields.map((field) => {
-            const value = answers[field.id];
-            return (
-              <Block key={field.id} space="sm">
-                <Text variant="h3">{field.label}</Text>
-                {field.type === "text" ? (
-                  <Input value={typeof value === "string" ? value : ""} onChangeText={(next) => setTextValue(field.id, next)} placeholder={field.label} />
-                ) : (
-                  <Block direction="horizontal" wrap space="sm">
-                    {field.options.map((option) => {
-                      const selected = Array.isArray(value) ? value.includes(option.id) : false;
-                      return (
-                        <SelectableChip
-                          key={option.id}
-                          label={option.label}
-                          selected={selected}
-                          onPress={() => field.type === "single_select" ? setSingleOption(field.id, option.id) : toggleMultiOption(field.id, option.id)}
-                        />
-                      );
-                    })}
-                  </Block>
-                )}
-              </Block>
-            );
-          })}
-        </Block>
-      </Panel>
-      {error ? <Panel variant="muted" pad="md"><Text variant="bodySm" tone="danger">{error}</Text></Panel> : null}
-      <Block direction="horizontal" justify="space-between" align="center">
-        <Text variant="caption" tone="muted">Step {stepIndex + 1} of {flow.steps.length}</Text>
-        <Button label={submitting ? "Saving..." : currentStep.ctaLabel || (isLastStep ? "Finish" : "Continue")} onPress={() => { void handleContinue(); }} disabled={!canContinue || submitting} fullWidth={false} />
-      </Block>
+    <Block frame="fill" paint="page" safeArea="all">
+      <Col fill between="md" pad="md">
+        <Col between="xs">
+          <Display>{currentStep.title}</Display>
+          <Body dim>{currentStep.description}</Body>
+        </Col>
+        <Card pad="md">
+          <Col between="md">
+            {currentStep.fields.map((field) => {
+              const value = answers[field.id];
+              return (
+                <Col key={field.id} between="sm">
+                  <Heading size="sm">{field.label}</Heading>
+                  {field.type === "text" ? (
+                    <Input value={typeof value === "string" ? value : ""} onChangeText={(next) => setTextValue(field.id, next)} placeholder={field.label} />
+                  ) : (
+                    <Row flexWrap="wrap" between="sm">
+                      {field.options.map((option) => {
+                        const selected = Array.isArray(value) ? value.includes(option.id) : false;
+                        return (
+                          <SelectableChip
+                            key={option.id}
+                            label={option.label}
+                            selected={selected}
+                            onPress={() => field.type === "single_select" ? setSingleOption(field.id, option.id) : toggleMultiOption(field.id, option.id)}
+                          />
+                        );
+                      })}
+                    </Row>
+                  )}
+                </Col>
+              );
+            })}
+          </Col>
+        </Card>
+        {error ? <Card variant="danger" pad="sm"><Body size="sm" error>{error}</Body></Card> : null}
+        <Row spread centered>
+          <Label dim>Step {stepIndex + 1} of {flow.steps.length}</Label>
+          <Button label={submitting ? "Saving..." : currentStep.ctaLabel || (isLastStep ? "Finish" : "Continue")} onPress={() => { void handleContinue(); }} disabled={!canContinue || submitting} fullWidth={false} />
+        </Row>
+      </Col>
     </Block>
   );
 }

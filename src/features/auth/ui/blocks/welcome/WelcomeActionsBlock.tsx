@@ -1,6 +1,5 @@
 import React from "react";
-import { Block, Button } from "../../../../../ui/primitives"
-import { Panel } from "../../../../../ui/panels";
+import { Col, Button } from "../../../../../ui/primitives";
 
 interface WelcomeActionsBlockProps {
   onSignIn: () => void;
@@ -9,11 +8,9 @@ interface WelcomeActionsBlockProps {
 
 export function WelcomeActionsBlock({ onSignIn, onCreateAccount }: WelcomeActionsBlockProps) {
   return (
-    <Panel>
-      <Block space="sm">
-        <Button label="Sign In" onPress={onSignIn} />
-        <Button label="Create Account" variant="secondary" onPress={onCreateAccount} />
-      </Block>
-    </Panel>
+    <Col between="sm" inset="md" padV="md">
+      <Button label="Sign In" onPress={onSignIn} />
+      <Button label="Create Account" variant="secondary" onPress={onCreateAccount} />
+    </Col>
   );
 }

@@ -1,15 +1,6 @@
 import React from "react";
-import { Block } from "../../../../ui/primitives"
-import { Panel } from "../../../../ui/panels";
+import { Card } from "../../../../ui/primitives";
 
-/**
- * AuthCard — standardized card for auth forms.
- * Consistent width, padding, shadow, border-radius.
- */
 export function AuthCard({ children }: { children: React.ReactNode }) {
-  return (
-    <Panel pad="none">
-      <Block pad="lg">{children}</Block>
-    </Panel>
-  );
+  return <Card variant="neutral" pad="lg">{children}</Card>;
 }

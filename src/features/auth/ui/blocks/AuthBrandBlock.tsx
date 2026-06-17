@@ -1,6 +1,5 @@
 import React from "react";
-import { Block, Icon, Text } from "../../../../ui/primitives"
-import { Panel } from "../../../../ui/panels";
+import { Col, Row, Heading, Body, Icon } from "../../../../ui/primitives";
 import { app } from "../../../../config/app";
 
 interface AuthBrandBlockProps {
@@ -9,16 +8,12 @@ interface AuthBrandBlockProps {
 
 export function AuthBrandBlock({ subtitle }: AuthBrandBlockProps) {
   return (
-    <Block align="center" space="sm">
-      <Block direction="horizontal" align="center" space="sm">
-        <Panel pad="none">
-          <Block pad="sm">
-            <Icon name="zap" size="md" />
-          </Block>
-        </Panel>
-        <Text variant="h2">{app.name}</Text>
-      </Block>
-      <Text variant="bodySm">{subtitle}</Text>
-    </Block>
+    <Col between="sm" centered>
+      <Row centered between="sm">
+        <Icon name="zap" size="md" />
+        <Heading bold>{app.name}</Heading>
+      </Row>
+      <Body dim center>{subtitle}</Body>
+    </Col>
   );
 }
