@@ -1,5 +1,5 @@
 import React from "react";
-import { Block, Icon, TapTarget, Text } from "../primitives"
+import { Card, Col, Icon, TapTarget, Body, Label } from "../primitives";
 
 export interface BottomNavItemBlockProps {
   label: string;
@@ -16,18 +16,15 @@ export function BottomNavItemBlock({
 }: BottomNavItemBlockProps) {
   return (
     <TapTarget onPress={onPress}>
-      <Block paint={active ? "panel" : "none"} pad="none">
-        <Block padV="xs">
-          <Block frame="center">
-            <Block space="xs" align="center">
-              <Icon name={icon} size={active ? "xl" : "lg"} tone={active ? "primary" : "secondary"} />
-              <Text variant={active ? "bodySm" : "caption"} tone={active ? "primary" : "secondary"}>
-                {label}
-              </Text>
-            </Block>
-          </Block>
-        </Block>
-      </Block>
+      <Card variant={active ? "default" : "subtle"} pad="xs">
+        <Col between="xs" centered padV="xs">
+          <Icon name={icon} size={active ? "xl" : "lg"} tone={active ? "primary" : "secondary"} />
+          {active
+            ? <Body size="sm" primary>{label}</Body>
+            : <Label size="xs" dim>{label}</Label>
+          }
+        </Col>
+      </Card>
     </TapTarget>
   );
 }

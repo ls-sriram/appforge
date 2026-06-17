@@ -4,6 +4,7 @@ import { Redirect, Stack, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeProvider } from "../src/theme/ThemeProvider";
+import { UIProvider } from "../src/ui/Provider";
 import { Block } from "../src/ui/primitives";
 import { useGateState } from "../src/features/app-gate/viewmodel/use-gate-state";
 import { EntitlementProvider } from "../src/providers/EntitlementProvider";
@@ -45,6 +46,7 @@ function ExampleAppGate({ children }: { children: React.ReactNode }) {
 
 export default function ExampleAppRootLayout() {
   return (
+    <UIProvider>
     <ThemeProvider>
       <SafeAreaProvider>
         <SessionProvider>
@@ -57,5 +59,6 @@ export default function ExampleAppRootLayout() {
         </SessionProvider>
       </SafeAreaProvider>
     </ThemeProvider>
+    </UIProvider>
   );
 }

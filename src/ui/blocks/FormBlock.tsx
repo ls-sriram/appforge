@@ -1,10 +1,6 @@
 import React from "react";
-import { Block } from "../primitives"
-import { Panel } from "../panels";
+import { Card, Col } from "../primitives";
 
-/**
- * FormBlock — vertical stack of form fields with consistent spacing.
- */
 export function FormBlock({
   children,
   space = "md",
@@ -13,10 +9,8 @@ export function FormBlock({
   space?: "xs" | "sm" | "md" | "lg" | "xl";
 }) {
   return (
-    <Block>
-      <Panel>
-        <Block space={space}>{children}</Block>
-      </Panel>
-    </Block>
+    <Card>
+      <Col between={space}>{children}</Col>
+    </Card>
   );
 }

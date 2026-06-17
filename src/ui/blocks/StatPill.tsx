@@ -7,7 +7,7 @@
  */
 
 import React from "react";
-import { Block, MetaText, Text } from "../primitives"
+import { Col, Label, MetaText, Heading } from "../primitives";
 
 export interface StatPillProps {
   label: string;
@@ -18,14 +18,17 @@ export interface StatPillProps {
 
 export function StatPill({ label, value, suffix, tone = "primary" }: StatPillProps) {
   return (
-    <Block space="xxs">
-      <MetaText tone="tertiary">{label}</MetaText>
-      <Text variant="h3" tone={tone}>
+    <Col between="xxs">
+      <Label size="xs" tertiary upper tracking="xs">{label}</Label>
+      <Heading
+        bold
+        success={tone === "success"}
+        warning={tone === "warning"}
+        dim={tone === "secondary"}
+      >
         {value}
-      </Text>
-      {suffix && (
-        <MetaText tone="secondary">{suffix}</MetaText>
-      )}
-    </Block>
+      </Heading>
+      {suffix && <MetaText>{suffix}</MetaText>}
+    </Col>
   );
 }

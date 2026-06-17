@@ -1,6 +1,6 @@
 import React from "react";
 import { useTheme } from "../../theme/ThemeProvider";
-import { Block, Icon, Text } from "../primitives"
+import { Col, Row, Icon, Label, Heading } from "../primitives";
 import type { TextTone } from "../primitives";
 
 /**
@@ -46,35 +46,32 @@ export function MetricRow({ label, value, unit, trend, accentColor = "sky" }: Me
           : c.textMuted
       : c.textMuted;
 
+  const accentLabelTone = accentTone === "brand" || accentTone === "action" ? "primary" as const : undefined;
+
   return (
-    <Block space="xs">
-      <Text variant="caption" tone={accentTone}>{label}</Text>
-      <Block direction="horizontal" align="end" space="xs">
-        <Text variant="h3">
-          {value}
-        </Text>
-        {unit && (
-          <Text variant="caption" tone="muted">{unit}</Text>
-        )}
-      </Block>
+    <Col between="xs">
+      <Label size="xs" dim upper tracking="xs">{label}</Label>
+      <Row centered between="xs" ai="flex-end">
+        <Heading>{String(value)}</Heading>
+        {unit && <Label size="xs" dim>{unit}</Label>}
+      </Row>
       {trend !== undefined && (
-        <Block direction="horizontal" align="center" space="xs">
-          <Block direction="horizontal" align="center" space="none">
-            <Icon
-              name={trendIconName}
-              size="2xs"
-              tone={trend > 0 ? "success" : trend < 0 ? "danger" : "muted"}
-            />
-          </Block>
-          <Text
-            variant="caption"
+        <Row centered between="xs">
+          <Icon
+            name={trendIconName}
+            size="2xs"
             tone={trend > 0 ? "success" : trend < 0 ? "danger" : "muted"}
+          />
+          <Label
+            size="xs"
+            success={trend > 0}
+            error={trend < 0}
+            dim={trend === 0}
           >
-            {trend > 0 ? "+" : ""}
-            {trend}%
-          </Text>
-        </Block>
+            {trend > 0 ? "+" : ""}{trend}%
+          </Label>
+        </Row>
       )}
-    </Block>
+    </Col>
   );
 }

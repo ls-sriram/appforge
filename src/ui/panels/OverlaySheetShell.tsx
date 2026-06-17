@@ -10,8 +10,7 @@ import {
 } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
 import { opacity } from "../../theme/tokens";
-import { Block, Text } from "../primitives"
-import { Panel } from ".";
+import { Card, Col, Row, Body } from "../primitives";
 
 interface OverlaySheetShellProps {
   visible: boolean;
@@ -54,8 +53,8 @@ export function OverlaySheetShell({
         />
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.keyboard}>
           <SheetShell>
-            <Panel variant="strong">
-              <Block padV="xs">
+            <Card variant="strong" pad="none">
+              <Col padV="xs" centered>
                 <View
                   style={[
                     styles.handle,
@@ -67,26 +66,23 @@ export function OverlaySheetShell({
                     },
                   ]}
                 />
-              </Block>
+              </Col>
 
-              <Block padH="md" padV="md">
-                <View
-                  style={[
-                    styles.header,
-                    {
-                      borderBottomColor: t.colors.border,
-                      paddingBottom: t.colors.space.md,
-                    },
-                  ]}
-                >
-                  <Text variant="bodySm" tone="primary" weight="bold">
-                    {title}
-                  </Text>
-                  <Pressable onPress={onClose} style={{ padding: t.colors.space.xxs }}>
-                    <Text tone="muted">✕</Text>
-                  </Pressable>
-                </View>
-              </Block>
+              <View
+                style={[
+                  styles.header,
+                  {
+                    borderBottomColor: t.colors.border,
+                    paddingHorizontal: t.colors.space.md,
+                    paddingVertical: t.colors.space.md,
+                  },
+                ]}
+              >
+                <Body size="sm" bold>{title}</Body>
+                <Pressable onPress={onClose} style={{ padding: t.colors.space.xxs }}>
+                  <Body soft>✕</Body>
+                </Pressable>
+              </View>
 
               <ScrollView
                 style={styles.body}
@@ -94,17 +90,17 @@ export function OverlaySheetShell({
                 keyboardShouldPersistTaps="handled"
                 showsVerticalScrollIndicator={false}
               >
-                <Block space="md">
+                <Col between="md">
                   {children}
-                </Block>
+                </Col>
               </ScrollView>
 
               {footer ? (
-                <Block padH="md" padV="md">
+                <Col pad="md">
                   {footer}
-                </Block>
+                </Col>
               ) : null}
-            </Panel>
+            </Card>
           </SheetShell>
         </KeyboardAvoidingView>
       </View>
@@ -127,6 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#E5E5E5",
   },
   body: {
     flexShrink: 1,

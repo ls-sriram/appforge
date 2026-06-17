@@ -1,6 +1,5 @@
 import React from "react";
-import { Block, MetaText } from "../primitives"
-import { Panel } from "./Panel";
+import { Card, Col, Label } from "../primitives";
 import type { PanelVariant } from "./Panel";
 
 interface SectionPanelProps {
@@ -19,14 +18,12 @@ export function SectionPanel({
   overflow,
 }: SectionPanelProps) {
   return (
-    <Panel variant={variant} overflow={overflow}>
-      <Block space="sm">
-        {title ? (
-          <MetaText>{title}</MetaText>
-        ) : null}
+    <Card variant={variant as any} overflow={overflow as any}>
+      <Col between="sm">
+        {title ? <Label dim upper tracking="sm">{title}</Label> : null}
         {children}
         {footer}
-      </Block>
-    </Panel>
+      </Col>
+    </Card>
   );
 }

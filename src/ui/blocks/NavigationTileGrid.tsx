@@ -3,7 +3,7 @@ import { DimensionValue, StyleSheet, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTheme } from "../../theme/ThemeProvider";
 import { useViewport } from "../../theme/Viewport";
-import { Block, Icon, IconName, IconSize, IconTone, MetaText, TapTarget, Text } from "../primitives"
+import { Col, Row, Icon, IconName, IconSize, IconTone, MetaText, TapTarget, Heading, Body } from "../primitives";
 
 export interface NavigationTileGridItem {
   id: string;
@@ -187,18 +187,21 @@ export function NavigationTileGrid({ items, activeId, onPress }: NavigationTileG
   const tileContentGap = viewport.isMobile ? theme.colors.space.xxs : theme.colors.space.sm;
 
   return (
-    <Block frame="fill" paint="page">
+    <Col fill>
       <GridViewport
         paddingHorizontal={horizontalPadding}
         paddingTop={topPadding}
         paddingBottom={bottomPadding}
       >
-        <Block space={viewport.isMobile ? "sm" : "lg"}>
-          <Block space="xxs">
-            <Text variant={viewport.isMobile ? "h3" : "pageTitle"}>Explore</Text>
-            <MetaText tone="secondary">Jump into the tools you need next.</MetaText>
-          </Block>
-          <Block direction="horizontal" wrap frame="expand">
+        <Col between={viewport.isMobile ? "sm" : "lg"}>
+          <Col between="xxs">
+            {viewport.isMobile
+              ? <Heading size="sm">Explore</Heading>
+              : <Heading size="lg">Explore</Heading>
+            }
+            <MetaText>Jump into the tools you need next.</MetaText>
+          </Col>
+          <Row flexWrap="wrap" expand>
             {items.map((item, index) => {
               const active = item.id === activeId;
               const tone = resolveTileTone(index, active, theme);
@@ -222,18 +225,18 @@ export function NavigationTileGrid({ items, activeId, onPress }: NavigationTileG
                       >
                         <Icon name={item.icon} size={iconSize} tone={tone.icon} />
                       </TileIconBox>
-                      <Text variant={viewport.isMobile ? "bodySm" : "displayLg"} weight="semibold" numberOfLines={2}>
+                      <Body size={viewport.isMobile ? "sm" : "md"} bold numberOfLines={2}>
                         {item.label}
-                      </Text>
+                      </Body>
                     </NavigationTileSurface>
                   </TapTarget>
                 </GridItemShell>
               );
             })}
-          </Block>
-        </Block>
+          </Row>
+        </Col>
       </GridViewport>
-    </Block>
+    </Col>
   );
 }
 

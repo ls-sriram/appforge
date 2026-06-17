@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native"; // View: 8×8 color dot (pixel-exact)
 import { useTheme } from "../../theme/ThemeProvider";
-import { Block, MetaText } from "../primitives"
+import { Row, MetaText } from "../primitives"
 
 /**
  * ChartLegend — color dot + label pairs for chart blocks.
@@ -35,14 +35,14 @@ export function ChartLegend({ items }: ChartLegendProps) {
   };
 
   return (
-    <Block direction="horizontal" wrap space="sm">
+    <Row between="sm" flexWrap="wrap">
       {items.map((item, i) => (
-        <Block direction="horizontal" key={i} align="center" space="xs">
+        <Row key={i} centered between="xs">
           <ColorDot color={toneColor[item.tone]} />
           <MetaText>{item.label}</MetaText>
-        </Block>
+        </Row>
       ))}
-    </Block>
+    </Row>
   );
 }
 

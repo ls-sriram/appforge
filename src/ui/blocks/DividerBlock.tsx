@@ -1,19 +1,13 @@
 import React from "react";
-import { Block, MetaText } from "../primitives"
+import { Rule, Row, MetaText } from "../primitives";
 
-/**
- * DividerBlock — horizontal rule with optional label.
- */
 export function DividerBlock({ label }: { label?: string }) {
-  return (
-    <Block>
-      <Block >
-        {label ? (
-          <Block direction="horizontal" align="center" justify="center" space="sm">
-            <MetaText>{label}</MetaText>
-          </Block>
-        ) : null}
-      </Block>
-    </Block>
-  );
+  if (label) {
+    return (
+      <Row centered between="sm" jc="center">
+        <MetaText>{label}</MetaText>
+      </Row>
+    );
+  }
+  return <Rule />;
 }

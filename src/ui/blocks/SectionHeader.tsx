@@ -7,7 +7,7 @@
  */
 
 import React from "react";
-import { ActionText, Block, TapTarget, Text } from "../primitives"
+import { Row, Heading, ActionText, TapTarget } from "../primitives";
 
 export interface SectionHeaderProps {
   title: string;
@@ -21,15 +21,13 @@ export function SectionHeader({
   onAction,
 }: SectionHeaderProps) {
   return (
-    <Block direction="horizontal" align="center" justify="space-between">
-      <Text variant="h3">
-        {title}
-      </Text>
+    <Row centered spread>
+      <Heading size="sm">{title}</Heading>
       {actionLabel && onAction && (
         <TapTarget onPress={onAction}>
           <ActionText>{actionLabel}</ActionText>
         </TapTarget>
       )}
-    </Block>
+    </Row>
   );
 }

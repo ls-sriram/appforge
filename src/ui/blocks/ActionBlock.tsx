@@ -1,11 +1,6 @@
 import React from "react";
-import { Block } from "../primitives"
-import { Panel } from "../panels";
+import { Card, Col } from "../primitives";
 
-/**
- * ActionBlock — container for action buttons (primary + secondary).
- * Stacks vertically with consistent spacing.
- */
 export function ActionBlock({
   primary,
   secondary,
@@ -16,13 +11,11 @@ export function ActionBlock({
   loading?: boolean;
 }) {
   return (
-    <Block>
-      <Panel>
-        <Block space="sm">
-          {primary}
-          {loading ? null : secondary}
-        </Block>
-      </Panel>
-    </Block>
+    <Card>
+      <Col between="sm">
+        {primary}
+        {loading ? null : secondary}
+      </Col>
+    </Card>
   );
 }

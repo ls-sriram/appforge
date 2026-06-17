@@ -9,8 +9,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
-import { Block, Badge, Icon, IconName, TapTarget, Text, Toggle } from "../primitives"
-import { Panel } from "../panels";
+import { Card, Row, Col, Badge, Icon, IconName, TapTarget, Body, Toggle } from "../primitives";
 
 /** 30×30 icon container — pixel-exact, not expressible as SpaceToken */
 function IconBoxWell({ name, destructive = false }: { name: IconName; destructive?: boolean }) {
@@ -56,9 +55,7 @@ export function SettingsRow({
     switch (trailing.type) {
       case "value":
         return (
-          <Text variant="bodySm">
-            {trailing.text}
-          </Text>
+          <Body size="sm" soft>{trailing.text}</Body>
         );
       case "toggle":
         return (
@@ -77,19 +74,15 @@ export function SettingsRow({
   };
 
   const content = (
-    <Panel variant="subtle" pad="none" overflow="hidden">
-      <Block pad="sm">
-        <Block direction="horizontal" align="center" justify="space-between" space="sm">
-          <Block direction="horizontal" align="center" space="sm" frame="fluid">
-            {icon ? <IconBoxWell name={icon} destructive={destructive} /> : null}
-            <Text variant="bodySm" tone={destructive ? "danger" : "primary"}>
-              {label}
-            </Text>
-          </Block>
-          {renderTrailing()}
-        </Block>
-      </Block>
-    </Panel>
+    <Card variant="subtle" pad="sm" overflow="hidden">
+      <Row centered spread between="sm">
+        <Row centered between="sm" fluid>
+          {icon ? <IconBoxWell name={icon} destructive={destructive} /> : null}
+          <Body size="sm" error={destructive}>{label}</Body>
+        </Row>
+        {renderTrailing()}
+      </Row>
+    </Card>
   );
 
   if (isInteractive && trailing.type !== "toggle") {

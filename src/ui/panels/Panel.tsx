@@ -1,69 +1,53 @@
-/**
- * ─────────────────────────────────────────────────────────────────
- * PANEL — Content card. Named wrapper over Block paint variants.
- *
- * Callers use a semantic variant name ("default", "muted", etc.)
- * instead of reaching for Block paint tokens directly. Panel is
- * the public card API — Block is the implementation detail.
- * ─────────────────────────────────────────────────────────────────
- */
+import React from 'react'
+import { Card } from '../primitives'
 
-import React from "react";
-import { Block } from "../primitives";
-import type { BlockProps, PaintVariant, SpaceToken } from "../primitives";
+export type PanelVariant = 'default' | 'muted' | 'strong' | 'subtle' | 'inverse' | 'selected'
 
-export type PanelVariant = "default" | "muted" | "strong" | "subtle" | "inverse" | "selected";
+type PanelPad = 'none' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
 type Props = {
-  variant?: PanelVariant;
-  // Structural overrides — no arbitrary style
-  pad?: SpaceToken;
-  padH?: SpaceToken;
-  padV?: SpaceToken;
-  overflow?: "hidden" | "visible";
-  frame?: BlockProps["frame"];
-  children?: React.ReactNode;
-  testID?: string;
-  accessible?: boolean;
-  accessibilityLabel?: string;
-};
+  variant?: PanelVariant
+  pad?: PanelPad
+  padH?: never  // use pad instead — Card handles uniform padding
+  padV?: never
+  overflow?: 'hidden' | 'visible'
+  frame?: never // use Col fill / Row fill in the caller
+  children?: React.ReactNode
+  testID?: string
+  accessible?: boolean
+  accessibilityLabel?: string
+}
 
-function panelPaintVariant(v: PanelVariant): PaintVariant {
+function cardVariant(v: PanelVariant): React.ComponentProps<typeof Card>['variant'] {
   switch (v) {
-    case "default":  return "panel";
-    case "muted":    return "panel-muted";
-    case "strong":   return "panel-strong";
-    case "subtle":   return "panel-subtle";
-    case "inverse":  return "panel-inverse";
-    case "selected": return "selected";
+    case 'default':  return 'default'
+    case 'muted':    return 'muted'
+    case 'strong':   return 'strong'
+    case 'subtle':   return 'subtle'
+    case 'inverse':  return 'inverse'
+    case 'selected': return 'selected'
   }
 }
 
 export function Panel({
-  variant = "default",
+  variant = 'default',
   pad,
-  padH,
-  padV,
   overflow,
-  frame,
   children,
   testID,
   accessible,
   accessibilityLabel,
 }: Props) {
   return (
-    <Block
-      paint={panelPaintVariant(variant)}
+    <Card
+      variant={cardVariant(variant)}
       pad={pad}
-      padH={padH}
-      padV={padV}
       overflow={overflow}
-      frame={frame}
       testID={testID}
       accessible={accessible}
       accessibilityLabel={accessibilityLabel}
     >
       {children}
-    </Block>
-  );
+    </Card>
+  )
 }

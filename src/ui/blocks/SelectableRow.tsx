@@ -1,5 +1,5 @@
 import React from "react";
-import { Block, Chip, Icon, MetaText, TapTarget, Text } from "../primitives"
+import { Col, Row, Card, Chip, Icon, MetaText, TapTarget, Body } from "../primitives";
 
 export interface SelectableRowProps {
   title: string;
@@ -18,26 +18,22 @@ export function SelectableRow({
 }: SelectableRowProps) {
   return (
     <TapTarget onPress={onToggleSelected} feedback="soft">
-      <Block direction="horizontal" align="center" justify="space-between" space="sm">
-        <Block direction="horizontal" align="center" space="sm">
+      <Row centered spread between="sm">
+        <Row centered between="sm">
           {selected ? (
             <Chip tone="success" pad="none">
               <Icon name="check" size="sm" />
             </Chip>
           ) : (
-            <Block paint="panel-subtle" pad="none" align="center" justify="center" />
+            <Card variant="subtle" pad="none" />
           )}
-          <Block space="xs">
-            <Text variant="body" numberOfLines={1}>
-              {title}
-            </Text>
-            {subtitle ? (
-              <MetaText numberOfLines={1}>{subtitle}</MetaText>
-            ) : null}
-          </Block>
-        </Block>
+          <Col between="xs">
+            <Body numberOfLines={1}>{title}</Body>
+            {subtitle ? <MetaText numberOfLines={1}>{subtitle}</MetaText> : null}
+          </Col>
+        </Row>
         {trailing}
-      </Block>
+      </Row>
     </TapTarget>
   );
 }

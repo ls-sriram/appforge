@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, TextInput } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
-import { Block, Icon, TapTarget } from "../primitives"
+import { Card, Row, Col, Icon, TapTarget } from "../primitives";
 
 /**
  * SearchBar — search input molecule.
@@ -27,30 +27,26 @@ export function SearchBar({
   const c = theme.colors;
 
   return (
-    <Block frame={fullWidth ? "expand" : undefined}>
-      <Block paint="neutral">
-        <Block padH="sm" padV="xs">
-          <Block direction="horizontal" align="center" space="sm">
-            <Icon name="search" size="lg" tone="muted" />
-            <Block frame="fill">
-              <TextInput
-                value={value}
-                onChangeText={onChange}
-                placeholder={placeholder}
-                placeholderTextColor={c.textMuted}
-                style={[styles.input, { color: c.textPrimary }]}
-                numberOfLines={1}
-              />
-            </Block>
-            {value && onClear ? (
-              <TapTarget onPress={onClear}>
-                <Icon name="x" size="md" tone="muted" />
-              </TapTarget>
-            ) : null}
-          </Block>
-        </Block>
-      </Block>
-    </Block>
+    <Card variant="neutral" pad="sm" width={fullWidth ? "100%" : undefined}>
+      <Row centered between="sm">
+        <Icon name="search" size="lg" tone="muted" />
+        <Col fill>
+          <TextInput
+            value={value}
+            onChangeText={onChange}
+            placeholder={placeholder}
+            placeholderTextColor={c.textMuted}
+            style={[styles.input, { color: c.textPrimary }]}
+            numberOfLines={1}
+          />
+        </Col>
+        {value && onClear ? (
+          <TapTarget onPress={onClear}>
+            <Icon name="x" size="md" tone="muted" />
+          </TapTarget>
+        ) : null}
+      </Row>
+    </Card>
   );
 }
 

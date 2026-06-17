@@ -1,6 +1,5 @@
 import React from "react";
-import { Block, Icon, IconName, MetaText, Skeleton, Text } from "../primitives"
-import { Panel } from "../panels";
+import { Card, Col, Row, Icon, IconName, MetaText, Skeleton, Body } from "../primitives";
 
 export interface ActivityItem {
   id: string;
@@ -26,54 +25,48 @@ export function ActivityFeed({ config, loading = false }: ActivityFeedProps) {
 
   if (loading) {
     return (
-      <Block>
-        <Panel>
-          <Block space="sm">
-            <Skeleton height={16} variant="text" width="40%" />
-            {Array.from({ length: 4 }).map((_, i) => (
-              <Block direction="horizontal" key={i} align="center" space="sm">
-                <Skeleton height={24} variant="circle" width={24} />
-                <Block space="xs">
-                  <Skeleton height={14} variant="text" width="70%" />
-                  <Skeleton height={12} variant="text" width="40%" />
-                </Block>
-              </Block>
-            ))}
-          </Block>
-        </Panel>
-      </Block>
+      <Card>
+        <Col between="sm">
+          <Skeleton height={16} variant="text" width="40%" />
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Row key={i} centered between="sm">
+              <Skeleton height={24} variant="circle" width={24} />
+              <Col between="xs" fill>
+                <Skeleton height={14} variant="text" width="70%" />
+                <Skeleton height={12} variant="text" width="40%" />
+              </Col>
+            </Row>
+          ))}
+        </Col>
+      </Card>
     );
   }
 
   if (!items.length) {
     return (
-      <Block>
-        <Panel>
-          <Text variant="bodySm">No activity</Text>
-        </Panel>
-      </Block>
+      <Card>
+        <Body size="sm">No activity</Body>
+      </Card>
     );
   }
 
   return (
-    <Block>
-      <Panel>
-        <Block space="sm">
-          {config.title ? <Text variant="bodySm">{config.title}</Text> : null}
-          {items.map((item) => (
-            <Block direction="horizontal" key={item.id} align="center" justify="space-between" space="sm">
-              <Block direction="horizontal" align="center" space="sm">
-                <Icon name={item.icon ?? "activity"} size="md" />
-                <Block space="xs">
-                  <Text variant="bodySm">{item.title}</Text>
-                  {item.subtitle ? <MetaText>{item.subtitle}</MetaText> : null}
-                </Block>
-              </Block>
-              <MetaText>{item.timestamp}</MetaText>
-            </Block>
-          ))}
-        </Block>
-      </Panel>
-    </Block>
+    <Card>
+      <Col between="sm">
+        {config.title ? <Body size="sm" bold>{config.title}</Body> : null}
+        {items.map((item) => (
+          <Row key={item.id} centered between="sm" spread>
+            <Row centered between="sm">
+              <Icon name={item.icon ?? "activity"} size="md" />
+              <Col between="xs">
+                <Body size="sm">{item.title}</Body>
+                {item.subtitle ? <MetaText>{item.subtitle}</MetaText> : null}
+              </Col>
+            </Row>
+            <MetaText>{item.timestamp}</MetaText>
+          </Row>
+        ))}
+      </Col>
+    </Card>
   );
 }

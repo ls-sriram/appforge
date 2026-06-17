@@ -2,8 +2,7 @@ import React from "react";
 import Svg, { Rect as SvgRect } from "react-native-svg";
 import { useTheme } from "../../theme/ThemeProvider";
 import { ChartLegend } from "./ChartLegend";
-import { Block, Skeleton, Text } from "../primitives"
-import { Panel } from "../panels";
+import { Card, Col, Skeleton, Body } from "../primitives";
 
 export type ChartType = "bar" | "line" | "area";
 export type ChartTheme = "primary" | "success" | "warning" | "error" | "info";
@@ -47,24 +46,20 @@ export function ChartBlock({ config, loading = false }: ChartBlockProps) {
 
   if (loading) {
     return (
-      <Block>
-        <Panel>
-          <Block space="sm">
-            <Skeleton height={20} variant="text" width="60%" />
-            <Skeleton height={height} />
-          </Block>
-        </Panel>
-      </Block>
+      <Card>
+        <Col between="sm">
+          <Skeleton height={20} variant="text" width="60%" />
+          <Skeleton height={height} />
+        </Col>
+      </Card>
     );
   }
 
   if (!config.data.length) {
     return (
-      <Block>
-        <Panel>
-          <Text variant="bodySm">No data</Text>
-        </Panel>
-      </Block>
+      <Card>
+        <Body size="sm">No data</Body>
+      </Card>
     );
   }
 
@@ -74,21 +69,19 @@ export function ChartBlock({ config, loading = false }: ChartBlockProps) {
   const color = themeColors[config.theme ?? "primary"];
 
   return (
-    <Block>
-      <Panel>
-        <Block space="sm">
-          {config.title ? <Text variant="bodySm">{config.title}</Text> : null}
-          <Svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`}>
-            {config.data.map((d, i) => {
-              const h = (d.value / maxValue) * (height - 12);
-              const x = i * (barWidth * 2) + 8;
-              const y = height - h;
-              return <SvgRect key={d.label} x={x} y={y} width={barWidth} height={h} rx={3} fill={color} />;
-            })}
-          </Svg>
-          {config.legend ? <ChartLegend items={config.legend.map((l) => ({ tone: l.theme, label: l.label }))} /> : null}
-        </Block>
-      </Panel>
-    </Block>
+    <Card>
+      <Col between="sm">
+        {config.title ? <Body size="sm" bold>{config.title}</Body> : null}
+        <Svg width="100%" height={height} viewBox={`0 0 ${width} ${height}`}>
+          {config.data.map((d, i) => {
+            const h = (d.value / maxValue) * (height - 12);
+            const x = i * (barWidth * 2) + 8;
+            const y = height - h;
+            return <SvgRect key={d.label} x={x} y={y} width={barWidth} height={h} rx={3} fill={color} />;
+          })}
+        </Svg>
+        {config.legend ? <ChartLegend items={config.legend.map((l) => ({ tone: l.theme, label: l.label }))} /> : null}
+      </Col>
+    </Card>
   );
 }

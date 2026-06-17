@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
-import { Block, Icon, IconName, TapTarget, Text } from "../primitives"
+import { Row, Icon, IconName, TapTarget, Body, Label } from "../primitives";
 
 /**
  * NavItem — navigation tab/link molecule.
@@ -50,9 +50,7 @@ function BadgePill({ value }: { value: number }) {
 
   return (
     <View style={[styles.badge, { backgroundColor: c.accentMuted }]}>
-      <Text variant="caption" tone="accent" weight="semibold">
-        {value > 99 ? "99+" : value}
-      </Text>
+      <Label size="xs" primary bold>{value > 99 ? "99+" : value}</Label>
     </View>
   );
 }
@@ -68,16 +66,13 @@ export function NavItem({
   return (
     <TapTarget onPress={onPress} disabled={disabled}>
       <NavItemSurface active={active} disabled={disabled}>
-        <Block direction="horizontal" align="center" space="sm">
+        <Row centered between="sm">
           <Icon name={icon} size="lg" tone={active ? "accent" : "muted"} />
-          <Text
-            variant="bodySm"
-            tone={active ? "primary" : "secondary"}
-            weight={active ? "semibold" : "regular"}
-          >
-            {label}
-          </Text>
-        </Block>
+          {active
+            ? <Body size="sm" bold>{label}</Body>
+            : <Body size="sm" soft>{label}</Body>
+          }
+        </Row>
         {badge && badge > 0 ? (
           <BadgePill value={badge} />
         ) : null}

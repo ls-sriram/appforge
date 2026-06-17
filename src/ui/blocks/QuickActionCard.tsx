@@ -9,7 +9,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
-import { Block, Icon, IconName, TapTarget, Text } from "../primitives"
+import { Col, Icon, IconName, TapTarget, Body } from "../primitives";
 
 export type QuickActionTone = "primary" | "success" | "warning" | "danger" | "info";
 
@@ -48,7 +48,7 @@ export function QuickActionCard({
 
   return (
     <TapTarget onPress={onPress} feedback="strong">
-      <Block space="xs" align="center">
+      <Col between="xs" centered>
         <ActionIconWell backgroundColor={resolved.background}>
           <Icon
             name={icon}
@@ -62,10 +62,8 @@ export function QuickActionCard({
             }
           />
         </ActionIconWell>
-        <Text variant="bodySm" align="center" numberOfLines={2}>
-          {label}
-        </Text>
-      </Block>
+        <Body size="sm" center numberOfLines={2}>{label}</Body>
+      </Col>
     </TapTarget>
   );
 }

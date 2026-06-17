@@ -1,6 +1,6 @@
 import React from "react";
 import { QuickActionCard, QuickActionTone } from "./QuickActionCard";
-import { Block, IconName } from "../primitives"
+import { Col, Row, IconName } from "../primitives";
 
 export interface QuickActionItem {
   id: string;
@@ -17,26 +17,21 @@ export function QuickActionsGrid({ items }: { items: QuickActionItem[] }) {
   }
 
   return (
-    <Block>
-      <Block >
-        <Block space="sm">
-          {pairs.map((row, rowIndex) => (
-            <Block direction="horizontal" key={`row-${rowIndex}`} space="sm">
-              {row.map((action) => (
-                <Block key={action.id} >
-                  <QuickActionCard
-                    icon={action.icon}
-                    label={action.label}
-                    tone={action.tone}
-                    onPress={action.onPress}
-                  />
-                </Block>
-              ))}
-              {row.length === 1 ? <Block  /> : null}
-            </Block>
+    <Col between="sm">
+      {pairs.map((row, rowIndex) => (
+        <Row key={`row-${rowIndex}`} between="sm">
+          {row.map((action) => (
+            <QuickActionCard
+              key={action.id}
+              icon={action.icon}
+              label={action.label}
+              tone={action.tone}
+              onPress={action.onPress}
+            />
           ))}
-        </Block>
-      </Block>
-    </Block>
+          {row.length === 1 ? <Col fill /> : null}
+        </Row>
+      ))}
+    </Col>
   );
 }
