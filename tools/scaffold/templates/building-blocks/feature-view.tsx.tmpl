@@ -1,6 +1,5 @@
 import React from "react";
-import { Block, Text } from "../../../../ui/primitives";
-import { Panel } from "../../../../ui/panels";
+import { Body, Heading, View, YStack } from "../../../../ui";
 import type { {{PASCAL_FEATURE}}ViewActions, {{PASCAL_FEATURE}}ViewState } from "./{{FEATURE}}.model";
 import { {{PASCAL_FEATURE}}ContentLayout } from "./{{FEATURE}}-content.layout";
 
@@ -13,19 +12,19 @@ export function {{PASCAL_FEATURE}}View({ state, actions }: Props) {
   return (
     <{{PASCAL_FEATURE}}ContentLayout
       main={(
-        <Panel pad="md">
-          <Block space="sm">
-            <Text variant="pageTitle">{state.title}</Text>
-            <Text variant="bodySm" tone="secondary">
+        <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$4" p="$4">
+          <YStack gap="$3">
+            <Heading>{state.title}</Heading>
+            <Body color="$textMuted">
               Replace this starter panel with feature-specific sections.
-            </Text>
+            </Body>
             {state.items.map((item) => (
-              <Text key={item.id} variant="body" onPress={() => actions.onSelect(item.id)}>
+              <Body key={item.id} onPress={() => actions.onSelect(item.id)}>
                 {item.title}
-              </Text>
+              </Body>
             ))}
-          </Block>
-        </Panel>
+          </YStack>
+        </View>
       )}
     />
   );

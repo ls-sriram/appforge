@@ -1,5 +1,5 @@
 import React from "react";
-import { Block } from "../../../ui/primitives"
+import { YStack } from "../../../ui";
 
 export function OnboardingScaffold({
   stepper,
@@ -13,11 +13,11 @@ export function OnboardingScaffold({
   answerRegion?: React.ReactNode;
 }) {
   return (
-    <Block space="md">
+    <YStack gap="$4">
       {stepper}
       {hero}
       {question}
       {answerRegion}
-    </Block>
+    </YStack>
   );
 }

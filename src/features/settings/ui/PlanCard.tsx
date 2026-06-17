@@ -3,9 +3,7 @@
  */
 
 import React from "react";
-import { useTheme } from "../../../theme/ThemeProvider";
-import { Block, Badge, Button, Icon, Text } from "../../../ui/primitives"
-import { Panel } from "../../../ui/panels";
+import { Body, Button, Heading, Icon, View, XStack, YStack } from "../../../ui";
 import type { Plan } from "../../../services/UserProfileService";
 
 export interface PlanCardProps {
@@ -45,52 +43,50 @@ function formatDate(iso?: string): string {
 export function PlanCard({ plan, onUpgrade }: PlanCardProps) {
   const name = plan?.name ?? "free";
   const statusLabel = plan ? STATUS_LABELS[plan.status] ?? plan.status : "Inactive";
+  const badgeBg = plan?.status === "past_due" ? "$warningMuted" : "$successMuted";
+  const badgeColor = plan?.status === "past_due" ? "$warning" : "$success";
 
   return (
-    <Panel variant="strong" overflow="hidden">
-      <Block space="sm">
-        <Block direction="horizontal" align="start" justify="space-between" space="md">
-          <Block space="xs" frame="fluid">
-            <Text variant="caption" tone="muted">
+    <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$4" overflow="hidden" p="$4">
+      <YStack gap="$3">
+        <XStack ai="flex-start" jc="space-between" gap="$4">
+          <YStack gap="$2" f={1}>
+            <Body fontSize="$1" color="$textMuted">
               Current Plan
-            </Text>
-            <Block direction="horizontal" align="center" space="sm">
-              <Text variant="h3">
+            </Body>
+            <XStack ai="center" gap="$3">
+              <Heading fontSize="$4">
                 {PLAN_LABELS[name]}
-              </Text>
-              <Badge label={statusLabel} variant={plan?.status === "past_due" ? "warning" : "success"} size="sm" />
-            </Block>
-            <Text variant="bodySm" tone="secondary">
+              </Heading>
+              <View bg={badgeBg} br={9999} px="$3" py={4}>
+                <Body color={badgeColor} fontSize="$1" fontFamily="$bold">{statusLabel}</Body>
+              </View>
+            </XStack>
+            <Body fontSize="$2" color="$textSecondary">
               {name === "pro"
                 ? "Your account is on the highest plan."
                 : "Upgrade to unlock the full experience."}
-            </Text>
-          </Block>
+            </Body>
+          </YStack>
 
           {name !== "pro" ? (
-            <Button
-              label="Upgrade"
-              variant="secondary"
-              size="sm"
-              fullWidth={false}
-              onPress={onUpgrade}
-            />
+            <Button onPress={onUpgrade} bg="$surfaceAlt" borderWidth={1} borderColor="$border" minHeight={42} px="$4">
+              <Body fontSize="$2">Upgrade</Body>
+            </Button>
           ) : null}
-        </Block>
+        </XStack>
 
         {plan?.expiresAt ? (
-          <Panel variant="subtle" overflow="hidden">
-            <Block padH="sm" padV="xs">
-              <Block direction="horizontal" align="center" space="xs">
+          <View bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" px="$3" py="$2">
+              <XStack ai="center" gap="$2">
                 <Icon name="calendar" size="sm" tone={name === "pro" ? "brand" : name === "trial" ? "warning" : "muted"} />
-                <Text variant="caption" tone="secondary">
+                <Body fontSize="$1" color="$textSecondary">
                   {plan.cancelAtPeriodEnd ? "Access ends" : "Renews"} {formatDate(plan.expiresAt)}
-                </Text>
-              </Block>
-            </Block>
-          </Panel>
+                </Body>
+              </XStack>
+          </View>
         ) : null}
-      </Block>
-    </Panel>
+      </YStack>
+    </View>
   );
 }

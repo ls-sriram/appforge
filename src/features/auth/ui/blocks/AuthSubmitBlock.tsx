@@ -1,6 +1,5 @@
 import React from "react";
-import { Col, Button } from "../../../../ui/primitives";
-import { ErrorBanner } from "../../../../ui/blocks";
+import { Body, Button, View, YStack } from "../../../../ui";
 
 interface AuthSubmitBlockProps {
   label: string;
@@ -20,16 +19,23 @@ export function AuthSubmitBlock({
   testID,
 }: AuthSubmitBlockProps) {
   return (
-    <Col between="sm">
-      {generalError ? <ErrorBanner message={generalError} /> : null}
+    <YStack gap="$3">
+      {generalError ? (
+        <View bg="$errorMuted" borderColor="$error" borderWidth={1} br="$2" p="$3">
+          <Body color="$error" fontSize="$2">{generalError}</Body>
+        </View>
+      ) : null}
       <Button
-        label={label}
         onPress={onPress}
-        variant="neutral"
-        loading={loading}
         disabled={disabled ?? loading}
         testID={testID}
-      />
-    </Col>
+        bg="$textPrimary"
+        opacity={disabled ?? loading ? 0.45 : 1}
+      >
+        <Body color="$textInverse" fontFamily="$bold">
+          {loading ? "Loading..." : label}
+        </Body>
+      </Button>
+    </YStack>
   );
 }

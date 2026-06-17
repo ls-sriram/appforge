@@ -1,7 +1,7 @@
 import React from "react";
 import { Audio } from "expo-av";
 import { runtime } from "../../../core/runtime";
-import { Block, Button, Text } from "../../../ui/primitives"
+import { Body, Button, YStack } from "../../../ui";
 import { SharedEntityViewData } from "../domain/model";
 
 interface Props {
@@ -24,7 +24,7 @@ export function AudioSharedEntityRenderer({ data }: Props) {
   }, []);
 
   if (!data.contentUrl) {
-    return <Text variant="caption">Audio content unavailable.</Text>;
+    return <Body fontSize="$2" color="$textMuted">Audio content unavailable.</Body>;
   }
   const contentUrl = data.contentUrl;
 
@@ -36,11 +36,9 @@ export function AudioSharedEntityRenderer({ data }: Props) {
   }
 
   return (
-    <Block space="sm">
+    <YStack gap="$3">
       <Button
-        label={playing ? "Playing..." : "Play recording"}
-        variant="primary"
-        fullWidth={false}
+        bg="$primary"
         onPress={async () => {
           try {
             setError(undefined);
@@ -61,8 +59,10 @@ export function AudioSharedEntityRenderer({ data }: Props) {
             setError(e instanceof Error ? e.message : "Failed to play audio.");
           }
         }}
-      />
-      {error ? <Text variant="caption">{error}</Text> : null}
-    </Block>
+      >
+        <Body color="$textInverse" fontFamily="$bold">{playing ? "Playing..." : "Play recording"}</Body>
+      </Button>
+      {error ? <Body fontSize="$2" color="$error">{error}</Body> : null}
+    </YStack>
   );
 }

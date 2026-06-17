@@ -1,5 +1,5 @@
 import React from "react";
-import { Block, Text } from "../../../ui/primitives"
+import { Body, Heading, YStack } from "../../../ui";
 import { dateOwner } from "../../../core/dates";
 import { SharedEntityRenderer } from "../renderers/SharedEntityRenderer";
 import { useSharedEntityViewModel } from "../viewmodel/use-shared-entity-viewmodel";
@@ -13,18 +13,18 @@ export function SharedEntityScreen({ token }: Props) {
 
   if (vm.state.loading) {
     return (
-      <Block frame="center">
-        <Text variant="caption">Loading shared item...</Text>
-      </Block>
+      <YStack f={1} ai="center" jc="center" p="$4">
+        <Body fontSize="$2" color="$textMuted">Loading shared item...</Body>
+      </YStack>
     );
   }
 
   if (vm.state.error || !vm.state.data) {
     return (
-      <Block frame="center">
-        <Text variant="h3">Share unavailable</Text>
-        <Text variant="caption">{vm.state.error ?? "The link may be expired or revoked."}</Text>
-      </Block>
+      <YStack f={1} ai="center" jc="center" gap="$2" p="$4">
+        <Heading>Share unavailable</Heading>
+        <Body fontSize="$2" color="$textMuted">{vm.state.error ?? "The link may be expired or revoked."}</Body>
+      </YStack>
     );
   }
 
@@ -32,15 +32,13 @@ export function SharedEntityScreen({ token }: Props) {
   const expiresLabel = data.share.share.expiresAt ? dateOwner.format(data.share.share.expiresAt) : "No expiry";
 
   return (
-    <Block paint="page">
-      <Block pad="md">
-        <Block>
-          <Text variant="h2">{data.share.entity.title || "Shared Item"}</Text>
-          <Text variant="caption">{`Type: ${data.share.share.entityType}`}</Text>
-          <Text variant="caption">{`Expires: ${expiresLabel}`}</Text>
-          <SharedEntityRenderer data={data} />
-        </Block>
-      </Block>
-    </Block>
+    <YStack bg="$bg" f={1}>
+      <YStack p="$4" gap="$2">
+        <Heading>{data.share.entity.title || "Shared Item"}</Heading>
+        <Body fontSize="$2" color="$textMuted">{`Type: ${data.share.share.entityType}`}</Body>
+        <Body fontSize="$2" color="$textMuted">{`Expires: ${expiresLabel}`}</Body>
+        <SharedEntityRenderer data={data} />
+      </YStack>
+    </YStack>
   );
 }

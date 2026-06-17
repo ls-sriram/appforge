@@ -72,7 +72,7 @@ import { Redirect, Stack, usePathname } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeProvider } from "../src/theme/ThemeProvider";
-import { Block } from "../src/ui/primitives";
+import { UIProvider, YStack } from "../src/ui";
 import { useGateState } from "../src/features/app-gate/viewmodel/use-gate-state";
 import { EntitlementProvider } from "../src/providers/EntitlementProvider";
 import { SessionProvider } from "../src/providers/SessionProvider";
@@ -88,9 +88,9 @@ function ${values.appPascal}Gate({ children }: { children: React.ReactNode }) {
 
   if (gate.loading) {
     return (
-      <Block frame="fill" paint="page" justify="center" align="center">
+      <YStack bg="$bg" f={1} jc="center" ai="center">
         <ActivityIndicator size="large" />
-      </Block>
+      </YStack>
     );
   }
 
@@ -113,18 +113,20 @@ function ${values.appPascal}Gate({ children }: { children: React.ReactNode }) {
 
 export default function ${values.appPascal}RootLayout() {
   return (
-    <ThemeProvider>
+    <UIProvider>
       <SafeAreaProvider>
-        <SessionProvider>
-          <EntitlementProvider>
-            <StatusBar style="dark" translucent={false} />
-            <${values.appPascal}Gate>
-              <Stack screenOptions={{ headerShown: false }} />
-            </${values.appPascal}Gate>
-          </EntitlementProvider>
-        </SessionProvider>
+        <ThemeProvider>
+          <SessionProvider>
+            <EntitlementProvider>
+              <StatusBar style="dark" translucent={false} />
+              <${values.appPascal}Gate>
+                <Stack screenOptions={{ headerShown: false }} />
+              </${values.appPascal}Gate>
+            </EntitlementProvider>
+          </SessionProvider>
+        </ThemeProvider>
       </SafeAreaProvider>
-    </ThemeProvider>
+    </UIProvider>
   );
 }
 `,
@@ -190,8 +192,7 @@ export default function ${values.appPascal}RegisterRoute() {
 `,
     homeScreen: `import React from "react";
 import { useRouter } from "expo-router";
-import { Block, Button, Text } from "../../../../ui/primitives";
-import { Panel } from "../../../../ui/panels";
+import { Body, Button, Heading, SafeAreaView, View, XStack, YStack } from "../../../../ui";
 import { ProfileCard } from "../../../../features/settings";
 import { useSessionContext } from "../../../../providers/SessionProvider";
 import { ${routesIdent} } from "../../navigation/routes";
@@ -210,27 +211,33 @@ export function ${values.appPascal}HomeScreen() {
   const identity = resolveIdentity(session);
 
   return (
-    <Block frame="fill" paint="page" safeArea="all" pad="md" space="md">
-      <Block space="xs">
-        <Text variant="pageTitle">${values.displayName}</Text>
-        <Text variant="bodySm" tone="secondary">
-          Example member workspace wired into session and onboarding state.
-        </Text>
-      </Block>
-      <ProfileCard identity={identity} onPress={() => router.push(${routesIdent}.profile)} />
-      <Panel variant="muted" pad="md">
-        <Block space="xs">
-          <Text variant="h3">Backend session</Text>
-          <Text variant="bodySm" tone="secondary">User ID: {identity.uid || "Unavailable"}</Text>
-          <Text variant="bodySm" tone="secondary">Email: {identity.email || "Unavailable"}</Text>
-          <Text variant="bodySm" tone="secondary">Onboarding complete: {session?.onboardingCompleted ? "Yes" : "No"}</Text>
-        </Block>
-      </Panel>
-      <Block direction="horizontal" space="sm" wrap>
-        <Button label="Refresh session" onPress={() => { void refreshSession(); }} fullWidth={false} />
-        <Button label="Profile" variant="secondary" onPress={() => router.push(${routesIdent}.profile)} fullWidth={false} />
-      </Block>
-    </Block>
+    <SafeAreaView style={{ flex: 1 }}>
+      <YStack bg="$bg" f={1} p="$4" gap="$4">
+        <YStack gap="$1">
+          <Heading>${values.displayName}</Heading>
+          <Body fontSize="$2" color="$textMuted">
+            Example member workspace wired into session and onboarding state.
+          </Body>
+        </YStack>
+        <ProfileCard identity={identity} onPress={() => router.push(${routesIdent}.profile)} />
+        <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$4" p="$4">
+          <YStack gap="$1">
+            <Heading>Backend session</Heading>
+            <Body fontSize="$2" color="$textMuted">User ID: {identity.uid || "Unavailable"}</Body>
+            <Body fontSize="$2" color="$textMuted">Email: {identity.email || "Unavailable"}</Body>
+            <Body fontSize="$2" color="$textMuted">Onboarding complete: {session?.onboardingCompleted ? "Yes" : "No"}</Body>
+          </YStack>
+        </View>
+        <XStack gap="$3" flexWrap="wrap">
+          <Button onPress={() => { void refreshSession(); }} bg="$primary">
+            <Body color="$textInverse" fontFamily="$bold">Refresh session</Body>
+          </Button>
+          <Button onPress={() => router.push(${routesIdent}.profile)} bg="$surfaceAlt" borderWidth={1} borderColor="$border">
+            <Body>Profile</Body>
+          </Button>
+        </XStack>
+      </YStack>
+    </SafeAreaView>
   );
 }
 `,
@@ -244,8 +251,7 @@ export default function ${values.appPascal}HomeRoute() {
     profileScreen: `import React, { useState } from "react";
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
-import { Block, Button, Input, Text } from "../../../../ui/primitives";
-import { Panel } from "../../../../ui/panels";
+import { Body, Button, Heading, Input, SafeAreaView, View, XStack, YStack } from "../../../../ui";
 import { ProfileCard, useProfileEditViewModel } from "../../../../features/settings";
 import { ${routesIdent} } from "../../navigation/routes";
 
@@ -262,20 +268,26 @@ export function ${values.appPascal}ProfileScreen() {
   };
 
   return (
-    <Block frame="fill" paint="page" safeArea="all" pad="md" space="md">
-      <Block direction="horizontal" justify="space-between" align="center">
-        <Text variant="pageTitle">Profile</Text>
-        <Button label="Back" variant="secondary" onPress={() => router.replace(${routesIdent}.home)} fullWidth={false} />
-      </Block>
-      <ProfileCard identity={{ uid: profile.state.uid, email: profile.state.email, name: profile.state.name }} />
-      <Panel variant="muted" pad="md">
-        <Block space="sm">
-          <Text variant="h3">Display name</Text>
-          <Input value={profile.state.name} onChangeText={profile.actions.setDraftName} placeholder="Display name" />
-          <Button label={saving ? "Saving..." : "Save profile"} onPress={() => { void handleSave(); }} disabled={saving || profile.state.name.trim().length < 2} />
-        </Block>
-      </Panel>
-    </Block>
+    <SafeAreaView style={{ flex: 1 }}>
+      <YStack bg="$bg" f={1} p="$4" gap="$4">
+        <XStack ai="center" jc="space-between" gap="$3">
+          <Heading>Profile</Heading>
+          <Button onPress={() => router.replace(${routesIdent}.home)} bg="$surfaceAlt" borderWidth={1} borderColor="$border">
+            <Body>Back</Body>
+          </Button>
+        </XStack>
+        <ProfileCard identity={{ uid: profile.state.uid, email: profile.state.email, name: profile.state.name }} />
+        <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$4" p="$4">
+          <YStack gap="$3">
+            <Heading>Display name</Heading>
+            <Input value={profile.state.name} onChangeText={profile.actions.setDraftName} placeholder="Display name" />
+            <Button onPress={() => { void handleSave(); }} disabled={saving || profile.state.name.trim().length < 2} bg="$primary">
+              <Body color="$textInverse" fontFamily="$bold">{saving ? "Saving..." : "Save profile"}</Body>
+            </Button>
+          </YStack>
+        </View>
+      </YStack>
+    </SafeAreaView>
   );
 }
 `,
@@ -291,8 +303,7 @@ import { ActivityIndicator, Alert } from "react-native";
 import { useRouter } from "expo-router";
 import { api } from "../../../../services/ApiClient";
 import { useSessionContext } from "../../../../providers/SessionProvider";
-import { Block, Button, Input, SelectableChip, Text } from "../../../../ui/primitives";
-import { Panel } from "../../../../ui/panels";
+import { Body, Button, Heading, Input, SafeAreaView, SelectableChip, View, XStack, YStack } from "../../../../ui";
 import { ${routesIdent} } from "../../navigation/routes";
 
 type OnboardingQuestionType = "single_select" | "multi_select" | "text";
@@ -379,40 +390,45 @@ export function ${values.appPascal}OnboardingScreen() {
   };
 
   if (loading) {
-    return <Block frame="fill" paint="page" safeArea="all" justify="center" align="center"><ActivityIndicator size="large" /></Block>;
+    return <SafeAreaView style={{ flex: 1 }}><YStack bg="$bg" f={1} jc="center" ai="center"><ActivityIndicator size="large" /></YStack></SafeAreaView>;
   }
 
   if (!flow || !currentStep) {
     return (
-      <Block frame="fill" paint="page" safeArea="all" pad="md" justify="center">
-        <Panel variant="muted" pad="md">
-          <Block space="sm">
-            <Text variant="h3">Unable to load onboarding</Text>
-            <Text variant="bodySm" tone="secondary">{error || "The onboarding flow is not available right now."}</Text>
-            <Button label="Try again" onPress={() => router.replace(${routesIdent}.onboarding)} />
-          </Block>
-        </Panel>
-      </Block>
+      <SafeAreaView style={{ flex: 1 }}>
+        <YStack bg="$bg" f={1} p="$4" jc="center">
+          <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$4" p="$4">
+            <YStack gap="$3">
+              <Heading>Unable to load onboarding</Heading>
+              <Body color="$textMuted">{error || "The onboarding flow is not available right now."}</Body>
+              <Button onPress={() => router.replace(${routesIdent}.onboarding)} bg="$primary">
+                <Body color="$textInverse" fontFamily="$bold">Try again</Body>
+              </Button>
+            </YStack>
+          </View>
+        </YStack>
+      </SafeAreaView>
     );
   }
 
   return (
-    <Block frame="fill" paint="page" safeArea="all" pad="md" space="md">
-      <Block space="xs">
-        <Text variant="pageTitle">{currentStep.title}</Text>
-        <Text variant="bodySm" tone="secondary">{currentStep.description}</Text>
-      </Block>
-      <Panel pad="md">
-        <Block space="md">
+    <SafeAreaView style={{ flex: 1 }}>
+      <YStack bg="$bg" f={1} p="$4" gap="$4">
+        <YStack gap="$1">
+          <Heading>{currentStep.title}</Heading>
+          <Body color="$textMuted">{currentStep.description}</Body>
+        </YStack>
+        <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$4" p="$4">
+          <YStack gap="$4">
           {currentStep.fields.map((field) => {
             const value = answers[field.id];
             return (
-              <Block key={field.id} space="sm">
-                <Text variant="h3">{field.label}</Text>
+              <YStack key={field.id} gap="$3">
+                <Heading>{field.label}</Heading>
                 {field.type === "text" ? (
                   <Input value={typeof value === "string" ? value : ""} onChangeText={(next) => setTextValue(field.id, next)} placeholder={field.label} />
                 ) : (
-                  <Block direction="horizontal" wrap space="sm">
+                  <XStack gap="$3" flexWrap="wrap">
                     {field.options.map((option) => {
                       const selected = Array.isArray(value) ? value.includes(option.id) : false;
                       return (
@@ -424,19 +440,22 @@ export function ${values.appPascal}OnboardingScreen() {
                         />
                       );
                     })}
-                  </Block>
+                  </XStack>
                 )}
-              </Block>
+              </YStack>
             );
           })}
-        </Block>
-      </Panel>
-      {error ? <Panel variant="muted" pad="md"><Text variant="bodySm" tone="danger">{error}</Text></Panel> : null}
-      <Block direction="horizontal" justify="space-between" align="center">
-        <Text variant="caption" tone="muted">Step {stepIndex + 1} of {flow.steps.length}</Text>
-        <Button label={submitting ? "Saving..." : currentStep.ctaLabel || (isLastStep ? "Finish" : "Continue")} onPress={() => { void handleContinue(); }} disabled={!canContinue || submitting} fullWidth={false} />
-      </Block>
-    </Block>
+          </YStack>
+        </View>
+        {error ? <Body color="$error">{error}</Body> : null}
+        <XStack ai="center" jc="space-between" gap="$3">
+          <Body fontSize="$2" color="$textMuted">Step {stepIndex + 1} of {flow.steps.length}</Body>
+          <Button onPress={() => { void handleContinue(); }} disabled={!canContinue || submitting} bg="$primary">
+            <Body color="$textInverse" fontFamily="$bold">{submitting ? "Saving..." : currentStep.ctaLabel || (isLastStep ? "Finish" : "Continue")}</Body>
+          </Button>
+        </XStack>
+      </YStack>
+    </SafeAreaView>
   );
 }
 `,

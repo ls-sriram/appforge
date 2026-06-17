@@ -7,9 +7,7 @@
  */
 
 import React from "react";
-import { Block, Icon, Text } from "../../../ui/primitives"
-import { Panel } from "../../../ui/panels";
-import type { IconName } from "../../../ui/primitives";
+import { Body, Heading, Icon, View, YStack, type IconName } from "../../../ui";
 
 export interface FeatureCardProps {
   icon: IconName;
@@ -23,18 +21,22 @@ export function FeatureCard({
   description,
 }: FeatureCardProps) {
   return (
-    <Block align="center" space="md">
-      <Panel>
+    <YStack ai="center" gap="$4">
+      <View
+        bg="$surfaceStrong"
+        borderColor="$borderSubtle"
+        borderWidth={1}
+        br="$3"
+        p="$4"
+      >
         <Icon name={icon} size="5xl" />
-      </Panel>
-      <Block align="center" space="xs">
-        <Text variant="h2" align="center">
-          {title}
-        </Text>
-        <Text variant="body" align="center">
+      </View>
+      <YStack ai="center" gap="$2">
+        <Heading textAlign="center">{title}</Heading>
+        <Body textAlign="center" color="$textSecondary">
           {description}
-        </Text>
-      </Block>
-    </Block>
+        </Body>
+      </YStack>
+    </YStack>
   );
 }

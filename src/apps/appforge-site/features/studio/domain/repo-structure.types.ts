@@ -145,7 +145,7 @@ export interface HookInfo {
 export interface ProviderInfo {
   name: string;
   file: string;
-  contextHook: string | null;
+  contextHook?: string;
   props: string[];
 }
 export interface CoreFn {

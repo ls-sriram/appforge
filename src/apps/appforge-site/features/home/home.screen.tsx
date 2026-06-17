@@ -1,7 +1,18 @@
 import React from "react";
 import { Link } from "expo-router";
-import { Block, Col, Row, Card, Display, Heading, Body, Label, Button, Icon, type IconName } from "../../../../ui/primitives";
-import { ScrollArea } from "../../../../ui/primitives";
+import {
+  Body,
+  Button,
+  Display,
+  Heading,
+  Icon,
+  SafeAreaView,
+  ScrollView,
+  View,
+  XStack,
+  YStack,
+  type IconName,
+} from "../../../../ui";
 import { SiteContainer } from "../../ui/SiteContainer";
 import { SplitHero } from "../../ui/SplitHero";
 
@@ -29,117 +40,125 @@ const INCLUDED = [
 
 function SiteNav() {
   return (
-    <Row spread centered>
-      <Row centered between="xs">
+    <XStack jc="space-between" ai="center" gap="$4" flexWrap="wrap">
+      <XStack ai="center" gap="$2">
         <Icon name="flask" size="md" tone="accent" />
-        <Heading bold>AppForge</Heading>
-      </Row>
-      <Row centered between="lg" flexWrap="wrap">
+        <Heading fontFamily="$bold">AppForge</Heading>
+      </XStack>
+      <XStack ai="center" gap="$5" flexWrap="wrap">
         {NAV_LINKS.map((link) =>
           link === "Playground" ? (
             <Link key={link} href="/studio">
-              <Body size="sm" dim>{link}</Body>
+              <Body fontSize="$2" color="$textMuted">{link}</Body>
             </Link>
           ) : (
-            <Body key={link} size="sm" dim>{link}</Body>
+            <Body key={link} fontSize="$2" color="$textMuted">{link}</Body>
           ),
         )}
-      </Row>
-      <Button label="Get AppForge" size="sm" variant="secondary" onPress={() => {}} fullWidth={false} />
-    </Row>
+      </XStack>
+      <Button bg="$surfaceAlt" borderWidth={1} borderColor="$border">
+        <Body>Get AppForge</Body>
+      </Button>
+    </XStack>
   );
 }
 
 function SaverRow({ saver }: { saver: Saver }) {
   return (
-    <Row spread centered>
-      <Row centered between="sm" fluid>
+    <XStack jc="space-between" ai="center">
+      <XStack ai="center" gap="$3" f={1} minWidth={0}>
         <Icon name={saver.icon} size="sm" tone="accent" />
-        <Body dim>{saver.label}</Body>
-      </Row>
+        <Body color="$textMuted">{saver.label}</Body>
+      </XStack>
       <Body>{saver.hours}h</Body>
-    </Row>
+    </XStack>
   );
 }
 
 function HoursValueProp() {
   return (
-    <Col between="lg">
-      <Label upper tracking="md" primary>PRODUCTION-READY APP SCAFFOLDING</Label>
+    <YStack gap="$5">
+      <Body color="$primary" textTransform="uppercase" letterSpacing={1}>Production-ready app scaffolding</Body>
       <Display>Skip {TOTAL_HOURS} hours of boilerplate.</Display>
-      <Body dim>
+      <Body color="$textMuted">
         AppForge ships the plumbing every app needs — pre-wired, strictly layered, and
         ready to visualize and edit. Here is what you do not have to build:
       </Body>
-      <Col between="md" expand>
+      <YStack gap="$4" w="100%">
         {SAVERS.map((s) => (
           <SaverRow key={s.label} saver={s} />
         ))}
-      </Col>
-      <Row spread centered>
+      </YStack>
+      <XStack jc="space-between" ai="center">
         <Heading>Total saved</Heading>
-        <Heading bold>≈ {TOTAL_HOURS} hours</Heading>
-      </Row>
-    </Col>
+        <Heading fontFamily="$bold">≈ {TOTAL_HOURS} hours</Heading>
+      </XStack>
+    </YStack>
   );
 }
 
 function PurchaseCard() {
   return (
-    <Card pad="xl">
-      <Col between="lg">
-        <Col between="xxs">
-          <Body size="sm" dim>One-time, no subscription</Body>
-          <Row centered between="xs">
+    <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$4" p="$6">
+      <YStack gap="$5">
+        <YStack gap="$1">
+          <Body fontSize="$2" color="$textMuted">One-time, no subscription</Body>
+          <XStack ai="center" gap="$2">
             <Display>$199</Display>
-            <Body size="sm" dim>/ lifetime</Body>
-          </Row>
-        </Col>
-        <Col between="sm">
+            <Body fontSize="$2" color="$textMuted">/ lifetime</Body>
+          </XStack>
+        </YStack>
+        <YStack gap="$3">
           {INCLUDED.map((item) => (
-            <Row key={item} centered between="sm">
+            <XStack key={item} ai="center" gap="$3">
               <Icon name="check" size="sm" tone="accent" />
-              <Body size="sm" dim>{item}</Body>
-            </Row>
+              <Body fontSize="$2" color="$textMuted">{item}</Body>
+            </XStack>
           ))}
-        </Col>
-        <Button label="Get AppForge" onPress={() => {}} fullWidth />
-        <Label dim center>Clone, run, and ship the same day.</Label>
-      </Col>
-    </Card>
+        </YStack>
+        <Button bg="$primary">
+          <Body color="$textInverse" fontFamily="$bold">Get AppForge</Body>
+        </Button>
+        <Body color="$textMuted" textAlign="center">Clone, run, and ship the same day.</Body>
+      </YStack>
+    </View>
   );
 }
 
 export function AppforgeSiteHomeScreen() {
   return (
-    <Block frame="fill" paint="page" safeArea="all">
-      <ScrollArea>
-        <Col pad="lg">
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 48 }}>
+        <YStack bg="$bg">
+          <YStack p="$5">
+            <SiteContainer>
+              <SiteNav />
+            </SiteContainer>
+          </YStack>
+
           <SiteContainer>
-            <SiteNav />
+            <YStack p="$6" gap="$6">
+              <YStack p="$6">
+                <SplitHero left={<HoursValueProp />} right={<PurchaseCard />} />
+              </YStack>
+
+              <YStack gap="$4" ai="center" p="$6">
+                <Heading fontSize="$6" textAlign="center">Every line is real code in the box.</Heading>
+                <Body color="$textMuted" textAlign="center">
+                  Visualize it, edit it, ship it — across web, mobile, desktop and backend.
+                </Body>
+                <Link href="/studio">
+                  <Button bg="$surfaceAlt" borderWidth={1} borderColor="$border">
+                    <Body>Open the Studio →</Body>
+                  </Button>
+                </Link>
+              </YStack>
+
+              <Body color="$textMuted" textAlign="center">© 2026 AppForge — built with AppForge.</Body>
+            </YStack>
           </SiteContainer>
-        </Col>
-
-        <SiteContainer>
-          <Col pad="xl" between="xl">
-            <Col pad="xl">
-              <SplitHero left={<HoursValueProp />} right={<PurchaseCard />} />
-            </Col>
-
-            <Col between="md" centered pad="xl">
-              <Heading size="lg" center>Every line is real code in the box.</Heading>
-              <Body dim center>
-                Visualize it, edit it, ship it — across web, mobile, desktop and backend.
-              </Body>
-              <Link href="/studio">
-                <Button label="Open the Studio →" variant="secondary" onPress={() => {}} fullWidth={false} />
-              </Link>
-            </Col>
-
-            <Label dim center>© 2026 AppForge — built with AppForge.</Label>
-          </Col>
-        </SiteContainer>
-      </ScrollArea>
-    </Block>
+        </YStack>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

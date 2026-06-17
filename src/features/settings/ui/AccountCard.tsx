@@ -2,9 +2,7 @@
  * AccountCard — account metadata (member since, last login).
  */
 import React from "react";
-import { useTheme } from "../../../theme/ThemeProvider";
-import { Block, Icon, Text } from "../../../ui/primitives"
-import { Panel } from "../../../ui/panels";
+import { Body, Icon, View, XStack, YStack } from "../../../ui";
 import { dateOwner } from "../../../core/dates";
 
 export interface AccountCardProps {
@@ -35,53 +33,43 @@ function formatRelative(iso?: string): string {
 }
 
 export function AccountCard({ createdAt, lastLoginAt }: AccountCardProps) {
-  const c = useTheme().colors;
-
   return (
-    <Panel>
-      <Block space="sm">
-        <Text variant="caption" tone="muted">
+    <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$3" p="$4">
+      <YStack gap="$3">
+        <Body fontSize="$1" color="$textMuted">
           Account Details
-        </Text>
+        </Body>
 
-        <Block direction="horizontal" space="sm">
-          <Block frame="fill">
-            <Panel variant="subtle" overflow="hidden">
-              <Block pad="sm">
-                <Block space="xs">
-                  <Block direction="horizontal" align="center" space="xs">
-                    <Icon name="calendar" size="md" tone="muted" />
-                    <Text variant="caption" tone="muted">
+        <XStack gap="$3">
+          <View f={1}>
+            <View bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" p="$3">
+              <YStack gap="$2">
+                <XStack ai="center" gap="$2">
+                  <Icon name="calendar" size="md" tone="muted" />
+                  <Body fontSize="$1" color="$textMuted">
                       Member since
-                    </Text>
-                  </Block>
-                  <Text variant="bodySm" tone="primary">
-                    {formatDate(createdAt)}
-                  </Text>
-                </Block>
-              </Block>
-            </Panel>
-          </Block>
+                  </Body>
+                </XStack>
+                <Body fontSize="$2" color="$primary">{formatDate(createdAt)}</Body>
+              </YStack>
+            </View>
+          </View>
 
-          <Block frame="fill">
-            <Panel variant="subtle" overflow="hidden">
-              <Block pad="sm">
-                <Block space="xs">
-                  <Block direction="horizontal" align="center" space="xs">
-                    <Icon name="activity" size="md" tone="muted" />
-                    <Text variant="caption" tone="muted">
+          <View f={1}>
+            <View bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" p="$3">
+              <YStack gap="$2">
+                <XStack ai="center" gap="$2">
+                  <Icon name="activity" size="md" tone="muted" />
+                  <Body fontSize="$1" color="$textMuted">
                       Last login
-                    </Text>
-                  </Block>
-                  <Text variant="bodySm" tone="primary">
-                    {formatRelative(lastLoginAt)}
-                  </Text>
-                </Block>
-              </Block>
-            </Panel>
-          </Block>
-        </Block>
-      </Block>
-    </Panel>
+                  </Body>
+                </XStack>
+                <Body fontSize="$2" color="$primary">{formatRelative(lastLoginAt)}</Body>
+              </YStack>
+            </View>
+          </View>
+        </XStack>
+      </YStack>
+    </View>
   );
 }

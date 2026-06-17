@@ -1,5 +1,5 @@
 import React from "react";
-import { Col, Button } from "../../../../../ui/primitives";
+import { Body, Button, YStack } from "../../../../../ui";
 
 interface WelcomeActionsBlockProps {
   onSignIn: () => void;
@@ -8,9 +8,13 @@ interface WelcomeActionsBlockProps {
 
 export function WelcomeActionsBlock({ onSignIn, onCreateAccount }: WelcomeActionsBlockProps) {
   return (
-    <Col between="sm" inset="md" padV="md">
-      <Button label="Sign In" onPress={onSignIn} />
-      <Button label="Create Account" variant="secondary" onPress={onCreateAccount} />
-    </Col>
+    <YStack gap="$3" px="$4" py="$4">
+      <Button onPress={onSignIn} bg="$primary">
+        <Body color="$textInverse" fontFamily="$bold">Sign In</Body>
+      </Button>
+      <Button onPress={onCreateAccount} bg="$surfaceAlt" borderWidth={1} borderColor="$border">
+        <Body>Create Account</Body>
+      </Button>
+    </YStack>
   );
 }

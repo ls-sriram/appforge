@@ -1,7 +1,7 @@
 import React from "react";
-import { Pressable, ViewStyle } from "react-native";
+import { Text } from "@tamagui/core";
+import { Pressable } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
-import { Text } from "./Text";
 
 export type SelectableChipSize = "sm" | "md";
 export type SelectableChipShape = "pill" | "rounded";
@@ -27,26 +27,30 @@ export function SelectableChip({
   disabled = false,
 }: SelectableChipProps) {
   const t = useTheme();
-  const containerStyle: ViewStyle = {
-    backgroundColor: selected ? t.colors.textPrimary : t.colors.surfaceAlt,
-    borderColor: selected ? t.colors.textPrimary : t.colors.border,
-    borderWidth: 1,
-    borderRadius: shape === "pill" ? t.colors.radii.pill : t.colors.radii.sm,
-    paddingHorizontal: size === "sm" ? 12 : 14,
-    paddingVertical: size === "sm" ? 6 : 7,
-    alignItems: "center",
-    justifyContent: "center",
-    flex: frame === "fill" ? 1 : undefined,
-    opacity: disabled ? 0.5 : 1,
-  };
-  const labelTone = selected ? "inverse" : "secondary";
-  const labelVariant = size === "sm" ? "bodySm" : "caption";
-  const labelWeight = selected ? "semibold" : "regular";
-  const pressedStyle: ViewStyle = { opacity: disabled ? 0.5 : 0.8 };
 
   return (
-    <Pressable onPress={onPress} disabled={disabled} style={({ pressed }) => [containerStyle, pressed && pressedStyle]}>
-      <Text variant={labelVariant} tone={labelTone} weight={labelWeight} align={frame === "fill" ? "center" : "left"}>
+    <Pressable
+      onPress={onPress}
+      disabled={disabled}
+      style={{
+        backgroundColor: selected ? t.colors.textPrimary : t.colors.surfaceAlt,
+        borderColor: selected ? t.colors.textPrimary : t.colors.border,
+        borderWidth: 1,
+        borderRadius: shape === "pill" ? t.colors.radii.pill : t.colors.radii.sm,
+        paddingHorizontal: size === "sm" ? 12 : 14,
+        paddingVertical: size === "sm" ? 6 : 7,
+        alignItems: "center",
+        justifyContent: "center",
+        flex: frame === "fill" ? 1 : undefined,
+        opacity: disabled ? 0.5 : 1,
+      }}
+    >
+      <Text
+        color={selected ? t.colors.textInverse : t.colors.textSecondary}
+        fontFamily={selected ? "$bold" : "$reg"}
+        fontSize={size === "sm" ? "$2" : "$1"}
+        textAlign={frame === "fill" ? "center" : "left"}
+      >
         {label}
       </Text>
     </Pressable>

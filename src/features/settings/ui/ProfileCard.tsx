@@ -10,9 +10,7 @@
 
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { useTheme } from "../../../theme/ThemeProvider";
-import { Block, Avatar, Icon, Text } from "../../../ui/primitives"
-import { Panel } from "../../../ui/panels";
+import { Body, Heading, Icon, View, XStack, YStack } from "../../../ui";
 
 export interface ProfileCardProps {
   name?: string;
@@ -35,34 +33,46 @@ export function ProfileCard({
   onPress,
   size = "lg",
 }: ProfileCardProps) {
-  const t = useTheme();
-  const c = t.colors;
-
   const name = identity?.name ?? nameProp;
   const email = identity?.email ?? emailProp ?? "";
   const uid = identity?.uid ?? uidProp ?? "";
+  const initials = (name || email || "?")
+    .split(" ")
+    .map((part) => part[0] ?? "")
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
   const content = (
-    <Panel variant="strong" overflow="hidden">
-      <Block direction="horizontal" align="center" justify="space-between" space="md">
-        <Block direction="horizontal" align="center" space="md" frame="fluid">
-          <Avatar name={name || email} email={email} size={size} />
-          <Block space="xxs" frame="fluid">
-            <Text variant="h3" numberOfLines={1}>
+    <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$4" overflow="hidden" p="$4">
+      <XStack ai="center" jc="space-between" gap="$4">
+        <XStack ai="center" gap="$4" f={1} minWidth={0}>
+          <View
+            w={size === "sm" ? 32 : size === "md" ? 40 : 56}
+            h={size === "sm" ? 32 : size === "md" ? 40 : 56}
+            br={9999}
+            bg="$primaryMuted"
+            ai="center"
+            jc="center"
+          >
+            <Body color="$primary" fontFamily="$bold">{initials}</Body>
+          </View>
+          <YStack gap={2} f={1} minWidth={0}>
+            <Heading fontSize="$4" numberOfLines={1}>
               {name || "Anonymous"}
-            </Text>
-            <Text variant="bodySm" tone="secondary" numberOfLines={1}>
+            </Heading>
+            <Body fontSize="$2" color="$textSecondary" numberOfLines={1}>
               {email || "No email available"}
-            </Text>
+            </Body>
             {uid ? (
-              <Text variant="caption" tone="muted" numberOfLines={1}>
+              <Body fontSize="$1" color="$textMuted" numberOfLines={1}>
                 ID: {uid.slice(0, 12)}…
-              </Text>
+              </Body>
             ) : null}
-          </Block>
-        </Block>
-        {onPress ? <Icon name="chevron-right" size="xl" tone="quaternary" /> : null}
-      </Block>
-    </Panel>
+          </YStack>
+        </XStack>
+        {onPress ? <Icon name="chevron-right" size="xl" tone="muted" /> : null}
+      </XStack>
+    </View>
   );
 
   if (onPress) {
@@ -76,16 +86,4 @@ export function ProfileCard({
   return content;
 }
 
-const styles = StyleSheet.create({
-  card: {
-    overflow: "hidden",
-  },
-  identity: {
-    flex: 1,
-    minWidth: 0,
-  },
-  textBlock: {
-    flex: 1,
-    minWidth: 0,
-  },
-});
+const styles = StyleSheet.create({});

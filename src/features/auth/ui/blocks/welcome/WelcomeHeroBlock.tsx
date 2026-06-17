@@ -1,12 +1,14 @@
 import React from "react";
-import { Col, Display, Label } from "../../../../../ui/primitives";
+import { Display, Label, YStack } from "../../../../../ui";
 import { app } from "../../../../../config/app";
 
 export function WelcomeHeroBlock() {
   return (
-    <Col between="md" inset="md" padV="lg">
-      <Label upper tracking="md" dim>{app.name}</Label>
+    <YStack gap="$4" px="$4" py="$5">
+      <Label color="$textMuted" textTransform="uppercase" letterSpacing={1}>
+        {app.name}
+      </Label>
       <Display>{app.tagline}</Display>
-    </Col>
+    </YStack>
   );
 }

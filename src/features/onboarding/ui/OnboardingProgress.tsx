@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
-import { Icon, Text } from "../../../ui/primitives";
+import { Body, Icon } from "../../../ui";
 import { useTheme } from "../../../theme/ThemeProvider";
 
 export function OnboardingProgress({
@@ -27,7 +27,7 @@ export function OnboardingProgress({
         ) : (
           <View />
         )}
-        <Text variant="bodySm">Step {step} of {total}</Text>
+        <Body fontSize="$2">Step {step} of {total}</Body>
       </View>
       <View>
         <View

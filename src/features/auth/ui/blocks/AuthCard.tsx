@@ -1,6 +1,10 @@
 import React from "react";
-import { Card } from "../../../../ui/primitives";
+import { View } from "../../../../ui";
 
 export function AuthCard({ children }: { children: React.ReactNode }) {
-  return <Card variant="neutral" pad="lg">{children}</Card>;
+  return (
+    <View bg="$surface" borderWidth={1} borderColor="$borderSubtle" br="$4" p="$5">
+      {children}
+    </View>
+  );
 }

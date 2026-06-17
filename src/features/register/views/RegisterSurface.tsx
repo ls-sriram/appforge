@@ -1,6 +1,6 @@
 import React from "react";
 import { ViewProps } from "../../../core/types";
-import { Block } from "../../../ui/primitives"
+import { YStack } from "../../../ui";
 import { CenteredPageLayout } from "../../../ui/layouts";
 import { AuthCard } from "../../auth/ui/blocks/AuthCard";
 import { AuthBrandBlock } from "../../auth/ui/blocks/AuthBrandBlock";
@@ -25,7 +25,7 @@ export function RegisterSurface({ data, dispatch, submitDisabled }: RegisterSurf
   return (
     <CenteredPageLayout>
       <AuthCard>
-        <Block space="md">
+        <YStack gap="$4">
           <AuthBrandBlock subtitle={app.copy.auth.registerSubtitle} />
           <AuthFieldBlock
             icon="user"
@@ -72,7 +72,7 @@ export function RegisterSurface({ data, dispatch, submitDisabled }: RegisterSurf
             linkLabel="Log in"
             onPress={() => dispatch({ type: "go_to_login" })}
           />
-        </Block>
+        </YStack>
       </AuthCard>
     </CenteredPageLayout>
   );

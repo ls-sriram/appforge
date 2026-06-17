@@ -1,10 +1,10 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 
-// App-shared layout primitive (Layer 5). An asymmetric two-column split
-// (value prop left, CTA right) that wraps to stacked on narrow viewports —
-// flex weights the shared Block API doesn't express, so a named View +
-// StyleSheet is the sanctioned escape hatch.
+// App-shared layout primitive. An asymmetric two-column split
+// (value prop left, CTA right) that wraps to stacked on narrow viewports.
+// The flex geometry is specific enough that a named RN View wrapper is
+// clearer than pushing it into the shared Tamagui barrel.
 export function SplitHero({ left, right }: { left: React.ReactNode; right: React.ReactNode }) {
   return (
     <View style={styles.row}>

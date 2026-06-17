@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert } from "react-native";
 import { useRouter, type Href } from "expo-router";
-import { Block, Button } from "../../ui/primitives"
+import { Body, Button, YStack } from "../../ui";
 import { CenteredPageLayout } from "../../ui/layouts";
 import { AuthCard } from "./ui/blocks/AuthCard";
 import { AuthBrandBlock } from "./ui/blocks/AuthBrandBlock";
@@ -46,9 +46,9 @@ export function ForgotPasswordRouteScreen({ loginHref }: Props) {
 
   return (
     <CenteredPageLayout>
-      <Block space="sm">
+      <YStack gap="$3">
         <AuthCard>
-          <Block space="md">
+          <YStack gap="$4">
             <AuthBrandBlock subtitle={app.copy.auth.forgotPasswordSubtitle} />
             <AuthFieldBlock
               icon="mail"
@@ -67,10 +67,12 @@ export function ForgotPasswordRouteScreen({ loginHref }: Props) {
               generalError={error}
               onPress={handleSubmit}
             />
-          </Block>
+          </YStack>
         </AuthCard>
-        <Button label="Back to sign in" variant="secondary" onPress={() => router.replace(loginHref)} fullWidth />
-      </Block>
+        <Button onPress={() => router.replace(loginHref)} bg="$surfaceAlt" borderWidth={1} borderColor="$border">
+          <Body>Back to sign in</Body>
+        </Button>
+      </YStack>
     </CenteredPageLayout>
   );
 }

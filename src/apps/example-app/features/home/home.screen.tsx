@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "expo-router";
-import { Block, Col, Row, Card, Display, Heading, Body, Button } from "../../../../ui/primitives";
+import { Body, Button, Display, Heading, SafeAreaView, View, XStack, YStack } from "../../../../ui";
 import { ProfileCard } from "../../../../features/settings";
 import { useSessionContext } from "../../../../providers/SessionProvider";
 import { exampleAppRoutes } from "../../navigation/routes";
@@ -19,26 +19,30 @@ export function ExampleAppHomeScreen() {
   const identity = resolveIdentity(session);
 
   return (
-    <Block frame="fill" paint="page" safeArea="all">
-      <Col fill between="md" pad="md">
-        <Col between="xs">
+    <SafeAreaView style={{ flex: 1 }}>
+      <YStack f={1} bg="$bg" gap="$4" p="$4">
+        <YStack gap="$2">
           <Display>Example App</Display>
-          <Body dim>Example member workspace wired into session and onboarding state.</Body>
-        </Col>
+          <Body color="$textMuted">Example member workspace wired into session and onboarding state.</Body>
+        </YStack>
         <ProfileCard identity={identity} onPress={() => router.push(exampleAppRoutes.profile)} />
-        <Card variant="subtle" pad="sm">
-          <Col between="xs">
-            <Heading size="sm">Backend session</Heading>
-            <Body size="sm" dim>User ID: {identity.uid || "Unavailable"}</Body>
-            <Body size="sm" dim>Email: {identity.email || "Unavailable"}</Body>
-            <Body size="sm" dim>Onboarding complete: {session?.onboardingCompleted ? "Yes" : "No"}</Body>
-          </Col>
-        </Card>
-        <Row between="sm" flexWrap="wrap">
-          <Button label="Refresh session" onPress={() => { void refreshSession(); }} fullWidth={false} />
-          <Button label="Profile" variant="secondary" onPress={() => router.push(exampleAppRoutes.profile)} fullWidth={false} />
-        </Row>
-      </Col>
-    </Block>
+        <View bg="$surface" borderColor="$borderSubtle" borderWidth={1} br="$3" p="$3">
+          <YStack gap="$2">
+            <Heading fontSize="$4">Backend session</Heading>
+            <Body fontSize="$2" color="$textMuted">User ID: {identity.uid || "Unavailable"}</Body>
+            <Body fontSize="$2" color="$textMuted">Email: {identity.email || "Unavailable"}</Body>
+            <Body fontSize="$2" color="$textMuted">Onboarding complete: {session?.onboardingCompleted ? "Yes" : "No"}</Body>
+          </YStack>
+        </View>
+        <XStack gap="$3" flexWrap="wrap">
+          <Button onPress={() => { void refreshSession(); }} bg="$primary">
+            <Body color="$textInverse" fontFamily="$bold">Refresh session</Body>
+          </Button>
+          <Button onPress={() => router.push(exampleAppRoutes.profile)} bg="$surfaceAlt" borderWidth={1} borderColor="$border">
+            <Body>Profile</Body>
+          </Button>
+        </XStack>
+      </YStack>
+    </SafeAreaView>
   );
 }

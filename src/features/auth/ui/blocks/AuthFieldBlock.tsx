@@ -1,8 +1,8 @@
 import React from "react";
 import { TextInput } from "react-native";
-import { Col, Label } from "../../../../ui/primitives";
+import { Label, YStack } from "../../../../ui";
 import { AuthDarkField, type InputHandle } from "./AuthDarkField";
-import type { IconName } from "../../../../ui/primitives/Icon";
+import type { IconName } from "../../../../ui";
 
 interface AuthFieldBlockProps {
   icon: IconName;
@@ -38,7 +38,7 @@ export function AuthFieldBlock({
   testID,
 }: AuthFieldBlockProps) {
   return (
-    <Col between="xs">
+    <YStack gap="$2">
       <AuthDarkField
         icon={icon}
         placeholder={placeholder}
@@ -55,7 +55,7 @@ export function AuthFieldBlock({
         inputRef={inputRef}
         testID={testID}
       />
-      {error ? <Label size="sm" error>{error}</Label> : null}
-    </Col>
+      {error ? <Label color="$error" fontSize="$2">{error}</Label> : null}
+    </YStack>
   );
 }

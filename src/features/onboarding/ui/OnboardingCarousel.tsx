@@ -12,12 +12,9 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useTheme } from "../../../theme/ThemeProvider";
-import { Text } from "../../../ui/primitives/Text";
-import { Button } from "../../../ui/primitives/Button";
+import { Body, Button } from "../../../ui";
 import { FeatureCard } from "./FeatureCard";
-import type { IconName } from "../../../ui/primitives/Icon";
-import { onboarding } from "../../../theme/tokens";
+import type { IconName } from "../../../ui";
 import { useViewport } from "../../../theme/Viewport";
 
 export interface OnboardingStep {
@@ -40,7 +37,6 @@ export function OnboardingCarousel({
   ctaLabel = "Get Started",
   skipLabel = "Skip",
 }: OnboardingCarouselProps) {
-  const t = useTheme();
   const viewport = useViewport();
   const screenWidth = viewport.width;
   const [activeIndex, setActiveIndex] = useState(0);
@@ -110,11 +106,11 @@ export function OnboardingCarousel({
         <View
         >
           {!isLast && (
-            <Button label={skipLabel} variant="ghost" onPress={() => onComplete()} fullWidth />
+            <Button onPress={() => onComplete()} bg="transparent" w="100%">
+              <Body>{skipLabel}</Body>
+            </Button>
           )}
           <Button
-            label={isLast ? ctaLabel : "Next"}
-            variant="primary"
             onPress={() => {
               if (isLast) {
                 onComplete();
@@ -122,8 +118,11 @@ export function OnboardingCarousel({
                 scrollTo(activeIndex + 1);
               }
             }}
-            fullWidth
-          />
+            bg="$primary"
+            w="100%"
+          >
+            <Body color="$textInverse" fontFamily="$bold">{isLast ? ctaLabel : "Next"}</Body>
+          </Button>
         </View>
       </View>
     </View>

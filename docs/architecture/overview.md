@@ -7,7 +7,7 @@ AppForge is a starter/framework repository for building one app across web, mobi
 - `app-example-app/`: Expo Router entry root for the reference app
 - `src/apps/example-app/`: app-specific routes and screens for the reference app
 - `src/features/`: shared product features and viewmodel/usecase slices
-- `src/ui/`: shared primitives, panels, blocks, and layouts
+- `src/ui/`: shared Tamagui provider/config, the root UI barrel, and a small set of domain-neutral helpers
 - `src/theme/`: tokens and theme assembly
 - `server/`: backend runtime, routing, services, and infrastructure
 - `tools/scaffold/`: app and feature generation tooling
@@ -17,5 +17,8 @@ AppForge is a starter/framework repository for building one app across web, mobi
 
 - App-specific code lives under `src/apps/*`.
 - Shared frontend platform code stays in shared `src/*` layers.
+- Feature and app UI should compose `src/ui` exports directly with Tamagui props and shorthands.
+- `src/ui/index.ts` is the only supported shared UI import surface.
+- Shared UI does not expose a repo-specific styling DSL. Removed APIs include `Block`, shared `panels`, shared `blocks`, and legacy text variants/tones.
 - Runtime config and secrets live in config-manager, not in committed `.env` files.
 - The backend is shared infrastructure, even when the frontend app surface is a single example app.

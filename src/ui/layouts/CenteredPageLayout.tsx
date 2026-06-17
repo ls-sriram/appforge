@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
 import { useViewport } from "../../theme/Viewport";
-import { Block } from "../primitives";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type CenteredPageLayoutWidth = "narrow" | "regular";
 
@@ -23,7 +23,7 @@ export function CenteredPageLayout({ children, width = "narrow" }: Props) {
   const verticalPadding = viewport.isMobile ? theme.colors.space.lg : theme.colors.space["2xl"];
 
   return (
-    <Block frame="fill" paint="page" safeArea="all">
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.bg }]} edges={["top", "bottom", "left", "right"]}>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={{
@@ -41,11 +41,14 @@ export function CenteredPageLayout({ children, width = "narrow" }: Props) {
           {children}
         </View>
       </ScrollView>
-    </Block>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   scroll: {
     flex: 1,
   },

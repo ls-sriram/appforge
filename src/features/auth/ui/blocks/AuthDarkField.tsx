@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
 import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import { useTheme } from "../../../../theme/ThemeProvider";
-import { Block, Icon, IconName } from "../../../../ui/primitives"
+import { Icon, View, XStack } from "../../../../ui";
+import type { IconName } from "../../../../ui";
 
 export interface InputHandle {
   current?: TextInput;
@@ -53,9 +54,14 @@ export function AuthDarkField({
       accessible={false}
       onPress={() => effectiveInputRef.current?.focus()}
     >
-      <Block paint={hasError ? "danger" : "panel"} pad="none">
-        <Block padH="lg" padV="sm">
-          <Block direction="horizontal" align="center" space="sm">
+      <View
+        bg={hasError ? "$errorMuted" : "$surfaceStrong"}
+        borderColor={hasError ? "$error" : "$border"}
+        borderWidth={1}
+        br="$3"
+      >
+        <View px="$5" py="$3">
+          <XStack ai="center" gap="$3">
             <Icon name={icon} size="lg" />
             <TextInput
               ref={(instance) => {
@@ -92,9 +98,9 @@ export function AuthDarkField({
                 <Icon name="eye" size="lg" />
               </TouchableOpacity>
             ) : null}
-          </Block>
-        </Block>
-      </Block>
+          </XStack>
+        </View>
+      </View>
     </TouchableOpacity>
   );
 }

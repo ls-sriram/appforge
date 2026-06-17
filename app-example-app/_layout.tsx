@@ -5,7 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { ThemeProvider } from "../src/theme/ThemeProvider";
 import { UIProvider } from "../src/ui/Provider";
-import { Block } from "../src/ui/primitives";
+import { View } from "../src/ui";
 import { useGateState } from "../src/features/app-gate/viewmodel/use-gate-state";
 import { EntitlementProvider } from "../src/providers/EntitlementProvider";
 import { SessionProvider } from "../src/providers/SessionProvider";
@@ -21,9 +21,9 @@ function ExampleAppGate({ children }: { children: React.ReactNode }) {
 
   if (gate.loading) {
     return (
-      <Block frame="fill" paint="page" justify="center" align="center">
+      <View f={1} bg="$bg" jc="center" ai="center">
         <ActivityIndicator size="large" />
-      </Block>
+      </View>
     );
   }
 

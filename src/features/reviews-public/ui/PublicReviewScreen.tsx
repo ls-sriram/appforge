@@ -1,5 +1,5 @@
 import React from "react";
-import { Block, Button, Input, Text } from "../../../ui/primitives"
+import { Body, Button, Heading, Input, XStack, YStack } from "../../../ui";
 import { api } from "../../../services/ApiClient";
 
 interface Props {
@@ -91,33 +91,32 @@ export function PublicReviewScreen({ token }: Props) {
 
   if (loading) {
     return (
-      <Block frame="center">
-        <Text variant="caption">Loading review form...</Text>
-      </Block>
+      <YStack f={1} ai="center" jc="center" p="$4">
+        <Body fontSize="$2" color="$textMuted">Loading review form...</Body>
+      </YStack>
     );
   }
 
   if (error || !reviewForm) {
     return (
-      <Block frame="center">
-        <Text variant="h3">Review unavailable</Text>
-        <Text variant="caption">{error ?? "The review link is unavailable."}</Text>
-      </Block>
+      <YStack f={1} ai="center" jc="center" gap="$2" p="$4">
+        <Heading>Review unavailable</Heading>
+        <Body fontSize="$2" color="$textMuted">{error ?? "The review link is unavailable."}</Body>
+      </YStack>
     );
   }
 
   const normalizedToken = String(token ?? "").trim();
 
   return (
-    <Block paint="page">
-      <Block pad="md">
-        <Block>
-          <Text variant="h2">{reviewForm.name}</Text>
-          <Text variant="caption">{`Type: ${reviewForm.entityType}`}</Text>
+    <YStack bg="$bg" f={1}>
+      <YStack p="$4" gap="$4">
+        <Heading>{reviewForm.name}</Heading>
+        <Body fontSize="$2" color="$textMuted">{`Type: ${reviewForm.entityType}`}</Body>
           <Input value={displayName} onChangeText={setDisplayName} placeholder="Your name (optional)" />
           {reviewForm.fields.map((field) => (
-            <Block key={field.id} space="sm">
-              <Text variant="bodySm">{field.label}</Text>
+            <YStack key={field.id} gap="$3">
+              <Body fontSize="$2">{field.label}</Body>
               {field.type === "text" ? (
                 <Input
                   value={answers[field.id]?.textValue ?? ""}
@@ -127,34 +126,39 @@ export function PublicReviewScreen({ token }: Props) {
                   placeholder={field.required ? "Required" : "Optional"}
                 />
               ) : (
-                <Block direction="horizontal" space="sm">
+                <XStack gap="$3" flexWrap="wrap">
                   {(field.options ?? []).map((option) => {
                     const selected = (answers[field.id]?.optionIds ?? []).includes(option.id);
                     return (
                       <Button
                         key={option.id}
-                        label={option.label}
-                        variant={selected ? "primary" : "secondary"}
-                        fullWidth={false}
-                        size="sm"
+                        bg={selected ? "$primary" : "$surfaceAlt"}
+                        borderWidth={1}
+                        borderColor={selected ? "$primary" : "$border"}
+                        minHeight={42}
+                        px="$4"
+                        py="$3"
                         onPress={() =>
                           setAnswers((prev) => ({
                             ...prev,
                             [field.id]: { optionIds: [option.id], textValue: undefined },
                           }))
                         }
-                      />
+                      >
+                        <Body color={selected ? "$textInverse" : "$textPrimary"}>{option.label}</Body>
+                      </Button>
                     );
                   })}
-                </Block>
+                </XStack>
               )}
-            </Block>
+            </YStack>
           ))}
-          {error ? <Text variant="caption">{error}</Text> : null}
-          {success ? <Text variant="caption">{success}</Text> : null}
-          <Button label={saving ? "Submitting..." : "Submit Review"} onPress={submit} disabled={saving || !normalizedToken} />
-        </Block>
-      </Block>
-    </Block>
+          {error ? <Body fontSize="$2" color="$error">{error}</Body> : null}
+          {success ? <Body fontSize="$2" color="$textMuted">{success}</Body> : null}
+          <Button onPress={submit} disabled={saving || !normalizedToken} bg="$primary">
+            <Body color="$textInverse" fontFamily="$bold">{saving ? "Submitting..." : "Submit Review"}</Body>
+          </Button>
+      </YStack>
+    </YStack>
   );
 }

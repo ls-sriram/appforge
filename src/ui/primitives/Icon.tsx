@@ -2,7 +2,6 @@ import React from "react";
 import { View } from "react-native";
 import Svg, { Path, Circle } from "react-native-svg";
 import { useTheme } from "../../theme/ThemeProvider";
-import { resolveSemanticTone, type SemanticTone } from "./SemanticTone";
 
 /**
  * Icon — SVG icon atom.
@@ -50,7 +49,17 @@ export type IconName =
   | "key"
   | "eye";
 
-export type IconTone = SemanticTone;
+export type IconTone =
+  | "muted"
+  | "secondary"
+  | "accent"
+  | "action"
+  | "success"
+  | "warning"
+  | "danger"
+  | "info"
+  | "inverse"
+  | "brand";
 export type IconSize = "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
 
 const ICON_SIZE_MAP: Record<IconSize, number> = {
@@ -314,7 +323,24 @@ interface IconProps {
 
 export function Icon({ name, size = "3xl", tone = "muted" }: IconProps) {
   const theme = useTheme();
-  const resolvedColor = resolveSemanticTone(theme, tone);
+  const resolvedColor =
+    tone === "secondary"
+      ? theme.colors.textSecondary
+      : tone === "accent" || tone === "brand"
+        ? theme.colors.primary
+        : tone === "action"
+          ? theme.colors.actionAccent
+          : tone === "success"
+            ? theme.colors.success
+            : tone === "warning"
+              ? theme.colors.warning
+              : tone === "danger"
+                ? theme.colors.error
+                : tone === "info"
+                  ? theme.colors.info
+                  : tone === "inverse"
+                    ? theme.colors.textInverse
+                    : theme.colors.textMuted;
   const resolvedSize = ICON_SIZE_MAP[size];
   return (
     <View style={{ width: resolvedSize, height: resolvedSize }}>

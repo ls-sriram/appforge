@@ -1,8 +1,18 @@
 import React from "react";
 import { Link } from "expo-router";
-import { Block, Col, Row, Card, Display, Heading, Body, Label, Button, Icon, Tag } from "../../../../ui/primitives";
-import { ScrollArea } from "../../../../ui/primitives";
-import { StatPill } from "../../../../ui/blocks";
+import {
+  Body,
+  Button,
+  Display,
+  Heading,
+  Icon,
+  SafeAreaView,
+  ScrollView,
+  Tag,
+  View,
+  XStack,
+  YStack,
+} from "../../../../ui";
 import { SiteContainer } from "../../ui/SiteContainer";
 import { useArchitectureView, type LayerLens } from "./viewmodel/use-architecture-view";
 import { UiPlaygroundSection } from "./ui-playground.view";
@@ -26,132 +36,145 @@ const MVVM_LABEL: Record<MvvmLayerId, string> = {
   runtime: "Runtime",
 };
 
+function StatPill({ label, value }: { label: string; value: string }) {
+  return (
+    <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$5" px="$4" py="$3">
+      <YStack gap="$1">
+        <Body color="$textMuted" textTransform="uppercase" letterSpacing={1}>{label}</Body>
+        <Heading fontFamily="$bold">{value}</Heading>
+      </YStack>
+    </View>
+  );
+}
+
 function StudioHeader({ generatedAt }: { generatedAt: string }) {
   return (
-    <Row spread centered>
-      <Row centered between="xs">
+    <XStack jc="space-between" ai="center" gap="$4" flexWrap="wrap">
+      <XStack ai="center" gap="$2">
         <Icon name="flask" size="md" tone="accent" />
-        <Heading bold>AppForge Studio</Heading>
-      </Row>
-      <Row centered between="md">
-        <Label dim>Scanned {new Date(generatedAt).toLocaleString()}</Label>
+        <Heading fontFamily="$bold">AppForge Studio</Heading>
+      </XStack>
+      <XStack ai="center" gap="$4">
+        <Body color="$textMuted">Scanned {new Date(generatedAt).toLocaleString()}</Body>
         <Link href="/">
-          <Body size="sm" dim>← Back</Body>
+          <Body color="$textMuted">← Back</Body>
         </Link>
-      </Row>
-    </Row>
+      </XStack>
+    </XStack>
   );
 }
 
 function LensToggle({ lens, onSelect }: { lens: LayerLens; onSelect: (l: LayerLens) => void }) {
   return (
-    <Row between="xs">
-      <Button label="UI composition" size="sm" variant={lens === "ui" ? "primary" : "secondary"} onPress={() => onSelect("ui")} fullWidth={false} />
-      <Button label="MVVM data flow" size="sm" variant={lens === "mvvm" ? "primary" : "secondary"} onPress={() => onSelect("mvvm")} fullWidth={false} />
-    </Row>
+    <XStack gap="$2">
+      <Button bg={lens === "ui" ? "$primary" : "$surfaceAlt"} borderWidth={1} borderColor={lens === "ui" ? "$primary" : "$border"} onPress={() => onSelect("ui")}>
+        <Body color={lens === "ui" ? "$textInverse" : "$textPrimary"}>UI composition</Body>
+      </Button>
+      <Button bg={lens === "mvvm" ? "$primary" : "$surfaceAlt"} borderWidth={1} borderColor={lens === "mvvm" ? "$primary" : "$border"} onPress={() => onSelect("mvvm")}>
+        <Body color={lens === "mvvm" ? "$textInverse" : "$textPrimary"}>MVVM data flow</Body>
+      </Button>
+    </XStack>
   );
 }
 
 function LayerBox({ layer }: { layer: LayerStat }) {
   return (
-    <Card pad="md">
-      <Col between="xs">
-        <Row spread centered>
+    <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$3" p="$4">
+      <YStack gap="$2">
+        <XStack jc="space-between" ai="center">
           <Body>{layer.label}</Body>
           {typeof layer.count === "number" ? <Tag label={`${layer.count}`} tone="info" /> : null}
-        </Row>
-        <Label primary>{layer.path}</Label>
-        <Body size="sm" dim>{layer.rule}</Body>
-      </Col>
-    </Card>
+        </XStack>
+        <Body color="$primary">{layer.path}</Body>
+        <Body fontSize="$2" color="$textMuted">{layer.rule}</Body>
+      </YStack>
+    </View>
   );
 }
 
 function LayerStack({ layers }: { layers: LayerStat[] }) {
   return (
-    <Col between="xs" expand>
+    <YStack gap="$2" w="100%">
       {layers.map((layer, i) => (
-        <Col key={layer.id} between="xs">
+        <YStack key={layer.id} gap="$2">
           <LayerBox layer={layer} />
-          {i < layers.length - 1 ? (
-            <Label dim center>↓ may depend on</Label>
-          ) : null}
-        </Col>
+          {i < layers.length - 1 ? <Body color="$textMuted" textAlign="center">↓ may depend on</Body> : null}
+        </YStack>
       ))}
-    </Col>
+    </YStack>
   );
 }
 
 function ProhibitedEdges({ edges }: { edges: ProhibitedEdge[] }) {
   return (
-    <Col between="sm" expand>
-      <Label upper tracking="sm" error>PROHIBITED SKIPS — NEVER ALLOWED</Label>
+    <YStack gap="$3">
+      <Body color="$error" textTransform="uppercase" letterSpacing={1}>Prohibited skips — never allowed</Body>
       {edges.map((e) => (
-        <Row key={`${e.from}-${e.to}`} centered between="sm" flexWrap="wrap">
+        <XStack key={`${e.from}-${e.to}`} ai="center" gap="$3" flexWrap="wrap">
           <Tag label={`${e.from} ⇥ ${e.to}`} tone="danger" />
-          <Body size="sm" dim>{e.reason}</Body>
-        </Row>
+          <Body fontSize="$2" color="$textMuted">{e.reason}</Body>
+        </XStack>
       ))}
-    </Col>
+    </YStack>
   );
 }
 
 function FeatureRow({ feature }: { feature: FeatureLayerPresence }) {
   const present = MVVM_ORDER.filter((id) => feature.layers[id]);
   return (
-    <Row spread centered flexWrap="wrap" between="sm">
-      <Body size="sm" dim>{feature.name}</Body>
-      <Row between="xs" flexWrap="wrap">
-        {present.length === 0 ? (
-          <Label dim>—</Label>
-        ) : (
-          present.map((id) => <Tag key={id} label={MVVM_LABEL[id]} tone="info" />)
-        )}
-      </Row>
-    </Row>
+    <XStack jc="space-between" ai="center" gap="$3" flexWrap="wrap">
+      <Body fontSize="$2" color="$textMuted">{feature.name}</Body>
+      <XStack gap="$2" flexWrap="wrap">
+        {present.length === 0 ? <Body color="$textMuted">—</Body> : present.map((id) => <Tag key={id} label={MVVM_LABEL[id]} tone="info" />)}
+      </XStack>
+    </XStack>
   );
 }
 
 function Violations({ violations }: { violations: BoundaryViolation[] }) {
   if (violations.length === 0) {
     return (
-      <Row centered between="sm">
+      <XStack ai="center" gap="$3">
         <Icon name="circle-check" size="sm" tone="success" />
-        <Body size="sm" dim>No boundary violations — matches a clean lint:arch run.</Body>
-      </Row>
+        <Body fontSize="$2" color="$textMuted">No boundary violations — matches a clean lint:arch run.</Body>
+      </XStack>
     );
   }
   return (
-    <Col between="sm">
+    <YStack gap="$3">
       {violations.map((v) => (
-        <Col key={v.file} between="xxs">
-          <Body size="sm" error>{v.edge}</Body>
-          <Label dim>{v.file}</Label>
-          <Body size="sm" dim>{v.message}</Body>
-        </Col>
+        <YStack key={v.file} gap="$1">
+          <Body fontSize="$2" color="$error">{v.edge}</Body>
+          <Body color="$textMuted">{v.file}</Body>
+          <Body fontSize="$2" color="$textMuted">{v.message}</Body>
+        </YStack>
       ))}
-    </Col>
+    </YStack>
   );
 }
 
 function Section({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
   return (
-    <Col between="md" expand>
-      <Col between="xxs">
+    <YStack gap="$4" w="100%">
+      <YStack gap="$1">
         <Heading>{title}</Heading>
-        {subtitle ? <Body size="sm" dim>{subtitle}</Body> : null}
-      </Col>
+        {subtitle ? <Body fontSize="$2" color="$textMuted">{subtitle}</Body> : null}
+      </YStack>
       {children}
-    </Col>
+    </YStack>
   );
 }
 
 function CategoryToggle({ category, onSelect }: { category: StudioCategory; onSelect: (c: StudioCategory) => void }) {
   return (
-    <Row between="xs">
-      <Button label="Architecture" size="sm" variant={category === "architecture" ? "primary" : "secondary"} onPress={() => onSelect("architecture")} fullWidth={false} />
-      <Button label="UI Playground" size="sm" variant={category === "uiPlayground" ? "primary" : "secondary"} onPress={() => onSelect("uiPlayground")} fullWidth={false} />
-    </Row>
+    <XStack gap="$2">
+      <Button bg={category === "architecture" ? "$primary" : "$surfaceAlt"} borderWidth={1} borderColor={category === "architecture" ? "$primary" : "$border"} onPress={() => onSelect("architecture")}>
+        <Body color={category === "architecture" ? "$textInverse" : "$textPrimary"}>Architecture</Body>
+      </Button>
+      <Button bg={category === "uiPlayground" ? "$primary" : "$surfaceAlt"} borderWidth={1} borderColor={category === "uiPlayground" ? "$primary" : "$border"} onPress={() => onSelect("uiPlayground")}>
+        <Body color={category === "uiPlayground" ? "$textInverse" : "$textPrimary"}>UI Playground</Body>
+      </Button>
+    </XStack>
   );
 }
 
@@ -162,76 +185,69 @@ export function AppforgeSiteStudioScreen() {
   const [category, setCategory] = React.useState<StudioCategory>("architecture");
 
   return (
-    <Block frame="fill" paint="page" safeArea="all">
-      <ScrollArea>
-        <Col pad="lg">
-          <SiteContainer>
-            <StudioHeader generatedAt={overview.generatedAt} />
-          </SiteContainer>
-        </Col>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView style={{ flex: 1 }}>
+        <YStack bg="$bg">
+          <YStack p="$5">
+            <SiteContainer>
+              <StudioHeader generatedAt={overview.generatedAt} />
+            </SiteContainer>
+          </YStack>
 
-        <Col pad="lg">
-          <SiteContainer>
-            <CategoryToggle category={category} onSelect={setCategory} />
-          </SiteContainer>
-        </Col>
+          <YStack p="$5">
+            <SiteContainer>
+              <CategoryToggle category={category} onSelect={setCategory} />
+            </SiteContainer>
+          </YStack>
 
-        {category === "architecture" ? (
-          <SiteContainer>
-            <Col pad="xl" between="xl">
-              <Col between="xs">
-                <Label upper tracking="md" primary>ARCHITECTURE</Label>
-                <Display>Your app, by the layers.</Display>
-                <Body dim>A live read of how this repo is structured — generated from the source, not hand-drawn.</Body>
-              </Col>
+          {category === "architecture" ? (
+            <SiteContainer>
+              <YStack p="$6" gap="$6">
+                <YStack gap="$2">
+                  <Body color="$primary" textTransform="uppercase" letterSpacing={1}>Architecture</Body>
+                  <Display>Your app, by the layers.</Display>
+                  <Body color="$textMuted">A live read of how this repo is structured — generated from the source, not hand-drawn.</Body>
+                </YStack>
 
-              <Row between="xl" flexWrap="wrap">
-                <StatPill label="UI layers" value={`${totals.uiLayers}`} tone="accent" />
-                <StatPill label="MVVM layers" value={`${totals.mvvmLayers}`} />
-                <StatPill label="Features" value={`${totals.features}`} />
-                <StatPill label="Violations" value={`${totals.violations}`} tone={totals.violations === 0 ? "success" : "danger"} />
-              </Row>
+                <XStack gap="$3" flexWrap="wrap">
+                  <StatPill label="UI layers" value={`${totals.uiLayers}`} />
+                  <StatPill label="MVVM layers" value={`${totals.mvvmLayers}`} />
+                  <StatPill label="Features" value={`${totals.features}`} />
+                  <StatPill label="Violations" value={`${totals.violations}`} />
+                </XStack>
 
-              <Section
-                title="Layer stack"
-                subtitle="Lower layers may depend on higher ones — never the reverse."
-              >
-                <LensToggle lens={lens} onSelect={setLens} />
-                <LayerStack layers={layers} />
-                {lens === "mvvm" ? <ProhibitedEdges edges={architecture.prohibitedEdges} /> : null}
-              </Section>
+                <Section title="Layer stack" subtitle="Lower layers may depend on higher ones — never the reverse.">
+                  <LensToggle lens={lens} onSelect={setLens} />
+                  <LayerStack layers={layers} />
+                  {lens === "mvvm" ? <ProhibitedEdges edges={architecture.prohibitedEdges} /> : null}
+                </Section>
 
-              <Section
-                title="Per-feature layers"
-                subtitle="Which MVVM layers each feature slice actually has. Missing layers are expected for simple features."
-              >
-                <Col between="sm" expand>
-                  {architecture.featureLayerMatrix.map((f) => (
-                    <FeatureRow key={f.name} feature={f} />
-                  ))}
-                </Col>
-              </Section>
+                <Section title="Per-feature layers" subtitle="Which MVVM layers each feature slice actually has. Missing layers are expected for simple features.">
+                  <YStack gap="$3">
+                    {architecture.featureLayerMatrix.map((f) => (
+                      <FeatureRow key={f.name} feature={f} />
+                    ))}
+                  </YStack>
+                </Section>
 
-              <Section
-                title="Boundary violations"
-                subtitle="Re-derived from the same rules as npm run lint:arch."
-              >
-                <Violations violations={architecture.violations} />
-              </Section>
-            </Col>
-          </SiteContainer>
-        ) : (
-          <SiteContainer>
-            <Col pad="xl" between="xl">
-              <Col between="xs">
-                <Label upper tracking="md" primary>UI PLAYGROUND</Label>
-                <Display>Compose blocks, not files.</Display>
-              </Col>
-              <UiPlaygroundSection />
-            </Col>
-          </SiteContainer>
-        )}
-      </ScrollArea>
-    </Block>
+                <Section title="Boundary violations" subtitle="Re-derived from the same rules as npm run lint:arch.">
+                  <Violations violations={architecture.violations} />
+                </Section>
+              </YStack>
+            </SiteContainer>
+          ) : (
+            <SiteContainer>
+              <YStack p="$6" gap="$6">
+                <YStack gap="$2">
+                  <Body color="$primary" textTransform="uppercase" letterSpacing={1}>UI Playground</Body>
+                  <Display>Compose Tamagui directly.</Display>
+                </YStack>
+                <UiPlaygroundSection />
+              </YStack>
+            </SiteContainer>
+          )}
+        </YStack>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

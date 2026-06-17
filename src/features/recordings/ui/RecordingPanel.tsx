@@ -1,10 +1,8 @@
 import React from "react";
 import { Pressable, View } from "react-native";
 import { runtime } from "../../../core/runtime";
-import { Block, Button, Icon, Text } from "../../../ui/primitives"
-import { RecordingTimer } from "../../../ui/blocks"
+import { Body, Button, Heading, Icon, XStack, YStack } from "../../../ui";
 import type { RecordingModel, RecordingShareModel, RecordingUiStatus } from "..";
-import { useTheme } from "../../../theme/ThemeProvider";
 
 interface RecordingPanelProps {
   status: RecordingUiStatus;
@@ -45,8 +43,6 @@ export function RecordingPanel({
   onRevokeShare,
   onLoadShares,
 }: RecordingPanelProps) {
-  const theme = useTheme();
-  const c = theme.colors;
   const dateTimeFormatter = React.useMemo(
     () =>
       new Intl.DateTimeFormat(undefined, {
@@ -65,14 +61,15 @@ export function RecordingPanel({
   const micLabel = isRecording ? "Stop recording" : "Start recording";
   const micStatus = isUploading ? "Uploading audio..." : isRecording ? "Recording..." : "Ready to record";
   const micPress = isRecording ? onStop : onStart;
+  const timerLabel = `${String(Math.floor(secondsElapsed / 60)).padStart(2, "0")}:${String(secondsElapsed % 60).padStart(2, "0")} / ${maxSeconds}s`;
 
   return (
-    <Block>
-      <Block space="md">
+    <YStack gap="$4">
+      <YStack gap="$4">
         <View>
-          <Text variant="h3">Saved recordings</Text>
+          <Heading>Saved recordings</Heading>
           {recordings.length === 0 ? (
-            <Text variant="caption">No recordings yet. Tap the mic below to capture one.</Text>
+            <Body fontSize="$2" color="$textMuted">No recordings yet. Tap the mic below to capture one.</Body>
           ) : (
             <View>
               {recordings.map((recording) => {
@@ -85,23 +82,30 @@ export function RecordingPanel({
                 const activeShare = shares.find((item) => !item.revokedAt);
                 const shareLoading = shareLoadingByRecordingId[recording.id] === true;
                 return (
-                  <Block key={recording.id}>
-                    <Block space="sm">
-                      <Block direction="horizontal">
-                        <Text variant="bodySm">{createdLabel}</Text>
+                  <YStack key={recording.id} gap="$3">
+                      <XStack ai="center" jc="space-between" gap="$3">
+                        <Body fontSize="$2">{createdLabel}</Body>
                         <Button
-                          label={playingId === recording.id ? "Loaded" : "Play"}
-                          variant="secondary"
+                          bg="$surfaceAlt"
+                          borderWidth={1}
+                          borderColor="$border"
+                          minHeight={42}
+                          px="$4"
+                          py="$3"
                           onPress={() => onPlay(recording.id)}
-                          fullWidth={false}
-                          size="sm"
-                        />
-                      </Block>
-                      <Text variant="caption">{`${recording.durationSeconds ?? 0}s • ${recording.contentType} • ${recording.sizeBytes} bytes`}</Text>
-                      <Block direction="horizontal" space="sm">
+                        >
+                          <Body>{playingId === recording.id ? "Loaded" : "Play"}</Body>
+                        </Button>
+                      </XStack>
+                      <Body fontSize="$2" color="$textMuted">{`${recording.durationSeconds ?? 0}s • ${recording.contentType} • ${recording.sizeBytes} bytes`}</Body>
+                      <XStack gap="$3" flexWrap="wrap">
                         <Button
-                          label={activeShare ? "Revoke Share" : "Share"}
-                          variant={activeShare ? "secondary" : "primary"}
+                          bg={activeShare ? "$surfaceAlt" : "$primary"}
+                          borderWidth={1}
+                          borderColor={activeShare ? "$border" : "$primary"}
+                          minHeight={42}
+                          px="$4"
+                          py="$3"
                           onPress={() => {
                             if (activeShare) {
                               onRevokeShare(recording.id, activeShare.shareUrl);
@@ -110,24 +114,28 @@ export function RecordingPanel({
                             }
                           }}
                           disabled={shareLoading}
-                          fullWidth={false}
-                          size="sm"
-                        />
+                        >
+                          <Body color={activeShare ? "$textPrimary" : "$textInverse"}>
+                            {activeShare ? "Revoke Share" : "Share"}
+                          </Body>
+                        </Button>
                         <Button
-                          label={shareLoading ? "Loading..." : "Shares"}
-                          variant="ghost"
+                          bg="transparent"
+                          minHeight={42}
+                          px="$4"
+                          py="$3"
                           onPress={() => onLoadShares(recording.id)}
                           disabled={shareLoading}
-                          fullWidth={false}
-                          size="sm"
-                        />
-                      </Block>
+                        >
+                          <Body>{shareLoading ? "Loading..." : "Shares"}</Body>
+                        </Button>
+                      </XStack>
                       {activeShare ? (
-                        <Block direction="horizontal">
-                          <Text variant="caption" numberOfLines={1}>
+                        <XStack>
+                          <Body fontSize="$2" color="$textMuted" numberOfLines={1}>
                             {activeShare.shareUrl}
-                          </Text>
-                        </Block>
+                          </Body>
+                        </XStack>
                       ) : null}
                       {canInlineAudio && playbackUrl
                         ? React.createElement("audio" as any, {
@@ -136,18 +144,17 @@ export function RecordingPanel({
                           })
                         : null}
                       {!canInlineAudio && playbackUrl ? (
-                        <Text variant="caption">Playback loaded. Native inline playback is pending.</Text>
+                        <Body fontSize="$2" color="$textMuted">Playback loaded. Native inline playback is pending.</Body>
                       ) : null}
-                    </Block>
-                  </Block>
+                  </YStack>
                 );
               })}
             </View>
           )}
         </View>
 
-        <Block>
-          <Block direction="horizontal">
+        <YStack>
+          <XStack gap="$4" ai="center">
             <Pressable
               onPress={micPress}
               disabled={micDisabled}
@@ -167,31 +174,33 @@ export function RecordingPanel({
             </Pressable>
 
             <View>
-              <Block space="xs">
-                <Block direction="horizontal">
-                  <Text variant="bodySm">{micStatus}</Text>
+              <YStack gap="$1">
+                <XStack ai="center" gap="$3">
+                  <Body fontSize="$2">{micStatus}</Body>
                   <Button
-                    label={loading ? "Refreshing..." : "Refresh"}
-                    variant="ghost"
+                    bg="transparent"
+                    minHeight={42}
+                    px="$4"
+                    py="$3"
                     onPress={onRefresh}
                     disabled={loading || isUploading}
-                    fullWidth={false}
-                    size="sm"
-                  />
-                </Block>
+                  >
+                    <Body>{loading ? "Refreshing..." : "Refresh"}</Body>
+                  </Button>
+                </XStack>
                 {(isRecording || status === "ready") ? (
                   <View>
-                    <RecordingTimer elapsedSeconds={secondsElapsed} maxSeconds={maxSeconds} />
+                    <Body fontSize="$2">{timerLabel}</Body>
                   </View>
                 ) : (
-                  <Text variant="caption">Max {maxSeconds}s per recording</Text>
+                  <Body fontSize="$2" color="$textMuted">Max {maxSeconds}s per recording</Body>
                 )}
-                {error ? <Text variant="caption" tone="danger">{error}</Text> : null}
-              </Block>
+                {error ? <Body fontSize="$2" color="$error">{error}</Body> : null}
+              </YStack>
             </View>
-          </Block>
-        </Block>
-      </Block>
-    </Block>
+          </XStack>
+        </YStack>
+      </YStack>
+    </YStack>
   );
 }

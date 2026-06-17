@@ -3,9 +3,7 @@
  */
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { useTheme } from "../../../theme/ThemeProvider";
-import { Block, ProgressBar, Text } from "../../../ui/primitives"
-import { Panel } from "../../../ui/panels";
+import { Body, View as TView, XStack, YStack } from "../../../ui";
 import type { Usage } from "../../../services/UserProfileService";
 
 export interface UsageCardProps {
@@ -36,46 +34,46 @@ const ENTRIES: UsageEntryDef[] = [
 
 export function UsageCard({ usage }: UsageCardProps) {
   return (
-    <Panel>
-      <Block space="sm">
-        <Text variant="caption" tone="muted">
+    <TView bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$3" p="$4">
+      <YStack gap="$3">
+        <Body fontSize="$1" color="$textMuted">
           Usage
-        </Text>
+        </Body>
 
-        <Block direction="horizontal" space="sm" wrap align="stretch">
+        <XStack gap="$3" flexWrap="wrap" ai="stretch">
           {ENTRIES.map((def) => {
             const metric = usage?.[def.key] ?? { used: 0, limit: 0, unlocked: false };
             const pct = metric.unlocked ? 0 : metric.limit > 0 ? (metric.used / metric.limit) * 100 : 0;
             const displayPct = Math.min(pct, 100);
-            const barTone = pct >= 90 ? "danger" : pct >= 70 ? "warning" : "primary";
+            const barColor = pct >= 90 ? "$error" : pct >= 70 ? "$warning" : "$primary";
 
             return (
               <View key={def.key} style={styles.metricCard}>
-                <Panel variant="subtle" overflow="hidden">
-                  <Block pad="xs">
-                    <Block space="xs">
-                      <Block direction="horizontal" align="center" justify="space-between" space="xs">
-                        <Text variant="caption" tone="muted" numberOfLines={1}>
+                <TView bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" p="$2">
+                    <YStack gap="$2">
+                      <XStack ai="center" jc="space-between" gap="$2">
+                        <Body fontSize="$1" color="$textMuted" numberOfLines={1}>
                           {def.label}
-                        </Text>
-                        <Text variant="bodySm" tone="primary" numberOfLines={1}>
+                        </Body>
+                        <Body fontSize="$2" color="$primary" numberOfLines={1}>
                           {metric.unlocked
                             ? "Unlimited"
                             : `${def.formatUsed(metric.used)} / ${def.formatLimit(metric.limit)}`}
-                        </Text>
-                      </Block>
+                        </Body>
+                      </XStack>
                       {!metric.unlocked ? (
-                        <ProgressBar value={displayPct} max={100} size="sm" tone={barTone} />
+                        <TView h={4} br={9999} bg="$surfaceAlt" overflow="hidden">
+                          <TView h="100%" w={`${displayPct}%`} bg={barColor} />
+                        </TView>
                       ) : null}
-                    </Block>
-                  </Block>
-                </Panel>
+                    </YStack>
+                </TView>
               </View>
             );
           })}
-        </Block>
-      </Block>
-    </Panel>
+        </XStack>
+      </YStack>
+    </TView>
   );
 }
 

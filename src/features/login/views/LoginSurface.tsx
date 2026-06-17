@@ -1,7 +1,7 @@
 import React from "react";
 import { TextInput, TouchableOpacity } from "react-native";
 import { ViewProps } from "../../../core/types";
-import { Block, Text } from "../../../ui/primitives"
+import { Body, YStack } from "../../../ui";
 import { CenteredPageLayout } from "../../../ui/layouts";
 import { AuthCard } from "../../auth/ui/blocks/AuthCard";
 import { AuthBrandBlock } from "../../auth/ui/blocks/AuthBrandBlock";
@@ -20,7 +20,7 @@ export function LoginSurface({ data, dispatch }: Props) {
   return (
     <CenteredPageLayout>
       <AuthCard>
-        <Block space="md">
+        <YStack gap="$4">
           <AuthBrandBlock subtitle={app.copy.auth.loginSubtitle} />
           <AuthFieldBlock
             icon="mail"
@@ -48,7 +48,7 @@ export function LoginSurface({ data, dispatch }: Props) {
             testID="password-input"
           />
           <TouchableOpacity onPress={() => dispatch({ type: "go_to_forgot_password" })} activeOpacity={0.7}>
-            <Text variant="link">Forgot Password?</Text>
+            <Body color="$primary">Forgot Password?</Body>
           </TouchableOpacity>
           <AuthSubmitBlock
             label="Login →"
@@ -63,7 +63,7 @@ export function LoginSurface({ data, dispatch }: Props) {
             linkLabel="Sign Up"
             onPress={() => dispatch({ type: "go_to_register" })}
           />
-        </Block>
+        </YStack>
       </AuthCard>
     </CenteredPageLayout>
   );
