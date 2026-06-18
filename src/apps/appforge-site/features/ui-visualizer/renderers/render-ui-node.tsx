@@ -185,7 +185,11 @@ export function renderUiNode(
   if (node.type === "Input") {
     return (
       <RNView key={node.id} {...(ip as any)} pointerEvents="none">
-        <Input placeholder={node.props.placeholder ?? "Enter text…"} editable={false} />
+        <Input
+          placeholder={node.props.placeholder ?? "Enter text…"}
+          value={typeof node.props.value === "string" ? node.props.value : ""}
+          editable={false}
+        />
       </RNView>
     );
   }
@@ -214,7 +218,10 @@ export function renderUiNode(
   if (node.type === "ProgressBar") {
     return (
       <View key={node.id} {...(ip as any)} w="100%">
-        <ProgressBar value={node.props.value ?? 60} tone={progressTone(node.props.tone)} />
+        <ProgressBar
+          value={typeof node.props.value === "number" ? node.props.value : 60}
+          tone={progressTone(node.props.tone)}
+        />
       </View>
     );
   }

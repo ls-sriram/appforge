@@ -2,13 +2,16 @@
 import type { UiDocument } from "../apps/appforge-site/features/ui-visualizer/domain/ui-document.types";
 import { SCANNED_UI_DOCUMENTS as appforgeSiteDocs } from "./ui-documents.appforge-site";
 import { SCANNED_UI_DOCUMENTS as exampleAppDocs } from "./ui-documents.example-app";
+import { SCANNED_UI_DOCUMENTS as sitAppDocs } from "./ui-documents.sit-app";
 
 export const UI_DOCUMENTS_REGISTRY: Record<string, UiDocument[]> = {
   "appforge-site": appforgeSiteDocs,
   "example-app": exampleAppDocs,
+  "sit-app": sitAppDocs,
 };
 
 export const REGISTRY_APP_NAMES: Record<string, string> = {
   "appforge-site": "AppForge",
   "example-app": "Example App",
+  "sit-app": "Sit App",
 };

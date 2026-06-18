@@ -114,12 +114,24 @@ Inspector change
 
 ---
 
+## Screen composition
+
+`ui-visualizer.screen.tsx` is a thin composition shell. It owns feature-level orchestration only:
+
+- `useUiPlayground()` and `useDesktopRepoSource()`
+- panel collapse / left-mode state
+- wiring props into the visualizer views
+
+Top bar, left panel, workspace, right panel, status bar, and panel handles live under `views/` as pure render components. They may keep tiny local UI state such as a dropdown open/closed flag, but they must not own document mutation or feature state.
+
+---
+
 ## Scanner — `scripts/scan-ui-documents.mjs`
 
 Produces `src/generated/ui-documents.<appId>.ts`. Run after any structural change to a `*.layout.tsx` file:
 
 ```
-node scripts/scan-ui-documents.mjs example-app
+node scripts/scan-ui-documents.mjs <app-id>
 ```
 
 ### What the scanner captures
@@ -172,7 +184,7 @@ Selection state is expressed as a DOM attribute (`data-viz-selected="true"`), no
 ## Adding a new screen to the visualizer
 
 1. Create `*.layout.tsx` using semantic props and default prop values.
-2. Run the scanner: `node scripts/scan-ui-documents.mjs example-app`.
+2. Run the scanner: `node scripts/scan-ui-documents.mjs <app-id>`.
 3. Add `ui("prefix-N", ...)` stamps to every meaningful element, using IDs from the generated document.
 4. Register the layout in `renderers/live-layout-registry.tsx`.
 5. Verify in the canvas: click each element and confirm the inspector shows the correct node.
@@ -189,7 +201,7 @@ Selection state is expressed as a DOM attribute (`data-viz-selected="true"`), no
 | `src/ui/visualizer/wrapped.tsx` | Wrapped primitive components |
 | `metro.config.js` | Barrel swap resolver |
 | `scripts/scan-ui-documents.mjs` | Layout → UiDocument scanner |
-| `src/generated/ui-documents.example-app.ts` | Generated — do not edit |
+| `src/generated/ui-documents.<app-id>.ts` | Generated — do not edit |
 | `src/apps/appforge-site/features/ui-visualizer/renderers/live-layout-registry.tsx` | documentId → component |
 | `src/apps/appforge-site/features/ui-visualizer/renderers/use-live-node-selection.ts` | DOM click → node selection |
 | `src/apps/appforge-site/features/ui-visualizer/state/use-ui-playground.ts` | All visualizer state |

@@ -2,8 +2,10 @@
 import type { UiBlock } from "../apps/appforge-site/features/ui-visualizer/domain/ui-document.types";
 import { SCANNED_UI_BLOCKS as appforgeSiteBlocks } from "./ui-blocks.appforge-site";
 import { SCANNED_UI_BLOCKS as exampleAppBlocks } from "./ui-blocks.example-app";
+import { SCANNED_UI_BLOCKS as sitAppBlocks } from "./ui-blocks.sit-app";
 
 export const UI_BLOCKS_REGISTRY: Record<string, UiBlock[]> = {
   "appforge-site": appforgeSiteBlocks,
   "example-app": exampleAppBlocks,
+  "sit-app": sitAppBlocks,
 };

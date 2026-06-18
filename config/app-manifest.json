@@ -14,6 +14,13 @@
       "routerRoot": "app-appforge-site",
       "routeBase": "/",
       "storageNamespace": "appforge-site"
+    },
+    "sit-app": {
+      "appId": "sit-app",
+      "displayName": "Sit App",
+      "routerRoot": "app-sit-app",
+      "routeBase": "/sit-app",
+      "storageNamespace": "sit-app"
     }
   }
 }

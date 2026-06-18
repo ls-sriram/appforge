@@ -55,7 +55,7 @@ export interface UiNodeProps {
   variant?: UiButtonVariant;
   selected?: boolean;
   // ProgressBar
-  value?: number;
+  value?: string | number;
   total?: number;
   // Raw style escape hatches
   bg?: string;
