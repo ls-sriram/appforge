@@ -9,7 +9,9 @@ import {
   addBlockNode,
   addNode,
   extractSubtreeAsBlock,
+  getInsertedRootIds,
   getComponentUsage,
+  hasOnlyAdditiveChanges,
   hasStructuralChanges,
   insertCustomBlockNode,
   materializeDocumentState,
@@ -104,6 +106,14 @@ export function useUiPlayground() {
     () => hasStructuralChanges(selectedBaseDocument, selectedDocument),
     [selectedBaseDocument, selectedDocument],
   );
+  const hasOnlyInsertedChanges = React.useMemo(
+    () => hasOnlyAdditiveChanges(selectedBaseDocument, selectedDocument),
+    [selectedBaseDocument, selectedDocument],
+  );
+  const insertedRootIds = React.useMemo(
+    () => getInsertedRootIds(selectedBaseDocument, selectedDocument),
+    [selectedBaseDocument, selectedDocument],
+  );
 
   function applyDocument(next: UiDocument) {
     setDocOverrides((current) => ({ ...current, [documentKey]: next }));
@@ -142,6 +152,8 @@ export function useUiPlayground() {
     serialized,
     unsaved,
     hasStructureChanges,
+    hasOnlyInsertedChanges,
+    insertedRootIds,
     showPaywall,
     setShowPaywall,
     livePropOverrides,

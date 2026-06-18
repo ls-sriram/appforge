@@ -393,6 +393,43 @@ export function hasStructuralChanges(
   return false;
 }
 
+export function hasOnlyAdditiveChanges(
+  base: UiDocument,
+  current: UiDocument,
+): boolean {
+  const baseIds = Object.keys(base.nodes);
+  const currentIds = Object.keys(current.nodes);
+
+  if (currentIds.length < baseIds.length) return false;
+
+  for (const id of baseIds) {
+    const baseNode = base.nodes[id];
+    const currentNode = current.nodes[id];
+    if (!baseNode || !currentNode) return false;
+    if (baseNode.type !== currentNode.type) return false;
+    if (baseNode.parentId !== currentNode.parentId) return false;
+
+    const currentBaseChildren = currentNode.children.filter((childId) => !!base.nodes[childId]);
+    if (currentBaseChildren.length !== baseNode.children.length) return false;
+    for (let i = 0; i < baseNode.children.length; i += 1) {
+      if (baseNode.children[i] !== currentBaseChildren[i]) return false;
+    }
+  }
+
+  return currentIds.length > baseIds.length;
+}
+
+export function getInsertedRootIds(
+  base: UiDocument,
+  current: UiDocument,
+): string[] {
+  const insertedIds = Object.keys(current.nodes).filter((id) => !base.nodes[id]);
+  return insertedIds.filter((id) => {
+    const parentId = current.nodes[id]?.parentId;
+    return !parentId || !!base.nodes[parentId];
+  });
+}
+
 export function serializeDocument(document: UiDocument) {
   function serializeNode(nodeId: string, depth: number): string[] {
     const node = document.nodes[nodeId];

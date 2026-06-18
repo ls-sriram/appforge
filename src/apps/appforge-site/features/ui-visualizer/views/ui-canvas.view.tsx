@@ -1,4 +1,5 @@
 import React from "react";
+import { createPortal } from "react-dom";
 import { Body, View, YStack } from "../../../../../ui";
 import { VisualizerProvider } from "../../../../../ui/visualizer-context";
 import type { UiDocument, UiNodeProps } from "../domain/ui-document.types";
@@ -33,17 +34,19 @@ export function UiCanvasView({
   propOverrides,
   onSelectNode,
   useDocumentRenderer = false,
+  insertedRootIds = [],
 }: {
   document: UiDocument;
   selectedNodeId?: string;
   propOverrides: Record<string, Partial<UiNodeProps>>;
   onSelectNode: (nodeId: string) => void;
   useDocumentRenderer?: boolean;
+  insertedRootIds?: string[];
 }) {
   useVizStyles();
 
   const LiveLayout = LIVE_LAYOUTS[document.id];
-  const { attachRef } = useLiveNodeSelection(document, onSelectNode);
+  const { attachRef, containerRef } = useLiveNodeSelection(document, onSelectNode);
   const shouldRenderDocument = useDocumentRenderer || !LiveLayout;
 
   return (
@@ -67,6 +70,13 @@ export function UiCanvasView({
             <div ref={attachRef} style={{ display: "contents" }}>
               <LiveLayout />
             </div>
+            <InsertedNodePortals
+              document={document}
+              selectedNodeId={selectedNodeId}
+              insertedRootIds={insertedRootIds}
+              onSelectNode={onSelectNode}
+              host={containerRef.current}
+            />
           </VisualizerProvider>
         ) : (
           renderUiNode(document, document.rootId, selectedNodeId, onSelectNode)
@@ -77,5 +87,50 @@ export function UiCanvasView({
         {document.name}
       </Body>
     </YStack>
+  );
+}
+
+function InsertedNodePortals({
+  document,
+  selectedNodeId,
+  insertedRootIds,
+  onSelectNode,
+  host,
+}: {
+  document: UiDocument;
+  selectedNodeId?: string;
+  insertedRootIds: string[];
+  onSelectNode: (nodeId: string) => void;
+  host: HTMLElement | null;
+}) {
+  const mounts = React.useMemo(
+    () =>
+      insertedRootIds.map((nodeId) => {
+        const parentId = document.nodes[nodeId]?.parentId;
+        if (!host || !parentId) return null;
+        const mount = host.querySelector(`[data-uiid="${parentId}"]`);
+        if (!(mount instanceof HTMLElement)) return null;
+        return { nodeId, mount };
+      }),
+    [document, host, insertedRootIds],
+  );
+
+  return (
+    <>
+      {mounts.map((entry) =>
+        entry
+          ? createPortal(
+              renderUiNode(
+                document,
+                entry.nodeId,
+                selectedNodeId,
+                onSelectNode,
+              ),
+              entry.mount,
+              entry.nodeId,
+            )
+          : null,
+      )}
+    </>
   );
 }

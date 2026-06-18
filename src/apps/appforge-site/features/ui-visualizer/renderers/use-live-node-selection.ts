@@ -40,5 +40,5 @@ export function useLiveNodeSelection(
     [handleClick],
   );
 
-  return { attachRef };
+  return { attachRef, containerRef };
 }

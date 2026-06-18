@@ -224,7 +224,8 @@ export function AppforgeSiteUiVisualizerScreen() {
                   selectedNodeId={pg.selectedNodeId}
                   propOverrides={pg.livePropOverrides}
                   onSelectNode={pg.setSelectedNodeId}
-                  useDocumentRenderer={pg.hasStructureChanges}
+                  useDocumentRenderer={pg.hasStructureChanges && !pg.hasOnlyInsertedChanges}
+                  insertedRootIds={pg.insertedRootIds}
                 />
               </ScrollView>
             )}

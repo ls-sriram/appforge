@@ -24,7 +24,7 @@ Layout files are the unit the visualizer operates on. They must:
 
 ## Canvas rendering — LiveLayout only
 
-Every screen renders via its actual `*.layout.tsx` component until the in-memory document structure diverges. Once nodes are added, removed, or reparented in the editor, the canvas switches to the in-memory renderer so structural edits appear in place.
+Every screen renders via its actual `*.layout.tsx` component until the in-memory document structure diverges. Pure additions keep the live layout shell and inject inserted subtrees into the stamped parent DOM node; destructive edits such as removals or reparenting switch the canvas to the in-memory renderer.
 
 ```
 UiCanvasView
@@ -32,7 +32,10 @@ UiCanvasView
       LIVE_LAYOUTS[documentId]        live-layout-registry.tsx
       → <LiveLayout />                the real *.layout.tsx component
           wrapped by VisualizerProvider
-  → if structure changed:
+  → if only additive changes:
+      <LiveLayout />
+      + createPortal(renderUiNode(insertedRoot)) into stamped parent `data-uiid`
+  → if destructive structural changes:
       renderUiNode(document.rootId)   renders the in-memory UiDocument tree directly
 ```
 
