@@ -1,24 +1,15 @@
 import React, { useState } from "react";
 import { useRouter, type Href } from "expo-router";
-import { Body, Button, YStack } from "../../../../ui";
-import { CenteredPageLayout } from "../../../../ui/layouts";
-import { AuthCard } from "../../../../features/auth/ui/blocks/AuthCard";
-import { AuthBrandBlock } from "../../../../features/auth/ui/blocks/AuthBrandBlock";
-import { AuthFieldBlock } from "../../../../features/auth/ui/blocks/AuthFieldBlock";
-import { AuthSubmitBlock } from "../../../../features/auth/ui/blocks/AuthSubmitBlock";
+import { SafeAreaView } from "../../../../ui";
 import { app } from "../../../../config/app";
-import {
-  EXAMPLE_APP_AUTH_DISABLED_MESSAGE,
-  notifyExampleAppAuthDisabled,
-} from "./example-app-disabled-auth";
-
-type Props = {
-  loginHref: Href;
-};
+import { EXAMPLE_APP_AUTH_DISABLED_MESSAGE, notifyExampleAppAuthDisabled } from "./example-app-disabled-auth";
+import { ForgotPasswordLayout } from "./forgot-password.layout";
 
 function isValidEmail(value: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
 }
+
+type Props = { loginHref: Href };
 
 export function ExampleAppForgotPasswordRouteScreen({ loginHref }: Props) {
   const router = useRouter();
@@ -27,48 +18,26 @@ export function ExampleAppForgotPasswordRouteScreen({ loginHref }: Props) {
 
   const handleSubmit = () => {
     const normalizedEmail = email.trim();
-    if (!normalizedEmail) {
-      setError("Email is required.");
-      return;
-    }
-    if (!isValidEmail(normalizedEmail)) {
-      setError("Enter a valid email address.");
-      return;
-    }
-
+    if (!normalizedEmail) { setError("Email is required."); return; }
+    if (!isValidEmail(normalizedEmail)) { setError("Enter a valid email address."); return; }
     setError(EXAMPLE_APP_AUTH_DISABLED_MESSAGE);
     notifyExampleAppAuthDisabled("reset_password");
   };
 
   return (
-    <CenteredPageLayout>
-      <YStack gap="$3">
-        <AuthCard>
-          <YStack gap="$4">
-            <AuthBrandBlock subtitle={app.copy.auth.forgotPasswordSubtitle} />
-            <AuthFieldBlock
-              icon="mail"
-              placeholder="Email"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoComplete="email"
-              returnKeyType="done"
-              onSubmitEditing={handleSubmit}
-            />
-            <AuthSubmitBlock
-              label="Send reset link"
-              loading={false}
-              generalError={error}
-              onPress={handleSubmit}
-            />
-          </YStack>
-        </AuthCard>
-        <Button onPress={() => router.replace(loginHref)} bg="$surfaceAlt" borderWidth={1} borderColor="$border">
-          <Body>Back to sign in</Body>
-        </Button>
-      </YStack>
-    </CenteredPageLayout>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ForgotPasswordLayout
+        appName={app.name}
+        subtitle={app.copy.auth.forgotPasswordSubtitle}
+        emailPlaceholder={app.copy.auth.forgotPasswordEmailPlaceholder}
+        submitLabel={app.copy.auth.forgotPasswordSubmitLabel}
+        backLabel={app.copy.auth.forgotPasswordBackLabel}
+        email={email}
+        error={error}
+        onEmailChange={setEmail}
+        onSubmit={handleSubmit}
+        onBack={() => router.replace(loginHref)}
+      />
+    </SafeAreaView>
   );
 }

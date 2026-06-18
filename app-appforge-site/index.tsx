@@ -1,7 +1,7 @@
 import React from "react";
-import { AppforgeSiteHomeScreen } from "../src/apps/appforge-site/features/home/home.screen";
+import { AppforgeSiteUiVisualizerScreen } from "../src/apps/appforge-site/features/ui-visualizer/ui-visualizer.screen";
 
-// Route file stays thin — renders the marketing landing screen directly.
+// Route file stays thin — renders the editor-first visualizer surface directly.
 export default function AppforgeSiteIndexRoute() {
-  return <AppforgeSiteHomeScreen />;
+  return <AppforgeSiteUiVisualizerScreen />;
 }

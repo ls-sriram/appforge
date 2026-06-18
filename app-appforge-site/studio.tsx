@@ -1,7 +1,7 @@
 import React from "react";
-import { AppforgeSiteStudioScreen } from "../src/apps/appforge-site/features/studio/studio.screen";
+import { AppforgeSiteUiVisualizerScreen } from "../src/apps/appforge-site/features/ui-visualizer/ui-visualizer.screen";
 
-// Route file stays thin — renders the studio visualizer screen.
+// Route file stays thin — keeps the legacy studio path pointed at the same visualizer.
 export default function AppforgeSiteStudioRoute() {
-  return <AppforgeSiteStudioScreen />;
+  return <AppforgeSiteUiVisualizerScreen />;
 }

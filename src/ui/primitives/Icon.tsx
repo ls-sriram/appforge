@@ -319,9 +319,10 @@ interface IconProps {
   name: IconName;
   size?: IconSize;
   tone?: IconTone;
+  [key: string]: unknown;
 }
 
-export function Icon({ name, size = "3xl", tone = "muted" }: IconProps) {
+export function Icon({ name, size = "3xl", tone = "muted", ...rest }: IconProps) {
   const theme = useTheme();
   const resolvedColor =
     tone === "secondary"
@@ -343,7 +344,7 @@ export function Icon({ name, size = "3xl", tone = "muted" }: IconProps) {
                     : theme.colors.textMuted;
   const resolvedSize = ICON_SIZE_MAP[size];
   return (
-    <View style={{ width: resolvedSize, height: resolvedSize }}>
+    <View style={{ width: resolvedSize, height: resolvedSize }} {...(rest as object)}>
       <Svg width={resolvedSize} height={resolvedSize} viewBox="0 0 24 24">
         {icons[name]?.(resolvedColor)}
       </Svg>

@@ -50,3 +50,7 @@
 - `api/**` -> `api/AGENTS.md`
 - `server/**` -> `server/AGENTS.md`
 - `docs/**` -> `docs/AGENTS.md`
+- `scripts/**` -> `scripts/AGENTS.md`
+- `src/ui/**` -> `src/ui/AGENTS.md`
+- `src/ui/visualizer/**` -> `src/ui/visualizer/AGENTS.md`
+- `src/apps/appforge-site/features/ui-visualizer/**` -> `src/apps/appforge-site/features/ui-visualizer/AGENTS.md`

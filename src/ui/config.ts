@@ -247,6 +247,8 @@ export const config = createTamagui({
     w:  'width',
     h:  'height',
     o:  'opacity',
+    ta: 'textAlign',
+    tt: 'textTransform',
   } as const,
   media: {},
   settings: {

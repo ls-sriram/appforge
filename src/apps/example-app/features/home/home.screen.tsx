@@ -1,9 +1,10 @@
 import React from "react";
 import { useRouter } from "expo-router";
-import { Body, Button, Display, Heading, SafeAreaView, View, XStack, YStack } from "../../../../ui";
-import { ProfileCard } from "../../../../features/settings";
+import { SafeAreaView } from "../../../../ui";
+import { app } from "../../../../config/app";
 import { useSessionContext } from "../../../../providers/SessionProvider";
 import { exampleAppRoutes } from "../../navigation/routes";
+import { HomeLayout } from "./home.layout";
 
 function resolveIdentity(session: ReturnType<typeof useSessionContext>["session"]) {
   return {
@@ -20,29 +21,19 @@ export function ExampleAppHomeScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <YStack f={1} bg="$bg" gap="$4" p="$4">
-        <YStack gap="$2">
-          <Display>Example App</Display>
-          <Body color="$textMuted">Example member workspace wired into session and onboarding state.</Body>
-        </YStack>
-        <ProfileCard identity={identity} onPress={() => router.push(exampleAppRoutes.profile)} />
-        <View bg="$surface" borderColor="$borderSubtle" borderWidth={1} br="$3" p="$3">
-          <YStack gap="$2">
-            <Heading fontSize="$4">Backend session</Heading>
-            <Body fontSize="$2" color="$textMuted">User ID: {identity.uid || "Unavailable"}</Body>
-            <Body fontSize="$2" color="$textMuted">Email: {identity.email || "Unavailable"}</Body>
-            <Body fontSize="$2" color="$textMuted">Onboarding complete: {session?.onboardingCompleted ? "Yes" : "No"}</Body>
-          </YStack>
-        </View>
-        <XStack gap="$3" flexWrap="wrap">
-          <Button onPress={() => { void refreshSession(); }} bg="$primary">
-            <Body color="$textInverse" fontFamily="$bold">Refresh session</Body>
-          </Button>
-          <Button onPress={() => router.push(exampleAppRoutes.profile)} bg="$surfaceAlt" borderWidth={1} borderColor="$border">
-            <Body>Profile</Body>
-          </Button>
-        </XStack>
-      </YStack>
+      <HomeLayout
+        title={app.copy.home.title}
+        description={app.copy.home.description}
+        sessionSectionTitle={app.copy.home.sessionSectionTitle}
+        refreshLabel={app.copy.home.refreshLabel}
+        profileLabel={app.copy.home.profileLabel}
+        name={identity.name}
+        uid={identity.uid}
+        email={identity.email}
+        onboardingComplete={session?.onboardingCompleted ?? false}
+        onRefresh={() => { void refreshSession(); }}
+        onProfile={() => router.push(exampleAppRoutes.profile)}
+      />
     </SafeAreaView>
   );
 }

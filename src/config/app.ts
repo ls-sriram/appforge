@@ -42,12 +42,49 @@ export interface AppConfig {
     aboutLabel: string;
     onboardingFlowName: string;
     auth: {
+      loginTitle: string;
       loginSubtitle: string;
+      loginEmailPlaceholder: string;
+      loginPasswordPlaceholder: string;
+      loginForgotPasswordLabel: string;
+      loginSubmitLabel: string;
+      loginLegalText: string;
+      loginRegisterPrompt: string;
+      registerTitle: string;
       registerSubtitle: string;
+      registerFullNamePlaceholder: string;
+      registerEmailPlaceholder: string;
+      registerPasswordPlaceholder: string;
+      registerSubmitLabel: string;
+      registerLegalText: string;
+      registerLoginPrompt: string;
       forgotPasswordTitle: string;
       forgotPasswordSubtitle: string;
+      forgotPasswordEmailPlaceholder: string;
+      forgotPasswordSubmitLabel: string;
+      forgotPasswordBackLabel: string;
       forgotPasswordSuccessTitle: string;
       forgotPasswordSuccessMessage: string;
+    };
+    home: {
+      title: string;
+      description: string;
+      sessionSectionTitle: string;
+      refreshLabel: string;
+      profileLabel: string;
+    };
+    profile: {
+      title: string;
+      backLabel: string;
+      displayNameSectionTitle: string;
+      namePlaceholder: string;
+      saveLabel: string;
+      savingLabel: string;
+    };
+    onboarding: {
+      answerSectionTitle: string;
+      continueLabel: string;
+      finishLabel: string;
     };
     settings: {
       deleteAccountTitle: string;
@@ -81,12 +118,49 @@ export const app: AppConfig = {
     aboutLabel: `About ${BUILD_APP_DISPLAY_NAME}`,
     onboardingFlowName: `${BUILD_APP_DISPLAY_NAME} onboarding`,
     auth: {
+      loginTitle: "Login",
       loginSubtitle: "Enter info to jump back into the app.",
+      loginEmailPlaceholder: "Email address",
+      loginPasswordPlaceholder: "Password",
+      loginForgotPasswordLabel: "Forgot Password?",
+      loginSubmitLabel: "Login →",
+      loginLegalText: "By signing in you agree to our Terms of Service and Privacy Policy.",
+      loginRegisterPrompt: "Don't have an account yet? Sign Up",
+      registerTitle: "Create account",
       registerSubtitle: "Sign up to start boosting your scores.",
+      registerFullNamePlaceholder: "Full name",
+      registerEmailPlaceholder: "Email address",
+      registerPasswordPlaceholder: "Password",
+      registerSubmitLabel: "Create account →",
+      registerLegalText: "By creating an account you agree to our Terms of Service and Privacy Policy.",
+      registerLoginPrompt: "Already have an account? Sign in",
       forgotPasswordTitle: "Forgot password",
       forgotPasswordSubtitle: "We will send you a reset link",
+      forgotPasswordEmailPlaceholder: "Email address",
+      forgotPasswordSubmitLabel: "Send reset link",
+      forgotPasswordBackLabel: "Back to sign in",
       forgotPasswordSuccessTitle: "Reset Link Sent",
       forgotPasswordSuccessMessage: "Check your email for password reset instructions.",
+    },
+    home: {
+      title: BUILD_APP_DISPLAY_NAME,
+      description: "Your member workspace.",
+      sessionSectionTitle: "Session",
+      refreshLabel: "Refresh session",
+      profileLabel: "Profile",
+    },
+    profile: {
+      title: "Profile",
+      backLabel: "Back",
+      displayNameSectionTitle: "Display name",
+      namePlaceholder: "Enter display name…",
+      saveLabel: "Save profile",
+      savingLabel: "Saving…",
+    },
+    onboarding: {
+      answerSectionTitle: "Your answer",
+      continueLabel: "Continue",
+      finishLabel: "Finish",
     },
     settings: {
       deleteAccountTitle: "Delete Account",

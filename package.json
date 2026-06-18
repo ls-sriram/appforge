@@ -52,6 +52,7 @@
     "scaffold:init": "node tools/scaffold/cli.mjs init",
     "scaffold:feature": "node tools/scaffold/cli.mjs feature",
     "studio:scan": "node scripts/generate-repo-scan.mjs",
+    "ui:scan": "node scripts/scan-ui-documents.mjs",
     "config:firebase:set": "./scripts/dev/set-firebase-config.sh",
     "visualize": "node tools/code-visualizer/server.mjs"
   },
