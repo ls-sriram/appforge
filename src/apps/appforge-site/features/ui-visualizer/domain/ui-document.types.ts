@@ -2,16 +2,25 @@ import type { IconName, IconSize } from "../../../../../ui";
 
 export type UiEditorTab = "design" | "code" | "tokens";
 export type UiPreviewState = "data" | "loading" | "empty" | "error";
+
 export type UiComponentType =
   | "View"
   | "XStack"
   | "YStack"
+  | "Display"
   | "Heading"
   | "Body"
   | "Label"
   | "Button"
   | "Tag"
-  | "Icon";
+  | "Icon"
+  | "Avatar"
+  | "Badge"
+  | "Input"
+  | "TextArea"
+  | "SelectableChip"
+  | "ProgressBar";
+
 export type UiTone =
   | "primary"
   | "muted"
@@ -30,18 +39,24 @@ export type UiTextWeight = "regular" | "bold";
 export type UiButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 export type UiButtonSize    = "sm" | "md" | "lg";
 
-export type UiFieldType = "text" | "token" | "number" | "enum";
+export type UiFieldType = "text" | "token" | "number" | "enum" | "boolean";
 
 export interface UiNodeProps {
   // Content
   text?: string;
   label?: string;
   icon?: IconName;
+  initials?: string;
+  placeholder?: string;
   // Variant contracts — the inspector's primary editing vocabulary
   tone?: UiTone;
   size?: IconSize | UiTextSize | UiButtonSize;
   weight?: UiTextWeight;
   variant?: UiButtonVariant;
+  selected?: boolean;
+  // ProgressBar
+  value?: number;
+  total?: number;
   // Raw style escape hatches
   bg?: string;
   color?: string;
@@ -105,4 +120,15 @@ export interface UiPropField {
   label: string;
   type: UiFieldType;
   options?: string[];
+}
+
+// ── Custom blocks ─────────────────────────────────────────────────────────────
+// A named, persistent subtree the user saved for reuse in a specific project.
+
+export interface CustomBlockDef {
+  id: string;
+  label: string;
+  appId: string;
+  rootId: string;
+  nodes: Record<string, UiNode>;
 }

@@ -1,46 +1,47 @@
 import React from "react";
+import { Pressable, View as RNView } from "react-native";
 import {
+  Avatar,
+  Badge,
   Body,
   Button,
+  Display,
   Heading,
   Icon,
+  Input,
   Label,
+  ProgressBar,
+  SelectableChip,
   Tag,
+  TextArea,
   View,
   XStack,
   YStack,
 } from "../../../../../ui";
 import type { UiDocument, UiNode } from "../domain/ui-document.types";
 
-// Selection is indicated via data-viz-selected CSS attribute (injected by
-// UiCanvasView) rather than a style prop. This leaves Tamagui's prop pipeline
-// completely unaffected — no shorthand expansion leaks onto DOM elements.
 function tagTone(tone: UiNode["props"]["tone"]) {
-  if (
-    tone === "muted" ||
-    tone === "secondary" ||
-    tone === "accent" ||
-    tone === "action" ||
-    tone === "success" ||
-    tone === "warning" ||
-    tone === "danger" ||
-    tone === "info"
-  ) {
-    return tone;
-  }
-  return "muted";
+  const allowed = new Set(["muted", "secondary", "accent", "action", "success", "warning", "danger", "info"]);
+  return allowed.has(tone ?? "") ? tone as any : "muted";
 }
 
-// Returns the non-style interaction props: a data attribute for CSS-based
-// selection outline and a click handler. key is NOT included — pass it
-// directly as key={node.id} on each JSX element.
+function badgeTone(tone: UiNode["props"]["tone"]) {
+  const allowed = new Set(["success", "warning", "danger", "info", "muted"]);
+  return allowed.has(tone ?? "") ? tone as any : "muted";
+}
+
+function progressTone(tone: UiNode["props"]["tone"]) {
+  const allowed = new Set(["primary", "success", "warning", "danger"]);
+  return allowed.has(tone ?? "") ? tone as any : "primary";
+}
+
 function interactionProps(
   node: UiNode,
   selectedNodeId: string | undefined,
   onSelect: ((id: string) => void) | undefined,
 ) {
   return {
-    // @ts-ignore — web-only data attribute, passed through to DOM by Tamagui
+    // @ts-ignore — web-only data attribute
     "data-viz-selected": selectedNodeId === node.id ? "true" : undefined,
     "data-viz-node": "true",
     // @ts-ignore — web-only
@@ -72,7 +73,6 @@ export function renderUiNode(
 
   const ip = interactionProps(node, selectedNodeId, onSelect);
 
-  // Layout props — safe on all node types including containers.
   const layoutProps = {
     ...ip,
     bg: node.props.bg,
@@ -102,7 +102,6 @@ export function renderUiNode(
     opacity: node.props.opacity,
   };
 
-  // Text props — only applied to text components; ta/tt leak to DOM on containers.
   const textProps = {
     ...layoutProps,
     fontFamily: node.props.fontFamily,
@@ -111,6 +110,8 @@ export function renderUiNode(
     tt: node.props.tt as never,
     letterSpacing: node.props.letterSpacing,
   };
+
+  // ── Containers ────────────────────────────────────────────────────────────────
 
   if (node.type === "YStack") {
     return <YStack key={node.id} {...layoutProps}>{renderChildren(document, node, selectedNodeId, onSelect)}</YStack>;
@@ -121,19 +122,26 @@ export function renderUiNode(
   if (node.type === "View") {
     return <View key={node.id} {...layoutProps}>{renderChildren(document, node, selectedNodeId, onSelect)}</View>;
   }
+
+  // ── Typography ────────────────────────────────────────────────────────────────
+
+  if (node.type === "Display") {
+    return <Display key={node.id} {...textProps}>{node.props.text ?? "Display"}</Display>;
+  }
   if (node.type === "Heading") {
-    return <Heading key={node.id} {...textProps}>{node.props.text ?? "Heading"}</Heading>;
+    return <Heading key={node.id} {...textProps} tone={node.props.tone as any} size={node.props.size as any} weight={node.props.weight as any}>{node.props.text ?? "Heading"}</Heading>;
   }
   if (node.type === "Body") {
-    return <Body key={node.id} {...textProps}>{node.props.text ?? "Body"}</Body>;
+    return <Body key={node.id} {...textProps} tone={node.props.tone as any} size={node.props.size as any} weight={node.props.weight as any}>{node.props.text ?? "Body"}</Body>;
   }
   if (node.type === "Label") {
-    return <Label key={node.id} {...textProps}>{node.props.text ?? "Label"}</Label>;
+    return <Label key={node.id} {...textProps} tone={node.props.tone as any}>{node.props.text ?? "Label"}</Label>;
   }
+
+  // ── Interactive (rendered inert in canvas) ────────────────────────────────────
+
   if (node.type === "Button") {
-    // Use YStack instead of our Button (which wraps Pressable) because Pressable
-    // doesn't forward onClick reliably on web — events bubble past it. YStack
-    // renders to a div and stopPropagation works correctly.
+    // Use YStack instead of Button (Pressable) — onClick bubbles correctly on web
     return (
       <YStack
         key={node.id}
@@ -151,15 +159,65 @@ export function renderUiNode(
       </YStack>
     );
   }
+
   if (node.type === "Tag") {
-    return <Tag key={node.id} {...ip} label={node.props.label ?? "Badge"} tone={tagTone(node.props.tone)} />;
+    return <Tag key={node.id} {...ip} label={node.props.label ?? node.props.text ?? "Tag"} tone={tagTone(node.props.tone)} />;
   }
+
   if (node.type === "Icon") {
     const ICON_TONES = new Set(["muted","secondary","accent","action","success","warning","danger","info","inverse","brand"]);
     const ICON_SIZES = new Set(["2xs","xs","sm","md","lg","xl","2xl","3xl","4xl","5xl"]);
-    const iconTone = ICON_TONES.has(node.props.tone ?? "") ? node.props.tone as import("../../../../../ui").IconTone : undefined;
-    const iconSize = ICON_SIZES.has(node.props.size ?? "") ? node.props.size as import("../../../../../ui").IconSize : "md";
+    const iconTone = ICON_TONES.has(node.props.tone ?? "") ? node.props.tone as any : undefined;
+    const iconSize = ICON_SIZES.has(node.props.size ?? "") ? node.props.size as any : "md";
     return <Icon key={node.id} {...ip} name={node.props.icon ?? "flask"} tone={iconTone} size={iconSize} />;
   }
+
+  // ── New primitives ────────────────────────────────────────────────────────────
+
+  if (node.type === "Avatar") {
+    return <Avatar key={node.id} {...(ip as any)} initials={node.props.initials ?? "?"} />;
+  }
+
+  if (node.type === "Badge") {
+    return <Badge key={node.id} {...(ip as any)} label={node.props.text ?? node.props.label ?? "Badge"} tone={badgeTone(node.props.tone)} />;
+  }
+
+  if (node.type === "Input") {
+    return (
+      <RNView key={node.id} {...(ip as any)} pointerEvents="none">
+        <Input placeholder={node.props.placeholder ?? "Enter text…"} editable={false} />
+      </RNView>
+    );
+  }
+
+  if (node.type === "TextArea") {
+    return (
+      <RNView key={node.id} {...(ip as any)} pointerEvents="none">
+        <TextArea placeholder={node.props.placeholder ?? "Enter text…"} editable={false} />
+      </RNView>
+    );
+  }
+
+  if (node.type === "SelectableChip") {
+    return (
+      <RNView key={node.id} {...(ip as any)} pointerEvents="none">
+        <SelectableChip
+          label={node.props.text ?? node.props.label ?? "Option"}
+          selected={node.props.selected ?? false}
+          onPress={() => {}}
+          size={node.props.size === "sm" ? "sm" : "md"}
+        />
+      </RNView>
+    );
+  }
+
+  if (node.type === "ProgressBar") {
+    return (
+      <View key={node.id} {...(ip as any)} w="100%">
+        <ProgressBar value={node.props.value ?? 60} tone={progressTone(node.props.tone)} />
+      </View>
+    );
+  }
+
   return null;
 }

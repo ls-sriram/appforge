@@ -44,36 +44,65 @@ function PreviewPill({ state, active, onPress }: { state: UiPreviewState; active
   );
 }
 
-// ── Panel collapse handle ─────────────────────────────────────────────────────
+// ── Project selector dropdown ─────────────────────────────────────────────────
 
-function PanelHandle({
-  side,
-  collapsed,
-  onToggle,
+function ProjectSelector({
+  apps,
+  selectedAppId,
+  onSelect,
 }: {
-  side: "left" | "right";
-  collapsed: boolean;
-  onToggle: () => void;
+  apps: { id: string; displayName: string }[];
+  selectedAppId: string;
+  onSelect: (id: string) => void;
 }) {
-  const chevron = collapsed
-    ? (side === "left" ? "›" : "‹")
-    : (side === "left" ? "‹" : "›");
+  const [open, setOpen] = React.useState(false);
+  const current = apps.find((a) => a.id === selectedAppId);
 
   return (
+    <View style={{ position: "relative" }}>
+      <Pressable onPress={() => setOpen((v) => !v)}>
+        <XStack
+          ai="center" gap="$1" px="$2" py="$1" br="$2"
+          bg="$surfaceStrong" borderColor={open ? "$primary" : "$borderSubtle"} borderWidth={1}
+        >
+          <Body fontSize="$1" color="$textSecondary">{current?.displayName ?? selectedAppId}</Body>
+          <Body fontSize="$1" color="$textMuted">▾</Body>
+        </XStack>
+      </Pressable>
+      {open && (
+        <View
+          style={{ position: "absolute", top: 30, left: 0, zIndex: 300, minWidth: 160 }}
+          bg="$surfaceStrong" borderColor="$border" borderWidth={1} br="$2" overflow="hidden"
+        >
+          {apps.map((app) => {
+            const active = app.id === selectedAppId;
+            return (
+              <Pressable key={app.id} onPress={() => { onSelect(app.id); setOpen(false); }}>
+                <XStack
+                  ai="center" gap="$2" px="$3" py="$2"
+                  bg={active ? "$surfaceAlt" : "transparent"}
+                >
+                  <View w={6} h={6} br={999} bg={active ? "$primary" : "$border"} />
+                  <Body fontSize="$2" color={active ? "$textPrimary" : "$textSecondary"}>{app.displayName}</Body>
+                </XStack>
+              </Pressable>
+            );
+          })}
+        </View>
+      )}
+    </View>
+  );
+}
+
+// ── Panel collapse handle ─────────────────────────────────────────────────────
+
+function PanelHandle({ side, collapsed, onToggle }: { side: "left" | "right"; collapsed: boolean; onToggle: () => void }) {
+  const chevron = collapsed ? (side === "left" ? "›" : "‹") : (side === "left" ? "‹" : "›");
+  return (
     <Pressable onPress={onToggle} style={{ alignSelf: "stretch", display: "flex" }}>
-      <View
-        w={12}
-        f={1}
-        ai="center"
-        jc="center"
-        bg="$surfaceStrong"
-        borderLeftColor="$borderSubtle"
-        borderLeftWidth={1}
-        borderRightColor="$borderSubtle"
-        borderRightWidth={1}
+      <View w={12} f={1} ai="center" jc="center" bg="$surfaceStrong" borderLeftColor="$borderSubtle" borderLeftWidth={1} borderRightColor="$borderSubtle" borderRightWidth={1}
         // @ts-ignore
-        style={{ cursor: "col-resize" }}
-      >
+        style={{ cursor: "col-resize" }}>
         <Body fontSize={9} color="$textMuted" opacity={0.5}>{chevron}</Body>
       </View>
     </Pressable>
@@ -98,25 +127,19 @@ export function AppforgeSiteUiVisualizerScreen() {
       <YStack bg="$bg" f={1}>
 
         {/* ── Top bar ── */}
-        <XStack
-          ai="center"
-          gap="$3"
-          px="$4"
-          h={44}
-          bg="$surfaceAlt"
-          borderBottomColor="$borderSubtle"
-          borderBottomWidth={1}
-          flexShrink={0}
-        >
+        <XStack ai="center" gap="$3" px="$4" h={44} bg="$surfaceAlt" borderBottomColor="$borderSubtle" borderBottomWidth={1} flexShrink={0}>
           <XStack ai="center" gap="$2" flexShrink={0}>
             <Icon name="flask" size="sm" tone="accent" />
             <Heading fontFamily="$bold" fontSize="$3">AppForge</Heading>
           </XStack>
           <Body color="$textMuted" fontSize="$1">/</Body>
-          <XStack ai="center" gap="$1" px="$2" py="$1" br="$2" bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1}>
-            <Body fontSize="$1" color="$textSecondary">example-app</Body>
-            <Body fontSize="$1" color="$textMuted">▾</Body>
-          </XStack>
+
+          <ProjectSelector
+            apps={pg.availableApps}
+            selectedAppId={pg.selectedAppId}
+            onSelect={pg.setSelectedAppId}
+          />
+
           <Body color="$textMuted" fontSize="$1" numberOfLines={1}>{pg.selectedDocument.name}</Body>
 
           <View f={1} />
@@ -142,14 +165,9 @@ export function AppforgeSiteUiVisualizerScreen() {
         <XStack f={1} minHeight={0} overflow="hidden">
 
           {/* Left panel */}
-          <View
-            bg="$surfaceAlt"
-            flexShrink={0}
-            overflow="hidden"
+          <View bg="$surfaceAlt" flexShrink={0} overflow="hidden"
             // @ts-ignore
-            style={{ width: leftCollapsed ? 0 : LEFT_W, transition: "width 220ms ease", minWidth: 0 }}
-          >
-            {/* Mode switcher */}
+            style={{ width: leftCollapsed ? 0 : LEFT_W, transition: "width 220ms ease", minWidth: 0 }}>
             <XStack px="$2" py="$2" gap="$1" borderBottomColor="$borderSubtle" borderBottomWidth={1}>
               {(["blocks", "screens"] as LeftMode[]).map((m) => (
                 <Pressable key={m} onPress={() => setLeftMode(m)}>
@@ -163,7 +181,12 @@ export function AppforgeSiteUiVisualizerScreen() {
             </XStack>
             <ScrollView>
               {leftMode === "blocks" ? (
-                <UiComponentPalette onAdd={(blockId) => pg.addBlock(blockId)} />
+                <UiComponentPalette
+                  onAddBlock={(blockId) => pg.addBlock(blockId)}
+                  onAddCustomBlock={(blockId) => pg.addCustomBlock(blockId)}
+                  customBlocks={pg.customBlocks}
+                  onDeleteCustomBlock={pg.deleteCustomBlock}
+                />
               ) : (
                 <ScreenLibrary
                   documents={pg.documents}
@@ -178,10 +201,8 @@ export function AppforgeSiteUiVisualizerScreen() {
 
           {/* Center — Canvas or Code */}
           <YStack f={1} minWidth={0} position="relative">
-            {/* Dot-grid canvas backdrop — purely decorative, no interaction */}
             <View
-              position="absolute"
-              top={0} left={0} right={0} bottom={0}
+              position="absolute" top={0} left={0} right={0} bottom={0}
               pointerEvents="none"
               // @ts-ignore
               style={{
@@ -190,7 +211,6 @@ export function AppforgeSiteUiVisualizerScreen() {
                 backgroundColor: "#0a0a0e",
               }}
             />
-
             {pg.tab === "code" ? (
               <UiCodeView
                 documentName={pg.selectedDocument.name}
@@ -198,14 +218,7 @@ export function AppforgeSiteUiVisualizerScreen() {
                 serialized={pg.serialized}
               />
             ) : (
-              <ScrollView
-                contentContainerStyle={{
-                  flexGrow: 1,
-                  alignItems: "center",
-                  paddingVertical: 48,
-                  paddingHorizontal: 32,
-                }}
-              >
+              <ScrollView contentContainerStyle={{ flexGrow: 1, alignItems: "center", paddingVertical: 48, paddingHorizontal: 32 }}>
                 <UiCanvasView
                   document={pg.selectedDocument}
                   selectedNodeId={pg.selectedNodeId}
@@ -220,13 +233,9 @@ export function AppforgeSiteUiVisualizerScreen() {
           <PanelHandle side="right" collapsed={rightCollapsed} onToggle={() => setRightCollapsed(v => !v)} />
 
           {/* Right panel — Inspector or Tokens */}
-          <View
-            bg="$surfaceAlt"
-            flexShrink={0}
-            overflow="hidden"
+          <View bg="$surfaceAlt" flexShrink={0} overflow="hidden"
             // @ts-ignore
-            style={{ width: rightCollapsed ? 0 : RIGHT_W, transition: "width 220ms ease", minWidth: 0 }}
-          >
+            style={{ width: rightCollapsed ? 0 : RIGHT_W, transition: "width 220ms ease", minWidth: 0 }}>
             <XStack px="$2" py="$2" gap="$1" borderBottomColor="$borderSubtle" borderBottomWidth={1}>
               <View px="$2" py="$1" br="$2" bg="$surfaceStrong">
                 <Body fontSize="$1" color="$textPrimary">
@@ -234,7 +243,6 @@ export function AppforgeSiteUiVisualizerScreen() {
                 </Body>
               </View>
             </XStack>
-
             {pg.tab === "tokens" ? (
               <ScrollView style={{ flex: 1 }}>
                 <UiTokenPaletteView themeOverrides={pg.themeOverrides} onSetOverride={pg.setThemeOverride} />
@@ -247,6 +255,7 @@ export function AppforgeSiteUiVisualizerScreen() {
                 onSelectNode={pg.setSelectedNodeId}
                 onUpdateProp={pg.updateSelectedNodeProp}
                 onRemove={pg.removeSelectedNode}
+                onSaveBlock={pg.saveSelectionAsBlock}
               />
             )}
           </View>
@@ -258,11 +267,14 @@ export function AppforgeSiteUiVisualizerScreen() {
             <View w={6} h={6} br={999} bg="$success" />
             <Body fontSize="$1" color="$textMuted">editor live</Body>
           </XStack>
-          <Body fontSize="$1" color="$textMuted">branch: main</Body>
+          <Body fontSize="$1" color="$textMuted">{pg.selectedAppId}</Body>
           <Body fontSize="$1" color={pg.unsaved ? "$warning" : "$textMuted"}>
             {pg.unsaved ? "unsaved changes" : "clean"}
           </Body>
           <View f={1} />
+          {pg.customBlocks.length > 0 && (
+            <Body fontSize="$1" color="$textMuted">{pg.customBlocks.length} saved block{pg.customBlocks.length !== 1 ? "s" : ""}</Body>
+          )}
           <Body fontSize="$1" color="$textMuted">{pg.componentUsage.length} component types</Body>
         </XStack>
       </YStack>

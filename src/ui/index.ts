@@ -26,6 +26,11 @@ export type {
 } from "./primitives/SelectableChip";
 export { Tag } from "./primitives/Tag";
 export type { TagProps } from "./primitives/Tag";
+export { Avatar } from "./primitives/Avatar";
+export { Badge } from "./primitives/Badge";
+export type { BadgeTone } from "./primitives/Badge";
+export { ProgressBar } from "./primitives/ProgressBar";
+export type { ProgressBarTone } from "./primitives/ProgressBar";
 
 export const Stack = View;
 export const YStack = styled(View, {
