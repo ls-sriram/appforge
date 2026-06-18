@@ -1,0 +1,501 @@
+import React from "react";
+import { Pressable, ScrollView, TextInput } from "react-native";
+import { Body, Button, View, XStack, YStack } from "../../../../../ui";
+import {
+  ALIGN_OPTIONS,
+  BG_COLOR_OPTIONS,
+  BORDER_COLOR_OPTIONS,
+  BORDER_WIDTH_OPTIONS,
+  BUTTON_SIZE_OPTIONS,
+  BUTTON_VARIANT_OPTIONS,
+  ICON_NAME_OPTIONS,
+  ICON_SIZE_OPTIONS,
+  JUSTIFY_OPTIONS,
+  OPACITY_OPTIONS,
+  RADIUS_OPTIONS,
+  SPACE_OPTIONS,
+  TEXT_COLOR_OPTIONS,
+  TEXT_SIZE_OPTIONS,
+  TEXT_TONE_OPTIONS,
+  TEXT_TRANSFORM_OPTIONS,
+  TEXT_WEIGHT_OPTIONS,
+  TONE_OPTIONS,
+  type OptionItem,
+} from "../domain/ui-prop-options";
+import { DARK_THEME_RESOLVED } from "../domain/ui-theme-palette";
+import type { UiDocument, UiNode, UiNodeProps } from "../domain/ui-document.types";
+
+// ── Value picker (pill → dropdown) ───────────────────────────────────────────
+
+function ValuePicker({
+  value,
+  options,
+  onSelect,
+  minWidth = 88,
+}: {
+  value: string | number | undefined;
+  options: OptionItem[];
+  onSelect: (v: string | number | undefined) => void;
+  minWidth?: number;
+}) {
+  const [open, setOpen] = React.useState(false);
+  const current = options.find((o) => String(o.value) === String(value ?? ""));
+  const displayLabel = current?.label ?? (value !== undefined ? String(value) : "—");
+
+  return (
+    <View style={{ position: "relative", minWidth }}>
+      <Pressable onPress={() => setOpen((v) => !v)}>
+        <XStack
+          ai="center"
+          gap="$1"
+          px="$2"
+          h={26}
+          br="$2"
+          bg="$surfaceStrong"
+          borderColor={open ? "$primary" : "$borderSubtle"}
+          borderWidth={1}
+        >
+          {current?.color && (
+            <View w={10} h={10} br="$1" bg={current.color} borderColor="$borderSubtle" borderWidth={1} flexShrink={0} />
+          )}
+          <Body fontSize="$1" color="$textPrimary" f={1} numberOfLines={1}>
+            {displayLabel}
+          </Body>
+          <Body fontSize={9} color="$textMuted">▾</Body>
+        </XStack>
+      </Pressable>
+
+      {open && (
+        <View
+          style={{ position: "absolute", top: 28, left: 0, zIndex: 200, minWidth: 160 }}
+          bg="$surfaceStrong"
+          borderColor="$border"
+          borderWidth={1}
+          br="$2"
+          overflow="hidden"
+        >
+          <ScrollView style={{ maxHeight: 220 }}>
+            {options.map((opt) => {
+              const selected = String(opt.value ?? "") === String(value ?? "");
+              return (
+                <Pressable
+                  key={String(opt.value ?? "none")}
+                  onPress={() => { onSelect(opt.value); setOpen(false); }}
+                >
+                  <XStack
+                    ai="center"
+                    gap="$2"
+                    px="$2"
+                    py="$2"
+                    bg={selected ? "$surfaceAlt" : "transparent"}
+                  >
+                    {opt.color && (
+                      <View w={12} h={12} br="$1" bg={opt.color} borderColor="$borderSubtle" borderWidth={1} />
+                    )}
+                    <Body fontSize="$1" color={selected ? "$textPrimary" : "$textSecondary"}>
+                      {opt.label}
+                    </Body>
+                  </XStack>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+        </View>
+      )}
+    </View>
+  );
+}
+
+// ── Inline text input (only for free-text props: text content, label) ─────────
+
+function InlineTextInput({
+  value,
+  placeholder,
+  onChange,
+}: {
+  value: string | undefined;
+  placeholder?: string;
+  onChange: (v: string | undefined) => void;
+}) {
+  return (
+    <View
+      f={1}
+      h={26}
+      px="$2"
+      br="$2"
+      bg="$surfaceStrong"
+      borderColor="$borderSubtle"
+      borderWidth={1}
+      jc="center"
+    >
+      <TextInput
+        value={value ?? ""}
+        onChangeText={(t) => onChange(t || undefined)}
+        placeholder={placeholder ?? "—"}
+        placeholderTextColor="#525252"
+        style={{ color: "#F2F2F2", fontSize: 11, fontFamily: "System", padding: 0, margin: 0 }}
+      />
+    </View>
+  );
+}
+
+// ── Section + row primitives ──────────────────────────────────────────────────
+
+function Section({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <YStack borderBottomColor="$borderSubtle" borderBottomWidth={1}>
+      <Body px="$3" pt="$2" pb="$1" fontSize="$1" color="$textMuted" tt="uppercase" letterSpacing={1} opacity={0.55}>
+        {label}
+      </Body>
+      <YStack px="$3" pb="$2" gap="$2">
+        {children}
+      </YStack>
+    </YStack>
+  );
+}
+
+function PropRow({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <XStack ai="center" gap="$2" minHeight={28}>
+      <Body fontSize="$1" color="$textMuted" w={72} flexShrink={0}>
+        {label}
+      </Body>
+      <View f={1}>{children}</View>
+    </XStack>
+  );
+}
+
+function TwoColRow({ left, right }: { left: React.ReactNode; right: React.ReactNode }) {
+  return (
+    <XStack gap="$2">
+      <View f={1}>{left}</View>
+      <View f={1}>{right}</View>
+    </XStack>
+  );
+}
+
+function SmallLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <Body fontSize="$1" color="$textMuted" opacity={0.55} mb="$1">
+      {children}
+    </Body>
+  );
+}
+
+// ── Helper: prop value getter/setter ─────────────────────────────────────────
+
+function val(node: UiNode, key: keyof UiNodeProps): string | number | undefined {
+  return node.props[key] as string | number | undefined;
+}
+
+// ── Layer tree ────────────────────────────────────────────────────────────────
+
+function LayerNode({
+  document,
+  nodeId,
+  depth,
+  selectedNodeId,
+  onSelectNode,
+}: {
+  document: UiDocument;
+  nodeId: string;
+  depth: number;
+  selectedNodeId?: string;
+  onSelectNode: (id: string) => void;
+}) {
+  const node = document.nodes[nodeId];
+  if (!node) return null;
+  const selected = selectedNodeId === nodeId;
+
+  return (
+    <>
+      <Pressable onPress={() => onSelectNode(nodeId)}>
+        <XStack
+          ai="center"
+          gap="$1"
+          h={24}
+          pl={(depth * 10 + 10) as any}
+          bg={selected ? "$surfaceAlt" : "transparent"}
+          borderLeftColor={selected ? "$primary" : "transparent"}
+          borderLeftWidth={2}
+        >
+          <Body fontSize={10} color="$textMuted" w={10}>
+            {node.children.length > 0 ? "▾" : " "}
+          </Body>
+          <Body fontSize="$1" color={selected ? "$primary" : "$textMuted"}>
+            {node.type}
+          </Body>
+          {nodeId === document.rootId && (
+            <Body fontSize={9} color="$textMuted" opacity={0.4} ml="$1">root</Body>
+          )}
+        </XStack>
+      </Pressable>
+      {node.children.map((childId) => (
+        <LayerNode
+          key={childId}
+          document={document}
+          nodeId={childId}
+          depth={depth + 1}
+          selectedNodeId={selectedNodeId}
+          onSelectNode={onSelectNode}
+        />
+      ))}
+    </>
+  );
+}
+
+// ── Main inspector ────────────────────────────────────────────────────────────
+
+export function UiInspectorView({
+  node,
+  document,
+  selectedNodeId,
+  onSelectNode,
+  onUpdateProp,
+  onRemove,
+}: {
+  node?: UiNode;
+  document: UiDocument;
+  selectedNodeId?: string;
+  onSelectNode: (id: string) => void;
+  onUpdateProp: (key: keyof UiNodeProps, value: string | number | undefined) => void;
+  onRemove: () => void;
+}) {
+  const set = (key: keyof UiNodeProps) =>
+    (v: string | number | undefined) => onUpdateProp(key, v);
+
+  return (
+    <YStack f={1}>
+      {/* Selection header */}
+      {node && (
+        <XStack
+          px="$3"
+          py="$2"
+          ai="center"
+          gap="$2"
+          borderBottomColor="$borderSubtle"
+          borderBottomWidth={1}
+        >
+          <View
+            px="$2"
+            py="$1"
+            br="$2"
+            bg="$surfaceStrong"
+            borderColor="$borderSubtle"
+            borderWidth={1}
+          >
+            <Body fontSize="$1" color="$textMuted">{node.type}</Body>
+          </View>
+          <Body fontSize="$1" color="$textMuted" f={1} numberOfLines={1}>{node.id}</Body>
+          <Pressable onPress={onRemove}>
+            <Body fontSize="$1" color="$error">✕</Body>
+          </Pressable>
+        </XStack>
+      )}
+
+      <ScrollView style={{ flex: 1 }}>
+        {node ? (
+          <>
+            {/* ── Typography — variant contracts first, raw escape hatches below ── */}
+            {(node.type === "Heading" || node.type === "Body" || node.type === "Label") && (
+              <Section label="Typography">
+                <PropRow label="Content">
+                  <InlineTextInput
+                    value={val(node, "text") as string}
+                    placeholder="Enter text…"
+                    onChange={set("text")}
+                  />
+                </PropRow>
+                <TwoColRow
+                  left={
+                    <YStack gap="$1">
+                      <SmallLabel>Tone</SmallLabel>
+                      <ValuePicker value={val(node, "tone")} options={TEXT_TONE_OPTIONS} onSelect={set("tone")} />
+                    </YStack>
+                  }
+                  right={
+                    <YStack gap="$1">
+                      <SmallLabel>Size</SmallLabel>
+                      <ValuePicker value={val(node, "size")} options={TEXT_SIZE_OPTIONS} onSelect={set("size")} />
+                    </YStack>
+                  }
+                />
+                <TwoColRow
+                  left={
+                    <YStack gap="$1">
+                      <SmallLabel>Weight</SmallLabel>
+                      <ValuePicker value={val(node, "weight")} options={TEXT_WEIGHT_OPTIONS} onSelect={set("weight")} />
+                    </YStack>
+                  }
+                  right={
+                    node.type === "Label" ? (
+                      <YStack gap="$1">
+                        <SmallLabel>Transform</SmallLabel>
+                        <ValuePicker value={val(node, "tt")} options={TEXT_TRANSFORM_OPTIONS} onSelect={set("tt")} />
+                      </YStack>
+                    ) : <View />
+                  }
+                />
+              </Section>
+            )}
+
+            {/* ── Button — variant + size as the contract ── */}
+            {node.type === "Button" && (
+              <Section label="Button">
+                <PropRow label="Label">
+                  <InlineTextInput value={val(node, "text") as string} placeholder="Button text" onChange={set("text")} />
+                </PropRow>
+                <TwoColRow
+                  left={
+                    <YStack gap="$1">
+                      <SmallLabel>Variant</SmallLabel>
+                      <ValuePicker value={val(node, "variant")} options={BUTTON_VARIANT_OPTIONS} onSelect={set("variant")} />
+                    </YStack>
+                  }
+                  right={
+                    <YStack gap="$1">
+                      <SmallLabel>Size</SmallLabel>
+                      <ValuePicker value={val(node, "size")} options={BUTTON_SIZE_OPTIONS} onSelect={set("size")} />
+                    </YStack>
+                  }
+                />
+                <PropRow label="Opacity">
+                  <ValuePicker value={val(node, "opacity")} options={OPACITY_OPTIONS} onSelect={set("opacity")} />
+                </PropRow>
+              </Section>
+            )}
+
+            {/* ── Tag / tone-based ── */}
+            {node.type === "Tag" && (
+              <Section label="Tag">
+                <PropRow label="Label">
+                  <InlineTextInput value={val(node, "label") as string} placeholder="Badge text" onChange={set("label")} />
+                </PropRow>
+                <PropRow label="Tone">
+                  <ValuePicker value={val(node, "tone")} options={TONE_OPTIONS} onSelect={set("tone")} />
+                </PropRow>
+              </Section>
+            )}
+
+            {/* ── Icon ── */}
+            {node.type === "Icon" && (
+              <Section label="Icon">
+                <TwoColRow
+                  left={
+                    <YStack gap="$1">
+                      <SmallLabel>Icon</SmallLabel>
+                      <ValuePicker value={val(node, "icon")} options={ICON_NAME_OPTIONS} onSelect={set("icon")} />
+                    </YStack>
+                  }
+                  right={
+                    <YStack gap="$1">
+                      <SmallLabel>Size</SmallLabel>
+                      <ValuePicker value={val(node, "size")} options={ICON_SIZE_OPTIONS} onSelect={set("size")} />
+                    </YStack>
+                  }
+                />
+                <PropRow label="Tone">
+                  <ValuePicker value={val(node, "tone")} options={TONE_OPTIONS} onSelect={set("tone")} />
+                </PropRow>
+              </Section>
+            )}
+
+            {/* ── Surface (for container nodes) ── */}
+            {(node.type === "View" || node.type === "YStack" || node.type === "XStack") && (
+              <>
+                <Section label="Surface">
+                  <PropRow label="Background">
+                    <ValuePicker value={val(node, "bg")} options={BG_COLOR_OPTIONS} onSelect={set("bg")} />
+                  </PropRow>
+                  <TwoColRow
+                    left={
+                      <YStack gap="$1">
+                        <SmallLabel>Border</SmallLabel>
+                        <ValuePicker value={val(node, "borderColor")} options={BORDER_COLOR_OPTIONS} onSelect={set("borderColor")} />
+                      </YStack>
+                    }
+                    right={
+                      <YStack gap="$1">
+                        <SmallLabel>Width</SmallLabel>
+                        <ValuePicker value={val(node, "borderWidth")} options={BORDER_WIDTH_OPTIONS} onSelect={set("borderWidth")} />
+                      </YStack>
+                    }
+                  />
+                  <PropRow label="Radius">
+                    <ValuePicker value={val(node, "br")} options={RADIUS_OPTIONS} onSelect={set("br")} />
+                  </PropRow>
+                </Section>
+
+                <Section label="Layout">
+                  <TwoColRow
+                    left={
+                      <YStack gap="$1">
+                        <SmallLabel>Gap</SmallLabel>
+                        <ValuePicker value={val(node, "gap")} options={SPACE_OPTIONS} onSelect={set("gap")} />
+                      </YStack>
+                    }
+                    right={
+                      <YStack gap="$1">
+                        <SmallLabel>Align</SmallLabel>
+                        <ValuePicker value={val(node, "ai")} options={ALIGN_OPTIONS} onSelect={set("ai")} />
+                      </YStack>
+                    }
+                  />
+                  <PropRow label="Justify">
+                    <ValuePicker value={val(node, "jc")} options={JUSTIFY_OPTIONS} onSelect={set("jc")} />
+                  </PropRow>
+                </Section>
+
+                <Section label="Spacing">
+                  <TwoColRow
+                    left={
+                      <YStack gap="$1">
+                        <SmallLabel>Pad X</SmallLabel>
+                        <ValuePicker value={val(node, "px")} options={SPACE_OPTIONS} onSelect={set("px")} />
+                      </YStack>
+                    }
+                    right={
+                      <YStack gap="$1">
+                        <SmallLabel>Pad Y</SmallLabel>
+                        <ValuePicker value={val(node, "py")} options={SPACE_OPTIONS} onSelect={set("py")} />
+                      </YStack>
+                    }
+                  />
+                  <PropRow label="Padding">
+                    <ValuePicker value={val(node, "p")} options={SPACE_OPTIONS} onSelect={set("p")} />
+                  </PropRow>
+                </Section>
+              </>
+            )}
+          </>
+        ) : (
+          <YStack px="$3" py="$3">
+            <Body fontSize="$2" color="$textMuted">
+              Select a node to edit its properties.
+            </Body>
+          </YStack>
+        )}
+
+        {/* ── Layers ── */}
+        <YStack borderTopColor="$borderSubtle" borderTopWidth={node ? 1 : 0} mt={node ? "$2" : 0}>
+          <Body px="$3" pt="$2" pb="$1" fontSize="$1" color="$textMuted" tt="uppercase" letterSpacing={1} opacity={0.55}>
+            Layers
+          </Body>
+          <LayerNode
+            document={document}
+            nodeId={document.rootId}
+            depth={0}
+            selectedNodeId={selectedNodeId}
+            onSelectNode={onSelectNode}
+          />
+        </YStack>
+      </ScrollView>
+    </YStack>
+  );
+}
