@@ -32,18 +32,19 @@ export function UiCanvasView({
   selectedNodeId,
   propOverrides,
   onSelectNode,
-  customNodeIds = [],
+  useDocumentRenderer = false,
 }: {
   document: UiDocument;
   selectedNodeId?: string;
   propOverrides: Record<string, Partial<UiNodeProps>>;
   onSelectNode: (nodeId: string) => void;
-  customNodeIds?: string[];
+  useDocumentRenderer?: boolean;
 }) {
   useVizStyles();
 
   const LiveLayout = LIVE_LAYOUTS[document.id];
   const { attachRef } = useLiveNodeSelection(document, onSelectNode);
+  const shouldRenderDocument = useDocumentRenderer || !LiveLayout;
 
   return (
     <YStack ai="center" gap="$3">
@@ -57,7 +58,7 @@ export function UiCanvasView({
         // @ts-ignore — web-only drop shadow
         style={{ boxShadow: "0 8px 48px rgba(0,0,0,0.60)" }}
       >
-        {LiveLayout ? (
+        {!shouldRenderDocument ? (
           <VisualizerProvider
             selectedNodeId={selectedNodeId}
             onSelect={onSelectNode}
@@ -71,37 +72,6 @@ export function UiCanvasView({
           renderUiNode(document, document.rootId, selectedNodeId, onSelectNode)
         )}
       </View>
-
-      {/* Custom-added blocks (not part of the live component tree) rendered
-          below the phone frame so the LiveLayout's own styling stays intact. */}
-      {LiveLayout && customNodeIds.length > 0 && (
-        <View
-          w={360}
-          br={16}
-          borderColor="rgba(255,255,255,0.10)"
-          borderWidth={1}
-          overflow="hidden"
-          // @ts-ignore
-          style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.40)" }}
-        >
-          <Body
-            px="$3"
-            py="$2"
-            fontSize="$1"
-            color="$textMuted"
-            opacity={0.5}
-            // @ts-ignore
-            style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}
-          >
-            Added blocks
-          </Body>
-          <YStack p="$3" gap="$3">
-            {customNodeIds.map((id) =>
-              renderUiNode(document, id, selectedNodeId, onSelectNode),
-            )}
-          </YStack>
-        </View>
-      )}
 
       <Body fontSize="$1" color="$textMuted" opacity={0.5}>
         {document.name}

@@ -369,6 +369,30 @@ export function updateNodeProps(document: UiDocument, nodeId: string, patch: Par
   return next;
 }
 
+export function hasStructuralChanges(
+  base: UiDocument,
+  current: UiDocument,
+): boolean {
+  const baseIds = Object.keys(base.nodes);
+  const currentIds = Object.keys(current.nodes);
+
+  if (baseIds.length !== currentIds.length) return true;
+
+  for (const id of baseIds) {
+    const baseNode = base.nodes[id];
+    const currentNode = current.nodes[id];
+    if (!baseNode || !currentNode) return true;
+    if (baseNode.type !== currentNode.type) return true;
+    if (baseNode.parentId !== currentNode.parentId) return true;
+    if (baseNode.children.length !== currentNode.children.length) return true;
+    for (let i = 0; i < baseNode.children.length; i += 1) {
+      if (baseNode.children[i] !== currentNode.children[i]) return true;
+    }
+  }
+
+  return false;
+}
+
 export function serializeDocument(document: UiDocument) {
   function serializeNode(nodeId: string, depth: number): string[] {
     const node = document.nodes[nodeId];

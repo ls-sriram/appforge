@@ -10,6 +10,7 @@ import {
   addNode,
   extractSubtreeAsBlock,
   getComponentUsage,
+  hasStructuralChanges,
   insertCustomBlockNode,
   materializeDocumentState,
   removeNode,
@@ -99,14 +100,10 @@ export function useUiPlayground() {
   const componentUsage = React.useMemo(() => getComponentUsage(selectedDocument), [selectedDocument]);
   const serialized = React.useMemo(() => serializeDocument(selectedDocument), [selectedDocument]);
   const unsaved = Object.keys(docOverrides).length > 0 || Object.keys(themeOverrides).length > 0;
-
-  const customNodeIds = React.useMemo(() => {
-    const all = Object.keys(selectedDocument.nodes).filter((id) => !selectedBaseDocument.nodes[id]);
-    return all.filter((id) => {
-      const parentId = selectedDocument.nodes[id]?.parentId;
-      return !parentId || !!selectedBaseDocument.nodes[parentId];
-    });
-  }, [selectedDocument, selectedBaseDocument]);
+  const hasStructureChanges = React.useMemo(
+    () => hasStructuralChanges(selectedBaseDocument, selectedDocument),
+    [selectedBaseDocument, selectedDocument],
+  );
 
   function applyDocument(next: UiDocument) {
     setDocOverrides((current) => ({ ...current, [documentKey]: next }));
@@ -144,7 +141,7 @@ export function useUiPlayground() {
     componentUsage,
     serialized,
     unsaved,
-    customNodeIds,
+    hasStructureChanges,
     showPaywall,
     setShowPaywall,
     livePropOverrides,
@@ -168,7 +165,10 @@ export function useUiPlayground() {
       applyDocument(removeNode(selectedDocument, selectedNodeId));
       setSelectedNodeId(fallback);
     },
-    updateSelectedNodeProp(key: string, value: string | number | undefined) {
+    updateSelectedNodeProp(
+      key: string,
+      value: string | number | boolean | undefined,
+    ) {
       if (!selectedNodeId) return;
       applyDocument(updateNodeProps(selectedDocument, selectedNodeId, { [key]: value }));
       if (LIVE_LAYOUTS[selectedDocumentId]) {

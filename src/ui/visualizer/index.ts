@@ -19,15 +19,14 @@ export {
   SafeAreaView,
   UIProvider,
   config,
-  Input,
-  TextArea,
-  SelectableChip,
   ScrollView,
   Stack,
 } from "../index";
 
 export type {
+  BadgeTone,
   GetProps,
+  ProgressBarTone,
   SelectableChipSize,
   SelectableChipShape,
   SelectableChipFrame,
@@ -49,4 +48,10 @@ export {
   XStack,
   Tag,
   Icon,
+  Avatar,
+  Badge,
+  Input,
+  ProgressBar,
+  SelectableChip,
+  TextArea,
 } from "./wrapped";

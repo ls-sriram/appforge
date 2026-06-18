@@ -191,14 +191,19 @@ export function UiInspectorView({
   document: UiDocument;
   selectedNodeId?: string;
   onSelectNode: (id: string) => void;
-  onUpdateProp: (key: keyof UiNodeProps, value: string | number | undefined) => void;
+  onUpdateProp: (
+    key: keyof UiNodeProps,
+    value: string | number | boolean | undefined,
+  ) => void;
   onRemove: () => void;
   onSaveBlock?: (name: string) => void;
 }) {
   const [savingBlock, setSavingBlock] = React.useState(false);
   const [blockName, setBlockName] = React.useState("");
 
-  const set = (key: keyof UiNodeProps) => (v: string | number | undefined) => onUpdateProp(key, v);
+  const set = (key: keyof UiNodeProps) => (
+    v: string | number | boolean | undefined,
+  ) => onUpdateProp(key, v);
   const isRoot = selectedNodeId === document.rootId;
 
   return (
@@ -265,10 +270,13 @@ export function UiInspectorView({
                 {(node.type === "Heading" || node.type === "Body") && (
                   <TwoColRow
                     left={<YStack gap="$1"><SmallLabel>Weight</SmallLabel><ValuePicker value={val(node, "weight")} options={TEXT_WEIGHT_OPTIONS} onSelect={set("weight")} /></YStack>}
-                    right={node.type === "Label"
-                      ? <YStack gap="$1"><SmallLabel>Transform</SmallLabel><ValuePicker value={val(node, "tt")} options={TEXT_TRANSFORM_OPTIONS} onSelect={set("tt")} /></YStack>
-                      : <View />}
+                    right={<View />}
                   />
+                )}
+                {node.type === "Label" && (
+                  <PropRow label="Transform">
+                    <ValuePicker value={val(node, "tt")} options={TEXT_TRANSFORM_OPTIONS} onSelect={set("tt")} />
+                  </PropRow>
                 )}
               </Section>
             )}

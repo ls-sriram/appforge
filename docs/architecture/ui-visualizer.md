@@ -24,16 +24,19 @@ Layout files are the unit the visualizer operates on. They must:
 
 ## Canvas rendering — LiveLayout only
 
-Every screen renders via its actual `*.layout.tsx` component. There is no secondary reconstruction path for screens.
+Every screen renders via its actual `*.layout.tsx` component until the in-memory document structure diverges. Once nodes are added, removed, or reparented in the editor, the canvas switches to the in-memory renderer so structural edits appear in place.
 
 ```
 UiCanvasView
-  → LIVE_LAYOUTS[documentId]          live-layout-registry.tsx
-  → <LiveLayout />                    the real *.layout.tsx component
-      wrapped by VisualizerProvider   context: active=true, selectedNodeId, propOverrides
+  → if structure unchanged:
+      LIVE_LAYOUTS[documentId]        live-layout-registry.tsx
+      → <LiveLayout />                the real *.layout.tsx component
+          wrapped by VisualizerProvider
+  → if structure changed:
+      renderUiNode(document.rootId)   renders the in-memory UiDocument tree directly
 ```
 
-`renderers/render-ui-node.tsx` exists for block/fixture previews only.
+`renderers/render-ui-node.tsx` remains the fallback for block/fixture previews and for edited screen structures that no longer match the static layout source.
 
 ---
 
@@ -72,7 +75,7 @@ src/ui/index.ts  →  src/ui/visualizer/index.ts
 
 This means every `import { Body, Button, ... } from '@app/ui'` in a layout file gets the wrapped version automatically — no source change required in layout files.
 
-The visualizer barrel (`src/ui/visualizer/index.ts`) re-exports all real barrel exports and overrides the interactive primitives with wrapped versions from `wrapped.tsx`.
+The visualizer barrel (`src/ui/visualizer/index.ts`) re-exports the same runtime surface as `src/ui/index.ts` and overrides the primitives that need visualizer behavior with wrapped versions from `wrapped.tsx`.
 
 Imports originating from within `src/ui/visualizer/` are excluded from the alias (prevents circular resolution: the wrapped barrel imports the real barrel).
 
@@ -80,7 +83,7 @@ Imports originating from within `src/ui/visualizer/` are excluded from the alias
 
 **`makeWrapped`** — Tamagui `styled(Stack)` components forward `data-*` to the DOM natively. Passes viz props directly on the component.
 
-**`makeWrappedInBox`** — `styled(Pressable)` (Button) and RN `View` (Icon) strip unknown `data-*` props before they reach the DOM. Wraps in a `display:contents` div so viz attributes land on the DOM without affecting layout. This barrel is web-only so `div` is safe.
+**`makeWrappedInBox`** — used for components whose root does not forward `data-*` to the DOM, including `Button`, `Icon`, and retained helper primitives such as `Avatar`, `Badge`, `Input`, `TextArea`, `SelectableChip`, and `ProgressBar`. Wraps in a `display:contents` div so viz attributes land on the DOM without affecting layout. This barrel is web-only so `div` is safe.
 
 ### Each wrapped component
 

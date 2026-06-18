@@ -25,6 +25,12 @@ import {
   XStack as RealXStack,
   Tag as RealTag,
   Icon as RealIcon,
+  Avatar as RealAvatar,
+  Badge as RealBadge,
+  Input as RealInput,
+  ProgressBar as RealProgressBar,
+  SelectableChip as RealSelectableChip,
+  TextArea as RealTextArea,
 } from "../index";
 
 type AnyProps = Record<string, unknown>;
@@ -127,3 +133,13 @@ export const YStack  = makeWrapped(RealYStack,  "YStack");
 export const XStack  = makeWrapped(RealXStack,  "XStack");
 export const Tag     = makeWrapped(RealTag,     "Tag");
 export const Icon    = makeWrappedInBox(RealIcon, "Icon");
+export const Avatar  = makeWrappedInBox(RealAvatar, "Avatar");
+export const Badge   = makeWrappedInBox(RealBadge, "Badge", "label");
+export const Input   = makeWrappedInBox(RealInput, "Input");
+export const ProgressBar = makeWrappedInBox(RealProgressBar, "ProgressBar");
+export const SelectableChip = makeWrappedInBox(
+  RealSelectableChip,
+  "SelectableChip",
+  "label",
+);
+export const TextArea = makeWrappedInBox(RealTextArea, "TextArea");

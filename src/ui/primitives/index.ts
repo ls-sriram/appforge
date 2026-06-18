@@ -1,6 +1,5 @@
 export { Display, Heading, Label, Body } from './Text'
 export { Text } from './Text'
-export type { TextTone, TextVariant, TextWeight } from './Text'
 export { Button } from './Button'
 export { Input } from './Input'
 export { TextArea } from './TextArea'
