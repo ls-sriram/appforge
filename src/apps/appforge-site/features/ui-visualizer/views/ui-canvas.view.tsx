@@ -2,6 +2,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import { Body, View, YStack } from "../../../../../ui";
 import { VisualizerProvider } from "../../../../../ui/visualizer-context";
+import { DARK_THEME_RESOLVED } from "../domain/ui-theme-palette";
 import type { UiDocument, UiNodeProps } from "../domain/ui-document.types";
 import { renderUiNode } from "../renderers/render-ui-node";
 import { LIVE_LAYOUTS } from "../renderers/live-layout-registry";
@@ -11,7 +12,7 @@ import { useLiveNodeSelection } from "../renderers/use-live-node-selection";
 // Tamagui's prop pipeline — no style={} mixed with Tamagui shorthands.
 const VIZ_CSS = `
   [data-viz-selected="true"] {
-    outline: 1.5px solid #4F8EF7 !important;
+    outline: 1.5px solid ${DARK_THEME_RESOLVED.primary} !important;
     outline-offset: -1px;
     border-radius: 3px;
   }
@@ -35,6 +36,7 @@ export function UiCanvasView({
   onSelectNode,
   useDocumentRenderer = false,
   insertedRootIds = [],
+  isActive = false,
 }: {
   document: UiDocument;
   selectedNodeId?: string;
@@ -42,6 +44,7 @@ export function UiCanvasView({
   onSelectNode: (nodeId: string) => void;
   useDocumentRenderer?: boolean;
   insertedRootIds?: string[];
+  isActive?: boolean;
 }) {
   useVizStyles();
 
@@ -54,12 +57,12 @@ export function UiCanvasView({
       <View
         w={360}
         minHeight={640}
-        borderColor="rgba(255,255,255,0.10)"
-        borderWidth={1}
+        borderColor={isActive ? "$primary" : "$borderSubtle"}
+        borderWidth={isActive ? 2 : 1}
         br={28}
         overflow="hidden"
         // @ts-ignore — web-only drop shadow
-        style={{ boxShadow: "0 8px 48px rgba(0,0,0,0.60)" }}
+        style={{ boxShadow: isActive ? `0 8px 48px rgba(0,0,0,0.60)` : "0 4px 24px rgba(0,0,0,0.35)" }}
       >
         {!shouldRenderDocument ? (
           <VisualizerProvider

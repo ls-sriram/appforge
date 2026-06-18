@@ -4,7 +4,7 @@ import { animations } from '@tamagui/config/v4'
 // ── Color tokens ──────────────────────────────────────────────────────────────
 // Raw palette — light and dark values live here so both themes can reference
 // them. Theme objects below map these to semantic roles.
-const color = {
+export const color = {
   // Dark palette
   ink:           '#0A0A0A',
   inkLift:       '#111111',
@@ -161,6 +161,9 @@ const darkTheme = {
   // Chip controls
   chipBg:        tokens.color.chipDarkBg,
   chipBorder:    tokens.color.chipDarkBdr,
+
+  // Overlay / modal scrim
+  scrim:         'rgba(5,10,18,0.64)',
 }
 
 const lightTheme = {
@@ -208,6 +211,73 @@ const lightTheme = {
   // Chip controls
   chipBg:        tokens.color.chipLightBg,
   chipBorder:    tokens.color.chipLightBdr,
+
+  // Overlay / modal scrim
+  scrim:         'rgba(5,10,18,0.64)',
+}
+
+// ── Resolved theme maps (plain hex strings, derived from color palette) ───────
+// Use these wherever Tamagui token syntax ($token) can't be passed — e.g.
+// React Native TextInput style props, CSS string injections.
+
+export const resolvedDarkTheme: Record<string, string> = {
+  bg:            color.ink,
+  surface:       color.inkLift,
+  surfaceStrong: color.inkCard,
+  surfaceAlt:    color.inkMuted,
+  surfaceMuted:  color.inkLift,
+  border:        color.borderDark,
+  borderSubtle:  color.borderDarkSub,
+  borderFocus:   color.borderDarkFoc,
+  textPrimary:   color.snowBright,
+  textSecondary: color.snowDim,
+  textMuted:     color.snowFaint,
+  textTertiary:  color.snowTertiary,
+  textInverse:   color.ink,
+  primary:       color.blueBright,
+  primaryMuted:  color.blueBrightMuted,
+  accent:        color.blueBright,
+  accentMuted:   color.blueBrightMuted,
+  success:       color.greenBright,
+  successMuted:  color.greenMuted,
+  warning:       color.amberBright,
+  warningMuted:  color.amberMuted,
+  error:         color.redBright,
+  errorMuted:    color.redMuted,
+  info:          color.tealBright,
+  infoMuted:     color.tealBrightMuted,
+  chipBorder:    color.chipDarkBdr,
+  scrim:         'rgba(5,10,18,0.64)',
+}
+
+export const resolvedLightTheme: Record<string, string> = {
+  bg:            color.offWhite,
+  surface:       color.white,
+  surfaceStrong: color.white,
+  surfaceAlt:    color.surfaceLight,
+  surfaceMuted:  color.surfaceLight,
+  border:        color.borderLight,
+  borderSubtle:  color.borderLightSub,
+  borderFocus:   color.borderLightFoc,
+  textPrimary:   color.nearBlack,
+  textSecondary: color.charcoal,
+  textMuted:     color.stone,
+  textTertiary:  color.slate,
+  textInverse:   color.white,
+  primary:       color.blue,
+  primaryMuted:  color.blueMuted,
+  accent:        color.blue,
+  accentMuted:   color.blueMuted,
+  success:       color.green,
+  successMuted:  color.greenDark,
+  warning:       color.amber,
+  warningMuted:  color.amberDark,
+  error:         color.red,
+  errorMuted:    color.redDark,
+  info:          color.teal,
+  infoMuted:     color.tealMuted,
+  chipBorder:    color.chipLightBdr,
+  scrim:         'rgba(5,10,18,0.64)',
 }
 
 // ── Config ────────────────────────────────────────────────────────────────────

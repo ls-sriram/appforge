@@ -260,7 +260,11 @@ export function addBlockNode(
   return next;
 }
 
-export function addNode(document: UiDocument, type: UiComponentType, selectedNodeId?: string): UiDocument {
+export function addNode(
+  document: UiDocument,
+  type: UiComponentType,
+  selectedNodeId?: string,
+): { document: UiDocument; nodeId: string } {
   const next = cloneDocument(document);
   const newNode = createNode(type);
   const selected = selectedNodeId ? next.nodes[selectedNodeId] : undefined;
@@ -272,7 +276,7 @@ export function addNode(document: UiDocument, type: UiComponentType, selectedNod
   newNode.parentId = target.id;
   target.children = [...target.children, newNode.id];
   next.nodes[newNode.id] = newNode;
-  return next;
+  return { document: next, nodeId: newNode.id };
 }
 
 // ── Custom block operations ────────────────────────────────────────────────────
@@ -485,6 +489,119 @@ export function serializeDocument(document: UiDocument) {
     "export function PlaygroundPreview() {",
     "  return (",
     ...serializeNode(document.rootId, 2),
+    "  );",
+    "}",
+  ].join("\n");
+}
+
+// ── Layout file emitter ───────────────────────────────────────────────────────
+// Generates a re-scannable .layout.tsx from a UiDocument.
+// sourcePath (repo-relative) is used to compute relative import paths.
+
+export function generateLayoutFile(document: UiDocument): string {
+  // Relative path from the source file's directory to src/ui
+  // e.g. "src/apps/example-app/features/auth/foo.layout.tsx"
+  //   → sourcePath has 5 parts, dirs = 4 deep → go up 3 levels → "../../../ui"
+  function uiRel(extra = ""): string {
+    if (!document.sourcePath) return `../../../../ui${extra}`;
+    const dirs = document.sourcePath.split("/").slice(0, -1); // drop filename
+    // dirs[0] = "src", so we need (dirs.length - 1) "../" to reach src, then "ui"
+    return "../".repeat(dirs.length - 1) + `ui${extra}`;
+  }
+
+  // Collect component types that are actually used
+  const usedTypes = new Set<string>();
+  Object.values(document.nodes).forEach((n) => usedTypes.add(n.type));
+  const sortedTypes = [...usedTypes].sort().join(", ");
+
+  // Derive a function name from the document name
+  const fnName = document.name
+    .split(/[\s\-_/]+/)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .join("") + "Layout";
+
+  function buildProps(node: UiNode, skipKeys: string[] = []): string {
+    const parts = Object.entries(node.props)
+      .filter(([k, v]) => !skipKeys.includes(k) && v !== undefined && v !== "")
+      .map(([k, v]) =>
+        typeof v === "number" || typeof v === "boolean" ? `${k}={${v}}` : `${k}=${JSON.stringify(v)}`,
+      );
+    return parts.length ? " " + parts.join(" ") : "";
+  }
+
+  // isRoot: whether this is the top-level return value (no {} wrapper)
+  function emitNode(nodeId: string, depth: number, isRoot: boolean): string[] {
+    const node = document.nodes[nodeId];
+    if (!node) return [];
+    const pad = "  ".repeat(depth);
+    const uid = JSON.stringify(node.id);
+
+    const wrap = (inner: string[]) =>
+      isRoot
+        ? [`${pad}ui(${uid},`, ...inner, `${pad})`]
+        : [`${pad}{ui(${uid},`, ...inner, `${pad})}`];
+
+    // Leaf self-closing types
+    if (["Icon", "Tag", "Avatar", "Input", "TextArea", "ProgressBar"].includes(node.type)) {
+      const p = buildProps(node);
+      const el = `<${node.type}${p} />`;
+      return isRoot ? [`${pad}ui(${uid}, ${el})`] : [`${pad}{ui(${uid}, ${el})}`];
+    }
+
+    if (node.type === "Badge") {
+      const label = node.props.text ?? "Badge";
+      const p = buildProps(node, ["text"]);
+      const el = `<Badge label=${JSON.stringify(label)}${p} />`;
+      return isRoot ? [`${pad}ui(${uid}, ${el})`] : [`${pad}{ui(${uid}, ${el})}`];
+    }
+
+    if (node.type === "SelectableChip") {
+      const label = node.props.text ?? "Option";
+      const p = buildProps(node, ["text"]);
+      const el = `<SelectableChip label=${JSON.stringify(label)}${p} onPress={() => {}} />`;
+      return isRoot ? [`${pad}ui(${uid}, ${el})`] : [`${pad}{ui(${uid}, ${el})}`];
+    }
+
+    if (["Display", "Heading", "Body", "Label"].includes(node.type)) {
+      const text = node.props.text ?? node.type;
+      const p = buildProps(node, ["text"]);
+      const el = `<${node.type}${p}>${text}</${node.type}>`;
+      return isRoot ? [`${pad}ui(${uid}, ${el})`] : [`${pad}{ui(${uid}, ${el})}`];
+    }
+
+    if (node.type === "Button") {
+      const text = node.props.text ?? "Button";
+      const p = buildProps(node, ["text"]);
+      return wrap([
+        `${pad}<Button${p}>`,
+        `${pad}  <Body color="$textInverse" fontFamily="$bold">${text}</Body>`,
+        `${pad}</Button>`,
+      ]);
+    }
+
+    // Container node
+    if (node.children.length === 0) {
+      const p = buildProps(node);
+      const el = `<${node.type}${p} />`;
+      return isRoot ? [`${pad}ui(${uid}, ${el})`] : [`${pad}{ui(${uid}, ${el})}`];
+    }
+
+    const p = buildProps(node);
+    return wrap([
+      `${pad}<${node.type}${p}>`,
+      ...node.children.flatMap((childId) => emitNode(childId, depth + 1, false)),
+      `${pad}</${node.type}>`,
+    ]);
+  }
+
+  return [
+    'import React from "react";',
+    `import { ${sortedTypes} } from "${uiRel()}";`,
+    `import { ui } from "${uiRel("/viz")}";`,
+    "",
+    `export function ${fnName}() {`,
+    "  return (",
+    ...emitNode(document.rootId, 2, true),
     "  );",
     "}",
   ].join("\n");

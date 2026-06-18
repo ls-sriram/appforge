@@ -7,6 +7,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
     id: "forgotpassword",
     name: "Forgot Password",
     description: "Scanned from forgot-password.layout.tsx",
+    sourcePath: "src/apps/example-app/features/auth/forgot-password.layout.tsx",
     rootId: "forgotpassword-0",
     nodes: {
       "forgotpassword-5": {
@@ -102,7 +103,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
       },
       "forgotpassword-8": {
         id: "forgotpassword-8",
-        type: "View",
+        type: "YStack",
         props: {
           bg: "$surfaceStrong",
           br: "$3",
@@ -201,6 +202,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
     id: "login",
     name: "Login",
     description: "Scanned from login.layout.tsx",
+    sourcePath: "src/apps/example-app/features/auth/login.layout.tsx",
     rootId: "login-0",
     nodes: {
       "login-4": {
@@ -296,7 +298,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
       },
       "login-7": {
         id: "login-7",
-        type: "View",
+        type: "YStack",
         props: {
           bg: "$surfaceStrong",
           br: "$3",
@@ -357,7 +359,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
       },
       "login-11": {
         id: "login-11",
-        type: "View",
+        type: "YStack",
         props: {
           bg: "$surfaceStrong",
           br: "$3",
@@ -472,6 +474,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
     id: "register",
     name: "Register",
     description: "Scanned from register.layout.tsx",
+    sourcePath: "src/apps/example-app/features/auth/register.layout.tsx",
     rootId: "register-0",
     nodes: {
       "register-4": {
@@ -567,7 +570,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
       },
       "register-7": {
         id: "register-7",
-        type: "View",
+        type: "YStack",
         props: {
           bg: "$surfaceStrong",
           br: "$3",
@@ -617,7 +620,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
       },
       "register-11": {
         id: "register-11",
-        type: "View",
+        type: "YStack",
         props: {
           bg: "$surfaceStrong",
           br: "$3",
@@ -678,7 +681,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
       },
       "register-15": {
         id: "register-15",
-        type: "View",
+        type: "YStack",
         props: {
           bg: "$surfaceStrong",
           br: "$3",
@@ -782,6 +785,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
     id: "home",
     name: "Home",
     description: "Scanned from home.layout.tsx",
+    sourcePath: "src/apps/example-app/features/home/home.layout.tsx",
     rootId: "home-0",
     nodes: {
       "home-2": {
@@ -828,7 +832,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
       },
       "home-5": {
         id: "home-5",
-        type: "View",
+        type: "YStack",
         props: {
           br: 9999,
           bg: "$primaryMuted",
@@ -914,7 +918,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
       },
       "home-12": {
         id: "home-12",
-        type: "View",
+        type: "YStack",
         props: {
           bg: "$surfaceStrong",
           borderColor: "$borderSubtle",
@@ -985,7 +989,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
       },
       "home-13": {
         id: "home-13",
-        type: "View",
+        type: "YStack",
         props: {
           bg: "$surface",
           borderColor: "$borderSubtle",
@@ -1053,6 +1057,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
     id: "onboarding",
     name: "Onboarding",
     description: "Scanned from onboarding.layout.tsx",
+    sourcePath: "src/apps/example-app/features/onboarding/onboarding.layout.tsx",
     rootId: "onboarding-0",
     nodes: {
       "onboarding-2": {
@@ -1134,7 +1139,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
       },
       "onboarding-4": {
         id: "onboarding-4",
-        type: "View",
+        type: "YStack",
         props: {
           bg: "$surfaceStrong",
           borderColor: "$borderSubtle",
@@ -1214,6 +1219,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
     id: "profile",
     name: "Profile",
     description: "Scanned from profile.layout.tsx",
+    sourcePath: "src/apps/example-app/features/profile/profile.layout.tsx",
     rootId: "profile-0",
     nodes: {
       "profile-2": {
@@ -1261,7 +1267,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
       },
       "profile-5": {
         id: "profile-5",
-        type: "View",
+        type: "YStack",
         props: {
           br: 9999,
           bg: "$primaryMuted",
@@ -1347,7 +1353,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
       },
       "profile-12": {
         id: "profile-12",
-        type: "View",
+        type: "YStack",
         props: {
           bg: "$surfaceStrong",
           borderColor: "$borderSubtle",
@@ -1381,7 +1387,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
       },
       "profile-16": {
         id: "profile-16",
-        type: "View",
+        type: "YStack",
         props: {
           bg: "$surfaceStrong",
           h: 44,
@@ -1421,7 +1427,7 @@ export const SCANNED_UI_DOCUMENTS: UiDocument[] = [
       },
       "profile-13": {
         id: "profile-13",
-        type: "View",
+        type: "YStack",
         props: {
           bg: "$surface",
           borderColor: "$borderSubtle",

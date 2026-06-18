@@ -4,11 +4,13 @@ import {
   UI_DOCUMENTS_REGISTRY,
   REGISTRY_APP_NAMES,
 } from "../../../../../generated/ui-documents.registry";
+import { UI_BLOCKS_REGISTRY } from "../../../../../generated/ui-blocks.registry";
 import { LIVE_LAYOUTS } from "../renderers/live-layout-registry";
 import {
   addBlockNode,
   addNode,
   extractSubtreeAsBlock,
+  generateLayoutFile,
   getInsertedRootIds,
   getComponentUsage,
   hasOnlyAdditiveChanges,
@@ -21,6 +23,7 @@ import {
 } from "../domain/ui-document.operations";
 import type {
   CustomBlockDef,
+  UiBlock,
   UiComponentType,
   UiDocument,
   UiEditorTab,
@@ -61,6 +64,10 @@ function docsForApp(appId: string): UiDocument[] {
   return docs.length > 0 ? docs : UI_PLAYGROUND_DOCUMENTS;
 }
 
+function fileBlocksForApp(appId: string): UiBlock[] {
+  return UI_BLOCKS_REGISTRY[appId] ?? [];
+}
+
 // ── Hook ──────────────────────────────────────────────────────────────────────
 
 export function useUiPlayground() {
@@ -74,7 +81,7 @@ export function useUiPlayground() {
   const [previewState, setPreviewState] = React.useState<UiPreviewState>("data");
   const [selectedDocumentId, setSelectedDocumentIdRaw] = React.useState(allDocs[0].id);
   const [selectedNodeId, setSelectedNodeId] = React.useState<string>();
-  const [showPaywall, setShowPaywall] = React.useState(false);
+  const [saveStatus, setSaveStatus] = React.useState<"idle" | "saving" | "saved" | "error">("idle");
   const [docOverrides, setDocOverrides] = React.useState<Record<string, UiDocument>>({});
   const [themeOverrides, setThemeOverrides] = React.useState<Record<string, string>>({});
   const [livePropOverrides, setLivePropOverrides] = React.useState<Record<string, Partial<UiNodeProps>>>({});
@@ -119,6 +126,39 @@ export function useUiPlayground() {
     setDocOverrides((current) => ({ ...current, [documentKey]: next }));
   }
 
+  async function save() {
+    if (!selectedDocument.sourcePath) {
+      console.warn("[save] document has no sourcePath — cannot emit");
+      setSaveStatus("error");
+      setTimeout(() => setSaveStatus("idle"), 3000);
+      return;
+    }
+    setSaveStatus("saving");
+    try {
+      const content = generateLayoutFile(selectedDocument);
+      const resp = await fetch("http://localhost:8089/api/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sourcePath: selectedDocument.sourcePath, content }),
+      });
+      if (resp.ok) {
+        setSaveStatus("saved");
+        // Clear in-memory overrides for this document — source is now authoritative
+        setDocOverrides((prev) => { const next = { ...prev }; delete next[documentKey]; return next; });
+        setTimeout(() => setSaveStatus("idle"), 2500);
+      } else {
+        const err = await resp.json().catch(() => ({}));
+        console.error("[save] server error:", err);
+        setSaveStatus("error");
+        setTimeout(() => setSaveStatus("idle"), 3000);
+      }
+    } catch (e) {
+      console.error("[save] fetch failed (is save-server running on :8089?):", e);
+      setSaveStatus("error");
+      setTimeout(() => setSaveStatus("idle"), 3000);
+    }
+  }
+
   return {
     // App selection
     availableApps: AVAILABLE_APPS,
@@ -154,8 +194,8 @@ export function useUiPlayground() {
     hasStructureChanges,
     hasOnlyInsertedChanges,
     insertedRootIds,
-    showPaywall,
-    setShowPaywall,
+    saveStatus,
+    save,
     livePropOverrides,
 
     // Tokens
@@ -163,13 +203,24 @@ export function useUiPlayground() {
     setThemeOverride(key: string, value: string) {
       setThemeOverrides((prev) => ({ ...prev, [key]: value }));
     },
+    clearThemeOverride(key: string) {
+      setThemeOverrides((prev) => { const n = { ...prev }; delete n[key]; return n; });
+    },
+    clearAllThemeOverrides() {
+      setThemeOverrides({});
+    },
+    applyThemePreset(overrides: Record<string, string>) {
+      setThemeOverrides(overrides);
+    },
 
     // Block library operations
     addBlock(blockId: string) {
       applyDocument(addBlockNode(selectedDocument, blockId, selectedNodeId));
     },
     addComponent(type: UiComponentType) {
-      applyDocument(addNode(selectedDocument, type, selectedNodeId));
+      const { document: next, nodeId } = addNode(selectedDocument, type, selectedNodeId);
+      applyDocument(next);
+      setSelectedNodeId(nodeId);
     },
     removeSelectedNode() {
       if (!selectedNodeId || selectedNodeId === selectedDocument.rootId) return;
@@ -191,7 +242,8 @@ export function useUiPlayground() {
       }
     },
 
-    // Custom blocks
+    // Blocks — file-backed (from blocks/ directory) + in-memory (saved this session)
+    fileBlocks: fileBlocksForApp(selectedAppId),
     customBlocks,
     saveSelectionAsBlock(name: string) {
       if (!selectedNodeId || selectedNodeId === selectedDocument.rootId) return;

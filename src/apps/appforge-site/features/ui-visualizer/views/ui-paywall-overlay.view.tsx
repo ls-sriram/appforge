@@ -5,7 +5,7 @@ import { Body, Button, Heading, Tag, View, XStack, YStack } from "../../../../..
 export function UiPaywallOverlay({ onClose }: { onClose: () => void }) {
   return (
     <View
-      bg="rgba(5,10,18,0.64)"
+      bg="$scrim"
       ai="center"
       jc="center"
       p="$4"

@@ -1,105 +1,182 @@
 import React from "react";
-import { Pressable } from "react-native";
+import { Pressable, TextInput } from "react-native";
 import { Body, View, XStack, YStack } from "../../../../../ui";
-import { UI_BLOCK_LIBRARY, type SemanticBlockCategory } from "../domain/ui-document.operations";
-import type { CustomBlockDef } from "../domain/ui-document.types";
+import { DARK_THEME_RESOLVED } from "../domain/ui-theme-palette";
+import type { CustomBlockDef, UiBlock, UiComponentType } from "../domain/ui-document.types";
 
-const CATEGORIES: Array<{ key: SemanticBlockCategory; label: string }> = [
-  { key: "layout",     label: "Layout" },
-  { key: "data",       label: "Data" },
-  { key: "feedback",   label: "Feedback" },
-  { key: "input",      label: "Input" },
-  { key: "primitives", label: "Primitives" },
+// ── Primitive groups ──────────────────────────────────────────────────────────
+
+const GROUPS: Array<{ label: string; types: UiComponentType[] }> = [
+  { label: "Layout",      types: ["YStack", "XStack"] },
+  { label: "Text",        types: ["Display", "Heading", "Body", "Label"] },
+  { label: "Interactive", types: ["Button", "Input", "TextArea", "SelectableChip"] },
+  { label: "Atoms",       types: ["Tag", "Icon", "Avatar", "Badge", "ProgressBar"] },
 ];
 
-const BLOCK_GLYPHS: Record<string, string> = {
-  "nav-bar":       "≡",
-  "hero":          "⊡",
-  "section":       "▭",
-  "list":          "☰",
-  "card":          "▢",
-  "table":         "⊞",
-  "status":        "⚠",
-  "empty":         "◌",
-  "skeleton":      "░",
-  "form":          "⊟",
-  "action":        "▶",
-  "search":        "⌕",
-  "avatar":        "◉",
-  "badge":         "◈",
-  "progress-bar":  "▬",
-  "input-field":   "▭",
-  "chip":          "◯",
-  "display-text":  "H",
+const GLYPHS: Partial<Record<UiComponentType, string>> = {
+  YStack:         "≡",
+  XStack:         "⋯",
+  View:           "□",
+  Display:        "D",
+  Heading:        "H",
+  Body:           "¶",
+  Label:          "L",
+  Button:         "▷",
+  Input:          "▭",
+  TextArea:       "▬",
+  SelectableChip: "◉",
+  Tag:            "◈",
+  Icon:           "✦",
+  Avatar:         "⬤",
+  Badge:          "●",
+  ProgressBar:    "━",
 };
 
-export function UiComponentPalette({
-  onAddBlock,
-  onAddCustomBlock,
-  customBlocks,
-  onDeleteCustomBlock,
-}: {
-  onAddBlock: (blockId: string) => void;
-  onAddCustomBlock: (blockId: string) => void;
-  customBlocks: CustomBlockDef[];
-  onDeleteCustomBlock: (id: string) => void;
-}) {
+const LABELS: Partial<Record<UiComponentType, string>> = {
+  YStack:         "Stack (col)",
+  XStack:         "Stack (row)",
+  View:           "Surface",
+  Display:        "Display",
+  Heading:        "Heading",
+  Body:           "Body",
+  Label:          "Label",
+  Button:         "Button",
+  Input:          "Input",
+  TextArea:       "Text Area",
+  SelectableChip: "Chip",
+  Tag:            "Tag",
+  Icon:           "Icon",
+  Avatar:         "Avatar",
+  Badge:          "Badge",
+  ProgressBar:    "Progress Bar",
+};
+
+// ── Primitives tab ────────────────────────────────────────────────────────────
+
+export function UiPrimitivePalette({ onAdd }: { onAdd: (type: UiComponentType) => void }) {
   return (
     <YStack f={1}>
-      <View px="$3" py="$2" borderBottomColor="$borderSubtle" borderBottomWidth={1}>
-        <Body fontSize="$1" color="$textMuted" textTransform="uppercase" letterSpacing={1}>Blocks</Body>
-      </View>
+      {GROUPS.map((group) => (
+        <YStack key={group.label}>
+          <Body
+            px="$3" pt="$2" pb="$1"
+            fontSize="$1" color="$textSecondary"
+            textTransform="uppercase" letterSpacing={1}
+          >
+            {group.label}
+          </Body>
+          {group.types.map((type) => (
+            <Pressable key={type} onPress={() => onAdd(type)} style={{ width: "100%" }}>
+              {({ pressed }: { pressed: boolean }) => (
+                <XStack
+                  ai="center" gap="$2" px="$3" py="$2"
+                  bg={pressed ? "$errorMuted" : "transparent"}
+                  borderBottomColor="$borderSubtle" borderBottomWidth={1}
+                >
+                  <View
+                    w={20} h={20}
+                    bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1}
+                    ai="center" jc="center"
+                  >
+                    <Body fontSize="$1" color="$textMuted">{GLYPHS[type] ?? "□"}</Body>
+                  </View>
+                  <Body fontSize="$2" color="$textPrimary">
+                    {LABELS[type] ?? type}
+                  </Body>
+                </XStack>
+              )}
+            </Pressable>
+          ))}
+        </YStack>
+      ))}
+    </YStack>
+  );
+}
 
-      <YStack py="$1" f={1}>
-        {CATEGORIES.map((cat) => {
-          const blocks = UI_BLOCK_LIBRARY.filter((b) => b.category === cat.key);
-          return (
-            <YStack key={cat.key} pb="$2">
-              <Body px="$3" pt="$2" pb="$1" fontSize="$1" color="$textMuted" textTransform="uppercase" letterSpacing={1} opacity={0.55}>
-                {cat.label}
+// ── My Blocks tab ─────────────────────────────────────────────────────────────
+
+function BlockRow({
+  id, label, isFileBacked, onAdd, onDelete,
+}: {
+  id: string; label: string; isFileBacked: boolean;
+  onAdd: (id: string) => void; onDelete?: (id: string) => void;
+}) {
+  return (
+    <XStack ai="center" borderBottomColor="$borderSubtle" borderBottomWidth={1}>
+      <Pressable onPress={() => onAdd(id)} style={{ flex: 1 }}>
+        {({ pressed }: { pressed: boolean }) => (
+          <XStack ai="center" gap="$2" px="$3" py="$2" bg={pressed ? "$errorMuted" : "transparent"}>
+            <View
+              w={20} h={20}
+              bg={isFileBacked ? "$surfaceStrong" : "$primaryMuted"}
+              borderColor={isFileBacked ? "$border" : "$primary"}
+              borderWidth={1}
+              ai="center" jc="center"
+            >
+              <Body fontSize="$1" color={isFileBacked ? "$textMuted" : "$primary"}>
+                {isFileBacked ? "⊞" : "⬡"}
               </Body>
-              {blocks.map((block) => (
-                <Pressable key={block.id} onPress={() => onAddBlock(block.id)} style={{ width: "100%" }}>
-                  {({ pressed }: { pressed: boolean }) => (
-                    <XStack ai="center" gap="$2" px="$3" py="$2" bg={pressed ? "$surfaceStrong" : "transparent"}>
-                      <View w={20} h={20} br="$1" bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} ai="center" jc="center">
-                        <Body fontSize="$1" color="$textMuted">{BLOCK_GLYPHS[block.id] ?? "□"}</Body>
-                      </View>
-                      <Body fontSize="$2" color="$textSecondary">{block.label}</Body>
-                    </XStack>
-                  )}
-                </Pressable>
-              ))}
-            </YStack>
-          );
-        })}
-
-        {/* ── Saved (custom) blocks ── */}
-        {customBlocks.length > 0 && (
-          <YStack pb="$2">
-            <Body px="$3" pt="$2" pb="$1" fontSize="$1" color="$textMuted" textTransform="uppercase" letterSpacing={1} opacity={0.55}>
-              Saved
-            </Body>
-            {customBlocks.map((block) => (
-              <XStack key={block.id} ai="center" gap="$1" px="$3" py="$2">
-                <Pressable onPress={() => onAddCustomBlock(block.id)} style={{ flex: 1 }}>
-                  {({ pressed }: { pressed: boolean }) => (
-                    <XStack ai="center" gap="$2" bg={pressed ? "$surfaceStrong" : "transparent"} br="$2" py="$1">
-                      <View w={20} h={20} br="$1" bg="$primaryMuted" borderColor="$primary" borderWidth={1} ai="center" jc="center">
-                        <Body fontSize="$1" color="$primary">⬡</Body>
-                      </View>
-                      <Body fontSize="$2" color="$textSecondary" f={1} numberOfLines={1}>{block.label}</Body>
-                    </XStack>
-                  )}
-                </Pressable>
-                <Pressable onPress={() => onDeleteCustomBlock(block.id)}>
-                  <Body fontSize="$1" color="$error" px="$1">✕</Body>
-                </Pressable>
-              </XStack>
-            ))}
-          </YStack>
+            </View>
+            <Body fontSize="$2" color="$textPrimary" f={1} numberOfLines={1}>{label}</Body>
+          </XStack>
         )}
+      </Pressable>
+      {onDelete && (
+        <Pressable onPress={() => onDelete(id)} style={{ padding: 12 }}>
+          <Body fontSize="$1" color="$textMuted">✕</Body>
+        </Pressable>
+      )}
+    </XStack>
+  );
+}
+
+export function UiCustomBlocksPanel({
+  fileBlocks = [],
+  customBlocks,
+  onAdd,
+  onDelete,
+}: {
+  fileBlocks?: UiBlock[];
+  customBlocks: CustomBlockDef[];
+  onAdd: (blockId: string) => void;
+  onDelete: (id: string) => void;
+}) {
+  const isEmpty = fileBlocks.length === 0 && customBlocks.length === 0;
+
+  if (isEmpty) {
+    return (
+      <YStack px="$3" py="$5" ai="center" gap="$2">
+        <Body fontSize="$1" color="$textMuted" ta="center">
+          No blocks saved yet.{"\n"}Select a node and tap ⬡ to save it as a reusable block.
+        </Body>
       </YStack>
+    );
+  }
+
+  return (
+    <YStack f={1}>
+      {fileBlocks.length > 0 && (
+        <YStack>
+          <XStack px="$3" pt="$2" pb="$1">
+            <Body fontSize={9} color="$textSecondary" tt="uppercase" letterSpacing={1.5}>From blocks/</Body>
+          </XStack>
+          {fileBlocks.map((b) => (
+            <BlockRow key={b.id} id={b.id} label={b.label} isFileBacked onAdd={onAdd} />
+          ))}
+        </YStack>
+      )}
+      {customBlocks.length > 0 && (
+        <YStack>
+          {fileBlocks.length > 0 && (
+            <XStack px="$3" pt="$2" pb="$1" borderTopColor="$borderSubtle" borderTopWidth={1}>
+              <Body fontSize={9} color="$textSecondary" tt="uppercase" letterSpacing={1.5}>Saved</Body>
+            </XStack>
+          )}
+          {customBlocks.map((b) => (
+            <BlockRow key={b.id} id={b.id} label={b.label} isFileBacked={false} onAdd={onAdd} onDelete={onDelete} />
+          ))}
+        </YStack>
+      )}
     </YStack>
   );
 }

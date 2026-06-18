@@ -5,6 +5,7 @@
   "main": "expo-router/entry",
   "private": true,
   "scripts": {
+    "save-server": "node scripts/save-server.mjs",
     "clean": "node scripts/clean.mjs",
     "start": "./scripts/start-selected-expo.sh",
     "android": "expo run:android",

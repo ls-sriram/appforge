@@ -67,11 +67,9 @@ function makeWrapped<P extends AnyProps>(
     // data-uiid is kept on the DOM for useLiveNodeSelection fallback.
     // Spread as an object because hyphenated JSX attributes can't be inlined.
     const vizProps: AnyProps = {
-      "data-viz-selected": __uiid === ctx.selectedNodeId ? "true" : undefined,
+      "data-viz-selected": (__uiid !== undefined && __uiid === ctx.selectedNodeId) ? "true" : undefined,
       "data-uiid": __uiid,
-      onClick: __uiid
-        ? (e: React.MouseEvent) => { e.stopPropagation(); ctx.onSelect(__uiid); }
-        : undefined,
+      ...(__uiid ? { onClick: (e: React.MouseEvent) => { e.stopPropagation(); ctx.onSelect(__uiid); } } : {}),
     };
 
     return <RealComp {...merged} {...(vizProps as Partial<P>)} />;
@@ -101,7 +99,7 @@ function makeWrappedInBox<P extends AnyProps>(
     const rawOverrides = __uiid ? (ctx.propOverrides[__uiid] ?? {}) : {};
     const overrides = applyTextOverride(rawOverrides, textProp);
     const merged = { ...rest, ...overrides } as P;
-    const isSelected = __uiid === ctx.selectedNodeId;
+    const isSelected = __uiid !== undefined && __uiid === ctx.selectedNodeId;
     const handleClick = __uiid
       ? (e: React.MouseEvent) => { e.stopPropagation(); ctx.onSelect(__uiid); }
       : undefined;

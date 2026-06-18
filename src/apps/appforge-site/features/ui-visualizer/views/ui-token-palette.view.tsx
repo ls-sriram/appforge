@@ -1,177 +1,181 @@
 import React from "react";
 import { Pressable } from "react-native";
-import { Body, Input, Label, View, XStack, YStack } from "../../../../../ui";
-import {
-  COLOR_TOKEN_GROUPS,
-  DARK_THEME_RESOLVED,
-  LIGHT_THEME_RESOLVED,
-} from "../domain/ui-theme-palette";
+import { Body, View, XStack, YStack } from "../../../../../ui";
+import { DARK_THEME_RESOLVED, LIGHT_THEME_RESOLVED } from "../domain/ui-theme-palette";
+import { ColorPickerField } from "./ui-color-picker.view";
 
-function TokenSwatch({
-  token,
-  resolved,
-  override,
-  onEdit,
-}: {
-  token: string;
-  resolved: string;
-  override?: string;
-  onEdit: (key: string, value: string) => void;
-}) {
-  const [editing, setEditing] = React.useState(false);
-  const [draft, setDraft] = React.useState("");
-  const displayed = override ?? resolved;
+// ── Presets ───────────────────────────────────────────────────────────────────
 
-  return (
-    <YStack gap="$1">
-      <Pressable
-        onPress={() => {
-          setDraft(displayed);
-          setEditing((v) => !v);
-        }}
-      >
-        <XStack ai="center" gap="$2">
-          <View
-            w={28}
-            h={28}
-            br="$2"
-            bg={displayed}
-            borderColor={override ? "$primary" : "$borderSubtle"}
-            borderWidth={override ? 2 : 1}
-            flexShrink={0}
-          />
-          <YStack gap={2} f={1} minWidth={0}>
-            <Body fontSize="$1" color="$textPrimary">
-              {token}
-            </Body>
-            <Body fontSize={10} color="$textMuted" numberOfLines={1}>
-              {displayed}
-            </Body>
-          </YStack>
-          {override && (
-            <View
-              px="$1"
-              py={2}
-              br="$2"
-              bg="$primaryMuted"
-              borderColor="$primary"
-              borderWidth={1}
-            >
-              <Body fontSize={9} color="$primary">
-                edited
-              </Body>
-            </View>
-          )}
-        </XStack>
-      </Pressable>
-      {editing && (
-        <XStack ai="center" gap="$2">
-          <View f={1}>
-            <Input
-              value={draft}
-              onChangeText={setDraft}
-              placeholder={resolved}
-              autoFocus
-            />
-          </View>
-          <Pressable
-            onPress={() => {
-              onEdit(token, draft);
-              setEditing(false);
-            }}
-          >
-            <View px="$2" py="$1" br="$2" bg="$primary">
-              <Body fontSize="$1" color="$textInverse">
-                Set
-              </Body>
-            </View>
-          </Pressable>
-          <Pressable onPress={() => setEditing(false)}>
-            <Body fontSize="$1" color="$textMuted">
-              Cancel
-            </Body>
-          </Pressable>
-        </XStack>
-      )}
-    </YStack>
+interface Preset {
+  name: string;
+  swatch: string;
+  overrides: Record<string, string>;
+}
+
+function lightPreset(): Record<string, string> {
+  const keys = [
+    "bg", "surface", "surfaceStrong", "surfaceAlt",
+    "textPrimary", "textSecondary", "textMuted", "textInverse",
+    "border", "borderSubtle", "borderFocus",
+    "chipBg", "scrim",
+    "success", "successMuted", "warning", "warningMuted",
+    "error", "errorMuted", "info", "infoMuted",
+  ];
+  return Object.fromEntries(
+    keys.map((k) => [k, LIGHT_THEME_RESOLVED[k] ?? DARK_THEME_RESOLVED[k] ?? "#000"]),
   );
 }
+
+const PRESETS: Preset[] = [
+  {
+    name: "Blue",
+    swatch: "#4F8EF7",
+    overrides: { primary: "#4F8EF7", primaryMuted: "rgba(79,142,247,0.14)", accent: "#4F8EF7", accentMuted: "rgba(79,142,247,0.14)", borderFocus: "#4F8EF7" },
+  },
+  {
+    name: "Violet",
+    swatch: "#7C3AED",
+    overrides: { primary: "#7C3AED", primaryMuted: "rgba(124,58,237,0.14)", accent: "#7C3AED", accentMuted: "rgba(124,58,237,0.14)", borderFocus: "#7C3AED" },
+  },
+  {
+    name: "Emerald",
+    swatch: "#10B981",
+    overrides: { primary: "#10B981", primaryMuted: "rgba(16,185,129,0.14)", accent: "#10B981", accentMuted: "rgba(16,185,129,0.14)", borderFocus: "#10B981" },
+  },
+  {
+    name: "Rose",
+    swatch: "#F43F5E",
+    overrides: { primary: "#F43F5E", primaryMuted: "rgba(244,63,94,0.14)", accent: "#F43F5E", accentMuted: "rgba(244,63,94,0.14)", borderFocus: "#F43F5E" },
+  },
+  {
+    name: "Amber",
+    swatch: "#F59E0B",
+    overrides: { primary: "#F59E0B", primaryMuted: "rgba(245,158,11,0.14)", accent: "#F59E0B", accentMuted: "rgba(245,158,11,0.14)", borderFocus: "#F59E0B" },
+  },
+  {
+    name: "Light",
+    swatch: "#F5F5F5",
+    overrides: lightPreset(),
+  },
+];
+
+// ── Token groups ──────────────────────────────────────────────────────────────
+
+const TOKEN_GROUPS: Array<{ label: string; tokens: string[] }> = [
+  { label: "Brand",    tokens: ["primary", "primaryMuted", "accent"] },
+  { label: "Surfaces", tokens: ["bg", "surface", "surfaceStrong", "surfaceAlt"] },
+  { label: "Text",     tokens: ["textPrimary", "textSecondary", "textMuted"] },
+  { label: "Borders",  tokens: ["border", "borderSubtle", "borderFocus"] },
+  { label: "Status",   tokens: ["success", "successMuted", "warning", "warningMuted", "error", "errorMuted", "info", "infoMuted"] },
+];
+
+// Token injection is handled by the screen via canvasRef — not here.
+
+// ── Token row ─────────────────────────────────────────────────────────────────
+
+function TokenColorRow({
+  token,
+  baseValue,
+  override,
+  onSet,
+  onClear,
+}: {
+  token: string;
+  baseValue: string;
+  override?: string;
+  onSet: (key: string, value: string) => void;
+  onClear: (key: string) => void;
+}) {
+  return (
+    <XStack
+      ai="center" px="$3" h={32} gap="$2"
+      borderBottomColor="$borderSubtle" borderBottomWidth={1}
+    >
+      <Body fontSize="$1" color="$textSecondary" f={1} numberOfLines={1}>{token}</Body>
+      <ColorPickerField
+        value={override ?? baseValue}
+        onChange={(v) => onSet(token, v)}
+        onReset={override !== undefined ? () => onClear(token) : undefined}
+        compact
+      />
+    </XStack>
+  );
+}
+
+// ── Main view ─────────────────────────────────────────────────────────────────
 
 export function UiTokenPaletteView({
   themeOverrides,
   onSetOverride,
+  onClearOverride,
+  onClearAll,
+  onApplyPreset,
 }: {
   themeOverrides: Record<string, string>;
   onSetOverride: (key: string, value: string) => void;
+  onClearOverride: (key: string) => void;
+  onClearAll: () => void;
+  onApplyPreset: (overrides: Record<string, string>) => void;
 }) {
-  const [baseTheme, setBaseTheme] = React.useState<"dark" | "light">("dark");
-  const base = baseTheme === "dark" ? DARK_THEME_RESOLVED : LIGHT_THEME_RESOLVED;
+  const base = DARK_THEME_RESOLVED;
+  const hasOverrides = Object.keys(themeOverrides).length > 0;
 
   return (
     <YStack>
-      {/* Theme selector */}
-      <XStack
-        px="$3"
-        py="$2"
-        ai="center"
-        jc="space-between"
-        borderBottomColor="$borderSubtle"
-        borderBottomWidth={1}
-      >
-        <Label color="$textMuted" textTransform="uppercase">
-          Base Theme
-        </Label>
-        <XStack gap="$1">
-          {(["dark", "light"] as const).map((t) => (
-            <Pressable key={t} onPress={() => setBaseTheme(t)}>
-              <View
-                px="$2"
-                py="$1"
-                br={999}
-                bg={baseTheme === t ? "$primary" : "$surfaceAlt"}
-                borderColor={baseTheme === t ? "$primary" : "$borderSubtle"}
-                borderWidth={1}
-              >
-                <Body
-                  fontSize="$1"
-                  color={baseTheme === t ? "$textInverse" : "$textMuted"}
-                >
-                  {t}
-                </Body>
-              </View>
-            </Pressable>
-          ))}
-        </XStack>
+      {/* Presets */}
+      <XStack px="$3" pt="$3" pb="$1" ai="center" jc="space-between">
+        <Body fontSize={9} color="$textSecondary" tt="uppercase" letterSpacing={1.5}>
+          Presets
+        </Body>
+        {hasOverrides && (
+          <Pressable onPress={onClearAll}>
+            <Body fontSize={9} color="$textMuted">Reset all</Body>
+          </Pressable>
+        )}
       </XStack>
 
-      <Body px="$3" pt="$2" fontSize="$1" color="$textMuted">
-        Click a swatch to override. Changes preview on canvas in the next build.
-      </Body>
+      <XStack px="$3" pb="$3" gap="$2" flexWrap="wrap">
+        {PRESETS.map((preset) => {
+          const active = themeOverrides.primary === preset.overrides.primary ||
+            (preset.name === "Light" && themeOverrides.bg === preset.overrides.bg);
+          return (
+            <Pressable key={preset.name} onPress={() => onApplyPreset(preset.overrides)}>
+              {({ pressed }: { pressed: boolean }) => (
+                <XStack
+                  ai="center" gap="$2" px="$2" py="$1"
+                  borderColor={active ? "$primary" : "$borderSubtle"} borderWidth={1}
+                  bg={pressed ? "$errorMuted" : active ? "$surfaceStrong" : "transparent"}
+                >
+                  <View w={10} h={10}
+                    // @ts-ignore
+                    style={{ backgroundColor: preset.swatch, border: preset.name === "Light" ? "1px solid rgba(0,0,0,0.15)" : "none" }}
+                  />
+                  <Body fontSize="$1" color={active ? "$textPrimary" : "$textSecondary"}>
+                    {preset.name}
+                  </Body>
+                </XStack>
+              )}
+            </Pressable>
+          );
+        })}
+      </XStack>
 
-      {COLOR_TOKEN_GROUPS.map((group) => (
-        <YStack
-          key={group.label}
-          px="$3"
-          py="$2"
-          gap="$2"
-          borderBottomColor="$borderSubtle"
-          borderBottomWidth={1}
-        >
-          <Body
-            fontSize="$1"
-            color="$textMuted"
-            textTransform="uppercase"
-            letterSpacing={1}
-          >
-            {group.label}
-          </Body>
+      {/* Token groups */}
+      {TOKEN_GROUPS.map((group) => (
+        <YStack key={group.label} borderTopColor="$borderSubtle" borderTopWidth={1}>
+          <XStack px="$3" pt="$3" pb="$1">
+            <Body fontSize={9} color="$textSecondary" tt="uppercase" letterSpacing={1.5}>
+              {group.label}
+            </Body>
+          </XStack>
           {group.tokens.map((token) => (
-            <TokenSwatch
+            <TokenColorRow
               key={token}
               token={token}
-              resolved={base[token] ?? "#000"}
+              baseValue={base[token] ?? "#000"}
               override={themeOverrides[token]}
-              onEdit={onSetOverride}
+              onSet={onSetOverride}
+              onClear={onClearOverride}
             />
           ))}
         </YStack>

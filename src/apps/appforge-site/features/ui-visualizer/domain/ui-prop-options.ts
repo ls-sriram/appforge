@@ -34,6 +34,21 @@ export const RADIUS_OPTIONS: OptionItem[] = [
 
 // ── Typography ───────────────────────────────────────────────────────────────
 
+export const FONT_FAMILY_OPTIONS: OptionItem[] = [
+  { value: undefined,   label: '—' },
+  { value: 'System',    label: 'System' },
+  { value: 'Inter',     label: 'Inter' },
+  { value: 'Caveat',    label: 'Caveat' },
+  { value: 'monospace', label: 'Mono' },
+];
+
+export const TEXT_ALIGN_OPTIONS: OptionItem[] = [
+  { value: undefined,  label: '—' },
+  { value: 'left',     label: 'Left' },
+  { value: 'center',   label: 'Center' },
+  { value: 'right',    label: 'Right' },
+];
+
 export const FONT_SIZE_OPTIONS: OptionItem[] = [
   { value: '$1', label: 'XS  11px' },
   { value: '$2', label: 'SM  13px' },

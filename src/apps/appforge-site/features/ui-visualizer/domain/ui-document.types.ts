@@ -63,6 +63,11 @@ export interface UiNodeProps {
   borderColor?: string;
   borderWidth?: number;
   br?: string | number;
+  m?: string;
+  mt?: string;
+  mb?: string;
+  ml?: string;
+  mr?: string;
   p?: string;
   px?: string;
   py?: string;
@@ -105,6 +110,8 @@ export interface UiDocument {
   rootId: string;
   nodes: Record<string, UiNode>;
   stateLayouts?: Partial<Record<UiPreviewState, string[]>>;
+  /** Repo-relative path to the source .layout.tsx file. Set by the scanner; used by the emit step. */
+  sourcePath?: string;
 }
 
 export interface UiComponentLibraryItem {
@@ -129,6 +136,19 @@ export interface CustomBlockDef {
   id: string;
   label: string;
   appId: string;
+  rootId: string;
+  nodes: Record<string, UiNode>;
+}
+
+// ── File-backed blocks ────────────────────────────────────────────────────────
+// Scanned from src/apps/{appId}/blocks/*.block.tsx by the scanner.
+// sourcePath is repo-relative; used by the emit step to write changes back.
+
+export interface UiBlock {
+  id: string;
+  label: string;
+  appId: string;
+  sourcePath: string;
   rootId: string;
   nodes: Record<string, UiNode>;
 }
