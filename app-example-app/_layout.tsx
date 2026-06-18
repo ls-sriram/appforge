@@ -51,7 +51,7 @@ export default function ExampleAppRootLayout() {
       <SafeAreaProvider>
         <SessionProvider>
           <EntitlementProvider>
-            <StatusBar style="dark" translucent={false} />
+            <StatusBar style="light" translucent={false} />
             <ExampleAppGate>
               <Stack screenOptions={{ headerShown: false }} />
             </ExampleAppGate>

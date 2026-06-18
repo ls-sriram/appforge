@@ -95,13 +95,20 @@ All visualizer state lives in `state/use-ui-playground.ts`. Do not add state to 
 |---|---|
 | `domain/ui-document.types.ts` | Types only: `UiDocument`, `UiNode`, `UiNodeProps` |
 | `domain/ui-document.operations.ts` | Pure document transforms |
+| `domain/ui-document.fixtures.ts` | Static fixture documents for testing/preview |
 | `domain/ui-prop-options.ts` | Picker option lists |
+| `domain/ui-theme-palette.ts` | Theme token definitions for the token palette UI |
 | `renderers/live-layout-registry.tsx` | `documentId → React component` map |
 | `renderers/render-ui-node.tsx` | Block/fixture fallback renderer |
 | `renderers/use-live-node-selection.ts` | DOM click → `data-uiid` → `onSelectNode` |
 | `state/use-ui-playground.ts` | All state and derived values |
 | `views/ui-canvas.view.tsx` | Phone frame, VisualizerProvider, CSS injection |
 | `views/ui-inspector.view.tsx` | Right-panel pickers and layers tree |
+| `views/ui-context-tree.view.tsx` | Layers/context tree panel |
+| `views/ui-component-palette.view.tsx` | Component palette for adding blocks |
+| `views/ui-token-palette.view.tsx` | Token browser panel |
+| `views/ui-code.view.tsx` | Generated code preview panel |
+| `views/ui-paywall-overlay.view.tsx` | Upgrade prompt overlay |
 
 ---
 

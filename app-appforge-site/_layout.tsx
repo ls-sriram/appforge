@@ -14,7 +14,7 @@ export default function AppforgeSiteRootLayout() {
     <UIProvider>
     <ThemeProvider value={appforgeSiteTheme}>
       <SafeAreaProvider>
-        <StatusBar style="dark" translucent={false} />
+        <StatusBar style="light" translucent={false} />
         <Stack screenOptions={{ headerShown: false }} />
       </SafeAreaProvider>
     </ThemeProvider>
