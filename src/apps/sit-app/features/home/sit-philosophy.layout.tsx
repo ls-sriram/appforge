@@ -1,6 +1,6 @@
 import React from "react";
-import { Body, Heading, Label, XStack, YStack } from "../../../../ui";
-import { ui } from "../../../../ui/viz";
+import { Body, Heading, Label, XStack, YStack } from "@ui";
+import { ui } from "@ui/viz";
 import type { PhilosophyTopic } from "../session/domain/content";
 
 export interface SitPhilosophyLayoutProps {

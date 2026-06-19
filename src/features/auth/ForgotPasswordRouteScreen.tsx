@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Alert } from "react-native";
 import { useRouter, type Href } from "expo-router";
-import { Body, Button, YStack } from "../../ui";
-import { CenteredPageLayout } from "../../ui/layouts";
+import { Body, Button, YStack } from "@ui";
+import { CenteredPageLayout } from "@layouts";
 import { AuthCard } from "./ui/blocks/AuthCard";
 import { AuthBrandBlock } from "./ui/blocks/AuthBrandBlock";
 import { AuthFieldBlock } from "./ui/blocks/AuthFieldBlock";

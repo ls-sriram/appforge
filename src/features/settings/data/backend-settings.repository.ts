@@ -1,6 +1,6 @@
-import { Result } from "../../../core/types";
-import { api } from "../../../services/ApiClient";
-import { BackendUserProfileService } from "../../../services/UserProfileService";
+import { Result } from "@core/types";
+import { api } from "@api/client";
+import { BackendUserProfileService } from "../services/user-profile.service";
 import { getFirebaseAuth } from "../../../config/firebase";
 import { SettingsRepository } from "../domain/repository";
 import { SettingsIdentity } from "../domain/model";

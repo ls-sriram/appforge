@@ -1,6 +1,6 @@
 import React from "react";
-import { Body, Heading, YStack } from "../../../ui";
-import { dateOwner } from "../../../core/dates";
+import { Body, Heading, YStack } from "@ui";
+import { dateOwner } from "@core/dates";
 import { SharedEntityRenderer } from "../renderers/SharedEntityRenderer";
 import { useSharedEntityViewModel } from "../viewmodel/use-shared-entity-viewmodel";
 

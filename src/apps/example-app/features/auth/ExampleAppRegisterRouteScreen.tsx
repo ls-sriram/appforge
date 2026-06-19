@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { useRouter } from "expo-router";
 import { RegisterAction, RegisterController, RegisterViewData } from "../../../../features/register";
-import { routes } from "../../../../navigation/routes";
-import { SafeAreaView } from "../../../../ui";
+import { routes } from "@navigation/routes";
+import { SafeAreaView } from "@ui";
 import { app } from "../../../../config/app";
 import { ExampleAppDisabledRegisterModel, notifyExampleAppAuthDisabled } from "./example-app-disabled-auth";
 import { RegisterLayout } from "./register.layout";

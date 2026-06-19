@@ -1,8 +1,8 @@
 import React from "react";
 import { TextInput } from "react-native";
-import { Label, YStack } from "../../../../ui";
+import { Label, YStack } from "@ui";
 import { AuthDarkField, type InputHandle } from "./AuthDarkField";
-import type { IconName } from "../../../../ui";
+import type { IconName } from "@ui";
 
 interface AuthFieldBlockProps {
   icon: IconName;

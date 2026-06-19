@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRouter, type Href } from "expo-router";
-import { SafeAreaView } from "../../../../ui";
+import { SafeAreaView } from "@ui";
 import { app } from "../../../../config/app";
 import { EXAMPLE_APP_AUTH_DISABLED_MESSAGE, notifyExampleAppAuthDisabled } from "./example-app-disabled-auth";
 import { ForgotPasswordLayout } from "./forgot-password.layout";

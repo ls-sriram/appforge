@@ -1,4 +1,4 @@
-import { Result } from "../../../core/types";
+import { Result } from "@core/types";
 import { BackendRecordingSharesRepository } from "../data/backend-recording-shares.repository";
 import { RecordingShareModel } from "../domain/share-model";
 import { RecordingShareRepository } from "../domain/share-repository";

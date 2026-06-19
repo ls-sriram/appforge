@@ -1,5 +1,5 @@
-import { runtime } from "../../../core/runtime";
-import { Result } from "../../../core/types";
+import { runtime } from "@core/runtime";
+import { Result } from "@core/types";
 import { recordingConfig } from "../recording.config";
 import { AudioRecordingCapability } from "./audio-recording.capability";
 import { NativeAudioRecordingCapability } from "./native-audio-recording.capability";

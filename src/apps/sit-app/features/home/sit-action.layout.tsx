@@ -1,6 +1,6 @@
 import React from "react";
-import { Button, Body, Input, Label, SelectableChip, XStack, YStack } from "../../../../ui";
-import { ui } from "../../../../ui/viz";
+import { Button, Body, Input, Label, SelectableChip, XStack, YStack } from "@ui";
+import { ui } from "@ui/viz";
 import { SIT_DURATION_OPTIONS } from "../session/domain/content";
 
 export interface SitActionLayoutProps {

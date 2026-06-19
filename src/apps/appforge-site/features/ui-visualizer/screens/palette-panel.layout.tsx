@@ -1,6 +1,6 @@
 import React from "react";
-import { Body, Label, View, XStack, YStack } from "../../../../../ui";
-import { ui } from "../../../../../ui/viz";
+import { Body, Label, View, XStack, YStack } from "@ui";
+import { ui } from "@ui/viz";
 
 const GROUPS: Array<{ label: string; items: Array<{ glyph: string; name: string }> }> = [
   { label: "Layout", items: [{ glyph: "≡", name: "Stack (col)" }, { glyph: "⋯", name: "Stack (row)" }, { glyph: "□", name: "Surface" }] },

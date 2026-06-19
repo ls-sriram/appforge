@@ -1,5 +1,5 @@
 import React from "react";
-import { Body, Button, View, YStack } from "../../../../ui";
+import { Body, Button, View, YStack } from "@ui";
 
 interface AuthSubmitBlockProps {
   label: string;

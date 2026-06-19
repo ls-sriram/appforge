@@ -33,7 +33,7 @@ export default function App() {
   );
 
   // Lazy import the view surface to keep feature boundaries
-  const { LoginSurface } = require("./features/login/views/LoginSurface");
+  const { LoginSurface } = require("./features/login/ui/LoginSurface");
 
   return (
     <SafeAreaView>

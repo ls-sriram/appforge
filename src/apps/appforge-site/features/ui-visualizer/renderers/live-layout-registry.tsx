@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView } from "react-native";
-import { Theme } from "../../../../../ui";
+import { Theme } from "@ui";
 import { ForgotPasswordLayout } from "../../../../../apps/example-app/features/auth/forgot-password.layout";
 import { LoginLayout } from "../../../../../apps/example-app/features/auth/login.layout";
 import { RegisterLayout } from "../../../../../apps/example-app/features/auth/register.layout";
@@ -16,9 +16,9 @@ import { SitPhilosophyLayout } from "../../../../../apps/sit-app/features/home/s
 import { SitTimerLayout } from "../../../../../apps/sit-app/features/home/sit-timer.layout";
 import { SitVipassanaLayout } from "../../../../../apps/sit-app/features/home/sit-vipassana.layout";
 import { PHILOSOPHY_TOPICS } from "../../../../../apps/sit-app/features/session/domain/content";
-import { UiTokenPaletteView } from "../views/ui-token-palette.view";
-import { UiPrimitivePalette } from "../views/ui-component-palette.view";
-import { UiInspectorView } from "../views/ui-inspector.view";
+import { UiTokenPaletteView } from "../ui/ui-token-palette.view";
+import { UiPrimitivePalette } from "../ui/ui-component-palette.view";
+import { UiInspectorView } from "../ui/ui-inspector.view";
 import { UI_PLAYGROUND_DOCUMENTS } from "../domain/ui-document.fixtures";
 
 const MOCK_DOCUMENT = UI_PLAYGROUND_DOCUMENTS[0];

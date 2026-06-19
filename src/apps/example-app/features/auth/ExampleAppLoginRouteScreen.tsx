@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { useRouter } from "expo-router";
 import { LoginAction, LoginController, LoginViewData } from "../../../../features/login";
-import { routes } from "../../../../navigation/routes";
-import { SafeAreaView } from "../../../../ui";
+import { routes } from "@navigation/routes";
+import { SafeAreaView } from "@ui";
 import { app } from "../../../../config/app";
 import { ExampleAppDisabledLoginModel, notifyExampleAppAuthDisabled } from "./example-app-disabled-auth";
 import { LoginLayout } from "./login.layout";

@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 import { loadSettingsIdentity } from "../usecases/load-settings-identity";
 import { deleteAccount } from "../usecases/delete-account";
 import { signOut } from "../usecases/sign-out";
-import { settingsStoreSetState, useSettingsStore } from "../state/store";
+import { settingsStoreSetState, useSettingsStore } from "../viewmodel/store";
 
 export function useSettingsViewModel() {
   const state = useSettingsStore();

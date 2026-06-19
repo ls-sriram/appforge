@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { loadProfileEditState } from "../usecases/load-profile-edit-state";
 import { saveProfileName } from "../usecases/save-profile-name";
-import { settingsStoreSetState, useSettingsStore } from "../state/store";
+import { settingsStoreSetState, useSettingsStore } from "../viewmodel/store";
 
 export function useProfileEditViewModel() {
   const state = useSettingsStore();

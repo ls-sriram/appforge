@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
-import { SafeAreaView, Theme, YStack } from "../../../../ui";
+import { SafeAreaView, Theme, YStack } from "@ui";
 import { SitActionLayout } from "./sit-action.layout";
 import { SitCompletionLayout } from "./sit-completion.layout";
 import { SitLandingLayout } from "./sit-landing.layout";

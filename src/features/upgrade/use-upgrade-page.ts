@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Alert, Linking } from "react-native";
-import { BackendBillingService, type CheckoutPaymentType, type PricingCard } from "../../services/BillingService";
-import { BackendUserProfileService, type Plan } from "../../services/UserProfileService";
+import { BackendBillingService, type CheckoutPaymentType, type PricingCard } from "./services/billing.service";
+import { BackendUserProfileService, type Plan } from "../settings/services/user-profile.service";
 
 export interface UpgradePageState {
   identityEmail: string;

@@ -12,7 +12,7 @@ import {
   XStack,
   YStack,
   type IconName,
-} from "../../../../ui";
+} from "@ui";
 import { SiteContainer } from "../../ui/SiteContainer";
 import { SplitHero } from "../../ui/SplitHero";
 

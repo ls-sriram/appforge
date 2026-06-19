@@ -1,4 +1,4 @@
-import { useSessionContext } from "../../../providers/SessionProvider";
+import { useSessionContext } from "@providers/SessionProvider";
 
 export type GateState = {
   loading: boolean;

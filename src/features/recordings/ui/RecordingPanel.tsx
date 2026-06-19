@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable, View } from "react-native";
-import { runtime } from "../../../core/runtime";
-import { Body, Button, Heading, Icon, XStack, YStack } from "../../../ui";
+import { runtime } from "@core/runtime";
+import { Body, Button, Heading, Icon, XStack, YStack } from "@ui";
 import type { RecordingModel, RecordingShareModel, RecordingUiStatus } from "..";
 
 interface RecordingPanelProps {

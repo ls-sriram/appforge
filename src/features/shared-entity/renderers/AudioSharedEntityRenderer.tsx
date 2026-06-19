@@ -1,7 +1,7 @@
 import React from "react";
 import { Audio } from "expo-av";
-import { runtime } from "../../../core/runtime";
-import { Body, Button, YStack } from "../../../ui";
+import { runtime } from "@core/runtime";
+import { Body, Button, YStack } from "@ui";
 import { SharedEntityViewData } from "../domain/model";
 
 interface Props {

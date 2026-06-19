@@ -1,4 +1,4 @@
-export { RegisterSurface } from "./views/RegisterSurface";
+export { RegisterSurface } from "./ui/RegisterSurface";
 export { RegisterController } from "./RegisterController";
 export { FirebaseRegisterModel } from "./RegisterModel";
 export type { RegisterModel } from "./RegisterModel";

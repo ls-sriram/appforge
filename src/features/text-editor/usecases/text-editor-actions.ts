@@ -1,4 +1,4 @@
-import { Result } from "../../../core/types";
+import { Result } from "@core/types";
 import { BackendTextEditorRepository } from "../data/backend-text-editor.repository";
 import { SaveTextDocumentInput, TextDocumentModel } from "../domain/model";
 import { clearTextEditorDraft, loadTextEditorDraft, saveTextEditorDraft } from "../storage";

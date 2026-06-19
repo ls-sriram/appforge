@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
-import { SafeAreaView } from "../../../../ui";
+import { SafeAreaView } from "@ui";
 import { app } from "../../../../config/app";
 import { useProfileEditViewModel } from "../../../../features/settings";
 import { exampleAppRoutes } from "../../navigation/routes";

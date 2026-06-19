@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Body, Button, Heading, Input, TextArea, XStack, YStack } from "../../../ui";
+import { Body, Button, Heading, Input, TextArea, XStack, YStack } from "@ui";
 import type { TextDocumentModel } from "..";
 
 interface TextEditorPanelProps {

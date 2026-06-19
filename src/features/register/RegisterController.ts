@@ -13,7 +13,7 @@
  * ─────────────────────────────────────────────────────────────────
  */
 
-import { Controller } from "../../core/types";
+import { Controller } from "@core/types";
 import { RegisterModel } from "./RegisterModel";
 
 // ─── View Data ───────────────────────────────────────────────────

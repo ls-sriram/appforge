@@ -1,7 +1,7 @@
 // Semantic color token groups, derived from config.ts dark/light themes.
 // Used for swatch display in inspector and the Tokens palette tab.
 
-import { resolvedDarkTheme, resolvedLightTheme } from '../../../../../ui/config';
+import { resolvedDarkTheme, resolvedLightTheme } from '@ui/config';
 
 export const COLOR_TOKEN_GROUPS: Array<{ label: string; tokens: string[] }> = [
   { label: 'Surfaces',  tokens: ['bg', 'surface', 'surfaceStrong', 'surfaceAlt'] },

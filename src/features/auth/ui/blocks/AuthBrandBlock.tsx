@@ -1,5 +1,5 @@
 import React from "react";
-import { Body, Heading, Icon, XStack, YStack } from "../../../../ui";
+import { Body, Heading, Icon, XStack, YStack } from "@ui";
 import { app } from "../../../../config/app";
 
 interface AuthBrandBlockProps {

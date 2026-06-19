@@ -1,6 +1,6 @@
-import { dateOwner, fromProtoTimestamp } from "../../../core/dates";
-import { Result } from "../../../core/types";
-import { api } from "../../../services/ApiClient";
+import { dateOwner, fromProtoTimestamp } from "@core/dates";
+import { Result } from "@core/types";
+import { api } from "@api/client";
 import {
   SaveTextDocumentInput,
   TextDocumentListPayload,

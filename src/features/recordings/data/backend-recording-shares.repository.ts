@@ -1,6 +1,6 @@
-import { dateOwner, fromProtoTimestamp, type ProtoTimestampLike } from "../../../core/dates";
-import { Result } from "../../../core/types";
-import { api } from "../../../services/ApiClient";
+import { dateOwner, fromProtoTimestamp, type ProtoTimestampLike } from "@core/dates";
+import { Result } from "@core/types";
+import { api } from "@api/client";
 import { RecordingShareRepository } from "../domain/share-repository";
 import { RecordingShareModel } from "../domain/share-model";
 

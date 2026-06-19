@@ -18,40 +18,52 @@
     "baseUrl": ".",
     "paths": {
       "@theme/*": [
-        "src/theme/*"
+        "src/platform/theme/*"
       ],
       "@core/*": [
-        "src/core/*"
+        "src/platform/core/*"
+      ],
+      "@api/*": [
+        "src/platform/api/*"
+      ],
+      "@providers/*": [
+        "src/platform/providers/*"
+      ],
+      "@navigation/*": [
+        "src/platform/navigation/*"
       ],
       "@primitives/*": [
-        "src/ui/primitives/*"
+        "src/platform/ui/primitives/*"
+      ],
+      "@layouts": [
+        "src/platform/ui/layouts/index.ts"
       ],
       "@layouts/*": [
-        "src/ui/primitives/*"
+        "src/platform/ui/layouts/*"
       ],
       "@surfaces/*": [
-        "src/ui/primitives/*"
+        "src/platform/ui/primitives/*"
       ],
       "@scaffolds/*": [
-        "src/ui/scaffolds/*"
+        "src/platform/ui/scaffolds/*"
       ],
       "@components/*": [
-        "src/ui/components/*"
+        "src/platform/ui/components/*"
       ],
       "@panels/*": [
-        "src/ui/panels/*"
+        "src/platform/ui/panels/*"
       ],
       "@blocks/*": [
-        "src/ui/blocks/*"
+        "src/platform/ui/blocks/*"
+      ],
+      "@ui": [
+        "src/platform/ui/index.ts"
+      ],
+      "@ui/*": [
+        "src/platform/ui/*"
       ],
       "@features/*": [
         "src/features/*"
-      ],
-      "@services/*": [
-        "src/services/*"
-      ],
-      "@navigation/*": [
-        "src/navigation/*"
       ]
     }
   },

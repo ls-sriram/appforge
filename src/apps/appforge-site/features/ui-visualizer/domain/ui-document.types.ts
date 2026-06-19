@@ -1,4 +1,4 @@
-import type { IconName, IconSize } from "../../../../../ui";
+import type { IconName, IconSize } from "@ui";
 
 export type UiEditorTab = "design" | "code" | "tokens";
 export type UiPreviewState = "data" | "loading" | "empty" | "error";

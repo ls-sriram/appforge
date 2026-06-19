@@ -1,6 +1,6 @@
 import React from "react";
-import { Heading, Label, YStack } from "../../../../ui";
-import { ui } from "../../../../ui/viz";
+import { Heading, Label, YStack } from "@ui";
+import { ui } from "@ui/viz";
 
 export interface SitTimerLayoutProps {
   eyebrow?: string;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Body, Heading, View, YStack } from "../../../../ui";
+import { Body, Heading, View, YStack } from "@ui";
 
 export function UiPlaygroundSection() {
   return (

@@ -1,4 +1,4 @@
-import { Result } from "../../../core/types";
+import { Result } from "@core/types";
 import { AuthRepository } from "../domain/repository";
 
 export async function sendPasswordResetLink(

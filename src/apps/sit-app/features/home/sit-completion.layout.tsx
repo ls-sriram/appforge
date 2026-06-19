@@ -1,6 +1,6 @@
 import React from "react";
-import { Body, Button, Label, YStack } from "../../../../ui";
-import { ui } from "../../../../ui/viz";
+import { Body, Button, Label, YStack } from "@ui";
+import { ui } from "@ui/viz";
 
 export interface SitCompletionLayoutProps {
   quote?: string;

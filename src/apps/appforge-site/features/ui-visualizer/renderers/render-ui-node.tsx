@@ -17,7 +17,7 @@ import {
   View,
   XStack,
   YStack,
-} from "../../../../../ui";
+} from "@ui";
 import type { UiDocument, UiNode } from "../domain/ui-document.types";
 
 function tagTone(tone: UiNode["props"]["tone"]) {

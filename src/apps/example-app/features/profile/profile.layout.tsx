@@ -1,7 +1,7 @@
 import React from "react";
-import { Body, Button, Heading, View, XStack, YStack } from "../../../../ui";
+import { Body, Button, Heading, View, XStack, YStack } from "@ui";
 import { ProfileCard } from "../../../../blocks";
-import { ui } from "../../../../ui/viz";
+import { ui } from "@ui/viz";
 
 export interface ProfileLayoutProps {
   title: string;

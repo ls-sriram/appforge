@@ -1,5 +1,5 @@
 import React from "react";
-import { Display, Label, YStack } from "../../../../../ui";
+import { Display, Label, YStack } from "@ui";
 import { app } from "../../../../../config/app";
 
 export function WelcomeHeroBlock() {

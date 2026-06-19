@@ -12,7 +12,7 @@ import {
   View,
   XStack,
   YStack,
-} from "../../../../ui";
+} from "@ui";
 import { SiteContainer } from "../../ui/SiteContainer";
 import { useArchitectureView, type LayerLens } from "./viewmodel/use-architecture-view";
 import { UiPlaygroundSection } from "./ui-playground.view";

@@ -1,4 +1,4 @@
-import type { IsoUtcTimestamp } from "../../../core/dates";
+import type { IsoUtcTimestamp } from "@core/dates";
 
 export interface SettingsIdentity {
   uid: string;

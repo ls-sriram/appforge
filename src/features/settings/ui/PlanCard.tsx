@@ -3,8 +3,8 @@
  */
 
 import React from "react";
-import { Body, Button, Heading, Icon, View, XStack, YStack } from "../../../ui";
-import type { Plan } from "../../../services/UserProfileService";
+import { Body, Button, Heading, Icon, View, XStack, YStack } from "@ui";
+import type { Plan } from "../services/user-profile.service";
 
 export interface PlanCardProps {
   plan?: Plan;

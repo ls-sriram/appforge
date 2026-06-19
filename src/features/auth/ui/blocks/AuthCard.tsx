@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "../../../../ui";
+import { View } from "@ui";
 
 export function AuthCard({ children }: { children: React.ReactNode }) {
   return (

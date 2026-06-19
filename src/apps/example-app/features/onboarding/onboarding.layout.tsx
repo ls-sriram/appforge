@@ -1,6 +1,6 @@
 import React from "react";
-import { Body, Button, Heading, Label, View, XStack, YStack } from "../../../../ui";
-import { ui } from "../../../../ui/viz";
+import { Body, Button, Heading, Label, View, XStack, YStack } from "@ui";
+import { ui } from "@ui/viz";
 
 export interface OnboardingLayoutProps {
   stepTitle: string;

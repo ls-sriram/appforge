@@ -1,4 +1,4 @@
-import { dateOwner, fromProtoTimestamp, type IsoUtcTimestamp, type ProtoTimestampLike } from "../../../core/dates";
+import { dateOwner, fromProtoTimestamp, type IsoUtcTimestamp, type ProtoTimestampLike } from "@core/dates";
 import type { FeatureKey } from "./feature-keys";
 import { FEATURE_KEYS } from "./feature-keys";
 import { ENTITLEMENT_PLAN_CATALOG } from "./catalog";

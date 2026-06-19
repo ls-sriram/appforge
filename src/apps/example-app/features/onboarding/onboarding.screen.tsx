@@ -1,10 +1,10 @@
 import React from "react";
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
-import { SafeAreaView, View, Body } from "../../../../ui";
+import { SafeAreaView, View, Body } from "@ui";
 import { app } from "../../../../config/app";
-import { api } from "../../../../services/ApiClient";
-import { useSessionContext } from "../../../../providers/SessionProvider";
+import { api } from "@api/client";
+import { useSessionContext } from "@providers/SessionProvider";
 import { exampleAppRoutes } from "../../navigation/routes";
 import { OnboardingLayout } from "./onboarding.layout";
 

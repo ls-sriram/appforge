@@ -1,6 +1,6 @@
 import React from "react";
-import { Body, Button, Heading, Label, YStack } from "../../../../ui";
-import { ui } from "../../../../ui/viz";
+import { Body, Button, Heading, Label, YStack } from "@ui";
+import { ui } from "@ui/viz";
 
 export interface SitLandingLayoutProps {
   brand?: string;

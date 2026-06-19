@@ -1,6 +1,6 @@
 import { BackendRecordingsRepository } from "../backend-recordings.repository";
 
-jest.mock("../../../../services/ApiClient", () => ({
+jest.mock("@api/client", () => ({
   api: {
     post: jest.fn(),
     get: jest.fn(),
@@ -8,7 +8,7 @@ jest.mock("../../../../services/ApiClient", () => ({
   },
 }));
 
-import { api } from "../../../../services/ApiClient";
+import { api } from "@api/client";
 
 const mockApi = api as jest.Mocked<typeof api>;
 

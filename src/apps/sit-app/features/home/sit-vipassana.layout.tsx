@@ -1,6 +1,6 @@
 import React from "react";
-import { Body, Button, Heading, Label, XStack, YStack } from "../../../../ui";
-import { ui } from "../../../../ui/viz";
+import { Body, Button, Heading, Label, XStack, YStack } from "@ui";
+import { ui } from "@ui/viz";
 import type { VipassanaSession } from "../session/domain/content";
 
 type VipassanaSessionState = VipassanaSession & {

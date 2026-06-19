@@ -1,6 +1,6 @@
 import React from "react";
-import { Body, Button, Label, SelectableChip, XStack, YStack } from "../../../../ui";
-import { ui } from "../../../../ui/viz";
+import { Body, Button, Label, SelectableChip, XStack, YStack } from "@ui";
+import { ui } from "@ui/viz";
 import {
   SIT_DURATION_OPTIONS,
   SIT_SESSION_TYPE_DESCRIPTIONS,

@@ -11,7 +11,7 @@
  */
 
 import React from "react";
-import { Body, Heading, Icon, View, XStack, YStack } from "../ui";
+import { Body, Heading, Icon, View, XStack, YStack } from "@ui";
 
 // ── ProfileCard ───────────────────────────────────────────────────────────────
 

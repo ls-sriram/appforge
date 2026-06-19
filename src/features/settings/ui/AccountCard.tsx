@@ -2,8 +2,8 @@
  * AccountCard — account metadata (member since, last login).
  */
 import React from "react";
-import { Body, Icon, View, XStack, YStack } from "../../../ui";
-import { dateOwner } from "../../../core/dates";
+import { Body, Icon, View, XStack, YStack } from "@ui";
+import { dateOwner } from "@core/dates";
 
 export interface AccountCardProps {
   createdAt?: string;

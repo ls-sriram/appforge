@@ -1,5 +1,5 @@
 import { Alert } from "react-native";
-import { Result } from "../../../../core/types";
+import { Result } from "@core/types";
 import { AuthState } from "../../../../features/auth/domain/repository";
 import { LoginModel } from "../../../../features/login";
 import { RegisterModel } from "../../../../features/register";

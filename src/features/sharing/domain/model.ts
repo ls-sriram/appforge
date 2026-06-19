@@ -1,4 +1,4 @@
-import { IsoUtcTimestamp } from "../../../core/dates";
+import { IsoUtcTimestamp } from "@core/dates";
 
 export interface PublicShareEntity {
   id: string;

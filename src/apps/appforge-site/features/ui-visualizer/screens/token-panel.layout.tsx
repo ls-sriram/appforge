@@ -1,6 +1,6 @@
 import React from "react";
-import { Body, Label, Tag, View, XStack, YStack } from "../../../../../ui";
-import { ui } from "../../../../../ui/viz";
+import { Body, Label, Tag, View, XStack, YStack } from "@ui";
+import { ui } from "@ui/viz";
 
 export function TokenPanelLayout() {
   return (

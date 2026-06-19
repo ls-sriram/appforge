@@ -3,8 +3,8 @@
  */
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Body, View as TView, XStack, YStack } from "../../../ui";
-import type { Usage } from "../../../services/UserProfileService";
+import { Body, View as TView, XStack, YStack } from "@ui";
+import type { Usage } from "../services/user-profile.service";
 
 export interface UsageCardProps {
   usage?: Usage;

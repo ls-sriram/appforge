@@ -10,7 +10,7 @@
  * ─────────────────────────────────────────────────────────────────
  */
 
-import { createAppTheme, type Theme } from "../../../theme";
+import { createAppTheme, type Theme } from "@theme/index";
 
 export const appforgeSiteTheme: Theme = createAppTheme(
   {

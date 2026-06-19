@@ -1,8 +1,8 @@
 import React from "react";
 import { useRouter } from "expo-router";
-import { SafeAreaView } from "../../../../ui";
+import { SafeAreaView } from "@ui";
 import { app } from "../../../../config/app";
-import { useSessionContext } from "../../../../providers/SessionProvider";
+import { useSessionContext } from "@providers/SessionProvider";
 import { exampleAppRoutes } from "../../navigation/routes";
 import { HomeLayout } from "./home.layout";
 

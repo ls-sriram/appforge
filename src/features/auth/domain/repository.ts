@@ -1,4 +1,4 @@
-import { Result } from "../../../core/types";
+import { Result } from "@core/types";
 
 export type AuthState =
   | { isAuthenticated: false; onboardingComplete: false }

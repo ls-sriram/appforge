@@ -1,4 +1,4 @@
-export { LoginSurface } from "./views/LoginSurface";
+export { LoginSurface } from "./ui/LoginSurface";
 export { LoginController } from "./LoginController";
 export { FirebaseLoginModel } from "./LoginModel";
 export type { LoginModel } from "./LoginModel";

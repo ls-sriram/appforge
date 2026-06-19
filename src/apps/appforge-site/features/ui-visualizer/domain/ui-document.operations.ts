@@ -517,7 +517,7 @@ export function generateLayoutFile(document: UiDocument): string {
   // Derive a function name from the document name
   const fnName = document.name
     .split(/[\s\-_/]+/)
-    .map((w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase())
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join("") + "Layout";
 
   function buildProps(node: UiNode, skipKeys: string[] = []): string {
