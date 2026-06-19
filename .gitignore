@@ -26,12 +26,17 @@ tools/db-dashboard/out/
 
 # Generated API artifacts
 src/generated/proto/**/*.ts
-server/src/generated/proto/
+
+# Code graph outputs
+graph.dot
+graph.json
+graph.svg
+violations.json
+dump/
 
 # Local config and runtime state
 infra.env
 tools/config-manager/*.db
-server/dump/
 *.sqlite
 *.sqlite3
 *.db

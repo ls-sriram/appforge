@@ -14,8 +14,6 @@
     "appforge-site": {
       "appId": "appforge-site",
       "displayName": "AppForge",
-      "routerRoot": "app-appforge-site",
-      "routeBase": "/",
       "storageNamespace": "appforge-site",
       "localDev": {
         "serverRoot": "../appforge-site/server"

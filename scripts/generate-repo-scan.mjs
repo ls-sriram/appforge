@@ -17,10 +17,17 @@ import { scanAll } from "../tools/code-visualizer/scan.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
-const OUT = path.join(
+// Output goes to the standalone appforge-site repo (sibling directory).
+// Fall back to src/apps/appforge-site/ if the standalone repo is not present.
+const standalonePath = path.join(
+  ROOT,
+  "../appforge-site/features/studio/services/repo-scan.generated.json",
+);
+const legacyPath = path.join(
   ROOT,
   "src/apps/appforge-site/features/studio/services/repo-scan.generated.json",
 );
+const OUT = fs.existsSync(path.dirname(standalonePath)) ? standalonePath : legacyPath;
 
 const scan = scanAll();
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
