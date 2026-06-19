@@ -8,7 +8,7 @@ jest.mock("@api/client", () => ({
   },
 }));
 
-import { api } from "@api/client";
+import { api } from "../../../../platform/api/client";
 
 const mockApi = api as jest.Mocked<typeof api>;
 

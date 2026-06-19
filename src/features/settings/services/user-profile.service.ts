@@ -9,7 +9,7 @@
  */
 
 import { Result } from "@core/types";
-import { api } from "@api/client";
+import { api } from "../../../platform/api/client";
 import type { components } from "../../../types/api";
 import {
   asIsoUtcTimestamp,
@@ -17,7 +17,7 @@ import {
   type IsoUtcTimestamp,
   type ProtoTimestampLike,
 } from "@core/dates";
-import { callProto } from "@api/proto-client";
+import { callProto } from "../../../platform/api/proto-client";
 import type { SessionMeResponse } from "../../../generated/proto/auth/v1/auth";
 
 type UserProfileResponse = components["schemas"]["UserProfileResponse"];

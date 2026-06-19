@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { Redirect, useRouter, type Href } from "expo-router";
-import { routes } from "@navigation/routes";
+import { routes } from "../../platform/navigation/routes";
 import {
   LoginAction,
   LoginController,

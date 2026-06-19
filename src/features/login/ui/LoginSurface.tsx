@@ -1,7 +1,7 @@
 import React from "react";
 import { TextInput, TouchableOpacity } from "react-native";
 import { ViewProps } from "@core/types";
-import { Body, YStack } from "@ui";
+import { Body, YStack } from "../../../platform/ui/index";
 import { CenteredPageLayout } from "@layouts";
 import { AuthCard } from "../../auth/ui/blocks/AuthCard";
 import { AuthBrandBlock } from "../../auth/ui/blocks/AuthBrandBlock";

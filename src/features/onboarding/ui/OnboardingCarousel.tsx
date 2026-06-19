@@ -12,10 +12,10 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { Body, Button } from "@ui";
+import { Body, Button } from "../../../platform/ui/index";
 import { FeatureCard } from "./FeatureCard";
-import type { IconName } from "@ui";
-import { useViewport } from "@theme/Viewport";
+import type { IconName } from "../../../platform/ui/index";
+import { useViewport } from "../../../platform/theme/Viewport";
 
 export interface OnboardingStep {
   icon: IconName;

@@ -1,5 +1,5 @@
 import React from "react";
-import { YStack } from "@ui";
+import { YStack } from "../../../platform/ui/index";
 
 export function OnboardingScaffold({
   stepper,

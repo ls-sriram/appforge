@@ -1,4 +1,4 @@
-import { api, type ApiResult } from "@api/client";
+import { api, type ApiResult } from "../../../platform/api/client";
 
 export type TaskStatus = "open" | "completed" | "archived";
 

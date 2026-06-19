@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
-import { Body, Icon } from "@ui";
-import { useTheme } from "@theme/ThemeProvider";
+import { Body, Icon } from "../../../platform/ui/index";
+import { useTheme } from "../../../platform/theme/ThemeProvider";
 
 export function OnboardingProgress({
   step,

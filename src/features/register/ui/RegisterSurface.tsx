@@ -1,6 +1,6 @@
 import React from "react";
 import { ViewProps } from "@core/types";
-import { YStack } from "@ui";
+import { YStack } from "../../../platform/ui/index";
 import { CenteredPageLayout } from "@layouts";
 import { AuthCard } from "../../auth/ui/blocks/AuthCard";
 import { AuthBrandBlock } from "../../auth/ui/blocks/AuthBrandBlock";

@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { Body, Label, XStack } from "@ui";
+import { Body, Label, XStack } from "../../../../platform/ui/index";
 
 interface AuthFooterLinksProps {
   prompt: string;

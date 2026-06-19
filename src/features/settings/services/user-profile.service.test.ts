@@ -15,8 +15,8 @@ jest.mock("@api/proto-client", () => ({
   callProto: jest.fn(),
 }));
 
-import { api } from "@api/client";
-import { callProto } from "@api/proto-client";
+import { api } from "../../../platform/api/client";
+import { callProto } from "../../../platform/api/proto-client";
 
 const mockApi = api as jest.Mocked<typeof api>;
 const mockCallProto = callProto as jest.MockedFunction<typeof callProto>;

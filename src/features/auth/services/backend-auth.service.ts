@@ -12,8 +12,8 @@
  */
 
 import { Result } from "@core/types";
-import { callProto } from "@api/proto-client";
-import { api } from "@api/client";
+import { callProto } from "../../../platform/api/proto-client";
+import { api } from "../../../platform/api/client";
 import type { AuthState } from "../domain/repository";
 import type {
   SessionLoginRequest,

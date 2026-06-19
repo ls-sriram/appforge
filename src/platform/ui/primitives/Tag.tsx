@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, View } from "@tamagui/core";
-import { useTheme } from "@theme/ThemeProvider";
+import { useTheme } from "../../theme/ThemeProvider";
 
 export interface TagProps {
   label: string;

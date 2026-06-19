@@ -6,8 +6,8 @@
  * ─────────────────────────────────────────────────────────────────
  */
 
-import { api } from "@api/client";
-import { useSessionContext } from "@providers/SessionProvider";
+import { api } from "../../../platform/api/client";
+import { useSessionContext } from "../../../platform/providers/SessionProvider";
 import { asIsoUtcTimestamp, type IsoUtcTimestamp } from "@core/dates";
 
 interface SessionInfo {

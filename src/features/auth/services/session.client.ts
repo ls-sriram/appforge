@@ -1,5 +1,5 @@
-import { api } from "@api/client";
-import type { ApiResult } from "@api/client";
+import { api } from "../../../platform/api/client";
+import type { ApiResult } from "../../../platform/api/client";
 import type { IsoUtcTimestamp } from "@core/dates";
 
 export type SessionIdentity = {

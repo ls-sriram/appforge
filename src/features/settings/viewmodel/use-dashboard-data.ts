@@ -10,8 +10,8 @@
 import { useState, useEffect } from "react";
 import { BackendUserProfileService, type UsageTrendGranularity } from "../services/user-profile.service";
 import { BackendEntitlementService } from "../../entitlements/services/entitlement.service";
-import { api } from "@api/client";
-import { useEntitlementContext } from "@providers/EntitlementProvider";
+import { api } from "../../../platform/api/client";
+import { useEntitlementContext } from "../../../platform/providers/EntitlementProvider";
 import { getEntitlementSnapshot, setEntitlementSnapshot } from "../../entitlements/viewmodel/store";
 import { createMockEntitlementSnapshot } from "../../entitlements/domain/model";
 import { buildEntitlementSnapshot } from "../../entitlements/domain/handler";

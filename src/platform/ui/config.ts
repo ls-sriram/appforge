@@ -1,5 +1,11 @@
 import { createTamagui, createFont, createTokens } from '@tamagui/core'
-import { animations } from '@tamagui/config/v4'
+import { createAnimations } from '@tamagui/animations-react-native'
+
+const animations = createAnimations({
+  fast:   { type: 'spring', damping: 20, mass: 1.2, stiffness: 250 },
+  medium: { type: 'spring', damping: 10, mass: 0.9, stiffness: 100 },
+  slow:   { type: 'spring', damping: 20, mass: 1.2, stiffness: 50 },
+})
 
 // ── Color tokens ──────────────────────────────────────────────────────────────
 // Raw palette — light and dark values live here so both themes can reference
@@ -328,6 +334,8 @@ export const config = createTamagui({
 })
 
 export type AppConfig = typeof config
+
+export default config
 
 declare module '@tamagui/core' {
   interface TamaguiCustomConfig extends AppConfig {}

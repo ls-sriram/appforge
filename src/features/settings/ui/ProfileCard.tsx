@@ -10,7 +10,7 @@
 
 import React from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { Body, Heading, Icon, View, XStack, YStack } from "@ui";
+import { Body, Heading, Icon, View, XStack, YStack } from "../../../platform/ui/index";
 
 export interface ProfileCardProps {
   name?: string;

@@ -1,6 +1,6 @@
 import React from "react";
-import { Body, Button, Heading, Input, XStack, YStack } from "@ui";
-import { api } from "@api/client";
+import { Body, Button, Heading, Input, XStack, YStack } from "../../../platform/ui/index";
+import { api } from "../../../platform/api/client";
 
 interface Props {
   token?: string;

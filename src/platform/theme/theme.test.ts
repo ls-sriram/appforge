@@ -3,7 +3,7 @@
  */
 
 import { renderHook } from "@testing-library/react-native";
-import { ThemeProvider, useTheme } from "@theme/ThemeProvider";
+import { ThemeProvider, useTheme } from "./ThemeProvider";
 
 describe("ThemeProvider", () => {
   it("provides the default theme via useTheme", () => {

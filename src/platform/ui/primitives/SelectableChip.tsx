@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "@tamagui/core";
 import { Pressable } from "react-native";
-import { useTheme } from "@theme/ThemeProvider";
+import { useTheme } from "../../theme/ThemeProvider";
 
 export type SelectableChipSize = "sm" | "md";
 export type SelectableChipShape = "pill" | "rounded";

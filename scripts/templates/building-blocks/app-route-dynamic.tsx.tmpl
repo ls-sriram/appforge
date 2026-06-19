@@ -1,9 +1,0 @@
-import React from "react";
-import { useLocalSearchParams } from "expo-router";
-import { {{PASCAL_SCREEN}}Screen } from "{{DETAIL_SCREEN_IMPORT}}";
-
-export default function {{PASCAL_SCREEN}}Route() {
-  const params = useLocalSearchParams<{ {{PARAM}}?: string }>();
-  const {{PARAM}} = typeof params.{{PARAM}} === "string" ? params.{{PARAM}} : "";
-  return <{{PASCAL_SCREEN}}Screen {{PARAM}}={{{PARAM}}} />;
-}

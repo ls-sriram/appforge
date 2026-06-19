@@ -1,7 +1,7 @@
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { useTheme } from "@theme/ThemeProvider";
-import { useViewport } from "@theme/Viewport";
+import { useTheme } from "../../theme/ThemeProvider";
+import { useViewport } from "../../theme/Viewport";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type CenteredPageLayoutWidth = "narrow" | "regular";

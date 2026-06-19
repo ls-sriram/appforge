@@ -1,5 +1,5 @@
 import React from "react";
-import { Body, Button, YStack } from "@ui";
+import { Body, Button, YStack } from "../../../../../platform/ui/index";
 
 interface WelcomeActionsBlockProps {
   onSignIn: () => void;

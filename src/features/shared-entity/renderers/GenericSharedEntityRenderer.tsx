@@ -1,5 +1,5 @@
 import React from "react";
-import { Body } from "@ui";
+import { Body } from "../../../platform/ui/index";
 import { SharedEntityViewData } from "../domain/model";
 
 interface Props {

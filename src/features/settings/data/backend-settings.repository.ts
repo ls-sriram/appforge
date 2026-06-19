@@ -1,5 +1,5 @@
 import { Result } from "@core/types";
-import { api } from "@api/client";
+import { api } from "../../../platform/api/client";
 import { BackendUserProfileService } from "../services/user-profile.service";
 import { getFirebaseAuth } from "../../../config/firebase";
 import { SettingsRepository } from "../domain/repository";

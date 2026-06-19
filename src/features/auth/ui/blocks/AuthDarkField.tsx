@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import { useTheme } from "@theme/ThemeProvider";
-import { Icon, View, XStack } from "@ui";
-import type { IconName } from "@ui";
+import { useTheme } from "../../../../platform/theme/ThemeProvider";
+import { Icon, View, XStack } from "../../../../platform/ui/index";
+import type { IconName } from "../../../../platform/ui/index";
 
 export interface InputHandle {
   current?: TextInput;

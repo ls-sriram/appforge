@@ -1,6 +1,6 @@
 import { dateOwner, fromProtoTimestamp, type ProtoTimestampLike } from "@core/dates";
 import { Result } from "@core/types";
-import { api } from "@api/client";
+import { api } from "../../../platform/api/client";
 import { RecordingsRepository } from "../domain/repository";
 import { RecordingCapturePayload, RecordingContentRef, RecordingModel } from "../domain/model";
 
