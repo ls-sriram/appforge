@@ -1,2 +1,0 @@
--- Legacy platform_records query catalog removed.
--- Repositories now use typed SQL table queries directly.

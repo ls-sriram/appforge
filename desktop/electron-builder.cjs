@@ -32,7 +32,7 @@ module.exports = {
     {
       from: "desktop",
       to: "desktop",
-      filter: ["main.cjs"],
+      filter: ["main.cjs", "preload.cjs"],
     },
     "package.json",
   ],

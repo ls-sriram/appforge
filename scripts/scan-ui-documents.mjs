@@ -21,6 +21,11 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { parse } from "@babel/parser";
 
+// In --stdout mode all console.log must go to stderr so stdout is pure JSON.
+if (process.argv.includes("--stdout")) {
+  console.log = (...args) => process.stderr.write(args.map(String).join(" ") + "\n");
+}
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, "..");
 
@@ -650,19 +655,25 @@ ${blockEntries}
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 
+// --stdout: emit JSON to stdout only, skip writing generated files (used by desktop runtime)
+const STDOUT_MODE = process.argv.includes("--stdout");
+const log = STDOUT_MODE
+  ? (...args) => process.stderr.write(args.join(" ") + "\n")
+  : (...args) => console.log(...args);
+
 const appId = process.argv[2] ?? process.env.npm_config_app ?? "example-app";
 const appDir = path.join(ROOT, "src", "apps", appId);
 
 if (!fs.existsSync(appDir)) {
-  console.error(`[scan] App directory not found: ${appDir}`);
+  process.stderr.write(`[scan] App directory not found: ${appDir}\n`);
   process.exit(1);
 }
 
-console.log(`[scan] Building block registry from src/blocks/index.tsx…`);
+log(`[scan] Building block registry from src/blocks/index.tsx…`);
 BLOCK_REGISTRY = buildBlockRegistry();
 
 const layoutFiles = findLayoutFiles(appDir);
-console.log(`[scan] Found ${layoutFiles.length} layout files in ${appId}/`);
+log(`[scan] Found ${layoutFiles.length} layout files in ${appId}/`);
 
 const documents = [];
 for (const file of layoutFiles) {
@@ -670,20 +681,15 @@ for (const file of layoutFiles) {
   const doc = parseLayoutFile(file);
   if (doc) {
     const nodeCount = Object.keys(doc.nodes).length;
-    console.log(`[scan]  ✓ ${rel} → ${doc.id} (${nodeCount} nodes)`);
+    log(`[scan]  ✓ ${rel} → ${doc.id} (${nodeCount} nodes)`);
     documents.push(doc);
   } else {
-    console.log(`[scan]  ✗ ${rel} — skipped`);
+    log(`[scan]  ✗ ${rel} — skipped`);
   }
 }
 
-const outPath = path.join(ROOT, "src", "generated", `ui-documents.${appId}.ts`);
-fs.writeFileSync(outPath, generateTs(documents), "utf-8");
-console.log(`[scan] Wrote ${path.relative(ROOT, outPath)} (${documents.length} documents)`);
-
-// ── Scan blocks ──
 const blockFiles = findBlockFiles(appDir);
-console.log(`[scan] Found ${blockFiles.length} block files in ${appId}/blocks/`);
+log(`[scan] Found ${blockFiles.length} block files in ${appId}/blocks/`);
 
 const blocks = [];
 for (const file of blockFiles) {
@@ -691,15 +697,26 @@ for (const file of blockFiles) {
   const block = parseBlockFile(file, appId);
   if (block) {
     const nodeCount = Object.keys(block.nodes).length;
-    console.log(`[scan]  ✓ ${rel} → ${block.id} (${nodeCount} nodes)`);
+    log(`[scan]  ✓ ${rel} → ${block.id} (${nodeCount} nodes)`);
     blocks.push(block);
   } else {
-    console.log(`[scan]  ✗ ${rel} — skipped`);
+    log(`[scan]  ✗ ${rel} — skipped`);
   }
 }
 
+if (STDOUT_MODE) {
+  // Desktop runtime path: emit JSON and exit without touching generated files.
+  process.stdout.write(JSON.stringify({ appId, documents, blocks }));
+  process.exit(0);
+}
+
+// Normal path: write generated TS files and update registry.
+const outPath = path.join(ROOT, "src", "generated", `ui-documents.${appId}.ts`);
+fs.writeFileSync(outPath, generateTs(documents), "utf-8");
+log(`[scan] Wrote ${path.relative(ROOT, outPath)} (${documents.length} documents)`);
+
 const blocksOutPath = path.join(ROOT, "src", "generated", `ui-blocks.${appId}.ts`);
 fs.writeFileSync(blocksOutPath, generateBlocksTs(appId, blocks), "utf-8");
-console.log(`[scan] Wrote ${path.relative(ROOT, blocksOutPath)} (${blocks.length} blocks)`);
+log(`[scan] Wrote ${path.relative(ROOT, blocksOutPath)} (${blocks.length} blocks)`);
 
 updateRegistry();

@@ -8,7 +8,7 @@ CONFIG_ENVIRONMENT="${CONFIG_ENVIRONMENT:-dev}"
 CONFIG_SCOPE="${CONFIG_SCOPE:-backend}"
 CONFIG_EXPORT_SCRIPT="$PROJECT_ROOT/tools/config-manager/export-env.mjs"
 CONFIG_MANAGER="$PROJECT_ROOT/tools/config-manager/manager.mjs"
-SETUP_INTEGRATIONS_SCRIPT="$PROJECT_ROOT/server/scripts/dev/setup-integrations.sh"
+SETUP_INTEGRATIONS_SCRIPT="$PROJECT_ROOT/scripts/dev/setup-integrations.sh"
 SET_FIREBASE_SCRIPT="$PROJECT_ROOT/scripts/dev/set-firebase-config.sh"
 SEED_APP_SCRIPT="$PROJECT_ROOT/scripts/dev/seed-app.sh"
 

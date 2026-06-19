@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
-import fs from "node:fs";
 import path from "node:path";
 
 import { DEFAULT_APP_ID, PROJECT_ROOT, getAppConfig } from "../app-registry.mjs";
@@ -30,7 +29,7 @@ function run(command, args, extraEnv = {}) {
 
 run(process.execPath, [path.join(PROJECT_ROOT, "scripts", "desktop", "prepare-web-build.mjs"), appId]);
 
-fs.rmSync(artifactsDir, { recursive: true, force: true });
+spawnSync("rm", ["-rf", artifactsDir], { stdio: "inherit" });
 
 console.log(`[desktop] packaging unsigned dmg for ${appConfig.displayName} (${appId})`);
 

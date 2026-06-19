@@ -50,7 +50,7 @@ CONFIG_PROJECT_ID="$CONFIG_PROJECT_ID" \
 CONFIG_ENVIRONMENT="$CONFIG_ENVIRONMENT" \
 CONFIG_SCOPE="$CONFIG_SCOPE" \
 CONFIG_DB="$CONFIG_DB" \
-  "$PROJECT_ROOT/server/scripts/run-local-sql.sh" --db-only
+  "$PROJECT_ROOT/scripts/dev/run-local-sql.sh" --db-only
 
 SEED_KIND="$(SEED_CONFIG_JSON="$SEED_CONFIG_JSON" node --input-type=module -e 'process.stdout.write(JSON.parse(process.env.SEED_CONFIG_JSON).kind)')"
 SEED_CWD="$(SEED_CONFIG_JSON="$SEED_CONFIG_JSON" node --input-type=module -e 'process.stdout.write(JSON.parse(process.env.SEED_CONFIG_JSON).cwd)')"

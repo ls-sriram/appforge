@@ -14,6 +14,8 @@
     "desktop:clean": "node scripts/desktop/clean.mjs",
     "desktop:build:web": "node scripts/desktop/prepare-web-build.mjs",
     "desktop:dmg": "node scripts/desktop/package-dmg.mjs",
+    "desktop:build:web:appforge": "APP_ID=appforge-site node scripts/desktop/prepare-web-build.mjs appforge-site",
+    "desktop:dmg:appforge": "APP_ID=appforge-site node scripts/desktop/package-dmg.mjs appforge-site",
     "local:frontend": "./scripts/dev/run-frontend.sh",
     "local:backend": "./scripts/dev/run-backend.sh",
     "local:verify": "./scripts/dev/verify-runtime-integrations.sh",

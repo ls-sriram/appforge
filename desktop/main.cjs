@@ -1,7 +1,10 @@
-const { app, BrowserWindow, shell } = require("electron");
+const { app, BrowserWindow, dialog, ipcMain, shell } = require("electron");
+const { spawnSync } = require("node:child_process");
 const fs = require("node:fs");
 const http = require("node:http");
 const path = require("node:path");
+
+const STATE_FILE = "desktop-state.json";
 
 function getRendererIndexPath() {
   return path.join(getRendererRootDir(), "index.html");
@@ -13,6 +16,14 @@ function getRendererRootDir() {
   }
 
   return process.env.DESKTOP_RENDERER_DIR || path.join(process.cwd(), "dist-desktop", "web");
+}
+
+function getPreloadPath() {
+  return path.join(__dirname, "preload.cjs");
+}
+
+function getDesktopStatePath() {
+  return path.join(app.getPath("userData"), STATE_FILE);
 }
 
 function getContentType(filePath) {
@@ -114,6 +125,122 @@ function startRendererServer() {
   });
 }
 
+function validateRepoPath(repoPath) {
+  if (!repoPath || typeof repoPath !== "string") return false;
+
+  const requiredPaths = [
+    path.join(repoPath, "config", "app-manifest.json"),
+    path.join(repoPath, "src", "ui", "index.ts"),
+    path.join(repoPath, "package.json"),
+  ];
+
+  if (!requiredPaths.every((candidate) => fs.existsSync(candidate))) {
+    return false;
+  }
+
+  try {
+    const pkg = JSON.parse(
+      fs.readFileSync(path.join(repoPath, "package.json"), "utf8"),
+    );
+    return pkg && pkg.name === "appforge";
+  } catch {
+    return false;
+  }
+}
+
+function getRepoName(repoPath) {
+  if (!repoPath) return null;
+  return path.basename(repoPath);
+}
+
+function loadDesktopState() {
+  const statePath = getDesktopStatePath();
+  if (!fs.existsSync(statePath)) {
+    return {
+      repoPath: null,
+    };
+  }
+
+  try {
+    const parsed = JSON.parse(fs.readFileSync(statePath, "utf8"));
+    return {
+      repoPath: typeof parsed.repoPath === "string" ? parsed.repoPath : null,
+    };
+  } catch {
+    return {
+      repoPath: null,
+    };
+  }
+}
+
+function saveDesktopState(nextState) {
+  fs.mkdirSync(path.dirname(getDesktopStatePath()), { recursive: true });
+  fs.writeFileSync(
+    getDesktopStatePath(),
+    JSON.stringify({ repoPath: nextState.repoPath ?? null }, null, 2),
+    "utf8",
+  );
+}
+
+function getPublicDesktopState() {
+  const repoPath = desktopState.repoPath;
+  return {
+    repoPath,
+    repoName: repoPath ? getRepoName(repoPath) : null,
+    repoValid: validateRepoPath(repoPath),
+  };
+}
+
+function broadcastDesktopState() {
+  const state = getPublicDesktopState();
+  for (const win of BrowserWindow.getAllWindows()) {
+    win.webContents.send("appforge-desktop:state-changed", state);
+  }
+}
+
+async function promptForRepoSource(parentWindow) {
+  while (true) {
+    const result = await dialog.showOpenDialog(parentWindow ?? undefined, {
+      title: "Select an AppForge repository",
+      buttonLabel: "Use This Repo",
+      properties: ["openDirectory"],
+      message: "Choose the AppForge repository this desktop bundle should edit.",
+    });
+
+    if (result.canceled || result.filePaths.length === 0) {
+      return getPublicDesktopState();
+    }
+
+    const selectedPath = result.filePaths[0];
+    if (validateRepoPath(selectedPath)) {
+      desktopState = { repoPath: selectedPath };
+      saveDesktopState(desktopState);
+      broadcastDesktopState();
+      return getPublicDesktopState();
+    }
+
+    await dialog.showMessageBox(parentWindow ?? undefined, {
+      type: "error",
+      message: "That folder is not a valid AppForge repository.",
+      detail:
+        "Expected to find config/app-manifest.json, src/ui/index.ts, and a package.json with name \"appforge\".",
+      buttons: ["Choose Another Folder"],
+      defaultId: 0,
+    });
+  }
+}
+
+function resolveWritePath(repoPath, sourcePath) {
+  const absolutePath = path.resolve(repoPath, sourcePath);
+  const relativePath = path.relative(repoPath, absolutePath);
+
+  if (relativePath.startsWith("..") || path.isAbsolute(relativePath)) {
+    throw new Error("Path escapes selected repository.");
+  }
+
+  return absolutePath;
+}
+
 async function createMainWindow() {
   const win = new BrowserWindow({
     width: 1440,
@@ -122,10 +249,12 @@ async function createMainWindow() {
     minHeight: 760,
     autoHideMenuBar: true,
     titleBarStyle: "hiddenInset",
+    backgroundColor: "#0b0d12",
     webPreferences: {
+      preload: getPreloadPath(),
       contextIsolation: true,
       nodeIntegration: false,
-      sandbox: true,
+      sandbox: false,
     },
   });
 
@@ -148,10 +277,92 @@ async function createMainWindow() {
     server.close();
   });
 
-  win.loadURL(url);
+  await win.loadURL(url);
+
+  if (!validateRepoPath(desktopState.repoPath)) {
+    await promptForRepoSource(win);
+  } else {
+    broadcastDesktopState();
+  }
 }
 
+let desktopState = { repoPath: null };
+
+ipcMain.handle("appforge-desktop:get-state", async () => getPublicDesktopState());
+
+ipcMain.handle("appforge-desktop:list-apps", async () => {
+  const repoPath = desktopState.repoPath;
+  if (!validateRepoPath(repoPath)) return [];
+  try {
+    const manifest = JSON.parse(
+      fs.readFileSync(path.join(repoPath, "config", "app-manifest.json"), "utf8"),
+    );
+    return Object.values(manifest.apps ?? {}).map((a) => ({
+      id: a.appId,
+      displayName: a.displayName ?? a.appId,
+    }));
+  } catch {
+    // Fallback: scan src/apps/ directory names
+    const appsDir = path.join(repoPath, "src", "apps");
+    if (!fs.existsSync(appsDir)) return [];
+    return fs.readdirSync(appsDir, { withFileTypes: true })
+      .filter((e) => e.isDirectory())
+      .map((e) => ({
+        id: e.name,
+        displayName: e.name.split("-").map((w) => w[0].toUpperCase() + w.slice(1)).join(" "),
+      }));
+  }
+});
+
+ipcMain.handle("appforge-desktop:scan-app", async (_event, payload) => {
+  const repoPath = desktopState.repoPath;
+  if (!validateRepoPath(repoPath)) throw new Error("No valid AppForge repository selected.");
+  const appId = payload && typeof payload.appId === "string" ? payload.appId : null;
+  if (!appId) throw new Error("Missing appId.");
+
+  const result = spawnSync("node", [
+    path.join(repoPath, "scripts", "scan-ui-documents.mjs"),
+    appId,
+    "--stdout",
+  ], { cwd: repoPath, encoding: "utf8", timeout: 30_000 });
+
+  if (result.status !== 0 || result.error) {
+    throw new Error(`Scanner failed for "${appId}": ${result.stderr || result.error?.message || "unknown error"}`);
+  }
+
+  return JSON.parse(result.stdout);
+});
+
+ipcMain.handle("appforge-desktop:select-repo-source", async (event) =>
+  promptForRepoSource(BrowserWindow.fromWebContents(event.sender) ?? undefined),
+);
+
+ipcMain.handle("appforge-desktop:save-file", async (_event, payload) => {
+  const repoPath = desktopState.repoPath;
+  if (!validateRepoPath(repoPath)) {
+    throw new Error("No valid AppForge repository selected.");
+  }
+
+  const sourcePath = payload && typeof payload.sourcePath === "string"
+    ? payload.sourcePath
+    : null;
+  const content = payload && typeof payload.content === "string"
+    ? payload.content
+    : null;
+
+  if (!sourcePath || content === null) {
+    throw new Error("Missing sourcePath or content.");
+  }
+
+  const absolutePath = resolveWritePath(repoPath, sourcePath);
+  fs.mkdirSync(path.dirname(absolutePath), { recursive: true });
+  fs.writeFileSync(absolutePath, content, "utf8");
+
+  return { ok: true, path: sourcePath };
+});
+
 app.whenReady().then(() => {
+  desktopState = loadDesktopState();
   createMainWindow();
 
   app.on("activate", () => {

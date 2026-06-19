@@ -46,6 +46,19 @@ if (process.argv[1] === __filename) {
       process.stdout.write(JSON.stringify(config.localDev?.seed ?? null));
       break;
     }
+    case "--server-root": {
+      const appId = process.argv[3];
+      if (!appId) {
+        throw new Error("--server-root requires an app id.");
+      }
+      const config = getAppConfig(appId);
+      const serverRoot = config.localDev?.serverRoot;
+      if (!serverRoot) {
+        throw new Error(`No localDev.serverRoot configured for '${appId}' in app-manifest.json.`);
+      }
+      process.stdout.write(path.resolve(PROJECT_ROOT, serverRoot));
+      break;
+    }
     default:
       if (flag) {
         throw new Error(`Unknown flag '${flag}'.`);

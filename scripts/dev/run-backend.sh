@@ -11,14 +11,14 @@ CONFIG_ENVIRONMENT="${CONFIG_ENVIRONMENT:-dev}"
 CONFIG_SCOPE="${CONFIG_SCOPE:-backend}"
 SELECTION_ENV="$PROJECT_ROOT/.generated/app-selection.env"
 
-DEFAULT_BACKEND_ROOT="$PROJECT_ROOT/server"
+DEFAULT_BACKEND_ROOT="$(node "$PROJECT_ROOT/scripts/app-registry.mjs" --server-root "$APP_ID")"
 BACKEND_ROOT="${BACKEND_ROOT:-$DEFAULT_BACKEND_ROOT}"
 CONFIG_EXPORT_SCRIPT="$PROJECT_ROOT/tools/config-manager/export-env.mjs"
 CONFIG_DB="$(CONFIG_DB= node "$PROJECT_ROOT/tools/config-manager/db-path.mjs" "$CONFIG_PROJECT_ID")"
 
 if [[ ! -d "$BACKEND_ROOT" ]]; then
-  echo "[backend] missing BACKEND_ROOT: $BACKEND_ROOT"
-  echo "Set BACKEND_ROOT=/absolute/path/to/backend-root (optional override)"
+  echo "[backend] missing server directory: $BACKEND_ROOT"
+  echo "Add localDev.serverRoot to config/app-manifest.json for '$APP_ID', or set BACKEND_ROOT=/absolute/path"
   exit 1
 fi
 
@@ -43,6 +43,10 @@ if [[ -z "${FIREBASE_SERVICE_ACCOUNT_JSON:-}" && -n "${GOOGLE_APPLICATION_CREDEN
   echo "[backend] loaded FIREBASE_SERVICE_ACCOUNT_JSON from GOOGLE_APPLICATION_CREDENTIALS"
 fi
 
-echo "[backend] starting local sql app..."
-make local-sql-db
+echo "[backend] starting postgres..."
+APP_ID="$APP_ID" CONFIG_PROJECT_ID="$CONFIG_PROJECT_ID" CONFIG_ENVIRONMENT="$CONFIG_ENVIRONMENT" \
+  CONFIG_SCOPE="$CONFIG_SCOPE" CONFIG_DB="$CONFIG_DB" \
+  "$PROJECT_ROOT/scripts/dev/run-local-sql.sh" --db-only
+
+echo "[backend] starting app server..."
 make local-sql-app
