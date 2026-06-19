@@ -1,4 +1,4 @@
-import type { IsoUtcTimestamp, ProtoTimestampLike } from "@core/dates";
+import type { IsoUtcTimestamp, ProtoTimestampLike } from "../../../platform/core/dates";
 
 export const DOCUMENT_CONTENT_MAX_CHARS = 20_000;
 

@@ -1,6 +1,6 @@
 import { api } from "../../../platform/api/client";
 import type { ApiResult } from "../../../platform/api/client";
-import type { IsoUtcTimestamp } from "@core/dates";
+import type { IsoUtcTimestamp } from "../../../platform/core/dates";
 
 export type SessionIdentity = {
   uid?: string;

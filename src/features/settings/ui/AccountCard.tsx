@@ -3,7 +3,7 @@
  */
 import React from "react";
 import { Body, Icon, View, XStack, YStack } from "../../../platform/ui/index";
-import { dateOwner } from "@core/dates";
+import { dateOwner } from "../../../platform/core/dates";
 
 export interface AccountCardProps {
   createdAt?: string;

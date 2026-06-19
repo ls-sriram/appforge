@@ -1,6 +1,6 @@
 import React from "react";
 import { Audio } from "expo-av";
-import { runtime } from "@core/runtime";
+import { runtime } from "../../../platform/core/runtime";
 import { Body, Button, YStack } from "../../../platform/ui/index";
 import { SharedEntityViewData } from "../domain/model";
 

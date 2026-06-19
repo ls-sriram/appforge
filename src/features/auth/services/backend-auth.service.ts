@@ -11,7 +11,7 @@
  * ─────────────────────────────────────────────────────────────────
  */
 
-import { Result } from "@core/types";
+import { Result } from "../../../platform/core/types";
 import { callProto } from "../../../platform/api/proto-client";
 import { api } from "../../../platform/api/client";
 import type { AuthState } from "../domain/repository";

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { dateOwner } from "@core/dates";
-import { idOwner } from "@core/providers";
+import { dateOwner } from "../../../platform/core/dates";
+import { idOwner } from "../../../platform/core/providers";
 import { DOCUMENT_CONTENT_MAX_CHARS, TextDocumentModel, TextEditorDraft } from "../domain/model";
 import {
   clearTextEditorDraft,

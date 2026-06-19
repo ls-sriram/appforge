@@ -1,7 +1,7 @@
 import React from "react";
-import { ViewProps } from "@core/types";
+import { ViewProps } from "../../../platform/core/types";
 import { YStack } from "../../../platform/ui/index";
-import { CenteredPageLayout } from "@layouts";
+import { CenteredPageLayout } from "../../../platform/ui/layouts/index";
 import { AuthCard } from "../../auth/ui/blocks/AuthCard";
 import { AuthBrandBlock } from "../../auth/ui/blocks/AuthBrandBlock";
 import { AuthFieldBlock } from "../../auth/ui/blocks/AuthFieldBlock";

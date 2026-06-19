@@ -1,7 +1,7 @@
 import { AuthRepository, AuthState } from "../domain/repository";
 import { AuthService } from "../services/auth.service";
 import { BackendAuthService } from "../services/backend-auth.service";
-import { Result } from "@core/types";
+import { Result } from "../../../platform/core/types";
 
 export class BackendAuthRepository implements AuthRepository {
   private service: AuthService;

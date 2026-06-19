@@ -1,4 +1,4 @@
-import { Result } from "@core/types";
+import { Result } from "../../../platform/core/types";
 import { SaveTextDocumentInput, TextDocumentModel } from "./model";
 
 export interface TextEditorRepository {

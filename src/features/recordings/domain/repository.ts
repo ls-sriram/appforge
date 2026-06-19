@@ -1,4 +1,4 @@
-import { Result } from "@core/types";
+import { Result } from "../../../platform/core/types";
 import { RecordingCapturePayload, RecordingContentRef, RecordingModel } from "./model";
 
 export interface RecordingsRepository {

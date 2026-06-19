@@ -1,4 +1,4 @@
-import { asIsoUtcTimestamp, type IsoUtcTimestamp } from "@core/dates";
+import { asIsoUtcTimestamp, type IsoUtcTimestamp } from "../../../platform/core/dates";
 
 export type PlanName = "free" | "trial" | "pro";
 export type PlanStatus = "active" | "trialing" | "cancel_pending" | "past_due" | "canceled";

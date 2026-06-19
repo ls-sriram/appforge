@@ -13,7 +13,7 @@
  * ─────────────────────────────────────────────────────────────────
  */
 
-import { Controller, Result } from "@core/types";
+import { Controller, Result } from "../../platform/core/types";
 import { LoginModel, LoginState } from "./LoginModel";
 import { createMockEntitlementSnapshot } from "../entitlements/domain/model";
 import { clearEntitlementSnapshot, setEntitlementSnapshot } from "../entitlements/viewmodel/store";

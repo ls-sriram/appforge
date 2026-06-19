@@ -1,4 +1,4 @@
-import { Result } from "@core/types";
+import { Result } from "../../../platform/core/types";
 
 export interface RuntimeRecordingResult {
   audioBase64: string;

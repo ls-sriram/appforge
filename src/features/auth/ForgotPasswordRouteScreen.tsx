@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Alert } from "react-native";
 import { useRouter, type Href } from "expo-router";
 import { Body, Button, YStack } from "../../platform/ui/index";
-import { CenteredPageLayout } from "@layouts";
+import { CenteredPageLayout } from "../../platform/ui/layouts/index";
 import { AuthCard } from "./ui/blocks/AuthCard";
 import { AuthBrandBlock } from "./ui/blocks/AuthBrandBlock";
 import { AuthFieldBlock } from "./ui/blocks/AuthFieldBlock";

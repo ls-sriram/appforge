@@ -1,4 +1,4 @@
-import { Result } from "@core/types";
+import { Result } from "../../../platform/core/types";
 import { SettingsIdentity } from "./types";
 
 export interface SettingsRepository {

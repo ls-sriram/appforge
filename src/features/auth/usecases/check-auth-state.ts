@@ -1,4 +1,4 @@
-import { Result } from "@core/types";
+import { Result } from "../../../platform/core/types";
 import { AuthRepository, AuthState } from "../domain/repository";
 
 export async function checkAuthState(

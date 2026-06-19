@@ -1,4 +1,4 @@
-import { Result } from "@core/types";
+import { Result } from "../../../platform/core/types";
 import { api } from "../../../platform/api/client";
 import { BackendUserProfileService } from "../services/user-profile.service";
 import { getFirebaseAuth } from "../../../config/firebase";

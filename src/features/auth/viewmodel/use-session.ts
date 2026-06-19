@@ -8,7 +8,7 @@
 
 import { api } from "../../../platform/api/client";
 import { useSessionContext } from "../../../platform/providers/SessionProvider";
-import { asIsoUtcTimestamp, type IsoUtcTimestamp } from "@core/dates";
+import { asIsoUtcTimestamp, type IsoUtcTimestamp } from "../../../platform/core/dates";
 
 interface SessionInfo {
   uid: string;

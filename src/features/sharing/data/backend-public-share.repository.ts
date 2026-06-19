@@ -1,5 +1,5 @@
-import { fromProtoTimestamp, ProtoTimestampLike } from "@core/dates";
-import { Result } from "@core/types";
+import { fromProtoTimestamp, ProtoTimestampLike } from "../../../platform/core/dates";
+import { Result } from "../../../platform/core/types";
 import { api } from "../../../platform/api/client";
 import { PublicShareModel } from "../domain/model";
 

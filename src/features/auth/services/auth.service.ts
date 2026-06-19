@@ -8,7 +8,7 @@
  * ─────────────────────────────────────────────────────────────────
  */
 
-import { Result } from "@core/types";
+import { Result } from "../../../platform/core/types";
 import { getFirebaseAuth } from "../../../config/firebase";
 import type { AuthState } from "../domain/repository";
 

@@ -1,4 +1,4 @@
-import type { IsoUtcTimestamp } from "@core/dates";
+import type { IsoUtcTimestamp } from "../../../platform/core/dates";
 
 export type RecordingUiStatus = "idle" | "recording" | "uploading" | "ready" | "error";
 

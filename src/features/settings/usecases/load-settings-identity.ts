@@ -1,4 +1,4 @@
-import { Result } from "@core/types";
+import { Result } from "../../../platform/core/types";
 import { SettingsIdentity } from "../domain/model";
 import { BackendSettingsRepository } from "../data/backend-settings.repository";
 

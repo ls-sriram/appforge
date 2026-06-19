@@ -7,7 +7,7 @@
  * ─────────────────────────────────────────────────────────────────
  */
 
-import { Result } from "@core/types";
+import { Result } from "../../platform/core/types";
 import { AuthRepository, AuthState } from "../auth/domain/repository";
 import { BackendAuthRepository } from "../auth/data/backend-auth.repository";
 import { signIn } from "../auth/usecases/sign-in";

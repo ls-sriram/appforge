@@ -17,7 +17,7 @@ import { createMockEntitlementSnapshot } from "../../entitlements/domain/model";
 import { buildEntitlementSnapshot } from "../../entitlements/domain/handler";
 import { getLockedFeatures } from "../../entitlements/domain/policy";
 import type { FeatureKey } from "../../entitlements/domain/feature-keys";
-import { asIsoUtcTimestamp, dateOwner } from "@core/dates";
+import { asIsoUtcTimestamp, dateOwner } from "../../../platform/core/dates";
 
 export interface DashboardData {
   loading: boolean;

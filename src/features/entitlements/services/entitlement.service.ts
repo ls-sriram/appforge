@@ -1,4 +1,4 @@
-import { Result } from "@core/types";
+import { Result } from "../../../platform/core/types";
 import { api } from "../../../platform/api/client";
 import type { EntitlementSnapshot } from "../domain/model";
 import { parseEntitlementSnapshotResponse, type EntitlementSnapshotResponse } from "../domain/model";

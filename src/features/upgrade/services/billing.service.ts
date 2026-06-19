@@ -1,4 +1,4 @@
-import { Result } from "@core/types";
+import { Result } from "../../../platform/core/types";
 import { api } from "../../../platform/api/client";
 
 export type CheckoutPaymentType = "subscription" | "one_time";
