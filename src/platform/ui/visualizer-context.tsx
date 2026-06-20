@@ -1,5 +1,4 @@
 import React from "react";
-import type { UiNodeProps } from "../../apps/appforge-site/features/ui-visualizer/domain/ui-document.types";
 
 export interface VisualizerContextValue {
   /** Whether the visualizer barrel is active. False in production. */
@@ -7,7 +6,7 @@ export interface VisualizerContextValue {
   selectedNodeId: string | undefined;
   onSelect: (nodeId: string) => void;
   /** Per-node prop overrides coming from the inspector. */
-  propOverrides: Record<string, Partial<UiNodeProps>>;
+  propOverrides: Record<string, Record<string, unknown>>;
 }
 
 const DEFAULT: VisualizerContextValue = {
@@ -32,7 +31,7 @@ export function VisualizerProvider({
 }: {
   selectedNodeId: string | undefined;
   onSelect: (nodeId: string) => void;
-  propOverrides: Record<string, Partial<UiNodeProps>>;
+  propOverrides: Record<string, Record<string, unknown>>;
   children: React.ReactNode;
 }) {
   const value = React.useMemo<VisualizerContextValue>(
