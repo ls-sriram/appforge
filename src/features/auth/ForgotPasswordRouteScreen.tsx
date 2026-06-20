@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Alert } from "react-native";
+import { dialog } from "../../platform/core/index";
 import { useRouter, type Href } from "expo-router";
 import { app } from "../../config/app";
 import { ForgotPasswordAction, ForgotPasswordController, ForgotPasswordViewData } from "./ForgotPasswordController";
@@ -16,7 +16,7 @@ export function ForgotPasswordRouteScreen({ loginHref }: Props) {
 
   useEffect(() => {
     if (!data.isSuccess) return;
-    Alert.alert(
+    dialog.alert(
       app.copy.auth.forgotPasswordSuccessTitle,
       app.copy.auth.forgotPasswordSuccessMessage,
       [{ text: "OK", onPress: () => router.replace(loginHref) }],

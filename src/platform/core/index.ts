@@ -5,3 +5,5 @@ export * from "./metadata";
 export * from "./providers";
 export * from "./storage";
 export * from "./runtime";
+export * from "./dialog";
+export * from "./linking";

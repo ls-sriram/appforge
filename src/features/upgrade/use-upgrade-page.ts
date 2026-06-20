@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Alert, Linking } from "react-native";
+import { dialog, linking } from "../../platform/core/index";
 import { BackendBillingService, type CheckoutPaymentType, type PricingCard } from "./services/billing.service";
 import { BackendUserProfileService, type Plan } from "../settings/services/user-profile.service";
 
@@ -32,7 +32,7 @@ export function useUpgradePage() {
           setState((current) => ({ ...current, pricingCards: cardsResult.data, loading: false }));
         } else {
           setState((current) => ({ ...current, pricingCards: [], pricingError: cardsResult.error, loading: false }));
-          Alert.alert("Billing", cardsResult.error);
+          dialog.alert("Billing", cardsResult.error);
         }
       }
 
@@ -61,7 +61,7 @@ export function useUpgradePage() {
   const checkout = async (card: PricingCard) => {
     if (!state.identityEmail) {
       console.warn("[upgrade] checkout blocked due to missing identity email");
-      Alert.alert("Billing", "Missing account email. Please sign in again.");
+      dialog.alert("Billing", "Missing account email. Please sign in again.");
       return;
     }
     const paymentType: CheckoutPaymentType = card.id.includes("annual") ? "one_time" : "subscription";
@@ -77,20 +77,20 @@ export function useUpgradePage() {
     setState((current) => ({ ...current, checkoutBusyId: undefined }));
 
     if (!result.ok) {
-      Alert.alert("Billing", result.error);
+      dialog.alert("Billing", result.error);
       return;
     }
     if (!result.data.url) {
-      Alert.alert("Billing", "Checkout URL not returned.");
+      dialog.alert("Billing", "Checkout URL not returned.");
       return;
     }
 
-    const canOpen = await Linking.canOpenURL(result.data.url);
+    const canOpen = await linking.canOpenURL(result.data.url);
     if (!canOpen) {
-      Alert.alert("Billing", "Cannot open checkout URL on this device.");
+      dialog.alert("Billing", "Cannot open checkout URL on this device.");
       return;
     }
-    await Linking.openURL(result.data.url);
+    await linking.openURL(result.data.url);
   };
 
   return {
