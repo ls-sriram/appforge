@@ -1,9 +1,10 @@
 import React from "react";
-import { TextInput, TouchableOpacity } from "react-native";
+import { TextInput } from "react-native";
 import { ViewProps } from "../../../platform/core/types";
 import { Body, YStack } from "../../../platform/ui/index";
 import { CenteredPageLayout } from "../../../platform/ui/layouts/index";
 import { AuthCard } from "../../auth/ui/blocks/AuthCard";
+import { AuthInlineLinkBlock } from "../../auth/ui/blocks/AuthInlineLinkBlock";
 import { AuthBrandBlock } from "../../auth/ui/blocks/AuthBrandBlock";
 import { AuthFieldBlock } from "../../auth/ui/blocks/AuthFieldBlock";
 import { AuthSubmitBlock } from "../../auth/ui/blocks/AuthSubmitBlock";
@@ -47,9 +48,7 @@ export function LoginSurface({ data, dispatch }: Props) {
             onSubmitEditing={() => dispatch({ type: "submit" })}
             testID="password-input"
           />
-          <TouchableOpacity onPress={() => dispatch({ type: "go_to_forgot_password" })} activeOpacity={0.7}>
-            <Body color="$primary">Forgot Password?</Body>
-          </TouchableOpacity>
+          <AuthInlineLinkBlock label="Forgot Password?" onPress={() => dispatch({ type: "go_to_forgot_password" })} />
           <AuthSubmitBlock
             label="Login →"
             loading={data.loading}

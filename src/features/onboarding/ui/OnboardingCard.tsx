@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { YStack } from "../../../platform/ui/index";
 
 export function OnboardingCard({
   children,
@@ -9,11 +9,5 @@ export function OnboardingCard({
   size?: "default" | "tall";
 }) {
   void size;
-
-  return (
-    <View
-    >
-      {children}
-    </View>
-  );
+  return <YStack>{children}</YStack>;
 }

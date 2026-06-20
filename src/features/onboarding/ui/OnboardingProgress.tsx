@@ -1,7 +1,5 @@
 import React from "react";
-import { TouchableOpacity, View } from "react-native";
-import { Body, Icon } from "../../../platform/ui/index";
-import { useTheme } from "../../../platform/theme/ThemeProvider";
+import { Body, Icon, XStack, YStack } from "../../../platform/ui/index";
 
 export function OnboardingProgress({
   step,
@@ -12,27 +10,18 @@ export function OnboardingProgress({
   total: number;
   onBack?: () => void;
 }) {
-  const t = useTheme();
-  const c = t.colors;
   return (
-    <View>
-      <View>
+    <YStack>
+      <XStack ai="center" gap="$3">
         {onBack ? (
-          <TouchableOpacity
-            onPress={onBack}
-            activeOpacity={0.8}
-          >
+          <YStack onPress={onBack} pressStyle={{ opacity: 0.8 }} cursor="pointer">
             <Icon name="chevron-left" size="md" tone="secondary" />
-          </TouchableOpacity>
+          </YStack>
         ) : (
-          <View />
+          <YStack />
         )}
         <Body fontSize="$2">Step {step} of {total}</Body>
-      </View>
-      <View>
-        <View
-        />
-      </View>
-    </View>
+      </XStack>
+    </YStack>
   );
 }

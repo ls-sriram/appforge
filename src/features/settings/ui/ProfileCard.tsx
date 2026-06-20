@@ -9,7 +9,6 @@
  */
 
 import React from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
 import { Body, Heading, Icon, View, XStack, YStack } from "../../../platform/ui/index";
 
 export interface ProfileCardProps {
@@ -77,13 +76,11 @@ export function ProfileCard({
 
   if (onPress) {
     return (
-      <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
+      <YStack onPress={onPress} pressStyle={{ opacity: 0.7 }} cursor="pointer">
         {content}
-      </TouchableOpacity>
+      </YStack>
     );
   }
 
   return content;
 }
-
-const styles = StyleSheet.create({});

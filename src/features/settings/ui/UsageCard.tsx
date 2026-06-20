@@ -2,8 +2,7 @@
  * UsageCard — feature usage bars (reviews, entities, storage, etc.).
  */
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Body, View as TView, XStack, YStack } from "../../../platform/ui/index";
+import { Body, View, XStack, YStack } from "../../../platform/ui/index";
 import type { Usage } from "../services/user-profile.service";
 
 export interface UsageCardProps {
@@ -34,7 +33,7 @@ const ENTRIES: UsageEntryDef[] = [
 
 export function UsageCard({ usage }: UsageCardProps) {
   return (
-    <TView bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$3" p="$4">
+    <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$3" p="$4">
       <YStack gap="$3">
         <Body fontSize="$1" color="$textMuted">
           Usage
@@ -48,8 +47,8 @@ export function UsageCard({ usage }: UsageCardProps) {
             const barColor = pct >= 90 ? "$error" : pct >= 70 ? "$warning" : "$primary";
 
             return (
-              <View key={def.key} style={styles.metricCard}>
-                <TView bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" p="$2">
+              <YStack key={def.key} flexBasis="48%" f={1} minWidth={0}>
+                <View bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" p="$2">
                     <YStack gap="$2">
                       <XStack ai="center" jc="space-between" gap="$2">
                         <Body fontSize="$1" color="$textMuted" numberOfLines={1}>
@@ -62,25 +61,18 @@ export function UsageCard({ usage }: UsageCardProps) {
                         </Body>
                       </XStack>
                       {!metric.unlocked ? (
-                        <TView h={4} br={9999} bg="$surfaceAlt" overflow="hidden">
-                          <TView h="100%" w={`${displayPct}%`} bg={barColor} />
-                        </TView>
+                        <View h={4} br={9999} bg="$surfaceAlt" overflow="hidden">
+                          <View h="100%" w={`${displayPct}%`} bg={barColor} />
+                        </View>
                       ) : null}
                     </YStack>
-                </TView>
-              </View>
+                </View>
+              </YStack>
             );
           })}
         </XStack>
       </YStack>
-    </TView>
+    </View>
   );
 }
 
-const styles = StyleSheet.create({
-  metricCard: {
-    flexBasis: "48%",
-    flexGrow: 1,
-    minWidth: 0,
-  },
-});

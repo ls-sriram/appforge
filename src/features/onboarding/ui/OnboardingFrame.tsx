@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { YStack } from "../../../platform/ui/index";
 
 export function OnboardingFrame({
   header,
@@ -11,14 +11,12 @@ export function OnboardingFrame({
   footer: React.ReactNode;
 }) {
   return (
-    <View>
-      <View>
-        <View>{header}</View>
-        <View>{panel}</View>
-        <View>
-          {footer}
-        </View>
-      </View>
-    </View>
+    <YStack>
+      <YStack>
+        <YStack>{header}</YStack>
+        <YStack>{panel}</YStack>
+        <YStack>{footer}</YStack>
+      </YStack>
+    </YStack>
   );
 }

@@ -1,5 +1,4 @@
 import React from "react";
-import { Pressable, View } from "react-native";
 import { runtime } from "../../../platform/core/runtime";
 import { Body, Button, Heading, Icon, XStack, YStack } from "../../../platform/ui/index";
 import type { RecordingModel, RecordingShareModel, RecordingUiStatus } from "..";
@@ -66,12 +65,12 @@ export function RecordingPanel({
   return (
     <YStack gap="$4">
       <YStack gap="$4">
-        <View>
+        <YStack gap="$3">
           <Heading>Saved recordings</Heading>
           {recordings.length === 0 ? (
             <Body fontSize="$2" color="$textMuted">No recordings yet. Tap the mic below to capture one.</Body>
           ) : (
-            <View>
+            <YStack gap="$3">
               {recordings.map((recording) => {
                 const playbackUrl = playbackUrlById[recording.id];
                 const parsedTime = Date.parse(recording.createdAt);
@@ -149,31 +148,23 @@ export function RecordingPanel({
                   </YStack>
                 );
               })}
-            </View>
+            </YStack>
           )}
-        </View>
+        </YStack>
 
         <YStack>
           <XStack gap="$4" ai="center">
-            <Pressable
-              onPress={micPress}
-              disabled={micDisabled}
+            <YStack
+              onPress={micDisabled ? undefined : micPress}
+              pressStyle={micDisabled ? {} : { opacity: 0.7 }}
               accessibilityRole="button"
               accessibilityLabel={micLabel}
+              cursor={micDisabled ? "default" : "pointer"}
             >
-              <View>
-                <View
-                >
-                  {isRecording ? (
-                    <View />
-                  ) : (
-                    <Icon name="mic" size="2xl" tone="inverse" />
-                  )}
-                </View>
-              </View>
-            </Pressable>
+              {isRecording ? null : <Icon name="mic" size="2xl" tone="inverse" />}
+            </YStack>
 
-            <View>
+            <YStack f={1}>
               <YStack gap="$1">
                 <XStack ai="center" gap="$3">
                   <Body fontSize="$2">{micStatus}</Body>
@@ -189,15 +180,13 @@ export function RecordingPanel({
                   </Button>
                 </XStack>
                 {(isRecording || status === "ready") ? (
-                  <View>
-                    <Body fontSize="$2">{timerLabel}</Body>
-                  </View>
+                  <Body fontSize="$2">{timerLabel}</Body>
                 ) : (
                   <Body fontSize="$2" color="$textMuted">Max {maxSeconds}s per recording</Body>
                 )}
                 {error ? <Body fontSize="$2" color="$error">{error}</Body> : null}
               </YStack>
-            </View>
+            </YStack>
           </XStack>
         </YStack>
       </YStack>

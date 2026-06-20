@@ -1,5 +1,4 @@
 import React from "react";
-import { View } from "react-native";
 import { Body, Button, Heading, Input, TextArea, XStack, YStack } from "../../../platform/ui/index";
 import type { TextDocumentModel } from "..";
 
@@ -73,7 +72,7 @@ export function TextEditorPanel(props: TextEditorPanelProps) {
           </Button>
         </XStack>
 
-        <View>
+        <YStack gap="$3">
           <Heading>Recent Documents</Heading>
           <YStack gap="$3">
             {props.loadingDocuments ? <Body fontSize="$2" color="$textMuted">Loading...</Body> : null}
@@ -87,7 +86,7 @@ export function TextEditorPanel(props: TextEditorPanelProps) {
               </YStack>
             ))}
           </YStack>
-        </View>
+        </YStack>
       </YStack>
     </YStack>
   );

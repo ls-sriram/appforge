@@ -7,12 +7,7 @@
  */
 
 import React, { useState, useRef, useCallback } from "react";
-import {
-  View,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import { Body, Button } from "../../../platform/ui/index";
+import { Body, Button, ScrollView, YStack } from "../../../platform/ui/index";
 import { FeatureCard } from "./FeatureCard";
 import type { IconName } from "../../../platform/ui/index";
 import { useViewport } from "../../../platform/theme/Viewport";
@@ -62,8 +57,7 @@ export function OnboardingCarousel({
   const isLast = activeIndex === steps.length - 1;
 
   return (
-    <View>
-      {/* Carousel */}
+    <YStack>
       <ScrollView
         ref={scrollRef}
         horizontal
@@ -73,58 +67,43 @@ export function OnboardingCarousel({
         scrollEventThrottle={16}
       >
         {steps.map((step, i) => (
-          <View
-            key={i}
-          >
+          <YStack key={i}>
             <FeatureCard
               icon={step.icon}
               title={step.title}
               description={step.description}
             />
-          </View>
+          </YStack>
         ))}
       </ScrollView>
 
-      {/* Dots + Actions */}
-      <View
-      >
-        {/* Pagination Dots */}
-        <View>
-          {steps.map((_, i) => {
-            const isActive = i === activeIndex;
-            return (
-              <TouchableOpacity
-                key={i}
-                activeOpacity={0.7}
-                onPress={() => scrollTo(i)}
-              />
-            );
-          })}
-        </View>
+      <YStack>
+        <YStack fd="row" gap="$2">
+          {steps.map((_, i) => (
+            <YStack
+              key={i}
+              onPress={() => scrollTo(i)}
+              pressStyle={{ opacity: 0.7 }}
+              cursor="pointer"
+            />
+          ))}
+        </YStack>
 
-        {/* Actions */}
-        <View
-        >
+        <YStack gap="$3">
           {!isLast && (
             <Button onPress={() => onComplete()} bg="transparent" w="100%">
               <Body>{skipLabel}</Body>
             </Button>
           )}
           <Button
-            onPress={() => {
-              if (isLast) {
-                onComplete();
-              } else {
-                scrollTo(activeIndex + 1);
-              }
-            }}
+            onPress={() => { if (isLast) { onComplete(); } else { scrollTo(activeIndex + 1); } }}
             bg="$primary"
             w="100%"
           >
             <Body color="$textInverse" fontFamily="$bold">{isLast ? ctaLabel : "Next"}</Body>
           </Button>
-        </View>
-      </View>
-    </View>
+        </YStack>
+      </YStack>
+    </YStack>
   );
 }
