@@ -7,7 +7,7 @@
  * we don't need to maintain a shorthand-to-CSS translation table.
  *
  * Each wrapper:
- *   1. Reads __uiid from props (stamped by ui() in layout files).
+ *   1. Reads __uiid from props (auto-stamped by makeWrapped via React.useId()).
  *   2. Looks up propOverrides[__uiid] from VisualizerContext.
  *   3. Merges overrides into the component's props (inspector → live update).
  *   4. Passes data-viz-selected and onClick — CSS handles the outline.
