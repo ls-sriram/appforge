@@ -1,19 +1,9 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Alert } from "react-native";
 import { useRouter, type Href } from "expo-router";
-import { Body, Button, YStack } from "../../platform/ui/index";
-import { CenteredPageLayout } from "../../platform/ui/layouts/index";
-import { AuthCard } from "./ui/blocks/AuthCard";
-import { AuthBrandBlock } from "./ui/blocks/AuthBrandBlock";
-import { AuthFieldBlock } from "./ui/blocks/AuthFieldBlock";
-import { AuthSubmitBlock } from "./ui/blocks/AuthSubmitBlock";
 import { app } from "../../config/app";
-import { BackendAuthRepository } from "./data/backend-auth.repository";
-import { sendPasswordResetLink } from "./usecases/send-password-reset-link";
-
-function isValidEmail(value: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
-}
+import { ForgotPasswordAction, ForgotPasswordController, ForgotPasswordViewData } from "./ForgotPasswordController";
+import { ForgotPasswordSurface } from "./ForgotPasswordSurface";
 
 type Props = {
   loginHref: Href;
@@ -21,58 +11,29 @@ type Props = {
 
 export function ForgotPasswordRouteScreen({ loginHref }: Props) {
   const router = useRouter();
-  const repository = new BackendAuthRepository();
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const controller = useMemo(() => new ForgotPasswordController(), []);
+  const [data, setData] = useState<ForgotPasswordViewData>(() => controller.getInitialData());
 
-  const handleSubmit = async () => {
-    const normalizedEmail = email.trim();
-    if (!normalizedEmail) { setError("Email is required."); return; }
-    if (!isValidEmail(normalizedEmail)) { setError("Enter a valid email address."); return; }
-
-    setLoading(true);
-    setError("");
-    const result = await sendPasswordResetLink(repository, normalizedEmail);
-    setLoading(false);
-    if (!result.ok) { setError(result.error); return; }
-
+  useEffect(() => {
+    if (!data.isSuccess) return;
     Alert.alert(
       app.copy.auth.forgotPasswordSuccessTitle,
       app.copy.auth.forgotPasswordSuccessMessage,
       [{ text: "OK", onPress: () => router.replace(loginHref) }],
     );
-  };
+  }, [data.isSuccess, loginHref, router]);
 
-  return (
-    <CenteredPageLayout>
-      <YStack gap="$3">
-        <AuthCard>
-          <YStack gap="$4">
-            <AuthBrandBlock subtitle={app.copy.auth.forgotPasswordSubtitle} />
-            <AuthFieldBlock
-              icon="mail"
-              placeholder="Email"
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoComplete="email"
-              returnKeyType="done"
-              onSubmitEditing={handleSubmit}
-            />
-            <AuthSubmitBlock
-              label="Send reset link"
-              loading={loading}
-              generalError={error}
-              onPress={handleSubmit}
-            />
-          </YStack>
-        </AuthCard>
-        <Button onPress={() => router.replace(loginHref)} bg="$surfaceAlt" borderWidth={1} borderColor="$border">
-          <Body>Back to sign in</Body>
-        </Button>
-      </YStack>
-    </CenteredPageLayout>
+  const dispatch = useCallback(
+    async (action: ForgotPasswordAction) => {
+      if (action.type === "go_to_login") {
+        router.replace(loginHref);
+        return;
+      }
+      const next = await controller.dispatch(action);
+      setData(next);
+    },
+    [controller, loginHref, router],
   );
+
+  return <ForgotPasswordSurface data={data} dispatch={dispatch} />;
 }

@@ -1,9 +1,10 @@
 import React from "react";
-import { Body, Button, YStack } from "../../platform/ui/index";
+import { YStack } from "../../platform/ui/index";
 import { AuthCard } from "./ui/blocks/AuthCard";
 import { AuthBrandBlock } from "./ui/blocks/AuthBrandBlock";
 import { AuthFieldBlock } from "./ui/blocks/AuthFieldBlock";
 import { AuthSubmitBlock } from "./ui/blocks/AuthSubmitBlock";
+import { AuthBackBlock } from "./ui/blocks/AuthBackBlock";
 import { ui } from "../../platform/ui/viz";
 import { app } from "../../config/app";
 
@@ -29,9 +30,7 @@ export function ForgotPasswordLayout() {
             />
           </YStack>
         </AuthCard>
-        <Button bg="$surfaceAlt" borderWidth={1} borderColor="$border" onPress={() => {}}>
-          <Body>{app.copy.auth.forgotPasswordBackLabel}</Body>
-        </Button>
+        <AuthBackBlock label={app.copy.auth.forgotPasswordBackLabel} onPress={() => {}} />
       </YStack>
     </YStack>)
   );
