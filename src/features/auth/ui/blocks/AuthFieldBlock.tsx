@@ -1,5 +1,5 @@
 import React from "react";
-import { TextInput } from "react-native";
+import type { TextInput } from "react-native";
 import { Label, YStack } from "../../../../platform/ui/index";
 import { AuthDarkField, type InputHandle } from "./AuthDarkField";
 import type { IconName } from "../../../../platform/ui/index";

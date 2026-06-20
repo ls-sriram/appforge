@@ -1,5 +1,5 @@
 import React from "react";
-import { TextInput } from "react-native";
+import type { TextInput } from "react-native";
 import { ViewProps } from "../../../platform/core/types";
 import { Body, YStack } from "../../../platform/ui/index";
 import { CenteredPageLayout } from "../../../platform/ui/layouts/index";

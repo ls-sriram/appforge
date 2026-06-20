@@ -4,7 +4,7 @@
  * Shared visual blocks — AppForge primitives only. No hooks, no API calls,
  * no imports from features/. These components are the static design layer:
  * they accept variant contracts and display props, render using the token
- * system, and can be referenced in *.layout.tsx files.
+ * system, and can be referenced in *.stage.tsx files.
  *
  * Variant contracts (tone, size, variant, density) are the inspector's
  * editing vocabulary. Raw style props are escape hatches for one-offs.

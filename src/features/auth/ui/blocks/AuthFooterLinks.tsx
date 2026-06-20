@@ -1,6 +1,5 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
-import { Body, Label, XStack } from "../../../../platform/ui/index";
+import { Body, Label, XStack, YStack } from "../../../../platform/ui/index";
 
 interface AuthFooterLinksProps {
   prompt: string;
@@ -12,9 +11,9 @@ export function AuthFooterLinks({ prompt, linkLabel, onPress }: AuthFooterLinksP
   return (
     <XStack ai="center" gap="$2" jc="center">
       <Body fontSize="$2" color="$textMuted">{prompt}</Body>
-      <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
+      <YStack onPress={onPress} pressStyle={{ opacity: 0.7 }}>
         <Label color="$primary" fontFamily="$bold">{linkLabel}</Label>
-      </TouchableOpacity>
+      </YStack>
     </XStack>
   );
 }

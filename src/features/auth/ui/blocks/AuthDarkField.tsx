@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
-import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import type { TextInput } from "react-native";
 import { useTheme } from "../../../../platform/theme/ThemeProvider";
-import { Icon, View, XStack } from "../../../../platform/ui/index";
+import { Icon, Input, View, XStack, YStack } from "../../../../platform/ui/index";
 import type { IconName } from "../../../../platform/ui/index";
 
 export interface InputHandle {
@@ -16,9 +16,9 @@ interface AuthDarkFieldProps {
   secureTextEntry?: boolean;
   keyboardType?: "default" | "email-address";
   autoCapitalize?: "none" | "sentences" | "words" | "characters";
-  autoComplete?: React.ComponentProps<typeof TextInput>["autoComplete"];
-  returnKeyType?: React.ComponentProps<typeof TextInput>["returnKeyType"];
-  onSubmitEditing?: React.ComponentProps<typeof TextInput>["onSubmitEditing"];
+  autoComplete?: React.ComponentProps<typeof Input>["autoComplete"];
+  returnKeyType?: React.ComponentProps<typeof Input>["returnKeyType"];
+  onSubmitEditing?: React.ComponentProps<typeof Input>["onSubmitEditing"];
   blurOnSubmit?: boolean;
   inputRef?: InputHandle;
   testID?: string;
@@ -48,11 +48,9 @@ export function AuthDarkField({
   const hide = secureTextEntry && !showPassword;
 
   return (
-    <TouchableOpacity
-      activeOpacity={1}
-      focusable={false}
-      accessible={false}
+    <YStack
       onPress={() => effectiveInputRef.current?.focus()}
+      cursor="text"
     >
       <View
         bg={hasError ? "$errorMuted" : "$surfaceStrong"}
@@ -63,17 +61,11 @@ export function AuthDarkField({
         <View px="$5" py="$3">
           <XStack ai="center" gap="$3">
             <Icon name={icon} size="lg" />
-            <TextInput
+            <Input
               ref={(instance) => {
                 effectiveInputRef.current = instance ?? undefined;
               }}
-              style={[
-                styles.input,
-                {
-                  color: theme.colors.textPrimary,
-                  fontSize: theme.colors.typography.sizes.md,
-                },
-              ]}
+              style={{ flex: 1, minHeight: 36, color: theme.colors.textPrimary, fontSize: theme.colors.typography.sizes.md }}
               placeholder={placeholder}
               placeholderTextColor={theme.colors.textMuted}
               value={value}
@@ -89,25 +81,13 @@ export function AuthDarkField({
               testID={testID}
             />
             {secureTextEntry ? (
-              <TouchableOpacity
-                onPress={() => setShowPassword((x) => !x)}
-                activeOpacity={0.7}
-                focusable={false}
-                accessible={false}
-              >
+              <YStack onPress={() => setShowPassword((x) => !x)} pressStyle={{ opacity: 0.7 }}>
                 <Icon name="eye" size="lg" />
-              </TouchableOpacity>
+              </YStack>
             ) : null}
           </XStack>
         </View>
       </View>
-    </TouchableOpacity>
+    </YStack>
   );
 }
-
-const styles = StyleSheet.create({
-  input: {
-    flex: 1,
-    minHeight: 36,
-  },
-});
