@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { dialog } from "../../platform/core/index";
+import { dialog } from "../../platform/ui/index";
 import { useRouter, type Href } from "expo-router";
 import { app } from "../../config/app";
 import { ForgotPasswordAction, ForgotPasswordController, ForgotPasswordViewData } from "./ForgotPasswordController";

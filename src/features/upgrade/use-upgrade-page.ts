@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { dialog, linking } from "../../platform/core/index";
+import { dialog, linking } from "../../platform/ui/index";
 import { BackendBillingService, type CheckoutPaymentType, type PricingCard } from "./services/billing.service";
 import { BackendUserProfileService, type Plan } from "../settings/services/user-profile.service";
 
