@@ -1,5 +1,6 @@
 import { useWindowDimensions } from "react-native";
 import { useTheme } from "./ThemeProvider";
+import { useViewportOverride } from "./ViewportProvider";
 
 export type ViewportTier = "mobile" | "tablet" | "desktop" | "wide";
 
@@ -24,10 +25,13 @@ export function getViewportTier(
 }
 
 export function useViewport(): ViewportInfo {
+  const override = useViewportOverride();
   const { width, height } = useWindowDimensions();
   const t = useTheme();
-  const tier = getViewportTier(width, t.colors.breakpoints);
 
+  if (override) return override;
+
+  const tier = getViewportTier(width, t.colors.breakpoints);
   return {
     width,
     height,

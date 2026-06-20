@@ -1,22 +1,55 @@
 import React from "react";
-import { Body, Button, Heading, Input, View, YStack } from "../../platform/ui/index";
+import { YStack } from "../../platform/ui/index";
+import { AuthCard } from "../auth/ui/blocks/AuthCard";
+import { AuthBrandBlock } from "../auth/ui/blocks/AuthBrandBlock";
+import { AuthFieldBlock } from "../auth/ui/blocks/AuthFieldBlock";
+import { AuthSubmitBlock } from "../auth/ui/blocks/AuthSubmitBlock";
+import { AuthTermsBlock } from "../auth/ui/blocks/AuthTermsBlock";
+import { AuthFooterLinks } from "../auth/ui/blocks/AuthFooterLinks";
 import { ui } from "../../platform/ui/viz";
+import { app } from "../../config/app";
 
 export function RegisterLayout() {
   return (
     ui("register-0", <YStack bg="$bg" f={1} jc="center" ai="center" p="$4">
-      {ui("register-1", <View bg="$surface" borderColor="$borderSubtle" borderWidth={1} br="$3" p="$5" w={340}>
-        {ui("register-2", <YStack gap="$4">
-          {ui("register-3", <Heading ta="center">Create Account</Heading>)}
-          {ui("register-4", <Input placeholder="Full Name" />)}
-          {ui("register-5", <Input placeholder="Email" />)}
-          {ui("register-6", <Input placeholder="Password" />)}
-          {ui("register-7", <Button bg="$primary">
-            <Body color="$textInverse" fontFamily="$bold">Create an account →</Body>
-          </Button>)}
-          {ui("register-8", <Body ta="center" fontSize="$1" color="$textMuted">Already have an account? Log in</Body>)}
-        </YStack>)}
-      </View>)}
+      <AuthCard>
+        <YStack gap="$4">
+          <AuthBrandBlock subtitle={app.copy.auth.registerSubtitle} />
+          <AuthFieldBlock
+            icon="user"
+            placeholder={app.copy.auth.registerFullNamePlaceholder}
+            value=""
+            onChangeText={() => {}}
+            autoCapitalize="words"
+          />
+          <AuthFieldBlock
+            icon="mail"
+            placeholder={app.copy.auth.registerEmailPlaceholder}
+            value=""
+            onChangeText={() => {}}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+          <AuthFieldBlock
+            icon="key"
+            placeholder={app.copy.auth.registerPasswordPlaceholder}
+            value=""
+            onChangeText={() => {}}
+            secureTextEntry
+          />
+          <AuthSubmitBlock
+            label="Create an account →"
+            loading={false}
+            onPress={() => {}}
+          />
+          <AuthTermsBlock />
+          <AuthFooterLinks
+            prompt="Already have an account?"
+            linkLabel="Log in"
+            onPress={() => {}}
+          />
+        </YStack>
+      </AuthCard>
     </YStack>)
   );
 }

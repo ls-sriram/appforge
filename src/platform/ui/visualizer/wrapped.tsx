@@ -52,24 +52,24 @@ function makeWrapped<P extends AnyProps>(
   displayName: string,
   textProp?: "children" | "label",
 ) {
-  function VisualizerWrapped({ __uiid, ...rest }: P & { __uiid?: string }) {
+  function VisualizerWrapped({ __uiid: explicitId, ...rest }: P & { __uiid?: string }) {
     const ctx = useVisualizerContext();
+    const autoId = React.useId();
 
     if (!ctx.active) {
       return <RealComp {...(rest as P)} />;
     }
 
-    const rawOverrides = __uiid ? (ctx.propOverrides[__uiid] ?? {}) : {};
+    const __uiid = explicitId ?? autoId;
+    const rawOverrides = ctx.propOverrides[__uiid] ?? {};
     const overrides = applyTextOverride(rawOverrides, textProp);
     const merged = { ...rest, ...overrides } as P;
 
-    // data-viz-selected drives the CSS outline injected by UiCanvasView.
-    // data-uiid is kept on the DOM for useLiveNodeSelection fallback.
-    // Spread as an object because hyphenated JSX attributes can't be inlined.
     const vizProps: AnyProps = {
-      "data-viz-selected": (__uiid !== undefined && __uiid === ctx.selectedNodeId) ? "true" : undefined,
+      "data-viz-type": displayName,
+      "data-viz-selected": __uiid === ctx.selectedNodeId ? "true" : undefined,
       "data-uiid": __uiid,
-      ...(__uiid ? { onClick: (e: React.MouseEvent) => { e.stopPropagation(); ctx.onSelect(__uiid); } } : {}),
+      onClick: (e: React.MouseEvent) => { e.stopPropagation(); ctx.onSelect(__uiid); },
     };
 
     return <RealComp {...merged} {...(vizProps as Partial<P>)} />;
@@ -89,27 +89,27 @@ function makeWrappedInBox<P extends AnyProps>(
   displayName: string,
   textProp?: "children" | "label",
 ) {
-  function VisualizerWrapped({ __uiid, ...rest }: P & { __uiid?: string }) {
+  function VisualizerWrapped({ __uiid: explicitId, ...rest }: P & { __uiid?: string }) {
     const ctx = useVisualizerContext();
+    const autoId = React.useId();
 
     if (!ctx.active) {
       return <RealComp {...(rest as P)} />;
     }
 
-    const rawOverrides = __uiid ? (ctx.propOverrides[__uiid] ?? {}) : {};
+    const __uiid = explicitId ?? autoId;
+    const rawOverrides = ctx.propOverrides[__uiid] ?? {};
     const overrides = applyTextOverride(rawOverrides, textProp);
     const merged = { ...rest, ...overrides } as P;
-    const isSelected = __uiid !== undefined && __uiid === ctx.selectedNodeId;
-    const handleClick = __uiid
-      ? (e: React.MouseEvent) => { e.stopPropagation(); ctx.onSelect(__uiid); }
-      : undefined;
+    const isSelected = __uiid === ctx.selectedNodeId;
 
     return (
       // @ts-ignore — div is web-only; this barrel only runs on web
       <div
         data-uiid={__uiid}
+        data-viz-type={displayName}
         data-viz-selected={isSelected ? "true" : undefined}
-        onClick={handleClick}
+        onClick={(e: React.MouseEvent) => { e.stopPropagation(); ctx.onSelect(__uiid); }}
         style={{ display: "contents" }}
       >
         <RealComp {...(merged as P)} />

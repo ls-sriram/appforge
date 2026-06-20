@@ -1,21 +1,38 @@
 import React from "react";
-import { Body, Button, Heading, Input, View, YStack } from "../../platform/ui/index";
+import { Body, Button, YStack } from "../../platform/ui/index";
+import { AuthCard } from "./ui/blocks/AuthCard";
+import { AuthBrandBlock } from "./ui/blocks/AuthBrandBlock";
+import { AuthFieldBlock } from "./ui/blocks/AuthFieldBlock";
+import { AuthSubmitBlock } from "./ui/blocks/AuthSubmitBlock";
 import { ui } from "../../platform/ui/viz";
+import { app } from "../../config/app";
 
 export function ForgotPasswordLayout() {
   return (
     ui("forgotpassword-0", <YStack bg="$bg" f={1} jc="center" ai="center" p="$4">
-      {ui("forgotpassword-1", <View bg="$surface" borderColor="$borderSubtle" borderWidth={1} br="$3" p="$5" w={340}>
-        {ui("forgotpassword-2", <YStack gap="$4">
-          {ui("forgotpassword-3", <Heading ta="center">Reset Password</Heading>)}
-          {ui("forgotpassword-4", <Body color="$textMuted">Enter your email to receive reset instructions.</Body>)}
-          {ui("forgotpassword-5", <Input placeholder="Email" />)}
-          {ui("forgotpassword-6", <Button bg="$primary">
-            <Body color="$textInverse" fontFamily="$bold">Send reset email</Body>
-          </Button>)}
-          {ui("forgotpassword-7", <Body ta="center" fontSize="$1" color="$textMuted">Back to login</Body>)}
-        </YStack>)}
-      </View>)}
+      <YStack gap="$3">
+        <AuthCard>
+          <YStack gap="$4">
+            <AuthBrandBlock subtitle={app.copy.auth.forgotPasswordSubtitle} />
+            <AuthFieldBlock
+              icon="mail"
+              placeholder="Email"
+              value=""
+              onChangeText={() => {}}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+            <AuthSubmitBlock
+              label={app.copy.auth.forgotPasswordSubmitLabel}
+              loading={false}
+              onPress={() => {}}
+            />
+          </YStack>
+        </AuthCard>
+        <Button bg="$surfaceAlt" borderWidth={1} borderColor="$border" onPress={() => {}}>
+          <Body>{app.copy.auth.forgotPasswordBackLabel}</Body>
+        </Button>
+      </YStack>
     </YStack>)
   );
 }
