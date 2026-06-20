@@ -35,11 +35,26 @@ export const color = {
   stone:         '#A3A3A3',
   slate:         '#737373',
 
+  // Warm cream palette (visualizer light theme)
+  cream:         '#F4EFE6',   // canvas bg
+  creamPanel:    '#F9F5EF',   // panel bg
+  creamStrong:   '#EDE9E1',   // strong surface
+  creamBorder:   '#D9D4CB',   // warm border
+  creamBorderSub:'#E5E0D7',   // subtle warm border
+  warmDark:      '#1C1814',   // primary text
+  warmMid:       '#6B6560',   // secondary text
+  warmFaint:     '#9E9890',   // muted text
+  warmFaintest:  '#B5B0A8',   // tertiary text
+
   // Brand blue — two tones for light/dark
   blue:          '#2558D4',   // light mode
   blueBright:    '#4F8EF7',   // dark mode (more legible on near-black)
   blueMuted:     'rgba(37,88,212,0.14)',
   blueBrightMuted: 'rgba(79,142,247,0.14)',
+
+  // Indigo — visualizer selection / primary action
+  indigo:        '#6366F1',
+  indigoMuted:   'rgba(99,102,241,0.12)',
 
   // Status
   greenBright:   '#34D399',
@@ -173,36 +188,36 @@ const darkTheme = {
 }
 
 const lightTheme = {
-  // Surfaces
-  bg:            tokens.color.offWhite,
+  // Surfaces — warm cream
+  bg:            tokens.color.cream,
   surface:       tokens.color.white,
-  surfaceStrong: tokens.color.white,
-  surfaceAlt:    tokens.color.surfaceLight,
-  surfaceMuted:  tokens.color.surfaceLight,
+  surfaceStrong: tokens.color.creamStrong,
+  surfaceAlt:    tokens.color.creamPanel,
+  surfaceMuted:  tokens.color.creamPanel,
 
-  // Borders
-  border:        tokens.color.borderLight,
-  borderSubtle:  tokens.color.borderLightSub,
-  borderFocus:   tokens.color.borderLightFoc,
+  // Borders — warm
+  border:        tokens.color.creamBorder,
+  borderSubtle:  tokens.color.creamBorderSub,
+  borderFocus:   tokens.color.indigo,
 
-  // Text
-  textPrimary:   tokens.color.nearBlack,
-  textSecondary: tokens.color.charcoal,
-  textMuted:     tokens.color.stone,
-  textTertiary:  tokens.color.slate,
+  // Text — warm dark
+  textPrimary:   tokens.color.warmDark,
+  textSecondary: tokens.color.warmMid,
+  textMuted:     tokens.color.warmFaint,
+  textTertiary:  tokens.color.warmFaintest,
   textInverse:   tokens.color.white,
 
   // Semantic
-  colorFaint:    tokens.color.stone,
-  colorSoft:     tokens.color.charcoal,
-  colorTertiary: tokens.color.slate,
+  colorFaint:    tokens.color.warmFaint,
+  colorSoft:     tokens.color.warmMid,
+  colorTertiary: tokens.color.warmFaintest,
   colorInverse:  tokens.color.white,
 
-  // Brand
-  primary:       tokens.color.blue,
-  primaryMuted:  tokens.color.blueMuted,
-  accent:        tokens.color.blue,
-  accentMuted:   tokens.color.blueMuted,
+  // Brand — indigo
+  primary:       tokens.color.indigo,
+  primaryMuted:  tokens.color.indigoMuted,
+  accent:        tokens.color.indigo,
+  accentMuted:   tokens.color.indigoMuted,
 
   // Status
   success:       tokens.color.green,
@@ -257,23 +272,23 @@ export const resolvedDarkTheme: Record<string, string> = {
 }
 
 export const resolvedLightTheme: Record<string, string> = {
-  bg:            color.offWhite,
+  bg:            color.cream,
   surface:       color.white,
-  surfaceStrong: color.white,
-  surfaceAlt:    color.surfaceLight,
-  surfaceMuted:  color.surfaceLight,
-  border:        color.borderLight,
-  borderSubtle:  color.borderLightSub,
-  borderFocus:   color.borderLightFoc,
-  textPrimary:   color.nearBlack,
-  textSecondary: color.charcoal,
-  textMuted:     color.stone,
-  textTertiary:  color.slate,
+  surfaceStrong: color.creamStrong,
+  surfaceAlt:    color.creamPanel,
+  surfaceMuted:  color.creamPanel,
+  border:        color.creamBorder,
+  borderSubtle:  color.creamBorderSub,
+  borderFocus:   color.indigo,
+  textPrimary:   color.warmDark,
+  textSecondary: color.warmMid,
+  textMuted:     color.warmFaint,
+  textTertiary:  color.warmFaintest,
   textInverse:   color.white,
-  primary:       color.blue,
-  primaryMuted:  color.blueMuted,
-  accent:        color.blue,
-  accentMuted:   color.blueMuted,
+  primary:       color.indigo,
+  primaryMuted:  color.indigoMuted,
+  accent:        color.indigo,
+  accentMuted:   color.indigoMuted,
   success:       color.green,
   successMuted:  color.greenDark,
   warning:       color.amber,
