@@ -70,7 +70,8 @@ export function AuthDarkField({
               ref={(instance: TextInput | null) => {
                 effectiveInputRef.current = instance ?? undefined;
               }}
-              style={{ flex: 1, minHeight: 36, color: theme.colors.textPrimary, fontSize: theme.colors.typography.sizes.md }}
+              f={1}
+              minHeight={36}
               placeholder={placeholder}
               placeholderTextColor={theme.colors.textMuted}
               value={value}

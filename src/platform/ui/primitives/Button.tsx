@@ -57,7 +57,7 @@ const LABEL_TONE: Record<ButtonVariant, React.ComponentProps<typeof Body>["tone"
   danger:    "danger",
 };
 
-export type ButtonProps = React.ComponentProps<typeof ButtonFrame> & {
+export type ButtonProps = Omit<React.ComponentProps<typeof ButtonFrame>, "style"> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
   label?: string;
@@ -70,18 +70,17 @@ export function Button({
   label,
   loading = false,
   children,
-  style,
   ...props
 }: ButtonProps) {
+  const { style: _style, ...rest } = props as ButtonProps & { style?: unknown };
   const tone = LABEL_TONE[variant];
 
   return (
     <ButtonFrame
       variant={variant}
       size={size}
-      {...props}
-      opacity={props.disabled || loading ? 0.45 : 1}
-      style={style}
+      {...rest}
+      opacity={rest.disabled || loading ? 0.45 : 1}
     >
       {loading
         ? <ActivityIndicator />

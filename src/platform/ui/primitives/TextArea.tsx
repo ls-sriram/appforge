@@ -1,6 +1,6 @@
 import { styled, useTheme } from "@tamagui/core";
 import React from "react";
-import { TextInput } from "react-native";
+import { StyleSheet, TextInput } from "react-native";
 
 const TextAreaFrame = styled(TextInput, {
   name: "TextArea",
@@ -13,9 +13,13 @@ const TextAreaFrame = styled(TextInput, {
   paddingHorizontal: "$4",
 });
 
-export function TextArea(props: React.ComponentProps<typeof TextInput> & { size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" }) {
+export type TextAreaProps = Omit<React.ComponentProps<typeof TextAreaFrame>, "style"> & {
+  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
+};
+
+export function TextArea(props: TextAreaProps) {
   const theme = useTheme();
-  const { style, size, ...rest } = props;
+  const { style: _style, size, ...rest } = props as TextAreaProps & { style?: unknown };
   const minHeight =
     size === "sm" ? 80 : size === "md" ? 100 : size === "xl" ? 160 : size === "2xl" ? 220 : size === "3xl" ? 260 : size === "4xl" ? 320 : 120;
   return (
@@ -24,8 +28,15 @@ export function TextArea(props: React.ComponentProps<typeof TextInput> & { size?
       textAlignVertical="top"
       placeholderTextColor={theme.textMuted.get()}
       minHeight={minHeight}
+      style={[styles.text, { color: theme.textPrimary.get() }]}
       {...rest}
-      style={[{ color: theme.textPrimary.get(), fontFamily: "System", fontSize: 15 }, style]}
     />
   );
 }
+
+const styles = StyleSheet.create({
+  text: {
+    fontFamily: "System",
+    fontSize: 15,
+  },
+});

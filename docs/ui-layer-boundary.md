@@ -64,6 +64,7 @@ Platform guarantee:
 - the primitive set is finite and platform-owned
 - allowed props and semantic variants are finite and platform-owned
 - shared helpers must preserve ordinary props and must not become a secondary styling language
+- raw `style` is not part of the supported primitive override surface
 
 Removed shared UI APIs:
 - `Block` and its prop/type system
@@ -149,6 +150,7 @@ Rules:
 - Use official Tamagui props and shorthands directly.
 - Prefer `YStack`, `XStack`, and other approved platform primitives for feature composition.
 - Do not introduce app- or repo-specific styling props such as `paint`, `frame`, `pad`, `between`, `spread`, or custom text tones/variants.
+- Do not pass raw `style` into platform primitives. If a layout or semantic need recurs, express it through existing primitive props, tokens, or a platform-owned primitive variant.
 - Named local components are allowed for pixel-specific geometry, accessibility, or rendering that Tamagui props do not express cleanly.
 - Feature-local wrappers may exist, but they should compose direct Tamagui primitives rather than recreate a parallel styling DSL.
 
@@ -209,6 +211,7 @@ External tooling may not treat the following as open-ended editing surfaces:
 - new theme schema keys
 - new variant families
 - arbitrary styling vocabularies outside the platform contract
+- raw per-element `style` overrides on platform primitives
 
 ## Out Of Scope For This Phase
 
@@ -223,5 +226,6 @@ The following are intentionally deferred:
 
 - `@ui` / `src/platform/ui/index.ts` is the only supported shared UI import surface.
 - Shared helpers must keep ordinary props. No repo-specific public styling DSL.
+- Public platform primitives must not accept `style` as an override escape hatch.
 - Architecture lint: `npm run lint:arch`
 - Type check: `npm run typecheck`

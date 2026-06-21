@@ -7,7 +7,7 @@
  * system, and can be referenced in *.stage.tsx files.
  *
  * Variant contracts (tone, size, variant, density) are the inspector's
- * editing vocabulary. Raw style props are escape hatches for one-offs.
+ * editing vocabulary. Keep blocks inside the platform's closed-form surface.
  */
 
 import React from "react";

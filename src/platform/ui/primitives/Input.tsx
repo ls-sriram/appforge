@@ -1,6 +1,6 @@
 import { styled, useTheme } from "@tamagui/core";
 import React from "react";
-import { TextInput } from "react-native";
+import { StyleSheet, TextInput } from "react-native";
 
 const InputFrame = styled(TextInput, {
   name: "Input",
@@ -13,16 +13,26 @@ const InputFrame = styled(TextInput, {
   paddingHorizontal: "$5",
 });
 
-export const Input = React.forwardRef<TextInput, React.ComponentProps<typeof TextInput>>(
+export type InputProps = Omit<React.ComponentProps<typeof InputFrame>, "style">;
+
+export const Input = React.forwardRef<TextInput, InputProps>(
   function Input(props, ref) {
     const theme = useTheme();
+    const { style: _style, ...rest } = props as InputProps & { style?: unknown };
     return (
       <InputFrame
         ref={ref}
         placeholderTextColor={theme.textMuted.get()}
-        style={{ color: theme.textPrimary.get(), fontFamily: "System", fontSize: 15 }}
-        {...props}
+        style={[styles.text, { color: theme.textPrimary.get() }]}
+        {...rest}
       />
     );
   },
 );
+
+const styles = StyleSheet.create({
+  text: {
+    fontFamily: "System",
+    fontSize: 15,
+  },
+});
