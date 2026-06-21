@@ -1,11 +1,19 @@
 import React from "react";
-import { Body, Heading, YStack } from "../../../platform/ui/index";
+import { Body, Heading, noopUi, type UiStamp, YStack } from "../../../platform/ui/index";
 
-export function OnboardingHeroBlock({ title, subtitle }: { title: string; subtitle?: string }) {
+export function OnboardingHeroBlock({
+  ui = noopUi,
+  title,
+  subtitle,
+}: {
+  ui?: UiStamp;
+  title: string;
+  subtitle?: string;
+}) {
   return (
-    <YStack gap="$2">
-      <Heading>{title}</Heading>
-      {subtitle ? <Body color="$textMuted">{subtitle}</Body> : null}
+    <YStack {...ui("root")} gap="$2">
+      <Heading {...ui("title")}>{title}</Heading>
+      {subtitle ? <Body {...ui("subtitle")} color="$textMuted">{subtitle}</Body> : null}
     </YStack>
   );
 }

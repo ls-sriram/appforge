@@ -35,7 +35,7 @@ export function OnboardingCarousel({
   const viewport = useViewport();
   const screenWidth = viewport.width;
   const [activeIndex, setActiveIndex] = useState(0);
-  const scrollRef = useRef<ScrollView>(null);
+  const scrollRef = useRef<React.ElementRef<typeof ScrollView>>(null);
 
   const handleScroll = useCallback(
     (e: any) => {

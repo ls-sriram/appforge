@@ -1,7 +1,8 @@
 import React from "react";
-import { Body, Button, View, YStack } from "../../../../platform/ui/index";
+import { Body, Button, noopUi, type UiStamp, View, YStack } from "../../../../platform/ui/index";
 
 interface AuthSubmitBlockProps {
+  ui?: UiStamp;
   label: string;
   loading: boolean;
   disabled?: boolean;
@@ -11,6 +12,7 @@ interface AuthSubmitBlockProps {
 }
 
 export function AuthSubmitBlock({
+  ui = noopUi,
   label,
   loading,
   disabled,
@@ -19,20 +21,21 @@ export function AuthSubmitBlock({
   testID,
 }: AuthSubmitBlockProps) {
   return (
-    <YStack gap="$3">
+    <YStack {...ui("root")} gap="$3">
       {generalError ? (
-        <View bg="$errorMuted" borderColor="$error" borderWidth={1} br="$2" p="$3">
-          <Body color="$error" fontSize="$2">{generalError}</Body>
+        <View {...ui("error-box")} bg="$errorMuted" borderColor="$error" borderWidth={1} br="$2" p="$3">
+          <Body {...ui("error-text")} color="$error" fontSize="$2">{generalError}</Body>
         </View>
       ) : null}
       <Button
+        {...ui("button")}
         onPress={onPress}
         disabled={disabled ?? loading}
         testID={testID}
         bg="$textPrimary"
         opacity={disabled ?? loading ? 0.45 : 1}
       >
-        <Body color="$textInverse" fontFamily="$bold">
+        <Body {...ui("label")} color="$textInverse" fontFamily="$bold">
           {loading ? "Loading..." : label}
         </Body>
       </Button>

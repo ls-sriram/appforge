@@ -21,11 +21,15 @@ export {
   config,
   ScrollView,
   Stack,
+  createUi,
+  noopUi,
 } from "../index";
 
 export type {
   BadgeTone,
   GetProps,
+  UiStamp,
+  UiStampAttrs,
   ProgressBarTone,
   SelectableChipSize,
   SelectableChipShape,

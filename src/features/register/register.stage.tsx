@@ -1,4 +1,5 @@
 import React from "react";
+import { createUi } from "../../platform/ui/index";
 import { RegisterSurface } from "./ui/RegisterSurface";
 import type { RegisterViewData } from "./RegisterController";
 
@@ -15,5 +16,5 @@ const MOCK: RegisterViewData = {
 };
 
 export function RegisterLayout() {
-  return <RegisterSurface data={MOCK} dispatch={() => {}} />;
+  return <RegisterSurface ui={createUi("register")} data={MOCK} dispatch={() => {}} />;
 }

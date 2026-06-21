@@ -1,22 +1,20 @@
 import React from "react";
 import { ViewProps } from "../../../platform/core/types";
-import { YStack } from "../../../platform/ui/index";
+import { noopUi, type UiStamp, YStack } from "../../../platform/ui/index";
 import { CenteredPageLayout } from "../../../platform/ui/layouts/index";
-import { AuthCard } from "../../auth/ui/blocks/AuthCard";
-import { AuthBrandBlock } from "../../auth/ui/blocks/AuthBrandBlock";
 import { AuthFieldBlock } from "../../auth/ui/blocks/AuthFieldBlock";
+import { AuthFormBlock } from "../../auth/ui/blocks/AuthFormBlock";
 import { AuthSubmitBlock } from "../../auth/ui/blocks/AuthSubmitBlock";
-import { AuthFooterLinks } from "../../auth/ui/blocks/AuthFooterLinks";
-import { AuthTermsBlock } from "../../auth/ui/blocks/AuthTermsBlock";
 import { RegisterAction, RegisterViewData } from "../RegisterController";
 import { app } from "../../../config/app";
 
 type Props = ViewProps<RegisterViewData, RegisterAction>;
 type RegisterSurfaceProps = Props & {
   submitDisabled?: boolean;
+  ui?: UiStamp;
 };
 
-export function RegisterSurface({ data, dispatch, submitDisabled }: RegisterSurfaceProps) {
+export function RegisterSurface({ ui = noopUi, data, dispatch, submitDisabled }: RegisterSurfaceProps) {
   const canSubmit =
     data.fullName.trim().length >= 2 &&
     data.email.trim().length > 0 &&
@@ -24,10 +22,19 @@ export function RegisterSurface({ data, dispatch, submitDisabled }: RegisterSurf
 
   return (
     <CenteredPageLayout>
-      <AuthCard>
-        <YStack gap="$4">
-          <AuthBrandBlock subtitle={app.copy.auth.registerSubtitle} />
+      <AuthFormBlock
+        ui={ui.scope("form")}
+        subtitle={app.copy.auth.registerSubtitle}
+        showTerms
+        footer={{
+          prompt: "Already have an account?",
+          linkLabel: "Log in",
+          onPress: () => dispatch({ type: "go_to_login" }),
+        }}
+      >
+        <YStack {...ui("fields")} gap="$4">
           <AuthFieldBlock
+            ui={ui.scope("name-field")}
             icon="user"
             placeholder="Full Name"
             value={data.fullName}
@@ -38,6 +45,7 @@ export function RegisterSurface({ data, dispatch, submitDisabled }: RegisterSurf
             testID="register-name-input"
           />
           <AuthFieldBlock
+            ui={ui.scope("email-field")}
             icon="mail"
             placeholder="Email"
             value={data.email}
@@ -49,6 +57,7 @@ export function RegisterSurface({ data, dispatch, submitDisabled }: RegisterSurf
             testID="register-email-input"
           />
           <AuthFieldBlock
+            ui={ui.scope("password-field")}
             icon="key"
             placeholder="Password"
             value={data.password}
@@ -59,6 +68,7 @@ export function RegisterSurface({ data, dispatch, submitDisabled }: RegisterSurf
             testID="register-password-input"
           />
           <AuthSubmitBlock
+            ui={ui.scope("submit")}
             label="Create an account →"
             loading={data.loading}
             disabled={data.loading || !canSubmit || submitDisabled === true}
@@ -66,14 +76,8 @@ export function RegisterSurface({ data, dispatch, submitDisabled }: RegisterSurf
             onPress={() => dispatch({ type: "submit" })}
             testID="register-submit-button"
           />
-          <AuthTermsBlock />
-          <AuthFooterLinks
-            prompt="Already have an account?"
-            linkLabel="Log in"
-            onPress={() => dispatch({ type: "go_to_login" })}
-          />
         </YStack>
-      </AuthCard>
+      </AuthFormBlock>
     </CenteredPageLayout>
   );
 }

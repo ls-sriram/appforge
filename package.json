@@ -12,6 +12,7 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "lint:ui": "node scripts/lint-ui-stamps.mjs",
     "test": "jest --watchman=false",
     "test:usecases": "jest --watchman=false --testPathPattern=\"src/features/.*/usecases/__tests__/.*\\.test\\.ts$\"",
     "test:viewmodel": "jest --watchman=false --testPathPattern=\"src/features/.*/viewmodel/__tests__/.*\\.test\\.ts$\"",

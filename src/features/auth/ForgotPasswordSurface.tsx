@@ -1,25 +1,30 @@
 import React from "react";
-import { YStack } from "../../platform/ui/index";
+import { Body, Button, noopUi, type UiStamp, YStack } from "../../platform/ui/index";
 import { CenteredPageLayout } from "../../platform/ui/layouts/index";
 import { ViewProps } from "../../platform/core/types";
-import { AuthCard } from "./ui/blocks/AuthCard";
-import { AuthBrandBlock } from "./ui/blocks/AuthBrandBlock";
 import { AuthFieldBlock } from "./ui/blocks/AuthFieldBlock";
+import { AuthFormBlock } from "./ui/blocks/AuthFormBlock";
 import { AuthSubmitBlock } from "./ui/blocks/AuthSubmitBlock";
-import { AuthBackBlock } from "./ui/blocks/AuthBackBlock";
 import { ForgotPasswordAction, ForgotPasswordViewData } from "./ForgotPasswordController";
 import { app } from "../../config/app";
 
 type Props = ViewProps<ForgotPasswordViewData, ForgotPasswordAction>;
 
-export function ForgotPasswordSurface({ data, dispatch }: Props) {
+type ForgotPasswordSurfaceProps = Props & {
+  ui?: UiStamp;
+};
+
+export function ForgotPasswordSurface({ ui = noopUi, data, dispatch }: ForgotPasswordSurfaceProps) {
   return (
     <CenteredPageLayout>
-      <YStack gap="$3">
-        <AuthCard>
-          <YStack gap="$4">
-            <AuthBrandBlock subtitle={app.copy.auth.forgotPasswordSubtitle} />
+      <YStack {...ui("root")} gap="$3">
+        <AuthFormBlock
+          ui={ui.scope("form")}
+          subtitle={app.copy.auth.forgotPasswordSubtitle}
+        >
+          <YStack {...ui("fields")} gap="$4">
             <AuthFieldBlock
+              ui={ui.scope("email-field")}
               icon="mail"
               placeholder="Email"
               value={data.email}
@@ -32,17 +37,23 @@ export function ForgotPasswordSurface({ data, dispatch }: Props) {
               error={data.emailError}
             />
             <AuthSubmitBlock
+              ui={ui.scope("submit")}
               label={app.copy.auth.forgotPasswordSubmitLabel}
               loading={data.loading}
               generalError={data.generalError}
               onPress={() => dispatch({ type: "submit" })}
             />
           </YStack>
-        </AuthCard>
-        <AuthBackBlock
-          label={app.copy.auth.forgotPasswordBackLabel}
+        </AuthFormBlock>
+        <Button
+          {...ui("back")}
           onPress={() => dispatch({ type: "go_to_login" })}
-        />
+          bg="$surfaceAlt"
+          borderWidth={1}
+          borderColor="$border"
+        >
+          <Body {...ui("back-label")}>{app.copy.auth.forgotPasswordBackLabel}</Body>
+        </Button>
       </YStack>
     </CenteredPageLayout>
   );

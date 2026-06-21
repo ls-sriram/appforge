@@ -1,4 +1,5 @@
 import React from "react";
+import { createUi } from "../../platform/ui/index";
 import { LoginSurface } from "./ui/LoginSurface";
 import type { LoginViewData } from "./LoginController";
 
@@ -13,5 +14,5 @@ const MOCK: LoginViewData = {
 };
 
 export function LoginLayout() {
-  return <LoginSurface data={MOCK} dispatch={() => {}} />;
+  return <LoginSurface ui={createUi("login")} data={MOCK} dispatch={() => {}} />;
 }

@@ -34,6 +34,8 @@ export type { ProgressBarTone } from "./primitives/ProgressBar";
 export { dialog } from "./primitives/dialog";
 export type { DialogButton } from "./primitives/dialog";
 export { linking } from "./primitives/linking";
+export { createUi, noopUi } from "./viz";
+export type { UiStamp, UiStampAttrs } from "./viz";
 
 export const Stack = View;
 export const YStack = styled(View, {

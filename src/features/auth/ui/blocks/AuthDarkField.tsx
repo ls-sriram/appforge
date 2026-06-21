@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import type { TextInput } from "react-native";
 import { useTheme } from "../../../../platform/theme/ThemeProvider";
-import { Icon, Input, View, XStack, YStack } from "../../../../platform/ui/index";
+import { Icon, Input, noopUi, type UiStamp, View, XStack, YStack } from "../../../../platform/ui/index";
 import type { IconName } from "../../../../platform/ui/index";
 
 export interface InputHandle {
@@ -9,6 +9,7 @@ export interface InputHandle {
 }
 
 interface AuthDarkFieldProps {
+  ui?: UiStamp;
   icon: IconName;
   placeholder: string;
   value: string;
@@ -26,6 +27,7 @@ interface AuthDarkFieldProps {
 }
 
 export function AuthDarkField({
+  ui = noopUi,
   icon,
   placeholder,
   value,
@@ -49,20 +51,23 @@ export function AuthDarkField({
 
   return (
     <YStack
+      {...ui("press-target")}
       onPress={() => effectiveInputRef.current?.focus()}
       cursor="text"
     >
       <View
+        {...ui("frame")}
         bg={hasError ? "$errorMuted" : "$surfaceStrong"}
         borderColor={hasError ? "$error" : "$border"}
         borderWidth={1}
         br="$3"
       >
-        <View px="$5" py="$3">
-          <XStack ai="center" gap="$3">
-            <Icon name={icon} size="lg" />
+        <View {...ui("padding")} px="$5" py="$3">
+          <XStack {...ui("row")} ai="center" gap="$3">
+            <Icon {...ui("icon")} name={icon} size="lg" />
             <Input
-              ref={(instance) => {
+              {...ui("input")}
+              ref={(instance: TextInput | null) => {
                 effectiveInputRef.current = instance ?? undefined;
               }}
               style={{ flex: 1, minHeight: 36, color: theme.colors.textPrimary, fontSize: theme.colors.typography.sizes.md }}
@@ -81,8 +86,12 @@ export function AuthDarkField({
               testID={testID}
             />
             {secureTextEntry ? (
-              <YStack onPress={() => setShowPassword((x) => !x)} pressStyle={{ opacity: 0.7 }}>
-                <Icon name="eye" size="lg" />
+              <YStack
+                {...ui("toggle")}
+                onPress={() => setShowPassword((x) => !x)}
+                pressStyle={{ opacity: 0.7 }}
+              >
+                <Icon {...ui("toggle-icon")} name="eye" size="lg" />
               </YStack>
             ) : null}
           </XStack>

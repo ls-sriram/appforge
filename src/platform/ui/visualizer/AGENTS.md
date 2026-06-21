@@ -45,13 +45,13 @@ Use `makeWrapped` by default. Switch to `makeWrappedInBox` only when the compone
 
 ## Each wrapper does three things
 
-1. Resolves a stable node ID: uses `__uiid` from props if provided, otherwise falls back to `React.useId()` auto-ID. `useId()` is always called before any early return to preserve hook order.
+1. Uses the explicit `__uiid` passed from layout/stage code.
 2. Looks up `propOverrides[__uiid]` from `VisualizerContext` and merges into the component's props.
 3. Stamps `data-uiid`, `data-viz-type`, `data-viz-selected`, and `onClick` so the DOM walk discovers nodes and CSS selection works.
 
-When `ctx.active === false` (outside the canvas), the wrapper is a passthrough — it renders `<RealComp {...rest} />` with no overhead.
+When `ctx.active === false` or `__uiid` is absent, the wrapper is a passthrough — it renders `<RealComp {...rest} />` with no overhead.
 
-**No `ui()` stamps are needed in stage files.** The `useId()` auto-ID is stable across re-renders as long as the component tree structure doesn't change. The DOM walk in `appforge-site/features/ui-visualizer/renderers/use-dom-document.ts` discovers all nodes automatically via `[data-uiid]` DOM queries.
+Stage/layout files must pass explicit stamps down through a `ui` helper parameter and spread them onto meaningful `src/ui` primitives as `{...ui("id")}`. The DOM walk only discovers nodes that are explicitly stamped.
 
 ---
 

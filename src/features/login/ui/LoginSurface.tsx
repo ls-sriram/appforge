@@ -1,29 +1,38 @@
 import React from "react";
 import type { TextInput } from "react-native";
 import { ViewProps } from "../../../platform/core/types";
-import { Body, YStack } from "../../../platform/ui/index";
+import { Body, Button, noopUi, type UiStamp, YStack } from "../../../platform/ui/index";
 import { CenteredPageLayout } from "../../../platform/ui/layouts/index";
-import { AuthCard } from "../../auth/ui/blocks/AuthCard";
-import { AuthInlineLinkBlock } from "../../auth/ui/blocks/AuthInlineLinkBlock";
-import { AuthBrandBlock } from "../../auth/ui/blocks/AuthBrandBlock";
 import { AuthFieldBlock } from "../../auth/ui/blocks/AuthFieldBlock";
+import { AuthFormBlock } from "../../auth/ui/blocks/AuthFormBlock";
 import { AuthSubmitBlock } from "../../auth/ui/blocks/AuthSubmitBlock";
-import { AuthFooterLinks } from "../../auth/ui/blocks/AuthFooterLinks";
-import { AuthTermsBlock } from "../../auth/ui/blocks/AuthTermsBlock";
 import { LoginAction, LoginViewData } from "../LoginController";
 import { app } from "../../../config/app";
 
 type Props = ViewProps<LoginViewData, LoginAction>;
 
-export function LoginSurface({ data, dispatch }: Props) {
+type LoginSurfaceProps = Props & {
+  ui?: UiStamp;
+};
+
+export function LoginSurface({ ui = noopUi, data, dispatch }: LoginSurfaceProps) {
   const passwordRef = React.useRef<TextInput | undefined>(undefined);
 
   return (
     <CenteredPageLayout>
-      <AuthCard>
-        <YStack gap="$4">
-          <AuthBrandBlock subtitle={app.copy.auth.loginSubtitle} />
+      <AuthFormBlock
+        ui={ui.scope("form")}
+        subtitle={app.copy.auth.loginSubtitle}
+        showTerms
+        footer={{
+          prompt: "Don't have an account yet?",
+          linkLabel: "Sign Up",
+          onPress: () => dispatch({ type: "go_to_register" }),
+        }}
+      >
+        <YStack {...ui("fields")} gap="$4">
           <AuthFieldBlock
+            ui={ui.scope("email-field")}
             icon="mail"
             placeholder="Email"
             value={data.email}
@@ -37,6 +46,7 @@ export function LoginSurface({ data, dispatch }: Props) {
             testID="email-input"
           />
           <AuthFieldBlock
+            ui={ui.scope("password-field")}
             inputRef={passwordRef}
             icon="key"
             placeholder="Password"
@@ -48,22 +58,26 @@ export function LoginSurface({ data, dispatch }: Props) {
             onSubmitEditing={() => dispatch({ type: "submit" })}
             testID="password-input"
           />
-          <AuthInlineLinkBlock label="Forgot Password?" onPress={() => dispatch({ type: "go_to_forgot_password" })} />
+          <Button
+            {...ui("forgot-link")}
+            onPress={() => dispatch({ type: "go_to_forgot_password" })}
+            bg="transparent"
+            alignSelf="flex-start"
+            p={0}
+            minHeight={0}
+          >
+            <Body {...ui("forgot-link-label")} color="$primary">Forgot Password?</Body>
+          </Button>
           <AuthSubmitBlock
+            ui={ui.scope("submit")}
             label="Login →"
             loading={data.loading}
             generalError={data.generalError}
             onPress={() => dispatch({ type: "submit" })}
             testID="submit-button"
           />
-          <AuthTermsBlock />
-          <AuthFooterLinks
-            prompt="Don't have an account yet?"
-            linkLabel="Sign Up"
-            onPress={() => dispatch({ type: "go_to_register" })}
-          />
         </YStack>
-      </AuthCard>
+      </AuthFormBlock>
     </CenteredPageLayout>
   );
 }

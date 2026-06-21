@@ -13,13 +13,16 @@ const InputFrame = styled(TextInput, {
   paddingHorizontal: "$5",
 });
 
-export function Input(props: React.ComponentProps<typeof TextInput>) {
-  const theme = useTheme();
-  return (
-    <InputFrame
-      placeholderTextColor={theme.textMuted.get()}
-      style={{ color: theme.textPrimary.get(), fontFamily: "System", fontSize: 15 }}
-      {...props}
-    />
-  );
-}
+export const Input = React.forwardRef<TextInput, React.ComponentProps<typeof TextInput>>(
+  function Input(props, ref) {
+    const theme = useTheme();
+    return (
+      <InputFrame
+        ref={ref}
+        placeholderTextColor={theme.textMuted.get()}
+        style={{ color: theme.textPrimary.get(), fontFamily: "System", fontSize: 15 }}
+        {...props}
+      />
+    );
+  },
+);

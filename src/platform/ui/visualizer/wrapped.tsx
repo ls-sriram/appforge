@@ -7,7 +7,7 @@
  * we don't need to maintain a shorthand-to-CSS translation table.
  *
  * Each wrapper:
- *   1. Reads __uiid from props (auto-stamped by makeWrapped via React.useId()).
+ *   1. Reads an explicit __uiid from props when provided.
  *   2. Looks up propOverrides[__uiid] from VisualizerContext.
  *   3. Merges overrides into the component's props (inspector → live update).
  *   4. Passes data-viz-selected and onClick — CSS handles the outline.
@@ -54,13 +54,12 @@ function makeWrapped<P extends AnyProps>(
 ) {
   function VisualizerWrapped({ __uiid: explicitId, ...rest }: P & { __uiid?: string }) {
     const ctx = useVisualizerContext();
-    const autoId = React.useId();
 
-    if (!ctx.active) {
+    if (!ctx.active || !explicitId) {
       return <RealComp {...(rest as P)} />;
     }
 
-    const __uiid = explicitId ?? autoId;
+    const __uiid = explicitId;
     const rawOverrides = ctx.propOverrides[__uiid] ?? {};
     const overrides = applyTextOverride(rawOverrides, textProp);
     const merged = { ...rest, ...overrides } as P;
@@ -91,13 +90,12 @@ function makeWrappedInBox<P extends AnyProps>(
 ) {
   function VisualizerWrapped({ __uiid: explicitId, ...rest }: P & { __uiid?: string }) {
     const ctx = useVisualizerContext();
-    const autoId = React.useId();
 
-    if (!ctx.active) {
+    if (!ctx.active || !explicitId) {
       return <RealComp {...(rest as P)} />;
     }
 
-    const __uiid = explicitId ?? autoId;
+    const __uiid = explicitId;
     const rawOverrides = ctx.propOverrides[__uiid] ?? {};
     const overrides = applyTextOverride(rawOverrides, textProp);
     const merged = { ...rest, ...overrides } as P;

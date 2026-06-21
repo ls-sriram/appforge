@@ -1,6 +1,6 @@
 import React from "react";
-import { Body } from "../../../platform/ui/index";
+import { Body, noopUi, type UiStamp } from "../../../platform/ui/index";
 
-export function OnboardingQuestionBlock({ text }: { text: string }) {
-  return <Body fontFamily="$bold">{text}</Body>;
+export function OnboardingQuestionBlock({ ui = noopUi, text }: { ui?: UiStamp; text: string }) {
+  return <Body {...ui("root")} fontFamily="$bold">{text}</Body>;
 }

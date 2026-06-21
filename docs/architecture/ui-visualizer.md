@@ -14,11 +14,12 @@ Every screen follows this structure:
 | Screen | `*.screen.tsx` | Data wiring — hooks, handlers, state, passes props to Layout |
 | Blocks | `src/blocks/` | Shared visual components reused across screens |
 
-Layout files are the unit the visualizer operates on. They must:
+Stage/layout files are the unit the visualizer operates on. They must:
 - Import only from `src/ui` and `src/blocks`.
 - Accept all text/labels/handlers as props with defaults.
 - Use semantic variant contracts (`tone`, `size`, `weight`, `variant`) instead of raw Tamagui token props.
-- Stamp every meaningful element with `ui("id", <Element />)` so the canvas and inspector share node IDs.
+- Accept a scoped `ui` parameter where composition needs to pass IDs deeper into child blocks.
+- Stamp every meaningful `src/ui` primitive with an explicit `{...ui("id")}` prop spread so the canvas and inspector share node IDs.
 
 ---
 
@@ -45,13 +46,16 @@ UiCanvasView
 
 ## Click-to-select — `data-uiid` DOM walk
 
-Every meaningful JSX element in a layout file is stamped with `ui("id", element)`:
+Every meaningful `src/ui` primitive in a visualizer stage/layout file is stamped with an explicit spread prop:
 
 ```tsx
-// src/ui/viz.ts
-export function ui(id: string, element: React.ReactElement): React.ReactElement {
-  return React.cloneElement(element, { __uiid: id, "data-uiid": id });
-}
+import { createUi } from "@ui";
+
+const ui = createUi("login");
+
+<YStack {...ui("root")} gap="$4">
+  <AuthBrandBlock ui={ui.scope("brand")} subtitle="Welcome back" />
+</YStack>
 ```
 
 The visualizer barrel's wrapped components receive `__uiid` and place `data-uiid` on their DOM element. On canvas click, `use-live-node-selection.ts` walks up the DOM from the click target looking for the nearest `data-uiid` attribute:
@@ -76,7 +80,7 @@ When `APP_ID=appforge-site`, `metro.config.js` aliases:
 src/ui/index.ts  →  src/ui/visualizer/index.ts
 ```
 
-This means every `import { Body, Button, ... } from '@app/ui'` in a layout file gets the wrapped version automatically — no source change required in layout files.
+This means every `import { Body, Button, ... } from '@app/ui'` in a layout file gets the wrapped version automatically. The layout source still needs to pass explicit `{...ui("id")}` props.
 
 The visualizer barrel (`src/ui/visualizer/index.ts`) re-exports the same runtime surface as `src/ui/index.ts` and overrides the primitives that need visualizer behavior with wrapped versions from `wrapped.tsx`.
 
@@ -93,7 +97,7 @@ Imports originating from within `src/ui/visualizer/` are excluded from the alias
 1. Reads `__uiid` from props.
 2. Looks up `ctx.propOverrides[__uiid]` and merges into the component's props (live inspector edits).
 3. Sets `data-viz-selected` and `onClick` for CSS selection outline and click handling.
-4. Falls through to `<RealComp {...rest} />` when `ctx.active === false`.
+4. Falls through to `<RealComp {...rest} />` when `ctx.active === false` or no explicit stamp is present.
 
 ---
 
@@ -149,7 +153,7 @@ node scripts/scan-ui-documents.mjs <app-id>
 
 ### ID assignment
 
-IDs are assigned sequentially (`${prefix}-${counter++}`) in DFS pre-order: a node's ID is assigned before its children are walked. The counter resets per file. IDs in layout `ui()` stamps must match the generated IDs exactly.
+IDs are explicit, stable string paths created by `createUi(prefix)` and nested with `ui.scope("segment")`. Prefer semantic paths such as `login.submit.button` over positional counters.
 
 ### Semantic prop whitelist (`VISUAL_PROPS`)
 
@@ -185,7 +189,7 @@ Selection state is expressed as a DOM attribute (`data-viz-selected="true"`), no
 
 1. Create `*.layout.tsx` using semantic props and default prop values.
 2. Run the scanner: `node scripts/scan-ui-documents.mjs <app-id>`.
-3. Add `ui("prefix-N", ...)` stamps to every meaningful element, using IDs from the generated document.
+3. Thread a scoped `ui` parameter through the stage/layout tree and add `{...ui("segment")}` to every meaningful `src/ui` primitive.
 4. Register the layout in `renderers/live-layout-registry.tsx`.
 5. Verify in the canvas: click each element and confirm the inspector shows the correct node.
 
@@ -195,7 +199,7 @@ Selection state is expressed as a DOM attribute (`data-viz-selected="true"`), no
 
 | Path | Role |
 |---|---|
-| `src/ui/viz.ts` | `ui()` stamper |
+| `src/platform/ui/viz.ts` | `createUi()` and `noopUi()` helpers |
 | `src/ui/visualizer-context.tsx` | `VisualizerProvider` and `useVisualizerContext` |
 | `src/ui/visualizer/index.ts` | Visualizer barrel |
 | `src/ui/visualizer/wrapped.tsx` | Wrapped primitive components |

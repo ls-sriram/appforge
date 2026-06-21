@@ -1,10 +1,18 @@
 import React from "react";
-import { Body, XStack } from "../../../platform/ui/index";
+import { Body, noopUi, type UiStamp, XStack } from "../../../platform/ui/index";
 
-export function OnboardingStepperBlock({ step, total }: { step: number; total: number }) {
+export function OnboardingStepperBlock({
+  ui = noopUi,
+  step,
+  total,
+}: {
+  ui?: UiStamp;
+  step: number;
+  total: number;
+}) {
   return (
-    <XStack ai="center" jc="space-between">
-      <Body fontSize="$2" color="$textMuted">Step {step} of {total}</Body>
+    <XStack {...ui("root")} ai="center" jc="space-between">
+      <Body {...ui("label")} fontSize="$2" color="$textMuted">Step {step} of {total}</Body>
     </XStack>
   );
 }
