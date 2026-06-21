@@ -1,5 +1,6 @@
 import { createTamagui, createFont, createTokens } from '@tamagui/core'
 import { createAnimations } from '@tamagui/animations-react-native'
+import type { Theme as PlatformTheme } from '../theme'
 
 const animations = createAnimations({
   fast:   { type: 'spring', damping: 20, mass: 1.2, stiffness: 250 },
@@ -302,10 +303,46 @@ export const resolvedLightTheme: Record<string, string> = {
 }
 
 // ── Config ────────────────────────────────────────────────────────────────────
-export const config = createTamagui({
+function createRuntimeTheme(theme: PlatformTheme) {
+  return {
+    bg: theme.colors.bg,
+    surface: theme.colors.surface,
+    surfaceStrong: theme.colors.surfaceStrong,
+    surfaceAlt: theme.colors.surfaceAlt,
+    surfaceMuted: theme.colors.surfaceMuted,
+    border: theme.colors.border,
+    borderSubtle: theme.colors.borderSubtle,
+    borderFocus: theme.colors.borderFocus,
+    textPrimary: theme.colors.textPrimary,
+    textSecondary: theme.colors.textSecondary,
+    textMuted: theme.colors.textMuted,
+    textTertiary: theme.colors.textTertiary,
+    textInverse: theme.colors.textInverse,
+    colorFaint: theme.colors.textMuted,
+    colorSoft: theme.colors.textSecondary,
+    colorTertiary: theme.colors.textTertiary,
+    colorInverse: theme.colors.textPrimary,
+    primary: theme.colors.primary,
+    primaryMuted: theme.colors.primaryMuted,
+    accent: theme.colors.accent,
+    accentMuted: theme.colors.accentMuted,
+    success: theme.colors.success,
+    successMuted: theme.colors.successMuted,
+    warning: theme.colors.warning,
+    warningMuted: theme.colors.warningMuted,
+    error: theme.colors.error,
+    errorMuted: theme.colors.errorMuted,
+    info: theme.colors.info,
+    infoMuted: theme.colors.infoMuted,
+    chipBg: theme.colors.surfaceAlt,
+    chipBorder: theme.colors.border,
+    scrim: 'rgba(5,10,18,0.64)',
+  } as const
+}
+
+const baseConfig = {
   animations,
   tokens,
-  themes: { dark: darkTheme, light: lightTheme },
   fonts: {
     reg:  makeFont('500'),
     bold: makeFont('700'),
@@ -346,6 +383,22 @@ export const config = createTamagui({
     defaultFont: 'reg',
     styleCompat: 'legacy',
   },
+} as const
+
+export function createConfigForTheme(theme: PlatformTheme) {
+  const runtimeTheme = createRuntimeTheme(theme)
+  return createTamagui({
+    ...baseConfig,
+    themes: {
+      dark: runtimeTheme,
+      light: runtimeTheme,
+    },
+  })
+}
+
+export const config = createTamagui({
+  ...baseConfig,
+  themes: { dark: darkTheme, light: lightTheme },
 })
 
 export type AppConfig = typeof config

@@ -14,6 +14,7 @@
  */
 import React from "react";
 import { useVisualizerContext } from "../visualizer-context";
+import { clearNodeSnapshot, setNodeSnapshot } from "./node-snapshots";
 import {
   Body as RealBody,
   Heading as RealHeading,
@@ -33,6 +34,43 @@ import {
 } from "../index";
 
 type AnyProps = Record<string, unknown>;
+
+const SNAPSHOT_KEYS = [
+  "bg", "color", "borderColor", "borderWidth", "br",
+  "p", "px", "py", "pt", "pb", "pl", "pr",
+  "m", "mt", "mb", "ml", "mr",
+  "gap", "ai", "jc", "f", "flexWrap", "flexShrink",
+  "w", "h", "maxWidth", "minWidth", "maxHeight", "minHeight",
+  "fontFamily", "fontSize", "ta", "tt", "letterSpacing", "opacity",
+  "tone", "size", "weight", "variant", "placeholder", "selected",
+  "initials", "value", "total", "icon", "label",
+] as const;
+
+function snapshotProps(
+  type: string,
+  props: AnyProps,
+  textProp?: "children" | "label",
+): Record<string, unknown> {
+  const next: Record<string, unknown> = {};
+
+  for (const key of SNAPSHOT_KEYS) {
+    if (props[key] !== undefined) next[key] = props[key];
+  }
+
+  if (type === "Icon" && props.name !== undefined) {
+    next.icon = props.name;
+  }
+
+  if (textProp === "label" && typeof props.label === "string") {
+    next.text = props.label;
+  }
+
+  if (textProp === "children" && typeof props.children === "string") {
+    next.text = props.children;
+  }
+
+  return next;
+}
 
 // Applies a `text` override from the inspector to the correct prop the real
 // component uses for content: `children` for text primitives, `label` for
@@ -62,6 +100,14 @@ function makeWrapped<P extends AnyProps>(
     const rawOverrides = ctx.propOverrides[__uiid] ?? {};
     const overrides = applyTextOverride(rawOverrides, textProp);
     const merged = { ...rest, ...overrides } as P;
+
+    React.useLayoutEffect(() => {
+      setNodeSnapshot(__uiid, {
+        type: displayName,
+        props: snapshotProps(displayName, merged, textProp),
+      });
+      return () => clearNodeSnapshot(__uiid);
+    }, [__uiid, merged]);
 
     const vizProps: AnyProps = {
       "data-viz-type": displayName,
@@ -99,6 +145,14 @@ function makeWrappedInBox<P extends AnyProps>(
     const overrides = applyTextOverride(rawOverrides, textProp);
     const merged = { ...rest, ...overrides } as P;
     const isSelected = __uiid === ctx.selectedNodeId;
+
+    React.useLayoutEffect(() => {
+      setNodeSnapshot(__uiid, {
+        type: displayName,
+        props: snapshotProps(displayName, merged, textProp),
+      });
+      return () => clearNodeSnapshot(__uiid);
+    }, [__uiid, merged]);
 
     return (
       // @ts-ignore — div is web-only; this barrel only runs on web

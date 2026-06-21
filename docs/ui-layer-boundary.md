@@ -87,6 +87,7 @@ Definition:
 Application:
 - overrides are applied through `applyThemeOverride(baseTheme, override)`
 - `ThemeProvider` accepts `override` and re-derives platform shapes from the overridden theme
+- `UIProvider` must derive its active Tamagui theme from the same overridden platform theme so `$surface`, `$border`, `$primary`, and related primitive tokens stay aligned with platform theme consumers
 - overrides change values only; they do not extend the schema
 
 Allowed:
