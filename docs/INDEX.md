@@ -16,6 +16,7 @@
 - `docs/architecture/dependency-rules.md`
 - `docs/architecture/providers.md`
 - `docs/ui-layer-boundary.md`
+- `docs/platform-ui-changelog.md`
 
 ## Decisions (Durable)
 

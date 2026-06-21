@@ -162,10 +162,18 @@ Feature guarantee:
 This repository keeps the shared visualizer-aware UI support, but not the prototype site that hosted the full visualizer product.
 
 Rules:
-- Visualizer-participating stage/layout files should create a scope with `createUi(prefix)` and thread `ui` through child blocks as needed.
+- Visualizer-participating stage/layout files should create a root scope with `createUi(prefix)` and thread `ui` through child blocks as needed.
 - Every meaningful shared primitive that should be discoverable by the visualizer must be stamped with `{...ui("id")}`.
+- Downstream code should not hand-roll `data-uiid`; IDs should always come from the `ui` helper.
 - Wrapped visualizer primitives read `__uiid`, write `data-uiid` to the DOM, and use that ID for click-to-select and inspector overrides.
 - Reusable blocks should default `ui` to `noopUi` so they render normally outside visualizer-aware surfaces.
+
+Root-level naming:
+- the top-level rendered surface chooses a unique root prefix such as `login`, `register`, `forgot-password`, or `onboarding`
+- child blocks derive nested namespaces through `ui.scope("segment")`
+- leaf elements use local stamps like `ui("submit")`
+- the effective UI ID is hierarchical, so uniqueness comes from the full scoped path rather than from globally unique leaf names
+- sibling roots must not reuse the same root prefix within the same rendered tree
 
 Platform-side responsibility:
 - provide stable identity and inspectable rendered nodes
