@@ -8,6 +8,7 @@
  */
 
 import { createTheme } from "./factory";
+import type { DeepPartial, ThemeDefinition, ThemeOverride } from "./contracts";
 
 // ─── This App's Brand ──────────────────────────────────────────────
 // Change these to rebrand. Every other color is derived from them.
@@ -20,6 +21,8 @@ const BRAND = {
   error: "#F87171",
   info: "#22D3EE",
 };
+
+export const defaultBrand = BRAND;
 
 // ─── Generated Theme ───────────────────────────────────────────────
 // Base from factory (dark: true generates structure), then override
@@ -56,13 +59,13 @@ export const tokens = {
   },
 } as ReturnType<typeof createTheme>;
 
-type Tokens = ReturnType<typeof createTheme>;
+type Tokens = ThemeDefinition;
 
 // ─── Re-exports for backwards compatibility ────────────────────────
 
 export const { colors } = tokens;
 
-// ─── Semantic builders (shapes/surfaces from any token set) ────────
+// ─── Semantic builders (shapes from any token set) ──────────────────
 // Extracted so per-app themes can re-derive component shapes from
 // their own (e.g. dark/branded) color tokens instead of inheriting the
 // default light palette. `createAppTheme()` below consumes these.
@@ -175,7 +178,7 @@ function buildShapes(tokens: Tokens) {
     md: { width: 40, height: 40, borderRadius: tokens.colors.radii.full, fontSize: 14 },
     lg: { width: 56, height: 56, borderRadius: tokens.colors.radii.full, fontSize: 20 },
     xl: { width: 80, height: 80, borderRadius: tokens.colors.radii.full, fontSize: 28 },
-    "2xl": { width: 120, height: 120, borderRadius: tokens.colors.radii.full, fontSize: 42 },
+    xl2: { width: 120, height: 120, borderRadius: tokens.colors.radii.full, fontSize: 42 },
   },
 
   badge: {
@@ -249,64 +252,80 @@ function buildShapes(tokens: Tokens) {
   } as const;
 }
 
-function buildSurfaces(tokens: Tokens, shapes: ReturnType<typeof buildShapes>) {
-  return {
-  authPage: {
-    backgroundColor: tokens.colors.bg,
-    minHeight: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: tokens.colors.space.lg,
-  },
-  card: shapes.card,
-  contentMaxWidth: tokens.colors.layout.maxContentWidth,
-  page: {
-    backgroundColor: tokens.colors.bg,
-    minHeight: "100%",
-  },
-  onboardingPage: {
-    backgroundColor: tokens.colors.bg,
-    minHeight: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: tokens.colors.space.xl,
-  },
-  } as const;
-}
-
-// ─── Default app theme (light brand) ───────────────────────────────
-
 export const shapes = buildShapes(tokens);
-export const surfaces = buildSurfaces(tokens, shapes);
 
 export type Theme = typeof tokens & {
   shapes: ReturnType<typeof buildShapes>;
-  surfaces: ReturnType<typeof buildSurfaces>;
 };
 
 export const theme: Theme = {
   ...tokens,
   shapes,
-  surfaces,
 };
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function mergeDefined<T>(base: T, override?: DeepPartial<T>): T {
+  if (override === undefined) return base;
+
+  if (!isPlainObject(base) || !isPlainObject(override)) {
+    return override as T;
+  }
+
+  const merged: Record<string, unknown> = { ...base as Record<string, unknown> };
+  const overrideRecord = override as Record<string, unknown>;
+
+  for (const key of Object.keys(overrideRecord)) {
+    const overrideValue = overrideRecord[key];
+    if (overrideValue === undefined) continue;
+    const baseValue = merged[key];
+    merged[key] = isPlainObject(baseValue) && isPlainObject(overrideValue)
+      ? mergeDefined(baseValue, overrideValue as DeepPartial<typeof baseValue>)
+      : overrideValue;
+  }
+
+  return merged as T;
+}
+
+function buildThemeFromTokens(nextTokens: Tokens): Theme {
+  const nextShapes = buildShapes(nextTokens);
+  return {
+    ...nextTokens,
+    shapes: nextShapes,
+  };
+}
+
+export function applyThemeOverride(baseTheme: Theme, override?: ThemeOverride): Theme {
+  if (!override?.colors) return baseTheme;
+
+  const nextTokens: Tokens = {
+    ...baseTheme,
+    colors: mergeDefined(baseTheme.colors, override.colors),
+  };
+
+  return buildThemeFromTokens(nextTokens);
+}
 
 // ─── Per-app theming ───────────────────────────────────────────────
 // Build a complete Theme from brand options plus optional raw color
-// overrides (e.g. a true dark palette). Component shapes/surfaces are
+// overrides (e.g. a true dark palette). Component shapes are
 // re-derived from the overridden tokens, so Buttons/Badges/Panels all
 // recolor correctly — this is the "edit design globally" primitive.
 
 export function createAppTheme(
   options: Parameters<typeof createTheme>[0],
-  colorOverrides?: Partial<Tokens["colors"]>,
+  override?: ThemeOverride,
 ): Theme {
   const base = createTheme(options);
-  const merged: Tokens = colorOverrides
-    ? { ...base, colors: { ...base.colors, ...colorOverrides } }
-    : base;
-  const appShapes = buildShapes(merged);
-  const appSurfaces = buildSurfaces(merged, appShapes);
-  return { ...merged, shapes: appShapes, surfaces: appSurfaces };
+  return applyThemeOverride(buildThemeFromTokens(base), override);
 }
 
 export { createTheme } from "./factory";
+export type {
+  ThemeColorDefinition,
+  ThemeColorOverride,
+  ThemeDefinition,
+  ThemeOverride,
+} from "./contracts";

@@ -15,7 +15,7 @@
 - `docs/architecture/invariants.md`
 - `docs/architecture/dependency-rules.md`
 - `docs/architecture/providers.md`
-- `docs/architecture/building-blocks.md`
+- `docs/ui-layer-boundary.md`
 
 ## Decisions (Durable)
 

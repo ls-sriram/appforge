@@ -20,7 +20,6 @@ export {
   UIProvider,
   config,
   ScrollView,
-  Stack,
   createUi,
   noopUi,
 } from "../index";
@@ -47,7 +46,6 @@ export {
   Label,
   Display,
   Button,
-  View,
   YStack,
   XStack,
   Tag,

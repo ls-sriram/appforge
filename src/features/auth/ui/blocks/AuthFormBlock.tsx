@@ -1,5 +1,5 @@
 import React from "react";
-import { Body, Heading, Icon, Label, noopUi, type UiStamp, View, XStack, YStack } from "../../../../platform/ui/index";
+import { Body, Heading, Icon, Label, noopUi, type UiStamp, XStack, YStack } from "../../../../platform/ui/index";
 import { app } from "../../../../config/app";
 
 type AuthFormFooter = {
@@ -24,7 +24,7 @@ export function AuthFormBlock({
   footer,
 }: AuthFormBlockProps) {
   return (
-    <View {...ui("card")} bg="$surface" borderWidth={1} borderColor="$borderSubtle" br="$4" p="$5">
+    <YStack {...ui("card")} bg="$surface" borderWidth={1} borderColor="$borderSubtle" br="$4" p="$5">
       <YStack {...ui("content")} gap="$4">
         <YStack {...ui("brand")} gap="$3" ai="center">
           <XStack {...ui("brand-row")} ai="center" gap="$3">
@@ -51,6 +51,6 @@ export function AuthFormBlock({
           </XStack>
         ) : null}
       </YStack>
-    </View>
+    </YStack>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Body, Button, noopUi, type UiStamp, View, YStack } from "../../../../platform/ui/index";
+import { Body, Button, noopUi, type UiStamp, YStack } from "../../../../platform/ui/index";
 
 interface AuthSubmitBlockProps {
   ui?: UiStamp;
@@ -23,9 +23,9 @@ export function AuthSubmitBlock({
   return (
     <YStack {...ui("root")} gap="$3">
       {generalError ? (
-        <View {...ui("error-box")} bg="$errorMuted" borderColor="$error" borderWidth={1} br="$2" p="$3">
+        <YStack {...ui("error-box")} bg="$errorMuted" borderColor="$error" borderWidth={1} br="$2" p="$3">
           <Body {...ui("error-text")} color="$error" fontSize="$2">{generalError}</Body>
-        </View>
+        </YStack>
       ) : null}
       <Button
         {...ui("button")}

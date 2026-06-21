@@ -20,7 +20,6 @@ import {
   Label as RealLabel,
   Display as RealDisplay,
   Button as RealButton,
-  View as RealView,
   YStack as RealYStack,
   XStack as RealXStack,
   Tag as RealTag,
@@ -124,7 +123,6 @@ export const Heading = makeWrapped(RealHeading, "Heading", "children");
 export const Label   = makeWrapped(RealLabel,   "Label",   "children");
 export const Display = makeWrapped(RealDisplay, "Display", "children");
 export const Button  = makeWrappedInBox(RealButton, "Button", "label");
-export const View    = makeWrapped(RealView,    "View");
 export const YStack  = makeWrapped(RealYStack,  "YStack");
 export const XStack  = makeWrapped(RealXStack,  "XStack");
 export const Tag     = makeWrapped(RealTag,     "Tag");

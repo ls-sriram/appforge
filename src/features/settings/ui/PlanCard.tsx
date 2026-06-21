@@ -3,7 +3,7 @@
  */
 
 import React from "react";
-import { Body, Button, Heading, Icon, View, XStack, YStack } from "../../../platform/ui/index";
+import { Body, Button, Heading, Icon, XStack, YStack } from "../../../platform/ui/index";
 import type { Plan } from "../services/user-profile.service";
 
 export interface PlanCardProps {
@@ -47,7 +47,7 @@ export function PlanCard({ plan, onUpgrade }: PlanCardProps) {
   const badgeColor = plan?.status === "past_due" ? "$warning" : "$success";
 
   return (
-    <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$4" overflow="hidden" p="$4">
+    <YStack bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$4" overflow="hidden" p="$4">
       <YStack gap="$3">
         <XStack ai="flex-start" jc="space-between" gap="$4">
           <YStack gap="$2" f={1}>
@@ -58,9 +58,9 @@ export function PlanCard({ plan, onUpgrade }: PlanCardProps) {
               <Heading fontSize="$4">
                 {PLAN_LABELS[name]}
               </Heading>
-              <View bg={badgeBg} br={9999} px="$3" py={4}>
+              <XStack bg={badgeBg} br={9999} px="$3" py={4} ai="center">
                 <Body color={badgeColor} fontSize="$1" fontFamily="$bold">{statusLabel}</Body>
-              </View>
+              </XStack>
             </XStack>
             <Body fontSize="$2" color="$textSecondary">
               {name === "pro"
@@ -77,16 +77,14 @@ export function PlanCard({ plan, onUpgrade }: PlanCardProps) {
         </XStack>
 
         {plan?.expiresAt ? (
-          <View bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" px="$3" py="$2">
-              <XStack ai="center" gap="$2">
-                <Icon name="calendar" size="sm" tone={name === "pro" ? "brand" : name === "trial" ? "warning" : "muted"} />
-                <Body fontSize="$1" color="$textSecondary">
-                  {plan.cancelAtPeriodEnd ? "Access ends" : "Renews"} {formatDate(plan.expiresAt)}
-                </Body>
-              </XStack>
-          </View>
+          <XStack bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" px="$3" py="$2" ai="center" gap="$2">
+            <Icon name="calendar" size="sm" tone={name === "pro" ? "brand" : name === "trial" ? "warning" : "muted"} />
+            <Body fontSize="$1" color="$textSecondary">
+              {plan.cancelAtPeriodEnd ? "Access ends" : "Renews"} {formatDate(plan.expiresAt)}
+            </Body>
+          </XStack>
         ) : null}
       </YStack>
-    </View>
+    </YStack>
   );
 }

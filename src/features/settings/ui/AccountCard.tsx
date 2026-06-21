@@ -2,7 +2,7 @@
  * AccountCard — account metadata (member since, last login).
  */
 import React from "react";
-import { Body, Icon, View, XStack, YStack } from "../../../platform/ui/index";
+import { Body, Icon, XStack, YStack } from "../../../platform/ui/index";
 import { dateOwner } from "../../../platform/core/dates";
 
 export interface AccountCardProps {
@@ -34,15 +34,15 @@ function formatRelative(iso?: string): string {
 
 export function AccountCard({ createdAt, lastLoginAt }: AccountCardProps) {
   return (
-    <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$3" p="$4">
+    <YStack bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$3" p="$4">
       <YStack gap="$3">
         <Body fontSize="$1" color="$textMuted">
           Account Details
         </Body>
 
         <XStack gap="$3">
-          <View f={1}>
-            <View bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" p="$3">
+          <YStack f={1}>
+            <YStack bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" p="$3">
               <YStack gap="$2">
                 <XStack ai="center" gap="$2">
                   <Icon name="calendar" size="md" tone="muted" />
@@ -52,11 +52,11 @@ export function AccountCard({ createdAt, lastLoginAt }: AccountCardProps) {
                 </XStack>
                 <Body fontSize="$2" color="$primary">{formatDate(createdAt)}</Body>
               </YStack>
-            </View>
-          </View>
+            </YStack>
+          </YStack>
 
-          <View f={1}>
-            <View bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" p="$3">
+          <YStack f={1}>
+            <YStack bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" p="$3">
               <YStack gap="$2">
                 <XStack ai="center" gap="$2">
                   <Icon name="activity" size="md" tone="muted" />
@@ -66,10 +66,10 @@ export function AccountCard({ createdAt, lastLoginAt }: AccountCardProps) {
                 </XStack>
                 <Body fontSize="$2" color="$primary">{formatRelative(lastLoginAt)}</Body>
               </YStack>
-            </View>
-          </View>
+            </YStack>
+          </YStack>
         </XStack>
       </YStack>
-    </View>
+    </YStack>
   );
 }

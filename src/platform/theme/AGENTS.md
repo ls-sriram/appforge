@@ -1,8 +1,8 @@
-# AGENTS.md for src/theme
+# AGENTS.md for src/platform/theme
 
 ## Scope
 
-- Applies to `src/theme/**`.
+- Applies to `src/platform/theme/**`.
 
 ## Responsibility
 

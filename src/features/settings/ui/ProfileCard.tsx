@@ -9,7 +9,7 @@
  */
 
 import React from "react";
-import { Body, Heading, Icon, View, XStack, YStack } from "../../../platform/ui/index";
+import { Body, Heading, Icon, XStack, YStack } from "../../../platform/ui/index";
 
 export interface ProfileCardProps {
   name?: string;
@@ -42,10 +42,10 @@ export function ProfileCard({
     .slice(0, 2)
     .toUpperCase();
   const content = (
-    <View bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$4" overflow="hidden" p="$4">
+    <YStack bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$4" overflow="hidden" p="$4">
       <XStack ai="center" jc="space-between" gap="$4">
         <XStack ai="center" gap="$4" f={1} minWidth={0}>
-          <View
+          <YStack
             w={size === "sm" ? 32 : size === "md" ? 40 : 56}
             h={size === "sm" ? 32 : size === "md" ? 40 : 56}
             br={9999}
@@ -54,7 +54,7 @@ export function ProfileCard({
             jc="center"
           >
             <Body color="$primary" fontFamily="$bold">{initials}</Body>
-          </View>
+          </YStack>
           <YStack gap={2} f={1} minWidth={0}>
             <Heading fontSize="$4" numberOfLines={1}>
               {name || "Anonymous"}
@@ -71,7 +71,7 @@ export function ProfileCard({
         </XStack>
         {onPress ? <Icon name="chevron-right" size="xl" tone="muted" /> : null}
       </XStack>
-    </View>
+    </YStack>
   );
 
   if (onPress) {

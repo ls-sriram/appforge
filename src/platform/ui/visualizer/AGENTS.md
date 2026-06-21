@@ -1,28 +1,26 @@
-# AGENTS.md — `src/ui/visualizer`
+# AGENTS.md — `src/platform/ui/visualizer`
 
 ## Scope
 
-Applies to `src/ui/visualizer/**`.
+Applies to `src/platform/ui/visualizer/**`.
 
 ## Purpose
 
-The visualizer barrel is a build-time swap for `src/ui/index.ts` that makes every UI primitive visualizer-aware. It is active only when `APP_ID=appforge-site` (controlled by `metro.config.js`).
+The visualizer barrel in this repo provides the shared visualizer-aware UI wrappers and ID stamping contract used by external visualizer consumers.
 
-Architecture doc: `docs/architecture/ui-visualizer.md`
+Architecture doc: `docs/ui-layer-boundary.md`
 
 ---
 
 ## Barrel swap — how it works
 
-`metro.config.js` aliases `src/ui/index.ts` → `src/ui/visualizer/index.ts` for all imports that do **not** originate inside `src/ui/visualizer/` itself. This prevents a circular import: the visualizer barrel imports the real barrel, so the real barrel must not be aliased when resolved from within the visualizer dir.
-
-`src/ui/visualizer/index.ts` re-exports everything from the real barrel, then overrides specific exports with wrapped versions from `wrapped.tsx`.
+`src/platform/ui/visualizer/index.ts` re-exports the real barrel and overrides specific exports with wrapped versions from `wrapped.tsx`.
 
 ---
 
 ## wrapped.tsx — two wrapper factories
 
-**`makeWrapped`** — for Tamagui `styled(Stack)` components (YStack, XStack, View, Body, Heading, Label, Display, Tag). These forward `data-*` props through to the DOM natively.
+**`makeWrapped`** — for Tamagui `styled(Stack)` components (YStack, XStack, Body, Heading, Label, Display, Tag). These forward `data-*` props through to the DOM natively.
 
 ```tsx
 // Passes data-uiid, data-viz-selected, onClick directly on the component.
@@ -51,13 +49,13 @@ Use `makeWrapped` by default. Switch to `makeWrappedInBox` only when the compone
 
 When `ctx.active === false` or `__uiid` is absent, the wrapper is a passthrough — it renders `<RealComp {...rest} />` with no overhead.
 
-Stage/layout files must pass explicit stamps down through a `ui` helper parameter and spread them onto meaningful `src/ui` primitives as `{...ui("id")}`. The DOM walk only discovers nodes that are explicitly stamped.
+Stage/layout files must pass explicit stamps down through a `ui` helper parameter and spread them onto meaningful shared UI primitives as `{...ui("id")}`. The DOM walk only discovers nodes that are explicitly stamped.
 
 ---
 
 ## visualizer-context.tsx
 
-Lives at `src/ui/visualizer-context.tsx` (not inside the visualizer dir, so it can be imported by both the real barrel consumers and the visualizer barrel without triggering the metro alias).
+Lives at `src/platform/ui/visualizer-context.tsx`.
 
 Provides: `active`, `selectedNodeId`, `onSelect`, `propOverrides`.
 
@@ -66,7 +64,7 @@ Provides: `active`, `selectedNodeId`, `onSelect`, `propOverrides`.
 ## Do not
 
 - Add business logic or state to wrapped components.
-- Import from `src/apps/**` or any feature layer.
+- Import from feature layers or app-specific code.
 - Use `style` prop mixing with Tamagui shorthands — use `data-viz-selected` CSS attribute for selection outline.
 - Re-implement Tamagui's prop normalization — pass all props through to the real component unchanged, then layer viz concerns around it.
 - Add `makeWrappedInBox` for a component without first confirming its root element strips `data-*` from the DOM.

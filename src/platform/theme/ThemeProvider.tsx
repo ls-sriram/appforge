@@ -11,7 +11,7 @@
  */
 
 import React, { createContext, useContext, ReactNode } from "react";
-import { theme as defaultTheme, Theme } from "./index";
+import { applyThemeOverride, theme as defaultTheme, Theme, ThemeOverride } from "./index";
 
 // ─── Context ────────────────────────────────────────────────────
 
@@ -22,11 +22,17 @@ const ThemeContext = createContext<Theme>(defaultTheme);
 export function ThemeProvider({
   children,
   value = defaultTheme,
+  override,
 }: {
   children: ReactNode;
   value?: Theme;
+  override?: ThemeOverride;
 }) {
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={applyThemeOverride(value, override)}>
+      {children}
+    </ThemeContext.Provider>
+  );
 }
 
 // ─── Hook ───────────────────────────────────────────────────────

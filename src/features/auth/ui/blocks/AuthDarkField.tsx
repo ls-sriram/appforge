@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import type { TextInput } from "react-native";
 import { useTheme } from "../../../../platform/theme/ThemeProvider";
-import { Icon, Input, noopUi, type UiStamp, View, XStack, YStack } from "../../../../platform/ui/index";
+import { Icon, Input, noopUi, type UiStamp, XStack, YStack } from "../../../../platform/ui/index";
 import type { IconName } from "../../../../platform/ui/index";
 
 export interface InputHandle {
@@ -55,14 +55,14 @@ export function AuthDarkField({
       onPress={() => effectiveInputRef.current?.focus()}
       cursor="text"
     >
-      <View
+      <YStack
         {...ui("frame")}
         bg={hasError ? "$errorMuted" : "$surfaceStrong"}
         borderColor={hasError ? "$error" : "$border"}
         borderWidth={1}
         br="$3"
       >
-        <View {...ui("padding")} px="$5" py="$3">
+        <YStack {...ui("padding")} px="$5" py="$3">
           <XStack {...ui("row")} ai="center" gap="$3">
             <Icon {...ui("icon")} name={icon} size="lg" />
             <Input
@@ -95,8 +95,8 @@ export function AuthDarkField({
               </YStack>
             ) : null}
           </XStack>
-        </View>
-      </View>
+        </YStack>
+      </YStack>
     </YStack>
   );
 }

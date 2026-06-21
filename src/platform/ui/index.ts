@@ -3,7 +3,6 @@ import { ScrollView as RNScrollView } from "react-native";
 
 export {
   Text,
-  View,
   Theme,
   styled,
   useTheme,
@@ -37,7 +36,6 @@ export { linking } from "./primitives/linking";
 export { createUi, noopUi } from "./viz";
 export type { UiStamp, UiStampAttrs } from "./viz";
 
-export const Stack = View;
 export const YStack = styled(View, {
   name: "YStack",
   flexDirection: "column",

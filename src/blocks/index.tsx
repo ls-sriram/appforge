@@ -11,7 +11,7 @@
  */
 
 import React from "react";
-import { Body, Heading, Icon, View, XStack, YStack } from "../platform/ui/index";
+import { Body, Heading, Icon, XStack, YStack } from "../platform/ui/index";
 
 // ── ProfileCard ───────────────────────────────────────────────────────────────
 
@@ -58,7 +58,7 @@ export function ProfileCard({
   const avatarSize = AVATAR_SIZE[density];
 
   return (
-    <View
+    <YStack
       bg={variant === "flat" ? "transparent" : "$surfaceStrong"}
       borderColor={variant === "flat" ? "$borderSubtle" : "$borderSubtle"}
       borderWidth={1}
@@ -66,7 +66,7 @@ export function ProfileCard({
       p={pad}
     >
       <XStack ai="center" gap="$4">
-        <View
+        <YStack
           w={avatarSize}
           h={avatarSize}
           br={9999}
@@ -75,7 +75,7 @@ export function ProfileCard({
           jc="center"
         >
           <Body tone="accent" weight="bold">{initials}</Body>
-        </View>
+        </YStack>
         <YStack gap="$1" f={1}>
           <Heading size="md">{name}</Heading>
           <Body size="sm" tone="secondary">{email}</Body>
@@ -83,6 +83,6 @@ export function ProfileCard({
         </YStack>
         <Icon name="chevron-right" size="xl" tone="muted" />
       </XStack>
-    </View>
+    </YStack>
   );
 }
