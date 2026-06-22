@@ -177,8 +177,10 @@ export const Heading = makeWrapped(RealHeading, "Heading", "children");
 export const Label   = makeWrapped(RealLabel,   "Label",   "children");
 export const Display = makeWrapped(RealDisplay, "Display", "children");
 export const Button  = makeWrappedInBox(RealButton, "Button", "label");
-export const YStack  = makeWrapped(RealYStack,  "YStack");
-export const XStack  = makeWrapped(RealXStack,  "XStack");
+// display:contents div guarantees data-uiid is on a raw DOM element rather than
+// relying on Tamagui to forward data-* props through its styled pipeline.
+export const YStack  = makeWrappedInBox(RealYStack,  "YStack");
+export const XStack  = makeWrappedInBox(RealXStack,  "XStack");
 export const Tag     = makeWrapped(RealTag,     "Tag");
 export const Icon    = makeWrappedInBox(RealIcon, "Icon");
 export const Avatar  = makeWrappedInBox(RealAvatar, "Avatar");
