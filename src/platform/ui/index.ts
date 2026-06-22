@@ -30,6 +30,16 @@ export { Badge } from "./primitives/Badge";
 export type { BadgeTone } from "./primitives/Badge";
 export { ProgressBar } from "./primitives/ProgressBar";
 export type { ProgressBarTone } from "./primitives/ProgressBar";
+export { Table } from "./primitives/Table";
+export type {
+  TableAlign,
+  TableCellSpec,
+  TableColumn,
+  TableColumnKind,
+  TableDensity,
+  TableProps,
+  TableWidth,
+} from "./primitives/Table";
 export { dialog } from "./primitives/dialog";
 export type { DialogButton } from "./primitives/dialog";
 export { linking } from "./primitives/linking";

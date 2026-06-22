@@ -14,3 +14,13 @@ export { SelectableChip } from './SelectableChip'
 export type { SelectableChipSize, SelectableChipShape, SelectableChipFrame } from './SelectableChip'
 export { ProgressBar } from './ProgressBar'
 export type { ProgressBarTone } from './ProgressBar'
+export { Table } from './Table'
+export type {
+  TableAlign,
+  TableCellSpec,
+  TableColumn,
+  TableColumnKind,
+  TableDensity,
+  TableProps,
+  TableWidth,
+} from './Table'
