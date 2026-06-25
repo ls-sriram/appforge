@@ -13,6 +13,7 @@ This phase defines:
 - the theme schema
 - the shared primitive set
 - the allowed primitive props and semantic variants
+- the open-authoring vs closed-editable UI split
 - the stable UI ID contract for inspectable elements
 - the allowed theme override surface
 
@@ -65,6 +66,144 @@ Platform guarantee:
 - allowed props and semantic variants are finite and platform-owned
 - shared helpers must preserve ordinary props and must not become a secondary styling language
 - raw `style` is not part of the supported primitive override surface
+
+### Platform Surface Modes
+
+The platform has two different surfaces:
+
+- open authoring surface
+- closed editable surface
+
+These are related, but they are not the same contract.
+
+### Open Authoring Surface
+
+The open authoring surface is the normal platform engineering experience.
+
+It includes:
+- direct layout primitives such as `YStack`, `XStack`, and `ScrollView`
+- ordinary Tamagui props and shorthands on those layout primitives
+- closed-form shared primitives for value-bearing UI such as `Button`, `Input`, `TextArea`, `Select`, `MultiSelect`, `ColorPalettePicker`, `Tag`, `Badge`, `Avatar`, `ProgressBar`, and `Table`
+
+Intent:
+- platform authors and feature authors may compose UI with ordinary Tamagui layout props
+- this surface is typed, but it is not a runtime prop firewall
+- unsupported or unsafe props are not globally stripped before they reach Tamagui
+
+Source of truth:
+- `src/platform/ui/index.ts`
+- `src/platform/ui/contract.ts`
+
+### Closed Editable Surface
+
+The closed editable surface is the stable contract for inspectable nodes, visualizer flows, and tool-generated edits.
+
+It is narrower than the open authoring surface.
+
+Intent:
+- tooling may only operate on platform-owned primitives, semantic variants, stable UI IDs, and the approved theme override surface
+- tooling must not treat arbitrary Tamagui props as an open-ended editing API
+- if a layout or visual control needs to be tool-editable, the platform must first model it as a finite prop, variant, or token-backed value
+
+Source of truth:
+- `src/platform/ui/contract.ts`
+- this document
+
+### Stable UI ID Contract
+
+Inspectable UI must carry a stable explicit UI ID.
+
+Rules:
+- stage/layout code must pass explicit stamps through a `ui` helper and spread them onto meaningful shared UI primitives as `{...ui("id")}`
+- tooling may only rely on nodes that are explicitly stamped
+- wrapped platform visualizer primitives must preserve and surface those stamps as `data-uiid` on the DOM
+- if a node is intended to be selectable, inspectable, or editable, the platform UI must expose a stable ID for it
+
+Non-rules:
+- not every internal DOM element needs an ID
+- decorative wrappers that are not part of the inspectable contract do not need stamps
+
+### Primitive Classes
+
+Open layout primitives:
+- `YStack`
+- `XStack`
+- `ScrollView`
+
+Closed value primitives:
+- `Body`
+- `Heading`
+- `Label`
+- `Display`
+- `Button`
+- `Input`
+- `TextArea`
+- `Select`
+- `MultiSelect`
+- `ColorPalettePicker`
+- `Icon`
+- `SelectableChip`
+- `Tag`
+- `Avatar`
+- `Badge`
+- `ProgressBar`
+- `Table`
+- `dialog`
+- `linking`
+
+Rules:
+- open layout primitives may accept ordinary Tamagui layout props in author-written code
+- closed value primitives define their own supported prop contracts and may not be treated as arbitrary layout surfaces by tooling
+- a primitive does not become part of the closed editable contract just because it forwards ordinary props internally
+
+### Allowed And Forbidden Prop Classes
+
+Forbidden bypass props for platform primitives:
+- `style`
+- `contentContainerStyle`
+- `className`
+
+Closed-editable allowed Tamagui prop classes:
+- stack alignment and direction props such as `ai`, `jc`, `fd`, `f`
+- token-backed spacing props such as `gap`, `p`, `px`, `py`, `pt`, `pb`, `pl`, `pr`, `m`, `mx`, `my`, `mt`, `mb`, `ml`, `mr`
+- token-backed paint props such as `bg`, `color`, `borderColor`
+- bounded border and geometry props such as `borderWidth`, `borderTopWidth`, `borderBottomWidth`, `overflow`, `br`
+- bounded sizing props already used in the platform contract such as `w`, `h`, `minHeight`, `maxWidth`, `flexBasis`
+
+Closed-editable forbidden Tamagui prop classes:
+- arbitrary paint and interaction controls such as `opacity`, `pressStyle`, `hoverStyle`, `focusStyle`, `animation`, `transform`
+- arbitrary positioning controls such as `position`, `top`, `right`, `bottom`, `left`, `inset`, `zIndex`
+- arbitrary sizing controls such as `minWidth`, `maxHeight`
+- fine-grained typographic tuning such as `letterSpacing`
+
+Rules:
+- author-written platform code may still use ordinary Tamagui props where needed
+- tool-generated or inspectable edits must stay within the closed-editable allowed set
+- if a currently-forbidden prop becomes important for tooling, the platform must narrow it into a finite contract first
+- examples include width modes, opacity variants, overlay placement enums, and elevation tiers
+
+### Replacement Contracts
+
+When a prop class is forbidden in the closed editable surface, use the platform replacement contract instead of an arbitrary value.
+
+Sizing replacements:
+- use `CLOSED_WIDTH_PRESETS` from `src/platform/ui/contract.ts` instead of arbitrary width roles
+- use `CLOSED_MIN_HEIGHT_PRESETS` instead of arbitrary `minHeight`
+- use `CLOSED_MAX_HEIGHT_PRESETS` instead of arbitrary `maxHeight`
+
+Opacity replacements:
+- use `CLOSED_OPACITY_PRESETS` instead of arbitrary `opacity` values
+
+Border replacements:
+- use `CLOSED_BORDER_WIDTH_PRESETS` instead of arbitrary repeated border width values
+
+Placement replacements:
+- use `CLOSED_OVERLAY_PLACEMENTS` instead of arbitrary absolute positioning and inset combinations
+
+Rules:
+- a closed-editable consumer may select a predefined preset
+- a closed-editable consumer may not invent a new numeric value outside the preset family
+- if a preset family is insufficient, extend the platform contract before using a new raw value
 
 Removed shared UI APIs:
 - `Block` and its prop/type system
@@ -155,6 +294,10 @@ Rules:
 - Named local components are allowed for pixel-specific geometry, accessibility, or rendering that Tamagui props do not express cleanly.
 - Feature-local wrappers may exist, but they should compose direct Tamagui primitives rather than recreate a parallel styling DSL.
 
+Important distinction:
+- feature composition is allowed to use ordinary Tamagui props on open layout primitives
+- this does not make every Tamagui prop part of the stable tool-editable platform contract
+
 Feature guarantee:
 - features may compose the contract
 - features may not extend the contract
@@ -205,7 +348,7 @@ External tooling may inspect and operate on:
 - stable UI IDs produced through `createUi(prefix)` and `ui.scope(...)`
 - rendered shared primitives carrying `data-uiid`
 - platform-defined theme values through the allowed override surface
-- primitive props and semantic variants that already exist in the contract
+- primitive props and semantic variants that already exist in the closed editable contract
 
 External tooling may not treat the following as open-ended editing surfaces:
 - new primitive APIs
@@ -213,6 +356,8 @@ External tooling may not treat the following as open-ended editing surfaces:
 - new variant families
 - arbitrary styling vocabularies outside the platform contract
 - raw per-element `style` overrides on platform primitives
+- bypass props such as `contentContainerStyle` and `className`
+- arbitrary Tamagui positioning, opacity, sizing, transform, or per-state style props unless the platform has explicitly narrowed them
 
 ## Out Of Scope For This Phase
 
@@ -226,6 +371,7 @@ The following are intentionally deferred:
 ## Enforcement
 
 - `@ui` / `src/platform/ui/index.ts` is the only supported shared UI import surface.
+- `src/platform/ui/contract.ts` is the platform-owned manifest for open vs closed UI surface categories.
 - Shared helpers must keep ordinary props. No repo-specific public styling DSL.
 - Public platform primitives must not accept `style` as an override escape hatch.
 - Architecture lint: `npm run lint:arch`
