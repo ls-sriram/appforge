@@ -1,6 +1,6 @@
 import React from "react";
-import { ActivityIndicator } from "react-native";
-import { Stack, styled } from "@tamagui/core";
+import { ActivityIndicator, Pressable } from "react-native";
+import { View, styled } from "@tamagui/core";
 import { Body } from "./Text";
 
 // ── Variant contracts ─────────────────────────────────────────────────────────
@@ -8,15 +8,13 @@ import { Body } from "./Text";
 export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 export type ButtonSize    = "sm" | "md" | "lg";
 
-// styled(Stack) with tag:"button" renders a real <button> on web so onPress
-// maps correctly via Tamagui's event system on both web and native.
-const ButtonFrame = styled(Stack, {
+// styled(View) handles appearance only; raw Pressable handles interaction so
+// onPress reaches the DOM on web without Tamagui swallowing it.
+const ButtonFrame = styled(View, {
   name: "Button",
-  tag: "button",
   alignItems: "center",
   justifyContent: "center",
   borderRadius: 9999,
-  cursor: "pointer",
 
   variants: {
     variant: {
@@ -60,7 +58,7 @@ const LABEL_TONE: Record<ButtonVariant, React.ComponentProps<typeof Body>["tone"
   danger:    "danger",
 };
 
-export type ButtonProps = Omit<React.ComponentProps<typeof ButtonFrame>, "style"> & {
+export type ButtonProps = React.ComponentProps<typeof Pressable> & {
   variant?: ButtonVariant;
   size?: ButtonSize;
   label?: string;
@@ -72,24 +70,26 @@ export function Button({
   size = "md",
   label,
   loading = false,
+  disabled,
+  onPress,
   children,
-  ...props
 }: ButtonProps) {
-  const { style: _style, ...rest } = props as ButtonProps & { style?: unknown };
   const tone = LABEL_TONE[variant];
 
   return (
-    <ButtonFrame
-      variant={variant}
-      size={size}
-      {...rest}
-      opacity={rest.disabled || loading ? 0.45 : 1}
-    >
-      {loading
-        ? <ActivityIndicator />
-        : label
-          ? <Body tone={tone} weight="bold" size="md">{label}</Body>
-          : children}
-    </ButtonFrame>
+    <Pressable onPress={onPress} disabled={disabled || loading}>
+      <ButtonFrame
+        variant={variant}
+        size={size}
+        opacity={disabled || loading ? 0.45 : 1}
+        pointerEvents="none"
+      >
+        {loading
+          ? <ActivityIndicator />
+          : label
+            ? <Body tone={tone} weight="bold" size="md">{label}</Body>
+            : children}
+      </ButtonFrame>
+    </Pressable>
   );
 }
