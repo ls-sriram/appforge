@@ -70,6 +70,7 @@ export function Button({
   label,
   loading = false,
   children,
+  onPress,
   ...props
 }: ButtonProps) {
   const { style: _style, ...rest } = props as ButtonProps & { style?: unknown };
@@ -80,6 +81,9 @@ export function Button({
       variant={variant}
       size={size}
       {...rest}
+      onPress={onPress}
+      // @ts-ignore — Tamagui styled(Pressable) swallows onPress on web; wire onClick directly
+      onClick={onPress}
       opacity={rest.disabled || loading ? 0.45 : 1}
     >
       {loading
