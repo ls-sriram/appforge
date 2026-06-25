@@ -1,7 +1,6 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
-import { styled } from "@tamagui/core";
-import { Pressable } from "react-native";
+import { Stack, styled } from "@tamagui/core";
 import { Body } from "./Text";
 
 // ── Variant contracts ─────────────────────────────────────────────────────────
@@ -9,11 +8,15 @@ import { Body } from "./Text";
 export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
 export type ButtonSize    = "sm" | "md" | "lg";
 
-const ButtonFrame = styled(Pressable, {
+// styled(Stack) with tag:"button" renders a real <button> on web so onPress
+// maps correctly via Tamagui's event system on both web and native.
+const ButtonFrame = styled(Stack, {
   name: "Button",
+  tag: "button",
   alignItems: "center",
   justifyContent: "center",
   borderRadius: 9999,
+  cursor: "pointer",
 
   variants: {
     variant: {
@@ -70,7 +73,6 @@ export function Button({
   label,
   loading = false,
   children,
-  onPress,
   ...props
 }: ButtonProps) {
   const { style: _style, ...rest } = props as ButtonProps & { style?: unknown };
@@ -81,9 +83,6 @@ export function Button({
       variant={variant}
       size={size}
       {...rest}
-      onPress={onPress}
-      // @ts-ignore — Tamagui styled(Pressable) swallows onPress on web; wire onClick directly
-      onClick={onPress}
       opacity={rest.disabled || loading ? 0.45 : 1}
     >
       {loading
