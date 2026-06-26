@@ -70,9 +70,7 @@ export function PlanCard({ plan, onUpgrade }: PlanCardProps) {
           </YStack>
 
           {name !== "pro" ? (
-            <Button onPress={onUpgrade} bg="$surfaceAlt" borderWidth={1} borderColor="$border" minHeight={42} px="$4">
-              <Body fontSize="$2">Upgrade</Body>
-            </Button>
+            <Button variant="secondary" onPress={onUpgrade}>Upgrade</Button>
           ) : null}
         </XStack>
 

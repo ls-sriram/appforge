@@ -35,8 +35,8 @@ export function AuthWelcomeBlock({
       </YStack>
 
       <YStack {...ui("actions")} gap="$3">
-        <Button {...ui("sign-in")} variant="primary" label="Sign In" onPress={onSignIn} />
-        <Button {...ui("create-account")} variant="secondary" label="Create Account" onPress={onCreateAccount} />
+        <Button {...ui("sign-in")} variant="primary" onPress={onSignIn}>Sign In</Button>
+        <Button {...ui("create-account")} variant="secondary" onPress={onCreateAccount}>Create Account</Button>
       </YStack>
     </YStack>
   );

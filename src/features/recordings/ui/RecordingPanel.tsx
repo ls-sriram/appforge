@@ -85,26 +85,16 @@ export function RecordingPanel({
                       <XStack ai="center" jc="space-between" gap="$3">
                         <Body fontSize="$2">{createdLabel}</Body>
                         <Button
-                          bg="$surfaceAlt"
-                          borderWidth={1}
-                          borderColor="$border"
-                          minHeight={42}
-                          px="$4"
-                          py="$3"
+                          variant="secondary"
                           onPress={() => onPlay(recording.id)}
                         >
-                          <Body>{playingId === recording.id ? "Loaded" : "Play"}</Body>
+                          {playingId === recording.id ? "Loaded" : "Play"}
                         </Button>
                       </XStack>
                       <Body fontSize="$2" color="$textMuted">{`${recording.durationSeconds ?? 0}s • ${recording.contentType} • ${recording.sizeBytes} bytes`}</Body>
                       <XStack gap="$3" flexWrap="wrap">
                         <Button
-                          bg={activeShare ? "$surfaceAlt" : "$primary"}
-                          borderWidth={1}
-                          borderColor={activeShare ? "$border" : "$primary"}
-                          minHeight={42}
-                          px="$4"
-                          py="$3"
+                          variant={activeShare ? "secondary" : "primary"}
                           onPress={() => {
                             if (activeShare) {
                               onRevokeShare(recording.id, activeShare.shareUrl);
@@ -114,19 +104,14 @@ export function RecordingPanel({
                           }}
                           disabled={shareLoading}
                         >
-                          <Body color={activeShare ? "$textPrimary" : "$textInverse"}>
-                            {activeShare ? "Revoke Share" : "Share"}
-                          </Body>
+                          {activeShare ? "Revoke Share" : "Share"}
                         </Button>
                         <Button
-                          bg="transparent"
-                          minHeight={42}
-                          px="$4"
-                          py="$3"
+                          variant="ghost"
                           onPress={() => onLoadShares(recording.id)}
                           disabled={shareLoading}
                         >
-                          <Body>{shareLoading ? "Loading..." : "Shares"}</Body>
+                          {shareLoading ? "Loading..." : "Shares"}
                         </Button>
                       </XStack>
                       {activeShare ? (
@@ -169,14 +154,11 @@ export function RecordingPanel({
                 <XStack ai="center" gap="$3">
                   <Body fontSize="$2">{micStatus}</Body>
                   <Button
-                    bg="transparent"
-                    minHeight={42}
-                    px="$4"
-                    py="$3"
+                    variant="ghost"
                     onPress={onRefresh}
                     disabled={loading || isUploading}
                   >
-                    <Body>{loading ? "Refreshing..." : "Refresh"}</Body>
+                    {loading ? "Refreshing..." : "Refresh"}
                   </Button>
                 </XStack>
                 {(isRecording || status === "ready") ? (

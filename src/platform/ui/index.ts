@@ -19,6 +19,7 @@ export {
   type InputVariant,
   type AvatarVariant,
   type ImageVariant,
+  type TableVariant,
   type ProgressBarVariant,
   type Variants,
   type LayoutContract,

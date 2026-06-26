@@ -132,12 +132,7 @@ export function PublicReviewScreen({ token }: Props) {
                     return (
                       <Button
                         key={option.id}
-                        bg={selected ? "$primary" : "$surfaceAlt"}
-                        borderWidth={1}
-                        borderColor={selected ? "$primary" : "$border"}
-                        minHeight={42}
-                        px="$4"
-                        py="$3"
+                        variant={selected ? "primary" : "secondary"}
                         onPress={() =>
                           setAnswers((prev) => ({
                             ...prev,
@@ -145,7 +140,7 @@ export function PublicReviewScreen({ token }: Props) {
                           }))
                         }
                       >
-                        <Body color={selected ? "$textInverse" : "$textPrimary"}>{option.label}</Body>
+                        {option.label}
                       </Button>
                     );
                   })}
@@ -155,8 +150,8 @@ export function PublicReviewScreen({ token }: Props) {
           ))}
           {error ? <Body fontSize="$2" color="$error">{error}</Body> : null}
           {success ? <Body fontSize="$2" color="$textMuted">{success}</Body> : null}
-          <Button onPress={submit} disabled={saving || !normalizedToken} bg="$primary">
-            <Body color="$textInverse" fontFamily="$bold">{saving ? "Submitting..." : "Submit Review"}</Body>
+          <Button variant="primary" onPress={submit} disabled={saving || !normalizedToken}>
+            {saving ? "Submitting..." : "Submit Review"}
           </Button>
       </YStack>
     </YStack>

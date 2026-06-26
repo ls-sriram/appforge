@@ -1,7 +1,7 @@
 import React from "react";
 import type { TextInput } from "react-native";
 import { ViewProps } from "../../../platform/core/types";
-import { Body, Button, CenteredPageScaffold, noopUi, type UiStamp, YStack } from "../../../platform/ui/index";
+import { Button, CenteredPageScaffold, noopUi, type UiStamp, YStack } from "../../../platform/ui/index";
 import { AuthFieldBlock } from "../../auth/ui/blocks/AuthFieldBlock";
 import { AuthFormBlock } from "../../auth/ui/blocks/AuthFormBlock";
 import { AuthSubmitBlock } from "../../auth/ui/blocks/AuthSubmitBlock";
@@ -60,13 +60,10 @@ export function LoginSurface({ ui = noopUi, data, dispatch }: LoginSurfaceProps)
             />
             <Button
               {...ui("forgot-link")}
+              variant="ghost"
               onPress={() => dispatch({ type: "go_to_forgot_password" })}
-              bg="transparent"
-              alignSelf="flex-start"
-              p={0}
-              minHeight={0}
             >
-              <Body {...ui("forgot-link-label")} color="$primary">Forgot Password?</Body>
+              Forgot Password?
             </Button>
             <AuthSubmitBlock
               ui={ui.scope("submit")}

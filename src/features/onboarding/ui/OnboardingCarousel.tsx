@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useRef, useCallback } from "react";
-import { Body, Button, ScrollView, YStack } from "../../../platform/ui/index";
+import { Button, ScrollView, YStack } from "../../../platform/ui/index";
 import { FeatureCard } from "./FeatureCard";
 import type { IconName } from "../../../platform/ui/index";
 import { useViewport } from "../../../platform/ui/index";
@@ -91,16 +91,15 @@ export function OnboardingCarousel({
 
         <YStack gap="$3">
           {!isLast && (
-            <Button onPress={() => onComplete()} bg="transparent" w="100%">
-              <Body>{skipLabel}</Body>
+            <Button variant="ghost" onPress={() => onComplete()}>
+              {skipLabel}
             </Button>
           )}
           <Button
+            variant="primary"
             onPress={() => { if (isLast) { onComplete(); } else { scrollTo(activeIndex + 1); } }}
-            bg="$primary"
-            w="100%"
           >
-            <Body color="$textInverse" fontFamily="$bold">{isLast ? ctaLabel : "Next"}</Body>
+            {isLast ? ctaLabel : "Next"}
           </Button>
         </YStack>
       </YStack>

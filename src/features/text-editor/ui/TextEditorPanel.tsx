@@ -58,18 +58,14 @@ export function TextEditorPanel(props: TextEditorPanelProps) {
             <Body fontSize="$2" color="$textMuted">Content</Body>
             <Body fontSize="$2" color="$textMuted">{`${props.contentLength}/${props.maxContentLength}`}</Body>
           </XStack>
-          <TextArea value={props.content} onChangeText={props.onContentChange} placeholder="Write up to 20,000 characters..." size="3xl" />
+          <TextArea variant="default" value={props.content} onChangeText={props.onContentChange} placeholder="Write up to 20,000 characters..." />
         </YStack>
 
         {statusText ? <Body fontSize="$2" color={props.error ? "$error" : "$textMuted"}>{statusText}</Body> : null}
 
         <XStack gap="$3">
-          <Button onPress={props.onSave} loading={props.saving} bg="$primary">
-            <Body color="$textInverse" fontFamily="$bold">Save</Body>
-          </Button>
-          <Button onPress={props.onCreateNew} bg="$surfaceAlt" borderWidth={1} borderColor="$border">
-            <Body>New</Body>
-          </Button>
+          <Button variant="primary" onPress={props.onSave} loading={props.saving}>Save</Button>
+          <Button variant="secondary" onPress={props.onCreateNew}>New</Button>
         </XStack>
 
         <YStack gap="$3">

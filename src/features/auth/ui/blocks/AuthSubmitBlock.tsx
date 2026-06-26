@@ -30,11 +30,12 @@ export function AuthSubmitBlock({
       <Button
         {...ui("button")}
         variant="primary"
-        label={loading ? "Loading..." : label}
         onPress={onPress}
         disabled={disabled ?? loading}
         loading={loading}
-      />
+      >
+        {loading ? "Loading..." : label}
+      </Button>
     </YStack>
   );
 }

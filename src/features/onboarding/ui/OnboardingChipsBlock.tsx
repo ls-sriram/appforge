@@ -15,6 +15,7 @@ export function OnboardingChipsBlock({ ui = noopUi, options, selected, onSelect 
         <SelectableChip
           {...ui(`option-${index}`)}
           key={label}
+          variant="md"
           label={label}
           selected={label === selected}
           onPress={() => onSelect?.(label)}

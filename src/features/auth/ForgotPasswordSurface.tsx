@@ -48,9 +48,10 @@ export function ForgotPasswordSurface({ ui = noopUi, data, dispatch }: ForgotPas
           <Button
             {...ui("back")}
             variant="secondary"
-            label={app.copy.auth.forgotPasswordBackLabel}
             onPress={() => dispatch({ type: "go_to_login" })}
-          />
+          >
+            {app.copy.auth.forgotPasswordBackLabel}
+          </Button>
         </YStack>
       )}
       ui={ui.scope("page")}

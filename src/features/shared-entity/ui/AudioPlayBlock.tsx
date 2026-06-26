@@ -10,10 +10,8 @@ interface Props {
 export function AudioPlayBlock({ playing, error, onPlay }: Props) {
   return (
     <YStack gap="$3">
-      <Button bg="$primary" onPress={onPlay}>
-        <Body color="$textInverse" fontFamily="$bold">
-          {playing ? "Playing..." : "Play recording"}
-        </Body>
+      <Button variant="primary" onPress={onPlay}>
+        {playing ? "Playing..." : "Play recording"}
       </Button>
       {error ? <Body fontSize="$2" color="$error">{error}</Body> : null}
     </YStack>
