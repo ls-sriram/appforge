@@ -1,5 +1,5 @@
-export { CenteredPageLayout } from "./CenteredPageLayout";
 export {
+  CenteredPageScaffold,
   HeaderScaffold,
   SidebarScaffold,
   PanelScaffold,
@@ -7,6 +7,8 @@ export {
   PageScaffold,
 } from "./Scaffolds";
 export type {
+  CenteredPageScaffoldProps,
+  CenteredPageScaffoldWidth,
   HeaderScaffoldProps,
   SidebarScaffoldProps,
   PanelScaffoldProps,

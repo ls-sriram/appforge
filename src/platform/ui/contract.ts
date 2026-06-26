@@ -98,6 +98,7 @@ export const CLOSED_OVERLAY_PLACEMENTS = {
 
 export const SCAFFOLD_KINDS = [
   "page",
+  "centeredPage",
   "header",
   "sidebar",
   "panel",
@@ -238,6 +239,17 @@ export const PLATFORM_SCAFFOLDS = {
     slots: [
       { name: "header", placement: "top", behavior: "sticky", required: false },
       { name: "sidebar", placement: "left", behavior: "sticky", required: false },
+      { name: "content", placement: "center", behavior: "flow", required: true },
+      { name: "footer", placement: "bottom", behavior: "flow", required: false },
+    ],
+  },
+  centeredPage: {
+    kind: "centeredPage",
+    gap: "default",
+    padding: "md",
+    separation: "flush",
+    slots: [
+      { name: "header", placement: "top", behavior: "flow", required: false },
       { name: "content", placement: "center", behavior: "flow", required: true },
       { name: "footer", placement: "bottom", behavior: "flow", required: false },
     ],

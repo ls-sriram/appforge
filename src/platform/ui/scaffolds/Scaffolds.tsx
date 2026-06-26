@@ -1,6 +1,8 @@
 import React from "react";
-import { View } from "react-native";
-import { workspaceShell } from "../../theme/tokens";
+import { ScrollView, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useTheme } from "../../theme/ThemeProvider";
+import { contentWidths, workspaceShell } from "../../theme/tokens";
 import { useViewport, type ViewportTier } from "../../theme/Viewport";
 import {
   type ScaffoldSlotPlacement,
@@ -10,6 +12,15 @@ import { noopUi, type UiStamp } from "../viz";
 type SlotNode = React.ReactNode;
 type SidebarPlacement = Extract<ScaffoldSlotPlacement, "left" | "right">;
 type CollapseMode = "never" | ViewportTier;
+export type CenteredPageScaffoldWidth = "narrow" | "regular";
+
+export type CenteredPageScaffoldProps = {
+  ui?: UiStamp;
+  header?: SlotNode;
+  content: SlotNode;
+  footer?: SlotNode;
+  width?: CenteredPageScaffoldWidth;
+};
 
 export type HeaderScaffoldProps = {
   ui?: UiStamp;
@@ -83,6 +94,57 @@ function Section({
   );
 }
 
+export function CenteredPageScaffold({
+  ui = noopUi,
+  header,
+  content,
+  footer,
+  width = "narrow",
+}: CenteredPageScaffoldProps) {
+  const theme = useTheme();
+  const viewport = useViewport();
+  const horizontalPadding = viewport.isMobile ? theme.colors.space.md : theme.colors.space.xl;
+  const verticalPadding = viewport.isMobile ? theme.colors.space.lg : theme.colors.space["2xl"];
+
+  return (
+    <SafeAreaView
+      edges={["top", "bottom", "left", "right"]}
+      style={[styles.safeArea, { backgroundColor: theme.colors.bg }]}
+      testID={ui("root").__uiid}
+    >
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingLeft: horizontalPadding,
+          paddingRight: horizontalPadding,
+          paddingTop: verticalPadding,
+          paddingBottom: verticalPadding,
+          alignItems: "center",
+        }}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        style={styles.scroll}
+      >
+        <View
+          nativeID={ui("well").__uiid}
+          testID={ui("well").__uiid}
+          style={[styles.centeredWell, { maxWidth: contentWidths[width] }]}
+        >
+          <Section testID={ui("header").__uiid}>
+            {header}
+          </Section>
+          <Section testID={ui("content").__uiid}>
+            {content}
+          </Section>
+          <Section testID={ui("footer").__uiid}>
+            {footer}
+          </Section>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
 export function HeaderScaffold({
   ui = noopUi,
   leading,
@@ -99,9 +161,7 @@ export function HeaderScaffold({
     <View
       nativeID={ui("root").__uiid}
       testID={ui("root").__uiid}
-      style={[
-        styles.headerRow,
-      ]}
+      style={styles.headerRow}
     >
       {showLeading ? (
         <View nativeID={ui("leading").__uiid} testID={ui("leading").__uiid} style={styles.headerEdge}>
@@ -287,6 +347,15 @@ export function PageScaffold({
 }
 
 const styles = {
+  safeArea: {
+    flex: 1,
+  },
+  scroll: {
+    flex: 1,
+  },
+  centeredWell: {
+    width: "100%",
+  },
   section: {
     width: "100%",
   },

@@ -34,7 +34,7 @@ Use these instead of raw `color`, `fontFamily`, or `fontSize` when the semantic 
 - `config.ts`: Tamagui config and theme tokens
 - `Provider.tsx`: app-level provider wiring
 - `index.ts`: root barrel for Tamagui exports and approved helpers
-- `layouts/`: shared layout geometry helpers when truly reusable
+- `scaffolds/`: shared slot-structured scaffold helpers when truly reusable
 - `primitives/`: retained leaf primitives only
 
 ## Removed APIs

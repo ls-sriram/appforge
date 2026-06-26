@@ -110,20 +110,22 @@ export {
 } from "../theme/Viewport";
 export { ViewportProvider } from "../theme/ViewportProvider";
 export {
-  CenteredPageLayout,
+  CenteredPageScaffold,
   HeaderScaffold,
   SidebarScaffold,
   PanelScaffold,
   PanelCollectionScaffold,
   PageScaffold,
-} from "./layouts";
+} from "./scaffolds";
 export type {
+  CenteredPageScaffoldProps,
+  CenteredPageScaffoldWidth,
   HeaderScaffoldProps,
   SidebarScaffoldProps,
   PanelScaffoldProps,
   PanelCollectionScaffoldProps,
   PageScaffoldProps,
-} from "./layouts";
+} from "./scaffolds";
 
 // Semantic spacing constants — use instead of raw $1/$2/$3 etc.
 // Maps to theme factory space scale: xxs=4 xs=6 sm=10 md=16 lg=22 xl=30 2xl=44 3xl=64

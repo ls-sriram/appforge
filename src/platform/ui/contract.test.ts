@@ -13,6 +13,7 @@ describe("platform scaffold contract", () => {
   it("exports the expected scaffold enums", () => {
     expect(SCAFFOLD_KINDS).toEqual([
       "page",
+      "centeredPage",
       "header",
       "sidebar",
       "panel",
@@ -59,6 +60,13 @@ describe("platform scaffold contract", () => {
     const sidebarSlot = PLATFORM_SCAFFOLDS.page.slots.find((slot) => slot.name === "sidebar");
 
     expect(sidebarSlot?.placement).toBe("left");
+  });
+
+  it("registers centered page content as a centered required slot", () => {
+    const contentSlot = PLATFORM_SCAFFOLDS.centeredPage.slots.find((slot) => slot.name === "content");
+
+    expect(contentSlot?.placement).toBe("center");
+    expect(contentSlot?.required).toBe(true);
   });
 
   it("includes SizingToolbar in the closed primitive contract and export surface", () => {

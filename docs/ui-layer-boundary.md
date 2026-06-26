@@ -173,6 +173,7 @@ Source of truth:
 
 Platform-owned scaffold kinds:
 - `page`
+- `centeredPage`
 - `header`
 - `sidebar`
 - `panel`
@@ -247,12 +248,14 @@ Tabbed panel primitive:
 
 Preset scaffold library:
 - `PLATFORM_SCAFFOLDS.page`
+- `PLATFORM_SCAFFOLDS.centeredPage`
 - `PLATFORM_SCAFFOLDS.header`
 - `PLATFORM_SCAFFOLDS.sidebar`
 - `PLATFORM_SCAFFOLDS.panel`
 - `PLATFORM_SCAFFOLDS.panelCollection`
 
-Default reusable scaffold layout helpers:
+Default reusable scaffold helpers:
+- `CenteredPageScaffold`
 - `PageScaffold`
 - `HeaderScaffold`
 - `SidebarScaffold`
@@ -260,7 +263,8 @@ Default reusable scaffold layout helpers:
 - `PanelCollectionScaffold`
 
 Implementation note:
-- these helpers live under `src/platform/ui/layouts/`
+- `layout` in the platform surface refers only to raw composition primitives such as `YStack`, `XStack`, and `ScrollView`
+- these helpers live under `src/platform/ui/scaffolds/`
 - they render the platform-owned slot structure for callers to populate
 - they are fixed preset helpers, not a generic runtime scaffold DSL
 - they are structural only and must not add default margins, padding, borders, elevation, or decorative surface styling
