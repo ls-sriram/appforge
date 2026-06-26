@@ -156,6 +156,96 @@ Rules:
 - closed value primitives define their own supported prop contracts and may not be treated as arbitrary layout surfaces by tooling
 - a primitive does not become part of the closed editable contract just because it forwards ordinary props internally
 
+### Scaffold Contract
+
+Scaffolds are part of the closed editable surface as contract metadata.
+
+Definition:
+- a scaffold is a non-printing layout region made of named slots
+- a scaffold does not define caller content; it defines reusable layout structure
+- scaffolds are not shared value primitives and are not a render primitive in this phase
+
+Source of truth:
+- `src/platform/ui/contract.ts`
+
+Platform-owned scaffold kinds:
+- `page`
+- `header`
+- `sidebar`
+- `panel`
+- `panelCollection`
+
+Each scaffold slot is defined by finite platform-owned fields:
+- `name`
+- `placement`
+- `behavior`
+- optional `required`
+- optional `multiple`
+
+Slot behavior contract:
+- `flow`
+- `sticky`
+- `fixed`
+
+Rules:
+- `behavior` describes whether a slot moves with document flow or remains pinned
+- tooling may not replace this with arbitrary positioning props
+
+Slot placement contract:
+- `inline`
+- `top`
+- `bottom`
+- `left`
+- `right`
+- `center`
+- `leading`
+- `trailing`
+
+Rules:
+- `placement` describes where a slot belongs within the scaffold
+- panels and sidebars must use explicit finite placements in scaffold presets
+- tooling may not replace placement with arbitrary coordinates or inset values
+
+Scaffold geometry presets:
+- gap presets: `none`, `tight`, `default`, `loose`
+- padding presets: `none`, `sm`, `md`, `lg`
+- separation presets: `flush`, `separated`
+
+Rules:
+- scaffold spacing is bounded by preset families
+- tooling may not introduce arbitrary numeric offsets through the scaffold contract
+
+Preset action locations:
+- relevant scaffold presets may include platform-owned action slots such as `actions`
+- the scaffold owns where the action region lives
+- the caller owns which buttons, menus, or controls render inside that region
+
+Preset scaffold library:
+- `PLATFORM_SCAFFOLDS.page`
+- `PLATFORM_SCAFFOLDS.header`
+- `PLATFORM_SCAFFOLDS.sidebar`
+- `PLATFORM_SCAFFOLDS.panel`
+- `PLATFORM_SCAFFOLDS.panelCollection`
+
+Default reusable scaffold layout helpers:
+- `PageScaffold`
+- `HeaderScaffold`
+- `SidebarScaffold`
+- `PanelScaffold`
+- `PanelCollectionScaffold`
+
+Implementation note:
+- these helpers live under `src/platform/ui/layouts/`
+- they render the platform-owned slot structure for callers to populate
+- they are fixed preset helpers, not a generic runtime scaffold DSL
+- they are structural only and must not add default margins, padding, borders, elevation, or decorative surface styling
+- they may own flex behavior, slot ordering, collection flow, and responsive slot visibility rules
+
+Responsive collapse options:
+- `HeaderScaffold` may collapse `leading` and `actions` slots by viewport tier through finite props
+- `SidebarScaffold` may collapse its main content by viewport tier and optionally render `collapsedContent`
+- collapse behavior stays finite and viewport-based; it does not introduce arbitrary breakpoint or animation APIs
+
 ### Allowed And Forbidden Prop Classes
 
 Forbidden bypass props for platform primitives:
