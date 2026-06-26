@@ -1,17 +1,28 @@
 import React from "react";
-import { Text } from "@tamagui/core";
-import { Pressable } from "react-native";
+import { Pressable, Text } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
+import type { InteractionContract } from "../contracts/interaction";
 
-export type SelectableChipSize = "sm" | "md";
+export interface SelectableChipVariant {
+  backgroundColor: string;
+  borderColor: string;
+  borderWidth: number;
+  color: string;
+  paddingVertical: number;
+  paddingHorizontal: number;
+  fontSize: number;
+  fontWeight: string | number;
+  interaction?: InteractionContract;
+}
+
 export type SelectableChipShape = "pill" | "rounded";
 export type SelectableChipFrame = "content" | "fill";
 
 interface SelectableChipProps {
   label: string;
+  variant: string;
   selected: boolean;
   onPress: () => void;
-  size?: SelectableChipSize;
   shape?: SelectableChipShape;
   frame?: SelectableChipFrame;
   disabled?: boolean;
@@ -19,40 +30,66 @@ interface SelectableChipProps {
 
 export function SelectableChip({
   label,
+  variant,
   selected,
   onPress,
-  size = "sm",
   shape = "pill",
   frame = "content",
   disabled = false,
 }: SelectableChipProps) {
-  const t = useTheme();
+  const theme = useTheme();
+  const s = theme.variants.selectableChip?.[variant];
+  if (!s) throw new Error(`Unknown selectableChip variant "${variant}"`);
+
+  const ix = s.interaction;
+  const borderRadius = shape === "pill" ? theme.colors.radii.pill : theme.colors.radii.sm;
 
   return (
     <Pressable
       onPress={onPress}
       disabled={disabled}
-      style={{
-        backgroundColor: selected ? t.colors.textPrimary : t.colors.surfaceAlt,
-        borderColor: selected ? t.colors.textPrimary : t.colors.border,
-        borderWidth: 1,
-        borderRadius: shape === "pill" ? t.colors.radii.pill : t.colors.radii.sm,
-        paddingHorizontal: size === "sm" ? 12 : 14,
-        paddingVertical: size === "sm" ? 6 : 7,
-        alignItems: "center",
-        justifyContent: "center",
-        flex: frame === "fill" ? 1 : undefined,
-        opacity: disabled ? 0.5 : 1,
+      style={({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) => {
+        const activeStyle = selected ? ix?.selected
+          : pressed ? ix?.pressed
+          : hovered ? ix?.hover
+          : undefined;
+
+        const opacity = disabled ? (ix?.disabledOpacity ?? 0.5)
+          : (activeStyle as { opacity?: number } | undefined)?.opacity ?? 1;
+
+        return {
+          backgroundColor: activeStyle?.backgroundColor ?? s.backgroundColor,
+          borderColor: activeStyle?.borderColor ?? s.borderColor,
+          borderWidth: s.borderWidth,
+          borderRadius,
+          paddingHorizontal: s.paddingHorizontal,
+          paddingVertical: s.paddingVertical,
+          alignItems: "center" as const,
+          justifyContent: "center" as const,
+          flex: frame === "fill" ? 1 : undefined,
+          opacity,
+        };
       }}
     >
-      <Text
-        color={selected ? t.colors.textInverse : t.colors.textSecondary}
-        fontFamily={selected ? "$bold" : "$reg"}
-        fontSize={size === "sm" ? "$2" : "$1"}
-        textAlign={frame === "fill" ? "center" : "left"}
-      >
-        {label}
-      </Text>
+      {({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) => {
+        const activeStyle = selected ? ix?.selected
+          : pressed ? ix?.pressed
+          : hovered ? ix?.hover
+          : undefined;
+
+        return (
+          <Text
+            style={{
+              color: activeStyle?.color ?? s.color,
+              fontSize: s.fontSize,
+              fontWeight: (selected ? (ix?.selected?.fontWeight ?? s.fontWeight) : s.fontWeight) as any,
+              textAlign: frame === "fill" ? "center" : "left",
+            }}
+          >
+            {label}
+          </Text>
+        );
+      }}
     </Pressable>
   );
 }

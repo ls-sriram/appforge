@@ -71,7 +71,6 @@ export type { MultiSelectProps } from "./primitives/MultiSelect";
 export { Icon, type IconName, type IconSize, type IconTone } from "./primitives/Icon";
 export { SelectableChip } from "./primitives/SelectableChip";
 export type {
-  SelectableChipSize,
   SelectableChipShape,
   SelectableChipFrame,
 } from "./primitives/SelectableChip";

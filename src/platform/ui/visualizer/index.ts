@@ -29,7 +29,6 @@ export type {
   GetProps,
   UiStamp,
   UiStampAttrs,
-  SelectableChipSize,
   SelectableChipShape,
   SelectableChipFrame,
   TagProps,

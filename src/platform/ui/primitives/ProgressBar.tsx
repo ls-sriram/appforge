@@ -1,35 +1,40 @@
 import React from "react";
-import { View } from "@tamagui/core";
+import { View } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
+import type { InteractionContract } from "../contracts/interaction";
+
+export interface ProgressBarVariant {
+  trackColor: string;
+  fillColor: string;
+  height: number;
+  borderRadius: number;
+  interaction?: InteractionContract;
+}
 
 interface ProgressBarProps {
   value: number;
   total?: number;
-  tone?: string;
+  variant: string;
 }
 
-export function ProgressBar({ value, total = 100, tone = "primary" }: ProgressBarProps) {
+export function ProgressBar({ value, total = 100, variant }: ProgressBarProps) {
   const theme = useTheme();
-  const s = theme.variants.progressBar?.[tone];
+  const s = theme.variants.progressBar?.[variant];
+  if (!s) throw new Error(`Unknown progressBar variant "${variant}"`);
+
   const pct = Math.min(Math.max((value / total) * 100, 0), 100);
 
   return (
     <View
-      w="100%"
-      overflow="hidden"
       style={{
-        height: s?.height,
-        borderRadius: s?.borderRadius,
-        backgroundColor: s?.trackColor,
+        width: "100%",
+        height: s.height,
+        borderRadius: s.borderRadius,
+        backgroundColor: s.trackColor,
+        overflow: "hidden",
       }}
     >
-      <View
-        h="100%"
-        style={{
-          width: `${pct}%`,
-          backgroundColor: s?.fillColor,
-        }}
-      />
+      <View style={{ height: "100%", width: `${pct}%`, backgroundColor: s.fillColor }} />
     </View>
   );
 }

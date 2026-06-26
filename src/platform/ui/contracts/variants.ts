@@ -3,15 +3,24 @@ import type { BadgeVariant } from "../primitives/Badge";
 import type { TagVariant } from "../primitives/Tag";
 import type { InputVariant } from "../primitives/Input";
 import type { AvatarVariant } from "../primitives/Avatar";
+import type { ProgressBarVariant } from "../primitives/ProgressBar";
+import type { SelectableChipVariant } from "../primitives/SelectableChip";
+import type { TextAreaVariant } from "../primitives/TextArea";
+import type { SelectVariant } from "../primitives/Select";
+import type { MultiSelectVariant } from "../primitives/MultiSelect";
 
-export type { ButtonVariant, BadgeVariant, TagVariant, InputVariant, AvatarVariant };
-
-export interface ProgressBarVariant {
-  trackColor: string;
-  fillColor: string;
-  height: number;
-  borderRadius: number;
-}
+export type {
+  ButtonVariant,
+  BadgeVariant,
+  TagVariant,
+  InputVariant,
+  AvatarVariant,
+  ProgressBarVariant,
+  SelectableChipVariant,
+  TextAreaVariant,
+  SelectVariant,
+  MultiSelectVariant,
+};
 
 export interface Variants {
   button?: Record<string, ButtonVariant>;
@@ -20,4 +29,8 @@ export interface Variants {
   input?: Record<string, InputVariant>;
   avatar?: Record<string, AvatarVariant>;
   progressBar?: Record<string, ProgressBarVariant>;
+  selectableChip?: Record<string, SelectableChipVariant>;
+  textArea?: Record<string, TextAreaVariant>;
+  select?: Record<string, SelectVariant>;
+  multiSelect?: Record<string, MultiSelectVariant>;
 }

@@ -31,6 +31,7 @@ export interface InteractionContract {
     backgroundColor?: string;
     borderColor?: string;
     color?: string;
+    fontWeight?: string | number;
     shadow?: string;
   };
 

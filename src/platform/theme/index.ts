@@ -17,6 +17,10 @@ import type {
   InputVariant,
   AvatarVariant,
   ProgressBarVariant,
+  SelectableChipVariant,
+  TextAreaVariant,
+  SelectVariant,
+  MultiSelectVariant,
   LayoutContract,
 } from "../ui/contracts";
 
@@ -257,6 +261,113 @@ export function createVariants(t: Tokens): Variants {
       warning: { ...progressBarBase, fillColor: t.colors.warning },
       danger:  { ...progressBarBase, fillColor: t.colors.error   },
     } satisfies Record<string, ProgressBarVariant>,
+
+    selectableChip: {
+      sm: {
+        backgroundColor: t.colors.surfaceAlt,
+        borderColor: t.colors.border,
+        borderWidth: 1,
+        color: t.colors.textSecondary,
+        paddingVertical: 6,
+        paddingHorizontal: 12,
+        fontSize: typography.sizes.xs,
+        fontWeight: typography.weights.regular,
+        interaction: {
+          disabledOpacity: 0.5,
+          pressed: { opacity: 0.75 },
+          selected: { backgroundColor: t.colors.textPrimary, borderColor: t.colors.textPrimary, color: t.colors.textInverse, fontWeight: typography.weights.semibold },
+        },
+      },
+      md: {
+        backgroundColor: t.colors.surfaceAlt,
+        borderColor: t.colors.border,
+        borderWidth: 1,
+        color: t.colors.textSecondary,
+        paddingVertical: 7,
+        paddingHorizontal: 14,
+        fontSize: typography.sizes.sm,
+        fontWeight: typography.weights.regular,
+        interaction: {
+          disabledOpacity: 0.5,
+          pressed: { opacity: 0.75 },
+          selected: { backgroundColor: t.colors.textPrimary, borderColor: t.colors.textPrimary, color: t.colors.textInverse, fontWeight: typography.weights.semibold },
+        },
+      },
+    } satisfies Record<string, SelectableChipVariant>,
+
+    textArea: {
+      default: {
+        backgroundColor: t.colors.surfaceAlt,
+        color: t.colors.textPrimary,
+        borderWidth: 1,
+        borderColor: t.colors.border,
+        borderRadius: t.colors.radii.md,
+        paddingVertical: space.md,
+        paddingHorizontal: space.md,
+        fontSize: typography.sizes.md,
+        fontFamily: typography.fontFamily,
+        minHeight: 120,
+        placeholderColor: t.colors.textMuted,
+        interaction: {
+          disabledOpacity: 0.5,
+          focused: { borderColor: t.colors.primary, borderWidth: 2 },
+        },
+      },
+    } satisfies Record<string, TextAreaVariant>,
+
+    select: {
+      default: {
+        backgroundColor: t.colors.surfaceAlt,
+        borderColor: t.colors.border,
+        borderWidth: 1,
+        borderRadius: t.colors.radii.pill,
+        minHeight: 54,
+        paddingVertical: space.md,
+        paddingHorizontal: space.md,
+        color: t.colors.textPrimary,
+        placeholderColor: t.colors.textMuted,
+        menuBackgroundColor: t.colors.surfaceStrong,
+        menuBorderColor: t.colors.borderSubtle,
+        menuBorderRadius: t.colors.radii.md,
+        optionSelectedBackgroundColor: t.colors.primaryMuted,
+        optionSelectedColor: t.colors.primary,
+        optionColor: t.colors.textPrimary,
+        optionFontSize: typography.sizes.md,
+        interaction: {
+          disabledOpacity: 0.5,
+          hover: { borderColor: t.colors.borderHover },
+          focused: { borderColor: t.colors.primary, borderWidth: 2 },
+        },
+      },
+    } satisfies Record<string, SelectVariant>,
+
+    multiSelect: {
+      default: {
+        backgroundColor: t.colors.surfaceAlt,
+        borderColor: t.colors.border,
+        borderWidth: 1,
+        borderRadius: t.colors.radii.md,
+        minHeight: 54,
+        paddingVertical: space.md,
+        paddingHorizontal: space.md,
+        color: t.colors.textPrimary,
+        placeholderColor: t.colors.textMuted,
+        menuBackgroundColor: t.colors.surfaceStrong,
+        menuBorderColor: t.colors.borderSubtle,
+        menuBorderRadius: t.colors.radii.md,
+        optionSelectedBackgroundColor: t.colors.primaryMuted,
+        optionSelectedColor: t.colors.primary,
+        optionColor: t.colors.textPrimary,
+        optionFontSize: typography.sizes.md,
+        tokenBackgroundColor: t.colors.primaryMuted,
+        tokenColor: t.colors.primary,
+        tokenBorderRadius: t.colors.radii.pill,
+        interaction: {
+          disabledOpacity: 0.5,
+          hover: { borderColor: t.colors.borderHover },
+        },
+      },
+    } satisfies Record<string, MultiSelectVariant>,
   };
 }
 

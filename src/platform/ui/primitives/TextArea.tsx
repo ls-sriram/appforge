@@ -1,42 +1,64 @@
-import { styled, useTheme } from "@tamagui/core";
-import React from "react";
-import { StyleSheet, TextInput } from "react-native";
+import React, { useState } from "react";
+import { TextInput, View } from "react-native";
+import { useTheme } from "../../theme/ThemeProvider";
+import type { InteractionContract } from "../contracts/interaction";
 
-const TextAreaFrame = styled(TextInput, {
-  name: "TextArea",
-  backgroundColor: "$surfaceAlt",
-  borderWidth: 1,
-  borderColor: "$border",
-  borderRadius: "$3",
-  minHeight: 160,
-  paddingVertical: "$4",
-  paddingHorizontal: "$4",
-});
-
-export type TextAreaProps = Omit<React.ComponentProps<typeof TextAreaFrame>, "style"> & {
-  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
-};
-
-export function TextArea(props: TextAreaProps) {
-  const theme = useTheme();
-  const { style: _style, size, ...rest } = props as TextAreaProps & { style?: unknown };
-  const minHeight =
-    size === "sm" ? 80 : size === "md" ? 100 : size === "xl" ? 160 : size === "2xl" ? 220 : size === "3xl" ? 260 : size === "4xl" ? 320 : 120;
-  return (
-    <TextAreaFrame
-      multiline
-      textAlignVertical="top"
-      placeholderTextColor={theme.textMuted.get()}
-      minHeight={minHeight}
-      style={[styles.text, { color: theme.textPrimary.get() }]}
-      {...rest}
-    />
-  );
+export interface TextAreaVariant {
+  backgroundColor: string;
+  color: string;
+  borderWidth: number;
+  borderColor: string;
+  borderRadius: number;
+  paddingVertical: number;
+  paddingHorizontal: number;
+  fontSize: number;
+  fontFamily: string;
+  minHeight: number;
+  placeholderColor?: string;
+  interaction?: InteractionContract;
 }
 
-const styles = StyleSheet.create({
-  text: {
-    fontFamily: "System",
-    fontSize: 15,
+export type TextAreaProps = Omit<React.ComponentProps<typeof TextInput>, "style" | "multiline"> & {
+  variant: string;
+  disabled?: boolean;
+};
+
+export const TextArea = React.forwardRef<TextInput, TextAreaProps>(
+  function TextArea({ variant, onFocus, onBlur, disabled, ...props }, ref) {
+    const theme = useTheme();
+    const s = theme.variants.textArea?.[variant];
+    if (!s) throw new Error(`Unknown textArea variant "${variant}"`);
+
+    const [focused, setFocused] = useState(false);
+    const ix = s.interaction;
+    const focusedStyle = focused ? ix?.focused : undefined;
+    const opacity = disabled ? (ix?.disabledOpacity ?? 0.5) : 1;
+
+    return (
+      <View style={{ opacity }}>
+        <TextInput
+          ref={ref}
+          multiline
+          textAlignVertical="top"
+          placeholderTextColor={s.placeholderColor}
+          editable={!disabled}
+          onFocus={(e) => { setFocused(true); onFocus?.(e); }}
+          onBlur={(e) => { setFocused(false); onBlur?.(e); }}
+          {...props}
+          style={{
+            backgroundColor: s.backgroundColor,
+            borderRadius: s.borderRadius,
+            borderWidth: focusedStyle?.borderWidth ?? s.borderWidth,
+            borderColor: focusedStyle?.borderColor ?? s.borderColor,
+            paddingVertical: s.paddingVertical,
+            paddingHorizontal: s.paddingHorizontal,
+            color: s.color,
+            fontSize: s.fontSize,
+            fontFamily: s.fontFamily,
+            minHeight: s.minHeight,
+          }}
+        />
+      </View>
+    );
   },
-});
+);
