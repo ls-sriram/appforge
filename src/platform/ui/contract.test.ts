@@ -64,4 +64,12 @@ describe("platform scaffold contract", () => {
   it("includes SizingToolbar in the closed primitive contract and export surface", () => {
     expect(CLOSED_VALUE_PRIMITIVES).toContain("SizingToolbar");
   });
+
+  it("includes Tabs in the closed primitive contract", () => {
+    expect(CLOSED_VALUE_PRIMITIVES).toContain("Tabs");
+  });
+
+  it("includes TabbedPanel in the closed primitive contract", () => {
+    expect(CLOSED_VALUE_PRIMITIVES).toContain("TabbedPanel");
+  });
 });

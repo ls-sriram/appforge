@@ -72,6 +72,14 @@ export type {
 } from "./primitives/SelectableChip";
 export { SizingToolbar } from "./primitives/SizingToolbar";
 export type { SizingToolbarProps, SizingToolbarValue } from "./primitives/SizingToolbar";
+export { Tabs } from "./primitives/Tabs";
+export type { TabsProps, TabOption } from "./primitives/Tabs";
+export { TabbedPanel } from "./primitives/TabbedPanel";
+export type {
+  TabbedPanelMoveDirection,
+  TabbedPanelProps,
+  TabbedPanelTab,
+} from "./primitives/TabbedPanel";
 export { Tag } from "./primitives/Tag";
 export type { TagProps } from "./primitives/Tag";
 export { Avatar } from "./primitives/Avatar";

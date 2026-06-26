@@ -21,6 +21,7 @@ This document records public UI/theme contract changes that affect apps or tools
 - `Select` and `MultiSelect` are now part of the public `@ui` surface as closed-form option-picker primitives.
 - `Table` is now part of the public `@ui` surface as a closed-form data table primitive.
 - `SizingToolbar` is now part of the public `@ui` surface as a closed-form icon-only size selector for scaffold action regions.
+- `Tabs` is now part of the public `@ui` surface as a closed-form tab navigation primitive with finite options, selected value, and optional icons.
 - `Table` owns widths, alignment, density, borders, and row geometry. Callers provide `columns`, `rows`, and per-column cell content only.
 - `SizingToolbar` owns a fixed `sm` / `md` / `lg` contract and default dedicated size icons; callers may override icons per fixed value but may not supply arbitrary options.
 - Rich cells are supported through finite cell kinds (`text`, `tag`, `badge`, `avatar`, `image`, `custom`), but callers may not control table layout with raw `style` or per-row width overrides.

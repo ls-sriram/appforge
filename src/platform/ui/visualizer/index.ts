@@ -47,6 +47,11 @@ export type {
   IconTone,
   SizingToolbarProps,
   SizingToolbarValue,
+  TabbedPanelMoveDirection,
+  TabbedPanelProps,
+  TabbedPanelTab,
+  TabsProps,
+  TabOption,
 } from "../index";
 
 // ── Wrapped — visualizer-aware versions of the render primitives ─────────────
@@ -66,5 +71,7 @@ export {
   ProgressBar,
   SelectableChip,
   SizingToolbar,
+  TabbedPanel,
+  Tabs,
   TextArea,
 } from "./wrapped";

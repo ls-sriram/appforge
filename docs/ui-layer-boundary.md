@@ -144,6 +144,8 @@ Closed value primitives:
 - `Icon`
 - `SelectableChip`
 - `SizingToolbar`
+- `Tabs`
+- `TabbedPanel`
 - `Tag`
 - `Avatar`
 - `Badge`
@@ -228,6 +230,20 @@ Sizing toolbar primitive:
 - callers may override which icon is shown for each fixed size, but may not change the option set
 - intended placement is scaffold action regions such as `HeaderScaffold` and `PanelScaffold`
 - it is not a generic segmented control or arbitrary sizing DSL
+
+Tabs primitive:
+- `Tabs` is a closed value primitive for top-level one-of-many view navigation
+- callers provide a finite `options` list, selected `value`, and `onValueChange`
+- tabs may include icons and disabled states, but they do not expose arbitrary layout or indicator styling APIs
+- intended placement is header, panel, or section navigation where tab semantics are clearer than chips
+- `Tabs` remains selection-only and does not own close, move, docking, or panel-lifecycle behavior
+
+Tabbed panel primitive:
+- `TabbedPanel` is a closed value primitive for maintaining one active tabbed panel host
+- it is controlled through `tabs`, `activeTabId`, and `onActiveTabChange`
+- it may expose finite active-tab maintenance actions such as close and left/right move callbacks
+- it reuses platform panel structure internally, but it is not itself a scaffold or layout helper in the public contract
+- it is not a generic docking system, cross-host transfer surface, or drag/drop workspace DSL
 
 Preset scaffold library:
 - `PLATFORM_SCAFFOLDS.page`

@@ -25,6 +25,8 @@ export const CLOSED_VALUE_PRIMITIVES = [
   "Icon",
   "SelectableChip",
   "SizingToolbar",
+  "Tabs",
+  "TabbedPanel",
   "Tag",
   "Avatar",
   "Badge",
