@@ -1,0 +1,2019 @@
+diff --git a/src/platform/theme/index.ts b/src/platform/theme/index.ts
+index 44beb3f..18bcb6b 100644
+--- a/src/platform/theme/index.ts
++++ b/src/platform/theme/index.ts
+@@ -9,9 +9,18 @@
+ 
+ import { createTheme } from "./factory";
+ import type { DeepPartial, ThemeDefinition, ThemeOverride } from "./contracts";
++import type {
++  Variants,
++  ButtonVariant,
++  BadgeVariant,
++  TagVariant,
++  InputVariant,
++  AvatarVariant,
++  ProgressBarVariant,
++  LayoutContract,
++} from "../ui/contracts";
+ 
+ // ─── This App's Brand ──────────────────────────────────────────────
+-// Change these to rebrand. Every other color is derived from them.
+ 
+ const BRAND = {
+   primary: "#4F8EF7",
+@@ -25,8 +34,6 @@ const BRAND = {
+ export const defaultBrand = BRAND;
+ 
+ // ─── Generated Theme ───────────────────────────────────────────────
+-// Base from factory (dark: true generates structure), then override
+-// surface/text colors with a true near-black canvas.
+ 
+ const _base = createTheme({
+   brand: BRAND,
+@@ -61,206 +68,233 @@ export const tokens = {
+ 
+ type Tokens = ThemeDefinition;
+ 
+-// ─── Re-exports for backwards compatibility ────────────────────────
+-
+ export const { colors } = tokens;
+ 
+-// ─── Semantic builders (shapes from any token set) ──────────────────
+-// Extracted so per-app themes can re-derive component shapes from
+-// their own (e.g. dark/branded) color tokens instead of inheriting the
+-// default light palette. `createAppTheme()` below consumes these.
+-
+-function buildShapes(tokens: Tokens) {
+-  return {
+-  button: {
+-    primary: {
+-      backgroundColor: tokens.colors.primary,
+-      color: tokens.colors.textInverse,
+-      borderRadius: tokens.colors.radii.pill,
+-      paddingVertical: tokens.colors.space.sm,
+-      paddingHorizontal: tokens.colors.space.lg,
+-      fontSize: tokens.colors.typography.sizes.md,
+-      fontWeight: tokens.colors.typography.weights.semibold,
+-      shadow: "none",
+-    },
+-    primaryLg: {
+-      backgroundColor: tokens.colors.primary,
+-      color: tokens.colors.textInverse,
+-      borderRadius: tokens.colors.radii.pill,
+-      paddingVertical: tokens.colors.space.md,
+-      paddingHorizontal: tokens.colors.space.xl,
+-      fontSize: tokens.colors.typography.sizes.md,
+-      fontWeight: tokens.colors.typography.weights.semibold,
+-      shadow: "none",
+-    },
+-    secondary: {
+-      backgroundColor: tokens.colors.surfaceAlt,
+-      color: tokens.colors.textPrimary,
+-      borderWidth: 1,
+-      borderColor: tokens.colors.border,
+-      borderRadius: tokens.colors.radii.pill,
+-      paddingVertical: tokens.colors.space.sm,
+-      paddingHorizontal: tokens.colors.space.md,
+-      fontSize: tokens.colors.typography.sizes.sm,
+-      fontWeight: tokens.colors.typography.weights.medium,
+-    },
+-    ghost: {
+-      backgroundColor: "transparent",
+-      color: tokens.colors.textMuted,
+-      paddingVertical: tokens.colors.space.sm,
+-      paddingHorizontal: tokens.colors.space.sm,
+-      fontSize: tokens.colors.typography.sizes.sm,
+-      fontWeight: tokens.colors.typography.weights.medium,
+-      borderRadius: tokens.colors.radii.pill,
+-    },
+-    danger: {
+-      backgroundColor: tokens.colors.errorMuted,
+-      color: tokens.colors.error,
+-      borderRadius: tokens.colors.radii.md,
+-      paddingVertical: tokens.colors.space.md,
+-      paddingHorizontal: tokens.colors.space.xl,
+-      fontSize: tokens.colors.typography.sizes.md,
+-      fontWeight: tokens.colors.typography.weights.semibold,
+-      borderWidth: 1,
+-      borderColor: tokens.colors.error,
+-    },
+-  },
+-
+-  input: {
+-    default: {
+-      backgroundColor: tokens.colors.surfaceAlt,
+-      color: tokens.colors.textPrimary,
+-      borderWidth: 1,
+-      borderColor: tokens.colors.border,
+-      borderRadius: tokens.colors.radii.md,
+-      paddingVertical: tokens.colors.space.md,
+-      paddingHorizontal: tokens.colors.space.md,
+-      fontSize: tokens.colors.typography.sizes.md,
+-      fontFamily: tokens.colors.typography.fontFamily,
+-    },
+-    focus: {
+-      borderColor: tokens.colors.borderFocus,
+-      borderWidth: 1.5,
+-      shadow: `0 0 0 3px ${tokens.colors.primaryMuted}`,
+-    },
+-    error: {
+-      borderColor: tokens.colors.error,
+-      borderWidth: 1.5,
+-    },
+-    lg: {
+-      paddingVertical: tokens.colors.space.lg,
+-      paddingHorizontal: tokens.colors.space.lg,
+-      fontSize: tokens.colors.typography.sizes.lg,
+-      borderRadius: tokens.colors.radii.lg,
+-    },
+-  },
+-
+-  card: {
+-    backgroundColor: tokens.colors.surfaceStrong,
+-    borderRadius: tokens.colors.radii.xl,
+-    padding: tokens.colors.space.md,
+-    shadow: tokens.colors.shadowLg,
+-    borderWidth: 1,
+-    borderColor: tokens.colors.borderSubtle,
+-  },
+-  cardInteractive: {
+-    backgroundColor: tokens.colors.surface,
+-    borderRadius: tokens.colors.radii.xl,
+-    padding: tokens.colors.space.md,
+-    shadow: tokens.colors.shadowLg,
++// ─── Default variant factory ───────────────────────────────────────
++// Provides a fallback variant library derived from any token set.
++// Apps merge their own variants on top:
++//
++//   const appVariants = {
++//     ...createVariants(tokens),
++//     button: { ...createVariants(tokens).button, meditate: { ... } },
++//   };
++
++export function createVariants(t: Tokens): Variants {
++  const pill = t.colors.radii.pill;
++  const full = t.colors.radii.full;
++  const { space, typography, radii } = t.colors;
++
++  const badgeBase = {
++    borderRadius: full,
++    paddingVertical: space.xs,
++    paddingHorizontal: space.sm,
++    fontSize: typography.sizes.xs,
++    fontWeight: typography.weights.semibold,
+     borderWidth: 1,
+-    borderColor: tokens.colors.borderHover,
+-  },
++  } satisfies Partial<BadgeVariant>;
++
++  const tagBase = {
++    borderRadius: pill,
++    paddingVertical: 6,
++    paddingHorizontal: 10,
++    fontSize: 12,
++    fontWeight: typography.weights.semibold,
++  } satisfies Partial<TagVariant>;
++
++  const progressBarBase = {
++    trackColor: t.colors.surfaceAlt,
++    height: 4,
++    borderRadius: pill,
++  } satisfies Partial<ProgressBarVariant>;
++
++  const avatarBase = {
++    borderRadius: full,
++    backgroundColor: t.colors.primaryMuted,
++    color: t.colors.primary,
++  } satisfies Partial<AvatarVariant>;
+ 
+-  avatar: {
+-    xs: { width: 24, height: 24, borderRadius: tokens.colors.radii.full, fontSize: 10 },
+-    sm: { width: 32, height: 32, borderRadius: tokens.colors.radii.full, fontSize: 12 },
+-    md: { width: 40, height: 40, borderRadius: tokens.colors.radii.full, fontSize: 14 },
+-    lg: { width: 56, height: 56, borderRadius: tokens.colors.radii.full, fontSize: 20 },
+-    xl: { width: 80, height: 80, borderRadius: tokens.colors.radii.full, fontSize: 28 },
+-    xl2: { width: 120, height: 120, borderRadius: tokens.colors.radii.full, fontSize: 42 },
+-  },
++  return {
++    button: {
++      primary: {
++        backgroundColor: t.colors.primary,
++        color: t.colors.textInverse,
++        borderRadius: pill,
++        paddingVertical: space.sm,
++        paddingHorizontal: space.lg,
++        fontSize: typography.sizes.md,
++        fontWeight: typography.weights.semibold,
++        minHeight: 54,
++        interaction: {
++          disabledOpacity: 0.4,
++          pressed: { opacity: 0.8, scale: 0.97 },
++          hover: { opacity: 0.92 },
++        },
++      },
++      primaryLg: {
++        backgroundColor: t.colors.primary,
++        color: t.colors.textInverse,
++        borderRadius: pill,
++        paddingVertical: space.md,
++        paddingHorizontal: space.xl,
++        fontSize: typography.sizes.md,
++        fontWeight: typography.weights.semibold,
++        minHeight: 64,
++        interaction: {
++          disabledOpacity: 0.4,
++          pressed: { opacity: 0.8, scale: 0.97 },
++          hover: { opacity: 0.92 },
++        },
++      },
++      secondary: {
++        backgroundColor: t.colors.surfaceAlt,
++        color: t.colors.textPrimary,
++        borderWidth: 1,
++        borderColor: t.colors.border,
++        borderRadius: pill,
++        paddingVertical: space.sm,
++        paddingHorizontal: space.md,
++        fontSize: typography.sizes.sm,
++        fontWeight: typography.weights.medium,
++        minHeight: 36,
++        interaction: {
++          disabledOpacity: 0.4,
++          pressed: { opacity: 0.7 },
++          hover: { borderColor: t.colors.borderHover },
++        },
++      },
++      ghost: {
++        backgroundColor: "transparent",
++        color: t.colors.textMuted,
++        borderRadius: pill,
++        paddingVertical: space.sm,
++        paddingHorizontal: space.sm,
++        fontSize: typography.sizes.sm,
++        fontWeight: typography.weights.medium,
++        minHeight: 36,
++        interaction: {
++          disabledOpacity: 0.35,
++          pressed: { opacity: 0.6 },
++          hover: { color: t.colors.textSecondary },
++        },
++      },
++      danger: {
++        backgroundColor: t.colors.errorMuted,
++        color: t.colors.error,
++        borderWidth: 1,
++        borderColor: t.colors.error,
++        borderRadius: radii.md,
++        paddingVertical: space.md,
++        paddingHorizontal: space.xl,
++        fontSize: typography.sizes.md,
++        fontWeight: typography.weights.semibold,
++        minHeight: 54,
++        interaction: {
++          disabledOpacity: 0.4,
++          pressed: { opacity: 0.75, scale: 0.98 },
++          hover: { opacity: 0.9 },
++        },
++      },
++    } satisfies Record<string, ButtonVariant>,
++
++    badge: {
++      muted:   { ...badgeBase, backgroundColor: t.colors.surfaceAlt,   color: t.colors.textMuted, borderColor: t.colors.border,  interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
++      success: { ...badgeBase, backgroundColor: t.colors.successMuted,  color: t.colors.success,   borderColor: t.colors.success, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
++      warning: { ...badgeBase, backgroundColor: t.colors.warningMuted,  color: t.colors.warning,   borderColor: t.colors.warning, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
++      danger:  { ...badgeBase, backgroundColor: t.colors.errorMuted,    color: t.colors.error,     borderColor: t.colors.error,   interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
++      info:    { ...badgeBase, backgroundColor: t.colors.infoMuted,     color: t.colors.info,      borderColor: t.colors.info,    interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
++    } satisfies Record<string, BadgeVariant>,
++
++    tag: {
++      muted:     { ...tagBase, backgroundColor: t.colors.surfaceWash,        color: t.colors.textMuted,     interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.surfaceAlt,          color: t.colors.textPrimary  } } },
++      secondary: { ...tagBase, backgroundColor: t.colors.surfaceWash,        color: t.colors.textSecondary, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.surfaceAlt,          color: t.colors.textPrimary  } } },
++      accent:    { ...tagBase, backgroundColor: t.colors.accentMuted,        color: t.colors.primary,       interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.primary,             color: t.colors.textInverse  } } },
++      action:    { ...tagBase, backgroundColor: t.colors.actionAccentMuted,  color: t.colors.actionAccent,  interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.actionAccent,        color: t.colors.textInverse  } } },
++      success:   { ...tagBase, backgroundColor: t.colors.successAccentMuted, color: t.colors.success,       interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.success,             color: t.colors.textInverse  } } },
++      warning:   { ...tagBase, backgroundColor: t.colors.warningMuted,       color: t.colors.warning,       interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.warning,             color: t.colors.textInverse  } } },
++      danger:    { ...tagBase, backgroundColor: t.colors.errorMuted,         color: t.colors.error,         interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.error,               color: t.colors.textInverse  } } },
++      info:      { ...tagBase, backgroundColor: t.colors.infoMuted,          color: t.colors.info,          interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.info,                color: t.colors.textInverse  } } },
++    } satisfies Record<string, TagVariant>,
++
++    input: {
++      default: {
++        backgroundColor: t.colors.surfaceAlt,
++        color: t.colors.textPrimary,
++        borderWidth: 1,
++        borderColor: t.colors.border,
++        borderRadius: pill,
++        paddingVertical: space.md,
++        paddingHorizontal: space.md,
++        fontSize: typography.sizes.md,
++        fontFamily: typography.fontFamily,
++        placeholderColor: t.colors.textMuted,
++        interaction: {
++          disabledOpacity: 0.5,
++          focused: { borderColor: t.colors.primary, borderWidth: 2 },
++          hover: { borderColor: t.colors.borderHover },
++        },
++      },
++    } satisfies Record<string, InputVariant>,
++
++    avatar: {
++      xs:    { ...avatarBase, width: 24,  height: 24,  fontSize: 10, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.93 } } },
++      sm:    { ...avatarBase, width: 32,  height: 32,  fontSize: 12, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.93 } } },
++      md:    { ...avatarBase, width: 40,  height: 40,  fontSize: 14, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.93 } } },
++      lg:    { ...avatarBase, width: 56,  height: 56,  fontSize: 20, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.95 } } },
++      xl:    { ...avatarBase, width: 80,  height: 80,  fontSize: 28, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.96 } } },
++      "2xl": { ...avatarBase, width: 120, height: 120, fontSize: 42, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.97 } } },
++    } satisfies Record<string, AvatarVariant>,
++
++    progressBar: {
++      primary: { ...progressBarBase, fillColor: t.colors.primary },
++      success: { ...progressBarBase, fillColor: t.colors.success },
++      warning: { ...progressBarBase, fillColor: t.colors.warning },
++      danger:  { ...progressBarBase, fillColor: t.colors.error   },
++    } satisfies Record<string, ProgressBarVariant>,
++  };
++}
+ 
+-  badge: {
+-    default: {
+-      backgroundColor: tokens.colors.primaryMuted,
+-      color: tokens.colors.primary,
+-      borderRadius: tokens.colors.radii.full,
+-      paddingVertical: tokens.colors.space.xs,
+-      paddingHorizontal: tokens.colors.space.sm,
+-      fontSize: tokens.colors.typography.sizes.xs,
+-      fontWeight: tokens.colors.typography.weights.semibold,
+-    },
+-    success: {
+-      backgroundColor: tokens.colors.successMuted,
+-      color: tokens.colors.success,
+-      borderRadius: tokens.colors.radii.full,
+-      paddingVertical: tokens.colors.space.xs,
+-      paddingHorizontal: tokens.colors.space.sm,
+-      fontSize: tokens.colors.typography.sizes.xs,
+-      fontWeight: tokens.colors.typography.weights.semibold,
+-    },
+-    warning: {
+-      backgroundColor: tokens.colors.warningMuted,
+-      color: tokens.colors.warning,
+-      borderRadius: tokens.colors.radii.full,
+-      paddingVertical: tokens.colors.space.xs,
+-      paddingHorizontal: tokens.colors.space.sm,
+-      fontSize: tokens.colors.typography.sizes.xs,
+-      fontWeight: tokens.colors.typography.weights.semibold,
++export function createLayouts(t: Tokens): Record<string, LayoutContract> {
++  const { space, typography } = t.colors;
++  return {
++    compact: {
++      controlHeight: 28,
++      rowHeight: 32,
++      panelPadding: space.xs,
++      sectionGap: space.sm + 2,
++      itemGap: space.xs,
++      iconSize: 14,
++      fontSize: typography.sizes.sm,
++      labelSize: typography.sizes.xs,
+     },
+-    error: {
+-      backgroundColor: tokens.colors.errorMuted,
+-      color: tokens.colors.error,
+-      borderRadius: tokens.colors.radii.full,
+-      paddingVertical: tokens.colors.space.xs,
+-      paddingHorizontal: tokens.colors.space.sm,
+-      fontSize: tokens.colors.typography.sizes.xs,
+-      fontWeight: tokens.colors.typography.weights.semibold,
++    comfortable: {
++      controlHeight: 36,
++      rowHeight: 40,
++      panelPadding: space.md,
++      sectionGap: space.lg - 2,
++      itemGap: space.sm,
++      iconSize: 16,
++      fontSize: typography.sizes.md,
++      labelSize: typography.sizes.sm,
+     },
+-    info: {
+-      backgroundColor: tokens.colors.infoMuted,
+-      color: tokens.colors.info,
+-      borderRadius: tokens.colors.radii.full,
+-      paddingVertical: tokens.colors.space.xs,
+-      paddingHorizontal: tokens.colors.space.sm,
+-      fontSize: tokens.colors.typography.sizes.xs,
+-      fontWeight: tokens.colors.typography.weights.semibold,
++    spacious: {
++      controlHeight: 48,
++      rowHeight: 56,
++      panelPadding: space.lg + 2,
++      sectionGap: space.xl,
++      itemGap: space.md,
++      iconSize: 20,
++      fontSize: typography.sizes.md,
++      labelSize: typography.sizes.sm,
+     },
+-  },
+-
+-  tag: {
+-    backgroundColor: tokens.colors.surfaceAlt,
+-    color: tokens.colors.textSecondary,
+-    borderRadius: tokens.colors.radii.sm,
+-    paddingVertical: tokens.colors.space.xs,
+-    paddingHorizontal: tokens.colors.space.sm,
+-    fontSize: tokens.colors.typography.sizes.xs,
+-    fontWeight: tokens.colors.typography.weights.medium,
+-  },
+-
+-  divider: {
+-    height: 1,
+-    backgroundColor: tokens.colors.border,
+-    marginVertical: tokens.colors.space.md,
+-  },
+-
+-  skeleton: {
+-    backgroundColor: tokens.colors.surfaceAlt,
+-    borderRadius: tokens.colors.radii.sm,
+-  },
+-  } as const;
++  };
+ }
+ 
+-export const shapes = buildShapes(tokens);
+-
+-export type Theme = typeof tokens & {
+-  shapes: ReturnType<typeof buildShapes>;
+-};
++export type Theme = typeof tokens & { variants: Variants; layouts: Record<string, LayoutContract> };
+ 
+ export const theme: Theme = {
+   ...tokens,
+-  shapes,
++  variants: createVariants(tokens),
++  layouts: createLayouts(tokens),
+ };
+ 
+ function isPlainObject(value: unknown): value is Record<string, unknown> {
+@@ -290,10 +324,10 @@ function mergeDefined<T>(base: T, override?: DeepPartial<T>): T {
+ }
+ 
+ function buildThemeFromTokens(nextTokens: Tokens): Theme {
+-  const nextShapes = buildShapes(nextTokens);
+   return {
+     ...nextTokens,
+-    shapes: nextShapes,
++    variants: createVariants(nextTokens),
++    layouts: createLayouts(nextTokens),
+   };
+ }
+ 
+@@ -308,18 +342,18 @@ export function applyThemeOverride(baseTheme: Theme, override?: ThemeOverride):
+   return buildThemeFromTokens(nextTokens);
+ }
+ 
+-// ─── Per-app theming ───────────────────────────────────────────────
+-// Build a complete Theme from brand options plus optional raw color
+-// overrides (e.g. a true dark palette). Component shapes are
+-// re-derived from the overridden tokens, so Buttons/Badges/Panels all
+-// recolor correctly — this is the "edit design globally" primitive.
+-
+ export function createAppTheme(
+   options: Parameters<typeof createTheme>[0],
+   override?: ThemeOverride,
++  variantOverrides?: Partial<Variants>,
+ ): Theme {
+   const base = createTheme(options);
+-  return applyThemeOverride(buildThemeFromTokens(base), override);
++  const withColors = applyThemeOverride(buildThemeFromTokens(base), override);
++  if (!variantOverrides) return withColors;
++  return {
++    ...withColors,
++    variants: { ...withColors.variants, ...variantOverrides },
++  };
+ }
+ 
+ export { createTheme } from "./factory";
+diff --git a/src/platform/theme/theme.test.ts b/src/platform/theme/theme.test.ts
+index 4c60d56..45fd346 100644
+--- a/src/platform/theme/theme.test.ts
++++ b/src/platform/theme/theme.test.ts
+@@ -68,7 +68,7 @@ describe("ThemeProvider", () => {
+     expect(nextTheme.colors.state.hover).toBe("rgba(1,2,3,0.4)");
+     expect(nextTheme.colors.layout.maxContentWidth).toBe(720);
+     expect(nextTheme.colors.layout.pagePadding).toBe(theme.colors.layout.pagePadding);
+-    expect(nextTheme.shapes.button.primary.backgroundColor).toBe("#123456");
++    expect(nextTheme.variants.button!.primary.backgroundColor).toBe("#123456");
+   });
+ 
+   it("accepts provider-level theme overrides", () => {
+@@ -80,6 +80,6 @@ describe("ThemeProvider", () => {
+     const { result } = renderHook(() => useTheme(), { wrapper });
+ 
+     expect(result.current.colors.primary).toBe("#654321");
+-    expect(result.current.shapes.button.primary.backgroundColor).toBe("#654321");
++    expect(result.current.variants.button!.primary.backgroundColor).toBe("#654321");
+   });
+ });
+diff --git a/src/platform/ui/contract.test.ts b/src/platform/ui/contract.test.ts
+index 4d0c61b..56f68b3 100644
+--- a/src/platform/ui/contract.test.ts
++++ b/src/platform/ui/contract.test.ts
+@@ -1,5 +1,5 @@
+ import {
+-  CLOSED_VALUE_PRIMITIVES,
++  VALUE_PRIMITIVES,
+   PLATFORM_SCAFFOLDS,
+   SCAFFOLD_GAP_PRESETS,
+   SCAFFOLD_KINDS,
+@@ -7,7 +7,7 @@ import {
+   SCAFFOLD_SEPARATION_PRESETS,
+   SCAFFOLD_SLOT_BEHAVIORS,
+   SCAFFOLD_SLOT_PLACEMENTS,
+-} from "./contract";
++} from "./contracts";
+ 
+ describe("platform scaffold contract", () => {
+   it("exports the expected scaffold enums", () => {
+@@ -70,14 +70,14 @@ describe("platform scaffold contract", () => {
+   });
+ 
+   it("includes SizingToolbar in the closed primitive contract and export surface", () => {
+-    expect(CLOSED_VALUE_PRIMITIVES).toContain("SizingToolbar");
++    expect(VALUE_PRIMITIVES).toContain("SizingToolbar");
+   });
+ 
+   it("includes Tabs in the closed primitive contract", () => {
+-    expect(CLOSED_VALUE_PRIMITIVES).toContain("Tabs");
++    expect(VALUE_PRIMITIVES).toContain("Tabs");
+   });
+ 
+   it("includes TabbedPanel in the closed primitive contract", () => {
+-    expect(CLOSED_VALUE_PRIMITIVES).toContain("TabbedPanel");
++    expect(VALUE_PRIMITIVES).toContain("TabbedPanel");
+   });
+ });
+diff --git a/src/platform/ui/contract.ts b/src/platform/ui/contract.ts
+deleted file mode 100644
+index 09533ad..0000000
+--- a/src/platform/ui/contract.ts
++++ /dev/null
+@@ -1,302 +0,0 @@
+-/**
+- * Platform UI contract manifest.
+- *
+- * This file makes the repo's "open authoring" vs "closed editable"
+- * distinction explicit so tooling and docs share one source of truth.
+- */
+-
+-export const OPEN_LAYOUT_PRIMITIVES = [
+-  "YStack",
+-  "XStack",
+-  "ScrollView",
+-] as const;
+-
+-export const CLOSED_VALUE_PRIMITIVES = [
+-  "Body",
+-  "Heading",
+-  "Label",
+-  "Display",
+-  "Button",
+-  "Input",
+-  "TextArea",
+-  "Select",
+-  "MultiSelect",
+-  "ColorPalettePicker",
+-  "Icon",
+-  "SelectableChip",
+-  "SizingToolbar",
+-  "Tabs",
+-  "TabbedPanel",
+-  "Tag",
+-  "Avatar",
+-  "Badge",
+-  "ProgressBar",
+-  "Table",
+-  "dialog",
+-  "linking",
+-] as const;
+-
+-export const PLATFORM_BYPASS_PROPS = [
+-  "style",
+-  "contentContainerStyle",
+-  "className",
+-] as const;
+-
+-export const CLOSED_WIDTH_PRESETS = {
+-  content: "content",
+-  narrow: 280,
+-  regular: 360,
+-  wide: 480,
+-  sidebar: 232,
+-  rail: 72,
+-  fill: "100%",
+-} as const;
+-
+-export const CLOSED_MIN_HEIGHT_PRESETS = {
+-  none: 0,
+-  chip: 32,
+-  controlSm: 36,
+-  controlMd: 54,
+-  controlLg: 64,
+-  panelSm: 80,
+-  panelMd: 120,
+-  panelLg: 160,
+-  panelXl: 220,
+-  panel2xl: 260,
+-  panel3xl: 320,
+-} as const;
+-
+-export const CLOSED_MAX_HEIGHT_PRESETS = {
+-  panelSm: 160,
+-  panelMd: 220,
+-  panelLg: 320,
+-  panelXl: 480,
+-  viewport: 640,
+-} as const;
+-
+-export const CLOSED_OPACITY_PRESETS = {
+-  default: 1,
+-  muted: 0.72,
+-  disabled: 0.5,
+-  overlay: 0.6,
+-  backdrop: 0.8,
+-} as const;
+-
+-export const CLOSED_BORDER_WIDTH_PRESETS = {
+-  none: 0,
+-  thin: 0.5,
+-  normal: 1,
+-  thick: 2,
+-} as const;
+-
+-export const CLOSED_OVERLAY_PLACEMENTS = {
+-  inline: { position: "relative" },
+-  attached: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0 },
+-  floating: { position: "absolute", top: 16, right: 16 },
+-  fullscreen: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0 },
+-} as const;
+-
+-export const SCAFFOLD_KINDS = [
+-  "page",
+-  "centeredPage",
+-  "header",
+-  "sidebar",
+-  "panel",
+-  "panelCollection",
+-] as const;
+-
+-export const SCAFFOLD_SLOT_BEHAVIORS = [
+-  "flow",
+-  "sticky",
+-  "fixed",
+-] as const;
+-
+-export const SCAFFOLD_SLOT_PLACEMENTS = [
+-  "inline",
+-  "top",
+-  "bottom",
+-  "left",
+-  "right",
+-  "center",
+-  "leading",
+-  "trailing",
+-] as const;
+-
+-export const SCAFFOLD_GAP_PRESETS = [
+-  "none",
+-  "tight",
+-  "default",
+-  "loose",
+-] as const;
+-
+-export const SCAFFOLD_PADDING_PRESETS = [
+-  "none",
+-  "sm",
+-  "md",
+-  "lg",
+-] as const;
+-
+-export const SCAFFOLD_SEPARATION_PRESETS = [
+-  "flush",
+-  "separated",
+-] as const;
+-
+-export const CLOSED_EDITABLE_ALLOWED_TAMAGUI_PROPS = [
+-  "ai",
+-  "jc",
+-  "fd",
+-  "f",
+-  "gap",
+-  "p",
+-  "px",
+-  "py",
+-  "pt",
+-  "pb",
+-  "pl",
+-  "pr",
+-  "m",
+-  "mx",
+-  "my",
+-  "mt",
+-  "mb",
+-  "ml",
+-  "mr",
+-  "bg",
+-  "color",
+-  "borderColor",
+-  "borderWidth",
+-  "borderTopWidth",
+-  "borderBottomWidth",
+-  "overflow",
+-  "br",
+-  "minHeight",
+-  "maxWidth",
+-  "w",
+-  "h",
+-  "flexBasis",
+-] as const;
+-
+-export const CLOSED_EDITABLE_FORBIDDEN_TAMAGUI_PROPS = [
+-  "opacity",
+-  "position",
+-  "top",
+-  "right",
+-  "bottom",
+-  "left",
+-  "inset",
+-  "zIndex",
+-  "minWidth",
+-  "maxHeight",
+-  "letterSpacing",
+-  "pressStyle",
+-  "hoverStyle",
+-  "focusStyle",
+-  "animation",
+-  "transform",
+-] as const;
+-
+-export type ClosedWidthPreset = keyof typeof CLOSED_WIDTH_PRESETS;
+-export type ClosedMinHeightPreset = keyof typeof CLOSED_MIN_HEIGHT_PRESETS;
+-export type ClosedMaxHeightPreset = keyof typeof CLOSED_MAX_HEIGHT_PRESETS;
+-export type ClosedOpacityPreset = keyof typeof CLOSED_OPACITY_PRESETS;
+-export type ClosedBorderWidthPreset = keyof typeof CLOSED_BORDER_WIDTH_PRESETS;
+-export type ClosedOverlayPlacement = keyof typeof CLOSED_OVERLAY_PLACEMENTS;
+-export type ScaffoldKind = typeof SCAFFOLD_KINDS[number];
+-export type ScaffoldSlotBehavior = typeof SCAFFOLD_SLOT_BEHAVIORS[number];
+-export type ScaffoldSlotPlacement = typeof SCAFFOLD_SLOT_PLACEMENTS[number];
+-export type ScaffoldGapPreset = typeof SCAFFOLD_GAP_PRESETS[number];
+-export type ScaffoldPaddingPreset = typeof SCAFFOLD_PADDING_PRESETS[number];
+-export type ScaffoldSeparationPreset = typeof SCAFFOLD_SEPARATION_PRESETS[number];
+-
+-export type OpenLayoutPrimitiveName = typeof OPEN_LAYOUT_PRIMITIVES[number];
+-export type ClosedValuePrimitiveName = typeof CLOSED_VALUE_PRIMITIVES[number];
+-export type PlatformBypassProp = typeof PLATFORM_BYPASS_PROPS[number];
+-export type ClosedEditableAllowedProp = typeof CLOSED_EDITABLE_ALLOWED_TAMAGUI_PROPS[number];
+-export type ClosedEditableForbiddenProp = typeof CLOSED_EDITABLE_FORBIDDEN_TAMAGUI_PROPS[number];
+-
+-export interface ScaffoldSlotContract {
+-  name: string;
+-  placement: ScaffoldSlotPlacement;
+-  behavior: ScaffoldSlotBehavior;
+-  required?: boolean;
+-  multiple?: boolean;
+-}
+-
+-export interface ScaffoldContract {
+-  kind: ScaffoldKind;
+-  slots: readonly ScaffoldSlotContract[];
+-  gap?: ScaffoldGapPreset;
+-  padding?: ScaffoldPaddingPreset;
+-  separation?: ScaffoldSeparationPreset;
+-}
+-
+-export const PLATFORM_SCAFFOLDS = {
+-  page: {
+-    kind: "page",
+-    gap: "default",
+-    padding: "md",
+-    separation: "separated",
+-    slots: [
+-      { name: "header", placement: "top", behavior: "sticky", required: false },
+-      { name: "sidebar", placement: "left", behavior: "sticky", required: false },
+-      { name: "content", placement: "center", behavior: "flow", required: true },
+-      { name: "footer", placement: "bottom", behavior: "flow", required: false },
+-    ],
+-  },
+-  centeredPage: {
+-    kind: "centeredPage",
+-    gap: "default",
+-    padding: "md",
+-    separation: "flush",
+-    slots: [
+-      { name: "header", placement: "top", behavior: "flow", required: false },
+-      { name: "content", placement: "center", behavior: "flow", required: true },
+-      { name: "footer", placement: "bottom", behavior: "flow", required: false },
+-    ],
+-  },
+-  header: {
+-    kind: "header",
+-    gap: "tight",
+-    padding: "md",
+-    separation: "flush",
+-    slots: [
+-      { name: "leading", placement: "leading", behavior: "flow", required: false },
+-      { name: "title", placement: "center", behavior: "flow", required: true },
+-      { name: "actions", placement: "trailing", behavior: "flow", required: false, multiple: true },
+-    ],
+-  },
+-  sidebar: {
+-    kind: "sidebar",
+-    gap: "default",
+-    padding: "md",
+-    separation: "separated",
+-    slots: [
+-      { name: "header", placement: "top", behavior: "sticky", required: false },
+-      { name: "content", placement: "inline", behavior: "flow", required: true },
+-      { name: "footer", placement: "bottom", behavior: "sticky", required: false },
+-    ],
+-  },
+-  panel: {
+-    kind: "panel",
+-    gap: "default",
+-    padding: "md",
+-    separation: "separated",
+-    slots: [
+-      { name: "header", placement: "top", behavior: "flow", required: false },
+-      { name: "content", placement: "center", behavior: "flow", required: true },
+-      { name: "footer", placement: "bottom", behavior: "flow", required: false },
+-      { name: "actions", placement: "trailing", behavior: "flow", required: false, multiple: true },
+-    ],
+-  },
+-  panelCollection: {
+-    kind: "panelCollection",
+-    gap: "loose",
+-    padding: "md",
+-    separation: "separated",
+-    slots: [
+-      { name: "header", placement: "top", behavior: "flow", required: false },
+-      { name: "items", placement: "inline", behavior: "flow", required: true, multiple: true },
+-      { name: "actions", placement: "trailing", behavior: "flow", required: false, multiple: true },
+-    ],
+-  },
+-} as const satisfies Record<ScaffoldKind, ScaffoldContract>;
+diff --git a/src/platform/ui/contracts/index.ts b/src/platform/ui/contracts/index.ts
+new file mode 100644
+index 0000000..a5c0128
+--- /dev/null
++++ b/src/platform/ui/contracts/index.ts
+@@ -0,0 +1,49 @@
++export * from "./interaction";
++export * from "./variants";
++export * from "./scaffolds";
++export * from "./layouts";
++
++// ─── Primitive Registry ───────────────────────────────────────────
++// Used by tooling (visualizer, codegen) to enumerate what AppForge owns.
++// Layout primitives accept free composition; value primitives are shape-driven.
++
++export const LAYOUT_PRIMITIVES = [
++  "YStack",
++  "XStack",
++  "ScrollView",
++] as const;
++
++export const VALUE_PRIMITIVES = [
++  "Body",
++  "Heading",
++  "Label",
++  "Display",
++  "Button",
++  "Input",
++  "TextArea",
++  "Select",
++  "MultiSelect",
++  "ColorPalettePicker",
++  "Icon",
++  "SelectableChip",
++  "SizingToolbar",
++  "Tabs",
++  "TabbedPanel",
++  "Tag",
++  "Avatar",
++  "Badge",
++  "ProgressBar",
++  "Table",
++  "dialog",
++  "linking",
++] as const;
++
++export const PLATFORM_BYPASS_PROPS = [
++  "style",
++  "contentContainerStyle",
++  "className",
++] as const;
++
++export type LayoutPrimitiveName = typeof LAYOUT_PRIMITIVES[number];
++export type ValuePrimitiveName = typeof VALUE_PRIMITIVES[number];
++export type PlatformBypassProp = typeof PLATFORM_BYPASS_PROPS[number];
+diff --git a/src/platform/ui/contracts/scaffolds.ts b/src/platform/ui/contracts/scaffolds.ts
+new file mode 100644
+index 0000000..e338d82
+--- /dev/null
++++ b/src/platform/ui/contracts/scaffolds.ts
+@@ -0,0 +1,211 @@
++/**
++ * Scaffold contracts and layout presets.
++ *
++ * Scaffold contracts define the slot structure of each layout kind.
++ * Layout presets are the finite vocabulary scaffolds use for sizing —
++ * raw pixel values must not appear in scaffold definitions.
++ */
++
++// ─── Layout Presets ───────────────────────────────────────────────
++
++export const WIDTH_PRESETS = {
++  content: "content",
++  narrow: 280,
++  regular: 360,
++  wide: 480,
++  sidebar: 232,
++  rail: 72,
++  fill: "100%",
++} as const;
++
++export const MIN_HEIGHT_PRESETS = {
++  none: 0,
++  chip: 32,
++  controlSm: 36,
++  controlMd: 54,
++  controlLg: 64,
++  panelSm: 80,
++  panelMd: 120,
++  panelLg: 160,
++  panelXl: 220,
++  panel2xl: 260,
++  panel3xl: 320,
++} as const;
++
++export const MAX_HEIGHT_PRESETS = {
++  panelSm: 160,
++  panelMd: 220,
++  panelLg: 320,
++  panelXl: 480,
++  viewport: 640,
++} as const;
++
++export const OPACITY_PRESETS = {
++  default: 1,
++  muted: 0.72,
++  disabled: 0.5,
++  overlay: 0.6,
++  backdrop: 0.8,
++} as const;
++
++export const BORDER_WIDTH_PRESETS = {
++  none: 0,
++  thin: 0.5,
++  normal: 1,
++  thick: 2,
++} as const;
++
++export const OVERLAY_PLACEMENTS = {
++  inline: { position: "relative" },
++  attached: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0 },
++  floating: { position: "absolute", top: 16, right: 16 },
++  fullscreen: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0 },
++} as const;
++
++export type WidthPreset = keyof typeof WIDTH_PRESETS;
++export type MinHeightPreset = keyof typeof MIN_HEIGHT_PRESETS;
++export type MaxHeightPreset = keyof typeof MAX_HEIGHT_PRESETS;
++export type OpacityPreset = keyof typeof OPACITY_PRESETS;
++export type BorderWidthPreset = keyof typeof BORDER_WIDTH_PRESETS;
++export type OverlayPlacement = keyof typeof OVERLAY_PLACEMENTS;
++
++// ─── Scaffold Contracts ───────────────────────────────────────────
++
++export const SCAFFOLD_KINDS = [
++  "page",
++  "centeredPage",
++  "header",
++  "sidebar",
++  "panel",
++  "panelCollection",
++] as const;
++
++export const SCAFFOLD_SLOT_BEHAVIORS = [
++  "flow",
++  "sticky",
++  "fixed",
++] as const;
++
++export const SCAFFOLD_SLOT_PLACEMENTS = [
++  "inline",
++  "top",
++  "bottom",
++  "left",
++  "right",
++  "center",
++  "leading",
++  "trailing",
++] as const;
++
++export const SCAFFOLD_GAP_PRESETS = [
++  "none",
++  "tight",
++  "default",
++  "loose",
++] as const;
++
++export const SCAFFOLD_PADDING_PRESETS = [
++  "none",
++  "sm",
++  "md",
++  "lg",
++] as const;
++
++export const SCAFFOLD_SEPARATION_PRESETS = [
++  "flush",
++  "separated",
++] as const;
++
++export type ScaffoldKind = typeof SCAFFOLD_KINDS[number];
++export type ScaffoldSlotBehavior = typeof SCAFFOLD_SLOT_BEHAVIORS[number];
++export type ScaffoldSlotPlacement = typeof SCAFFOLD_SLOT_PLACEMENTS[number];
++export type ScaffoldGapPreset = typeof SCAFFOLD_GAP_PRESETS[number];
++export type ScaffoldPaddingPreset = typeof SCAFFOLD_PADDING_PRESETS[number];
++export type ScaffoldSeparationPreset = typeof SCAFFOLD_SEPARATION_PRESETS[number];
++
++export interface ScaffoldSlotContract {
++  name: string;
++  placement: ScaffoldSlotPlacement;
++  behavior: ScaffoldSlotBehavior;
++  required?: boolean;
++  multiple?: boolean;
++}
++
++export interface ScaffoldContract {
++  kind: ScaffoldKind;
++  slots: readonly ScaffoldSlotContract[];
++  gap?: ScaffoldGapPreset;
++  padding?: ScaffoldPaddingPreset;
++  separation?: ScaffoldSeparationPreset;
++}
++
++export const PLATFORM_SCAFFOLDS = {
++  page: {
++    kind: "page",
++    gap: "default",
++    padding: "md",
++    separation: "separated",
++    slots: [
++      { name: "header",   placement: "top",    behavior: "sticky", required: false },
++      { name: "sidebar",  placement: "left",   behavior: "sticky", required: false },
++      { name: "content",  placement: "center", behavior: "flow",   required: true  },
++      { name: "footer",   placement: "bottom", behavior: "flow",   required: false },
++    ],
++  },
++  centeredPage: {
++    kind: "centeredPage",
++    gap: "default",
++    padding: "md",
++    separation: "flush",
++    slots: [
++      { name: "header",  placement: "top",    behavior: "flow", required: false },
++      { name: "content", placement: "center", behavior: "flow", required: true  },
++      { name: "footer",  placement: "bottom", behavior: "flow", required: false },
++    ],
++  },
++  header: {
++    kind: "header",
++    gap: "tight",
++    padding: "md",
++    separation: "flush",
++    slots: [
++      { name: "leading", placement: "leading",  behavior: "flow", required: false },
++      { name: "title",   placement: "center",   behavior: "flow", required: true  },
++      { name: "actions", placement: "trailing", behavior: "flow", required: false, multiple: true },
++    ],
++  },
++  sidebar: {
++    kind: "sidebar",
++    gap: "default",
++    padding: "md",
++    separation: "separated",
++    slots: [
++      { name: "header",  placement: "top",    behavior: "sticky", required: false },
++      { name: "content", placement: "inline", behavior: "flow",   required: true  },
++      { name: "footer",  placement: "bottom", behavior: "sticky", required: false },
++    ],
++  },
++  panel: {
++    kind: "panel",
++    gap: "default",
++    padding: "md",
++    separation: "separated",
++    slots: [
++      { name: "header",  placement: "top",      behavior: "flow", required: false },
++      { name: "content", placement: "center",   behavior: "flow", required: true  },
++      { name: "footer",  placement: "bottom",   behavior: "flow", required: false },
++      { name: "actions", placement: "trailing", behavior: "flow", required: false, multiple: true },
++    ],
++  },
++  panelCollection: {
++    kind: "panelCollection",
++    gap: "loose",
++    padding: "md",
++    separation: "separated",
++    slots: [
++      { name: "header",  placement: "top",      behavior: "flow", required: false },
++      { name: "items",   placement: "inline",   behavior: "flow", required: true,  multiple: true },
++      { name: "actions", placement: "trailing", behavior: "flow", required: false, multiple: true },
++    ],
++  },
++} as const satisfies Record<ScaffoldKind, ScaffoldContract>;
+diff --git a/src/platform/ui/contracts/variants.ts b/src/platform/ui/contracts/variants.ts
+new file mode 100644
+index 0000000..53ffe1e
+--- /dev/null
++++ b/src/platform/ui/contracts/variants.ts
+@@ -0,0 +1,23 @@
++import type { ButtonVariant } from "../primitives/Button";
++import type { BadgeVariant } from "../primitives/Badge";
++import type { TagVariant } from "../primitives/Tag";
++import type { InputVariant } from "../primitives/Input";
++import type { AvatarVariant } from "../primitives/Avatar";
++
++export type { ButtonVariant, BadgeVariant, TagVariant, InputVariant, AvatarVariant };
++
++export interface ProgressBarVariant {
++  trackColor: string;
++  fillColor: string;
++  height: number;
++  borderRadius: number;
++}
++
++export interface Variants {
++  button?: Record<string, ButtonVariant>;
++  badge?: Record<string, BadgeVariant>;
++  tag?: Record<string, TagVariant>;
++  input?: Record<string, InputVariant>;
++  avatar?: Record<string, AvatarVariant>;
++  progressBar?: Record<string, ProgressBarVariant>;
++}
+diff --git a/src/platform/ui/index.ts b/src/platform/ui/index.ts
+index d04c4f3..3bb6d0f 100644
+--- a/src/platform/ui/index.ts
++++ b/src/platform/ui/index.ts
+@@ -13,15 +13,15 @@ export { SafeAreaView } from "react-native-safe-area-context";
+ export { UIProvider } from "./Provider";
+ export { config } from "./config";
+ export {
+-  OPEN_LAYOUT_PRIMITIVES,
+-  CLOSED_VALUE_PRIMITIVES,
++  LAYOUT_PRIMITIVES,
++  VALUE_PRIMITIVES,
+   PLATFORM_BYPASS_PROPS,
+-  CLOSED_WIDTH_PRESETS,
+-  CLOSED_MIN_HEIGHT_PRESETS,
+-  CLOSED_MAX_HEIGHT_PRESETS,
+-  CLOSED_OPACITY_PRESETS,
+-  CLOSED_BORDER_WIDTH_PRESETS,
+-  CLOSED_OVERLAY_PLACEMENTS,
++  WIDTH_PRESETS,
++  MIN_HEIGHT_PRESETS,
++  MAX_HEIGHT_PRESETS,
++  OPACITY_PRESETS,
++  BORDER_WIDTH_PRESETS,
++  OVERLAY_PLACEMENTS,
+   SCAFFOLD_KINDS,
+   SCAFFOLD_SLOT_BEHAVIORS,
+   SCAFFOLD_SLOT_PLACEMENTS,
+@@ -29,30 +29,35 @@ export {
+   SCAFFOLD_PADDING_PRESETS,
+   SCAFFOLD_SEPARATION_PRESETS,
+   PLATFORM_SCAFFOLDS,
+-  CLOSED_EDITABLE_ALLOWED_TAMAGUI_PROPS,
+-  CLOSED_EDITABLE_FORBIDDEN_TAMAGUI_PROPS,
+-  type OpenLayoutPrimitiveName,
+-  type ClosedValuePrimitiveName,
++  type ButtonVariant,
++  type BadgeVariant,
++  type TagVariant,
++  type InputVariant,
++  type AvatarVariant,
++  type ProgressBarVariant,
++  type Variants,
++  type LayoutContract,
++  type LayoutPrimitiveName,
++  type ValuePrimitiveName,
+   type PlatformBypassProp,
+-  type ClosedWidthPreset,
+-  type ClosedMinHeightPreset,
+-  type ClosedMaxHeightPreset,
+-  type ClosedOpacityPreset,
+-  type ClosedBorderWidthPreset,
+-  type ClosedOverlayPlacement,
++  type WidthPreset,
++  type MinHeightPreset,
++  type MaxHeightPreset,
++  type OpacityPreset,
++  type BorderWidthPreset,
++  type OverlayPlacement,
+   type ScaffoldKind,
+   type ScaffoldSlotBehavior,
+   type ScaffoldSlotPlacement,
+   type ScaffoldGapPreset,
+   type ScaffoldPaddingPreset,
+   type ScaffoldSeparationPreset,
+-  type ClosedEditableAllowedProp,
+-  type ClosedEditableForbiddenProp,
+   type ScaffoldSlotContract,
+   type ScaffoldContract,
+-} from "./contract";
++} from "./contracts";
+ export { Display, Heading, Label, Body } from "./primitives/Text";
+ export { Button } from "./primitives/Button";
++export type { ButtonProps } from "./primitives/Button";
+ export { Input } from "./primitives/Input";
+ export { TextArea } from "./primitives/TextArea";
+ export { ColorPalettePicker } from "./primitives/ColorPalettePicker";
+@@ -84,9 +89,7 @@ export { Tag } from "./primitives/Tag";
+ export type { TagProps } from "./primitives/Tag";
+ export { Avatar } from "./primitives/Avatar";
+ export { Badge } from "./primitives/Badge";
+-export type { BadgeTone } from "./primitives/Badge";
+ export { ProgressBar } from "./primitives/ProgressBar";
+-export type { ProgressBarTone } from "./primitives/ProgressBar";
+ export { Table } from "./primitives/Table";
+ export type {
+   TableAlign,
+@@ -109,6 +112,8 @@ export {
+   type ViewportTier,
+ } from "../theme/Viewport";
+ export { ViewportProvider } from "../theme/ViewportProvider";
++export { createVariants, createLayouts } from "../theme";
++export { DensityProvider, useLayout } from "../theme/DensityProvider";
+ export {
+   CenteredPageScaffold,
+   HeaderScaffold,
+diff --git a/src/platform/ui/primitives/Avatar.tsx b/src/platform/ui/primitives/Avatar.tsx
+index 6f5769c..200c914 100644
+--- a/src/platform/ui/primitives/Avatar.tsx
++++ b/src/platform/ui/primitives/Avatar.tsx
+@@ -1,19 +1,67 @@
+ import React from "react";
+-import { View } from "@tamagui/core";
+-import { Body } from "./Text";
++import { Pressable, Text, View } from "react-native";
++import { useTheme } from "../../theme/ThemeProvider";
++import type { InteractionContract } from "../contracts/interaction";
++
++export interface AvatarVariant {
++  width: number;
++  height: number;
++  borderRadius: number;
++  fontSize: number;
++  backgroundColor: string;
++  color: string;
++  interaction?: InteractionContract;
++}
+ 
+ interface AvatarProps {
+   initials?: string;
+-  size?: number;
++  size: string;
++  onPress?: () => void;
++  disabled?: boolean;
+ }
+ 
+-export function Avatar({ initials = "?", size = 40 }: AvatarProps) {
++export function Avatar({ initials = "?", size, onPress, disabled }: AvatarProps) {
++  const theme = useTheme();
++  const s = theme.variants.avatar?.[size];
++  if (!s) throw new Error(`Unknown avatar size "${size}"`);
++
+   const letters = initials.slice(0, 2).toUpperCase();
+-  return (
+-    <View w={size} h={size} br={9999} bg="$primaryMuted" ai="center" jc="center">
+-      <Body color="$primary" weight="bold" size="sm">
+-        {letters}
+-      </Body>
+-    </View>
+-  );
++  const ix = s.interaction;
++
++  const content = (pressed?: boolean, hovered?: boolean) => {
++    const stateStyle = pressed ? ix?.pressed : hovered ? ix?.hover : undefined;
++    const opacity = disabled ? (ix?.disabledOpacity ?? 0.45) : (stateStyle?.opacity ?? 1);
++    const scale = stateStyle?.scale;
++
++    return (
++      <View
++        style={{
++          width: s.width,
++          height: s.height,
++          borderRadius: s.borderRadius,
++          backgroundColor: s.backgroundColor,
++          alignItems: "center",
++          justifyContent: "center",
++          opacity,
++          transform: scale !== undefined ? [{ scale }] : undefined,
++        }}
++      >
++        <Text style={{ color: s.color, fontSize: s.fontSize, fontWeight: "700" }}>
++          {letters}
++        </Text>
++      </View>
++    );
++  };
++
++  if (onPress) {
++    return (
++      <Pressable onPress={onPress} disabled={disabled}>
++        {({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) =>
++          content(pressed, hovered)
++        }
++      </Pressable>
++    );
++  }
++
++  return content();
+ }
+diff --git a/src/platform/ui/primitives/Badge.tsx b/src/platform/ui/primitives/Badge.tsx
+index 0c025e7..0962279 100644
+--- a/src/platform/ui/primitives/Badge.tsx
++++ b/src/platform/ui/primitives/Badge.tsx
+@@ -1,52 +1,75 @@
+ import React from "react";
+-import { View } from "@tamagui/core";
+-import { Body } from "./Text";
++import { Pressable, Text, View } from "react-native";
++import { useTheme } from "../../theme/ThemeProvider";
++import type { InteractionContract } from "../contracts/interaction";
+ 
+-export type BadgeTone = "success" | "warning" | "danger" | "info" | "muted";
+-
+-const BG: Record<BadgeTone, string> = {
+-  success: "$successMuted",
+-  warning: "$warningMuted",
+-  danger:  "$errorMuted",
+-  info:    "$infoMuted",
+-  muted:   "$surfaceAlt",
+-};
+-const BORDER: Record<BadgeTone, string> = {
+-  success: "$success",
+-  warning: "$warning",
+-  danger:  "$error",
+-  info:    "$info",
+-  muted:   "$border",
+-};
+-const COLOR: Record<BadgeTone, string> = {
+-  success: "$success",
+-  warning: "$warning",
+-  danger:  "$error",
+-  info:    "$info",
+-  muted:   "$textMuted",
+-};
++export interface BadgeVariant {
++  backgroundColor: string;
++  color: string;
++  borderRadius: number;
++  paddingVertical: number;
++  paddingHorizontal: number;
++  fontSize: number;
++  fontWeight: string | number;
++  borderWidth?: number;
++  borderColor?: string;
++  interaction?: InteractionContract;
++}
+ 
+ interface BadgeProps {
+   label: string;
+-  tone?: BadgeTone;
++  tone: string;
++  onPress?: () => void;
++  disabled?: boolean;
+ }
+ 
+-export function Badge({ label, tone = "muted" }: BadgeProps) {
+-  return (
+-    <View
+-      fd="row"
+-      ai="center"
+-      py={4}
+-      px={8}
+-      br={9999}
+-      alignSelf="flex-start"
+-      bg={BG[tone]}
+-      borderColor={BORDER[tone]}
+-      borderWidth={1}
+-    >
+-      <Body color={COLOR[tone]} size="xs" weight="bold">
+-        {label}
+-      </Body>
+-    </View>
+-  );
++export function Badge({ label, tone, onPress, disabled }: BadgeProps) {
++  const theme = useTheme();
++  const s = theme.variants.badge?.[tone];
++  if (!s) throw new Error(`Unknown badge tone "${tone}"`);
++
++  const ix = s.interaction;
++  const content = (pressed?: boolean, hovered?: boolean) => {
++    const stateStyle = pressed ? ix?.pressed : hovered ? ix?.hover : undefined;
++    const opacity = disabled ? (ix?.disabledOpacity ?? 0.45) : (stateStyle?.opacity ?? 1);
++
++    return (
++      <View
++        style={{
++          flexDirection: "row",
++          alignItems: "center",
++          alignSelf: "flex-start",
++          backgroundColor: stateStyle?.backgroundColor ?? s.backgroundColor,
++          borderRadius: s.borderRadius,
++          paddingVertical: s.paddingVertical,
++          paddingHorizontal: s.paddingHorizontal,
++          borderWidth: s.borderWidth,
++          borderColor: stateStyle?.borderColor ?? s.borderColor,
++          opacity,
++        }}
++      >
++        <Text
++          style={{
++            color: stateStyle?.color ?? s.color,
++            fontSize: s.fontSize,
++            fontWeight: s.fontWeight as any,
++          }}
++        >
++          {label}
++        </Text>
++      </View>
++    );
++  };
++
++  if (onPress) {
++    return (
++      <Pressable onPress={onPress} disabled={disabled}>
++        {({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) =>
++          content(pressed, hovered)
++        }
++      </Pressable>
++    );
++  }
++
++  return content();
+ }
+diff --git a/src/platform/ui/primitives/Button.tsx b/src/platform/ui/primitives/Button.tsx
+index 4faee7b..aa3757f 100644
+--- a/src/platform/ui/primitives/Button.tsx
++++ b/src/platform/ui/primitives/Button.tsx
+@@ -1,95 +1,88 @@
+ import React from "react";
+-import { ActivityIndicator, Pressable } from "react-native";
+-import { View, styled } from "@tamagui/core";
+-import { Body } from "./Text";
++import { ActivityIndicator, Pressable, Text, View } from "react-native";
++import { useTheme } from "../../theme/ThemeProvider";
++import type { InteractionContract } from "../contracts/interaction";
+ 
+-// ── Variant contracts ─────────────────────────────────────────────────────────
+-
+-export type ButtonVariant = "primary" | "secondary" | "ghost" | "danger";
+-export type ButtonSize    = "sm" | "md" | "lg";
+-
+-// styled(View) handles appearance only; raw Pressable handles interaction so
+-// onPress reaches the DOM on web without Tamagui swallowing it.
+-const ButtonFrame = styled(View, {
+-  name: "Button",
+-  alignItems: "center",
+-  justifyContent: "center",
+-  borderRadius: 9999,
+-
+-  variants: {
+-    variant: {
+-      primary: {
+-        backgroundColor: "$primary",
+-      },
+-      secondary: {
+-        backgroundColor: "$surfaceAlt",
+-        borderWidth: 1,
+-        borderColor: "$border",
+-      },
+-      ghost: {
+-        backgroundColor: "transparent",
+-        borderWidth: 1,
+-        borderColor: "$borderSubtle",
+-      },
+-      danger: {
+-        backgroundColor: "$errorMuted",
+-        borderWidth: 1,
+-        borderColor: "$error",
+-      },
+-    },
+-    size: {
+-      sm: { minHeight: 36, paddingVertical: "$2", paddingHorizontal: "$3" },
+-      md: { minHeight: 54, paddingVertical: "$4", paddingHorizontal: "$5" },
+-      lg: { minHeight: 64, paddingVertical: "$5", paddingHorizontal: "$6" },
+-    },
+-  } as const,
+-
+-  defaultVariants: {
+-    variant: "primary",
+-    size: "md",
+-  },
+-});
+-
+-// Maps variant → text tone so callers only need to pass `label`.
+-const LABEL_TONE: Record<ButtonVariant, React.ComponentProps<typeof Body>["tone"]> = {
+-  primary:   "inverse",
+-  secondary: "primary",
+-  ghost:     "primary",
+-  danger:    "danger",
+-};
++export interface ButtonVariant {
++  backgroundColor: string;
++  color: string;
++  borderRadius: number;
++  paddingVertical: number;
++  paddingHorizontal: number;
++  fontSize: number;
++  fontWeight: string | number;
++  minHeight?: number;
++  borderWidth?: number;
++  borderColor?: string;
++  shadow?: string;
++  interaction?: InteractionContract;
++}
+ 
+-export type ButtonProps = React.ComponentProps<typeof Pressable> & {
+-  variant?: ButtonVariant;
+-  size?: ButtonSize;
+-  label?: string;
++export type ButtonProps = {
++  variant: string;
++  disabled?: boolean;
+   loading?: boolean;
++  onPress?: () => void;
++  children?: React.ReactNode;
+ };
+ 
+-export function Button({
+-  variant = "primary",
+-  size = "md",
+-  label,
+-  loading = false,
+-  disabled,
+-  onPress,
+-  children,
+-}: ButtonProps) {
+-  const tone = LABEL_TONE[variant];
++export function Button({ variant, loading = false, disabled, onPress, children }: ButtonProps) {
++  const theme = useTheme();
++  const s = theme.variants.button?.[variant];
++  if (!s) {
++    throw new Error(`Unknown button variant "${variant}"`);
++  }
+ 
+   return (
+     <Pressable onPress={onPress} disabled={disabled || loading}>
+-      <ButtonFrame
+-        variant={variant}
+-        size={size}
+-        opacity={disabled || loading ? 0.45 : 1}
+-        pointerEvents="none"
+-      >
+-        {loading
+-          ? <ActivityIndicator />
+-          : label
+-            ? <Body tone={tone} weight="bold" size="md">{label}</Body>
+-            : children}
+-      </ButtonFrame>
++      {({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) => {
++        const ix = s.interaction;
++        const isDisabled = disabled || loading;
++
++        const stateStyle = pressed
++          ? ix?.pressed
++          : hovered
++          ? ix?.hover
++          : undefined;
++
++        const opacity = isDisabled
++          ? (ix?.disabledOpacity ?? 0.45)
++          : (stateStyle?.opacity ?? 1);
++
++        const scale = stateStyle?.scale;
++
++        return (
++          <View
++            style={{
++              backgroundColor: stateStyle?.backgroundColor ?? s.backgroundColor,
++              borderRadius: s.borderRadius,
++              paddingVertical: s.paddingVertical,
++              paddingHorizontal: s.paddingHorizontal,
++              minHeight: s.minHeight,
++              borderWidth: s.borderWidth,
++              borderColor: stateStyle?.borderColor ?? s.borderColor,
++              opacity,
++              transform: scale !== undefined ? [{ scale }] : undefined,
++              alignItems: "center",
++              justifyContent: "center",
++            }}
++          >
++            {loading ? (
++              <ActivityIndicator color={s.color} />
++            ) : (
++              <Text
++                style={{
++                  color: stateStyle?.color ?? s.color,
++                  fontSize: s.fontSize,
++                  fontWeight: s.fontWeight as any,
++                }}
++              >
++                {children}
++              </Text>
++            )}
++          </View>
++        );
++      }}
+     </Pressable>
+   );
+ }
+diff --git a/src/platform/ui/primitives/Input.tsx b/src/platform/ui/primitives/Input.tsx
+index 0aeef0d..3233c84 100644
+--- a/src/platform/ui/primitives/Input.tsx
++++ b/src/platform/ui/primitives/Input.tsx
+@@ -1,38 +1,54 @@
+-import { styled, useTheme } from "@tamagui/core";
+-import React from "react";
+-import { StyleSheet, TextInput } from "react-native";
++import React, { useState } from "react";
++import { TextInput } from "react-native";
++import { useTheme } from "../../theme/ThemeProvider";
++import type { InteractionContract } from "../contracts/interaction";
+ 
+-const InputFrame = styled(TextInput, {
+-  name: "Input",
+-  backgroundColor: "$surfaceAlt",
+-  borderWidth: 1,
+-  borderColor: "$border",
+-  borderRadius: 9999,
+-  minHeight: 54,
+-  paddingVertical: "$4",
+-  paddingHorizontal: "$5",
+-});
++export interface InputVariant {
++  backgroundColor: string;
++  color: string;
++  borderWidth: number;
++  borderColor: string;
++  borderRadius: number;
++  paddingVertical: number;
++  paddingHorizontal: number;
++  fontSize: number;
++  fontFamily: string;
++  placeholderColor?: string;
++  interaction?: InteractionContract;
++}
+ 
+-export type InputProps = Omit<React.ComponentProps<typeof InputFrame>, "style">;
++export type InputProps = Omit<React.ComponentProps<typeof TextInput>, "style">;
+ 
+ export const Input = React.forwardRef<TextInput, InputProps>(
+-  function Input(props, ref) {
++  function Input({ onFocus, onBlur, ...props }, ref) {
+     const theme = useTheme();
+-    const { style: _style, ...rest } = props as InputProps & { style?: unknown };
++    const s = theme.variants.input?.["default"];
++    if (!s) throw new Error('Unknown input variant "default"');
++
++    const [focused, setFocused] = useState(false);
++    const ix = s.interaction;
++    const focusedStyle = focused ? ix?.focused : undefined;
++
+     return (
+-      <InputFrame
++      <TextInput
+         ref={ref}
+-        placeholderTextColor={theme.textMuted.get()}
+-        style={[styles.text, { color: theme.textPrimary.get() }]}
+-        {...rest}
++        placeholderTextColor={s.placeholderColor}
++        onFocus={(e) => { setFocused(true); onFocus?.(e); }}
++        onBlur={(e) => { setFocused(false); onBlur?.(e); }}
++        {...props}
++        style={{
++          backgroundColor: s.backgroundColor,
++          borderRadius: s.borderRadius,
++          borderWidth: focusedStyle?.borderWidth ?? s.borderWidth,
++          borderColor: focusedStyle?.borderColor ?? s.borderColor,
++          paddingVertical: s.paddingVertical,
++          paddingHorizontal: s.paddingHorizontal,
++          color: s.color,
++          fontSize: s.fontSize,
++          fontFamily: s.fontFamily,
++          minHeight: 54,
++        }}
+       />
+     );
+   },
+ );
+-
+-const styles = StyleSheet.create({
+-  text: {
+-    fontFamily: "System",
+-    fontSize: 15,
+-  },
+-});
+diff --git a/src/platform/ui/primitives/ProgressBar.tsx b/src/platform/ui/primitives/ProgressBar.tsx
+index f6d1d99..ea4fede 100644
+--- a/src/platform/ui/primitives/ProgressBar.tsx
++++ b/src/platform/ui/primitives/ProgressBar.tsx
+@@ -1,26 +1,35 @@
+ import React from "react";
+ import { View } from "@tamagui/core";
+-
+-export type ProgressBarTone = "primary" | "success" | "warning" | "danger";
+-
+-const BAR_COLOR: Record<ProgressBarTone, string> = {
+-  primary: "$primary",
+-  success: "$success",
+-  warning: "$warning",
+-  danger:  "$error",
+-};
++import { useTheme } from "../../theme/ThemeProvider";
+ 
+ interface ProgressBarProps {
+   value: number;
+   total?: number;
+-  tone?: ProgressBarTone;
++  tone?: string;
+ }
+ 
+ export function ProgressBar({ value, total = 100, tone = "primary" }: ProgressBarProps) {
++  const theme = useTheme();
++  const s = theme.variants.progressBar?.[tone];
+   const pct = Math.min(Math.max((value / total) * 100, 0), 100);
++
+   return (
+-    <View w="100%" h={4} br={9999} bg="$surfaceAlt" overflow="hidden">
+-      <View h="100%" bg={BAR_COLOR[tone]} w={`${pct}%`} />
++    <View
++      w="100%"
++      overflow="hidden"
++      style={{
++        height: s?.height,
++        borderRadius: s?.borderRadius,
++        backgroundColor: s?.trackColor,
++      }}
++    >
++      <View
++        h="100%"
++        style={{
++          width: `${pct}%`,
++          backgroundColor: s?.fillColor,
++        }}
++      />
+     </View>
+   );
+ }
+diff --git a/src/platform/ui/primitives/Table.tsx b/src/platform/ui/primitives/Table.tsx
+index ca1a35d..d0ffb54 100644
+--- a/src/platform/ui/primitives/Table.tsx
++++ b/src/platform/ui/primitives/Table.tsx
+@@ -2,7 +2,7 @@ import React from "react";
+ import { Image, type ImageSourcePropType } from "react-native";
+ import { View } from "@tamagui/core";
+ import { Avatar } from "./Avatar";
+-import { Badge, type BadgeTone } from "./Badge";
++import { Badge } from "./Badge";
+ import { Body, Label } from "./Text";
+ import { Tag, type TagProps } from "./Tag";
+ 
+@@ -29,13 +29,13 @@ export type TableTextCell = {
+ export type TableTagCell = {
+   type: "tag";
+   label: string;
+-  tone?: TagProps["tone"];
++  tone: TagProps["tone"];
+ };
+ 
+ export type TableBadgeCell = {
+   type: "badge";
+   label: string;
+-  tone?: BadgeTone;
++  tone: string;
+ };
+ 
+ export type TableAvatarCell = {
+@@ -110,12 +110,7 @@ const IMAGE_SIZE: Record<NonNullable<TableImageCell["size"]>, number> = {
+   lg: 56,
+ };
+ 
+-const AVATAR_SIZE: Record<NonNullable<TableAvatarCell["size"]>, number> = {
+-  xs: 24,
+-  sm: 32,
+-  md: 40,
+-  lg: 56,
+-};
++
+ 
+ const TEXT_TONE: Record<TextTone, React.ComponentProps<typeof Body>["tone"]> = {
+   primary: "primary",
+@@ -151,7 +146,7 @@ function renderCell<Row>(spec: TableCellSpec<Row>, row: Row) {
+     case "badge":
+       return <Badge label={spec.label} tone={spec.tone} />;
+     case "avatar":
+-      return <Avatar initials={spec.initials} size={AVATAR_SIZE[spec.size ?? "md"]} />;
++      return <Avatar initials={spec.initials} size={spec.size ?? "md"} />;
+     case "image": {
+       const size = IMAGE_SIZE[spec.size ?? "md"];
+       const radius = spec.shape === "rounded" ? 12 : 0;
+diff --git a/src/platform/ui/primitives/Tag.tsx b/src/platform/ui/primitives/Tag.tsx
+index 55fe9ea..847b610 100644
+--- a/src/platform/ui/primitives/Tag.tsx
++++ b/src/platform/ui/primitives/Tag.tsx
+@@ -1,58 +1,85 @@
+ import React from "react";
+-import { Text, View } from "@tamagui/core";
++import { Pressable, Text, View } from "react-native";
+ import { useTheme } from "../../theme/ThemeProvider";
++import type { InteractionContract } from "../contracts/interaction";
++
++export interface TagVariant {
++  backgroundColor: string;
++  color: string;
++  borderRadius: number;
++  paddingVertical: number;
++  paddingHorizontal: number;
++  fontSize: number;
++  fontWeight: string | number;
++  interaction?: InteractionContract;
++}
+ 
+ export interface TagProps {
+   label: string;
+-  tone?: "muted" | "secondary" | "accent" | "action" | "success" | "warning" | "danger" | "info";
++  tone: string;
++  selected?: boolean;
++  onPress?: () => void;
++  disabled?: boolean;
+ }
+ 
+-export function Tag({ label, tone = "muted" }: TagProps) {
+-  const t = useTheme();
+-  const textColor =
+-    tone === "secondary"
+-      ? t.colors.textSecondary
+-      : tone === "accent"
+-        ? t.colors.primary
+-        : tone === "action"
+-          ? t.colors.actionAccent
+-          : tone === "success"
+-            ? t.colors.success
+-            : tone === "warning"
+-              ? t.colors.warning
+-              : tone === "danger"
+-                ? t.colors.error
+-                : tone === "info"
+-                  ? t.colors.info
+-                  : t.colors.textMuted;
+-  const bg =
+-    tone === "accent"
+-      ? t.colors.accentMuted
+-      : tone === "action"
+-        ? t.colors.actionAccentMuted
+-        : tone === "success"
+-          ? t.colors.successAccentMuted
+-          : tone === "warning"
+-            ? t.colors.warningMuted
+-            : tone === "danger"
+-              ? t.colors.errorMuted
+-              : tone === "info"
+-                ? t.colors.infoMuted
+-                : t.colors.surfaceWash;
+-
+-  return (
+-    <View
+-      fd="row"
+-      ai="center"
+-      py={6}
+-      px={10}
+-      br={9999}
+-      bg={bg}
+-      alignSelf="flex-start"
+-    >
+-      <Text color={textColor} fontSize={12} fontFamily="$bold">
+-        {label}
+-      </Text>
+-    </View>
+-  );
++export function Tag({ label, tone, selected = false, onPress, disabled }: TagProps) {
++  const theme = useTheme();
++  const s = theme.variants.tag?.[tone];
++  if (!s) throw new Error(`Unknown tag tone "${tone}"`);
++
++  const ix = s.interaction;
++  const content = (pressed?: boolean, hovered?: boolean) => {
++    const stateStyle = selected
++      ? ix?.selected
++      : pressed
++      ? ix?.pressed
++      : hovered
++      ? ix?.hover
++      : undefined;
++
++    const pressedOpacity = !selected && pressed ? ix?.pressed?.opacity : undefined;
++    const hoveredOpacity = !selected && !pressed && hovered ? ix?.hover?.opacity : undefined;
++    const opacity = disabled
++      ? (ix?.disabledOpacity ?? 0.45)
++      : (pressedOpacity ?? hoveredOpacity ?? 1);
++
++    return (
++      <View
++        style={{
++          flexDirection: "row",
++          alignItems: "center",
++          alignSelf: "flex-start",
++          backgroundColor: stateStyle?.backgroundColor ?? s.backgroundColor,
++          borderRadius: s.borderRadius,
++          paddingVertical: s.paddingVertical,
++          paddingHorizontal: s.paddingHorizontal,
++          borderWidth: stateStyle?.borderColor !== undefined ? 1 : undefined,
++          borderColor: stateStyle?.borderColor,
++          opacity,
++        }}
++      >
++        <Text
++          style={{
++            color: stateStyle?.color ?? s.color,
++            fontSize: s.fontSize,
++            fontWeight: s.fontWeight as any,
++          }}
++        >
++          {label}
++        </Text>
++      </View>
++    );
++  };
++
++  if (onPress) {
++    return (
++      <Pressable onPress={onPress} disabled={disabled}>
++        {({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) =>
++          content(pressed, hovered)
++        }
++      </Pressable>
++    );
++  }
++
++  return content();
+ }
+diff --git a/src/platform/ui/primitives/index.ts b/src/platform/ui/primitives/index.ts
+index e228549..6a654cc 100644
+--- a/src/platform/ui/primitives/index.ts
++++ b/src/platform/ui/primitives/index.ts
+@@ -15,7 +15,6 @@ export { Icon } from './Icon'
+ export type { IconName, IconSize, IconTone } from './Icon'
+ export { Avatar } from './Avatar'
+ export { Badge } from './Badge'
+-export type { BadgeTone } from './Badge'
+ export { Tag } from './Tag'
+ export type { TagProps } from './Tag'
+ export { SelectableChip } from './SelectableChip'
+@@ -27,7 +26,6 @@ export type { TabsProps, TabOption } from './Tabs'
+ export { TabbedPanel } from './TabbedPanel'
+ export type { TabbedPanelMoveDirection, TabbedPanelProps, TabbedPanelTab } from './TabbedPanel'
+ export { ProgressBar } from './ProgressBar'
+-export type { ProgressBarTone } from './ProgressBar'
+ export { Table } from './Table'
+ export type {
+   TableAlign,
+diff --git a/src/platform/ui/scaffolds/Scaffolds.tsx b/src/platform/ui/scaffolds/Scaffolds.tsx
+index 15e2a34..433ec7f 100644
+--- a/src/platform/ui/scaffolds/Scaffolds.tsx
++++ b/src/platform/ui/scaffolds/Scaffolds.tsx
+@@ -6,7 +6,7 @@ import { contentWidths, workspaceShell } from "../../theme/tokens";
+ import { useViewport, type ViewportTier } from "../../theme/Viewport";
+ import {
+   type ScaffoldSlotPlacement,
+-} from "../contract";
++} from "../contracts";
+ import { noopUi, type UiStamp } from "../viz";
+ 
+ type SlotNode = React.ReactNode;
+diff --git a/src/platform/ui/visualizer/index.ts b/src/platform/ui/visualizer/index.ts
+index 55259e2..1d70516 100644
+--- a/src/platform/ui/visualizer/index.ts
++++ b/src/platform/ui/visualizer/index.ts
+@@ -26,11 +26,9 @@ export {
+ } from "../index";
+ 
+ export type {
+-  BadgeTone,
+   GetProps,
+   UiStamp,
+   UiStampAttrs,
+-  ProgressBarTone,
+   SelectableChipSize,
+   SelectableChipShape,
+   SelectableChipFrame,

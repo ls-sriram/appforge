@@ -1,0 +1,35 @@
+diff --git a/src/platform/ui/primitives/Icon.tsx b/src/platform/ui/primitives/Icon.tsx
+index ad25921..c3f9ff6 100644
+--- a/src/platform/ui/primitives/Icon.tsx
++++ b/src/platform/ui/primitives/Icon.tsx
+@@ -1,6 +1,6 @@
+ import React from "react";
+ import { View } from "react-native";
+-import Svg, { Path, Circle } from "react-native-svg";
++import Svg, { Path, Circle, Rect } from "react-native-svg";
+ import { useTheme } from "../../theme/ThemeProvider";
+ 
+ /**
+@@ -81,19 +81,19 @@ const ICON_SIZE_MAP: Record<IconSize, number> = {
+ const icons: Record<IconName, (color: string) => React.ReactNode> = {
+   "panel-size-sm": (c) => (
+     <>
+-      <Path d="M5 7h14v10H5z" stroke={c} strokeWidth="2" fill="none" rx="2" />
++      <Rect x="5" y="7" width="14" height="10" rx="2" stroke={c} strokeWidth="2" fill="none" />
+       <Path d="M8 10h8M8 14h6" stroke={c} strokeWidth="2" strokeLinecap="round" />
+     </>
+   ),
+   "panel-size-md": (c) => (
+     <>
+-      <Path d="M4 6h16v12H4z" stroke={c} strokeWidth="2" fill="none" rx="2" />
++      <Rect x="4" y="6" width="16" height="12" rx="2" stroke={c} strokeWidth="2" fill="none" />
+       <Path d="M7 10h10M7 14h10" stroke={c} strokeWidth="2" strokeLinecap="round" />
+     </>
+   ),
+   "panel-size-lg": (c) => (
+     <>
+-      <Path d="M3 5h18v14H3z" stroke={c} strokeWidth="2" fill="none" rx="2" />
++      <Rect x="3" y="5" width="18" height="14" rx="2" stroke={c} strokeWidth="2" fill="none" />
+       <Path d="M6 10h12M6 14h12" stroke={c} strokeWidth="2" strokeLinecap="round" />
+     </>
+   ),

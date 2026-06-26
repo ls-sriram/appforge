@@ -4,13 +4,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "../../theme/ThemeProvider";
 import { contentWidths, workspaceShell } from "../../theme/tokens";
 import { useViewport, type ViewportTier } from "../../theme/Viewport";
-import {
-  type ScaffoldSlotPlacement,
-} from "../contracts";
 import { noopUi, type UiStamp } from "../viz";
 
 type SlotNode = React.ReactNode;
-type SidebarPlacement = Extract<ScaffoldSlotPlacement, "left" | "right">;
+type SidebarPlacement = "left" | "right";
 type CollapseMode = "never" | ViewportTier;
 export type CenteredPageScaffoldWidth = "narrow" | "regular";
 

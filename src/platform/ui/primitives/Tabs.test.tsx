@@ -19,6 +19,7 @@ jest.mock("react-native-svg", () => {
     default: ({ children }: { children?: React.ReactNode }) => React.createElement(View, null, children),
     Path: () => null,
     Circle: () => null,
+    Rect: () => null,
   };
 });
 
