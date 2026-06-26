@@ -13,15 +13,15 @@ export { SafeAreaView } from "react-native-safe-area-context";
 export { UIProvider } from "./Provider";
 export { config } from "./config";
 export {
-  OPEN_LAYOUT_PRIMITIVES,
-  CLOSED_VALUE_PRIMITIVES,
+  LAYOUT_PRIMITIVES,
+  VALUE_PRIMITIVES,
   PLATFORM_BYPASS_PROPS,
-  CLOSED_WIDTH_PRESETS,
-  CLOSED_MIN_HEIGHT_PRESETS,
-  CLOSED_MAX_HEIGHT_PRESETS,
-  CLOSED_OPACITY_PRESETS,
-  CLOSED_BORDER_WIDTH_PRESETS,
-  CLOSED_OVERLAY_PLACEMENTS,
+  WIDTH_PRESETS,
+  MIN_HEIGHT_PRESETS,
+  MAX_HEIGHT_PRESETS,
+  OPACITY_PRESETS,
+  BORDER_WIDTH_PRESETS,
+  OVERLAY_PLACEMENTS,
   SCAFFOLD_KINDS,
   SCAFFOLD_SLOT_BEHAVIORS,
   SCAFFOLD_SLOT_PLACEMENTS,
@@ -29,30 +29,34 @@ export {
   SCAFFOLD_PADDING_PRESETS,
   SCAFFOLD_SEPARATION_PRESETS,
   PLATFORM_SCAFFOLDS,
-  CLOSED_EDITABLE_ALLOWED_TAMAGUI_PROPS,
-  CLOSED_EDITABLE_FORBIDDEN_TAMAGUI_PROPS,
-  type OpenLayoutPrimitiveName,
-  type ClosedValuePrimitiveName,
+  type ButtonVariant,
+  type BadgeVariant,
+  type TagVariant,
+  type InputVariant,
+  type AvatarVariant,
+  type ProgressBarVariant,
+  type Variants,
+  type LayoutPrimitiveName,
+  type ValuePrimitiveName,
   type PlatformBypassProp,
-  type ClosedWidthPreset,
-  type ClosedMinHeightPreset,
-  type ClosedMaxHeightPreset,
-  type ClosedOpacityPreset,
-  type ClosedBorderWidthPreset,
-  type ClosedOverlayPlacement,
+  type WidthPreset,
+  type MinHeightPreset,
+  type MaxHeightPreset,
+  type OpacityPreset,
+  type BorderWidthPreset,
+  type OverlayPlacement,
   type ScaffoldKind,
   type ScaffoldSlotBehavior,
   type ScaffoldSlotPlacement,
   type ScaffoldGapPreset,
   type ScaffoldPaddingPreset,
   type ScaffoldSeparationPreset,
-  type ClosedEditableAllowedProp,
-  type ClosedEditableForbiddenProp,
   type ScaffoldSlotContract,
   type ScaffoldContract,
-} from "./contract";
+} from "./contracts";
 export { Display, Heading, Label, Body } from "./primitives/Text";
 export { Button } from "./primitives/Button";
+export type { ButtonProps } from "./primitives/Button";
 export { Input } from "./primitives/Input";
 export { TextArea } from "./primitives/TextArea";
 export { ColorPalettePicker } from "./primitives/ColorPalettePicker";
@@ -84,9 +88,7 @@ export { Tag } from "./primitives/Tag";
 export type { TagProps } from "./primitives/Tag";
 export { Avatar } from "./primitives/Avatar";
 export { Badge } from "./primitives/Badge";
-export type { BadgeTone } from "./primitives/Badge";
 export { ProgressBar } from "./primitives/ProgressBar";
-export type { ProgressBarTone } from "./primitives/ProgressBar";
 export { Table } from "./primitives/Table";
 export type {
   TableAlign,
@@ -109,6 +111,7 @@ export {
   type ViewportTier,
 } from "../theme/Viewport";
 export { ViewportProvider } from "../theme/ViewportProvider";
+export { createVariants } from "../theme";
 export {
   CenteredPageScaffold,
   HeaderScaffold,

@@ -26,11 +26,9 @@ export {
 } from "../index";
 
 export type {
-  BadgeTone,
   GetProps,
   UiStamp,
   UiStampAttrs,
-  ProgressBarTone,
   SelectableChipSize,
   SelectableChipShape,
   SelectableChipFrame,

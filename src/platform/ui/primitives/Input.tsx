@@ -1,38 +1,32 @@
-import { styled, useTheme } from "@tamagui/core";
 import React from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { TextInput } from "react-native";
+import { useTheme } from "../../theme/ThemeProvider";
 
-const InputFrame = styled(TextInput, {
-  name: "Input",
-  backgroundColor: "$surfaceAlt",
-  borderWidth: 1,
-  borderColor: "$border",
-  borderRadius: 9999,
-  minHeight: 54,
-  paddingVertical: "$4",
-  paddingHorizontal: "$5",
-});
-
-export type InputProps = Omit<React.ComponentProps<typeof InputFrame>, "style">;
+export type InputProps = Omit<React.ComponentProps<typeof TextInput>, "style">;
 
 export const Input = React.forwardRef<TextInput, InputProps>(
   function Input(props, ref) {
     const theme = useTheme();
-    const { style: _style, ...rest } = props as InputProps & { style?: unknown };
+    const s = theme.variants.input?.["default"];
+
     return (
-      <InputFrame
+      <TextInput
         ref={ref}
-        placeholderTextColor={theme.textMuted.get()}
-        style={[styles.text, { color: theme.textPrimary.get() }]}
-        {...rest}
+        placeholderTextColor={s?.placeholderColor}
+        {...props}
+        style={{
+          backgroundColor: s?.backgroundColor,
+          borderRadius: s?.borderRadius,
+          borderWidth: s?.borderWidth,
+          borderColor: s?.borderColor,
+          paddingVertical: s?.paddingVertical,
+          paddingHorizontal: s?.paddingHorizontal,
+          color: s?.color,
+          fontSize: s?.fontSize,
+          fontFamily: s?.fontFamily,
+          minHeight: 54,
+        }}
       />
     );
   },
 );
-
-const styles = StyleSheet.create({
-  text: {
-    fontFamily: "System",
-    fontSize: 15,
-  },
-});

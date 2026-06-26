@@ -2,7 +2,7 @@ import React from "react";
 import { Image, type ImageSourcePropType } from "react-native";
 import { View } from "@tamagui/core";
 import { Avatar } from "./Avatar";
-import { Badge, type BadgeTone } from "./Badge";
+import { Badge } from "./Badge";
 import { Body, Label } from "./Text";
 import { Tag, type TagProps } from "./Tag";
 
@@ -35,7 +35,7 @@ export type TableTagCell = {
 export type TableBadgeCell = {
   type: "badge";
   label: string;
-  tone?: BadgeTone;
+  tone?: string;
 };
 
 export type TableAvatarCell = {
@@ -110,12 +110,7 @@ const IMAGE_SIZE: Record<NonNullable<TableImageCell["size"]>, number> = {
   lg: 56,
 };
 
-const AVATAR_SIZE: Record<NonNullable<TableAvatarCell["size"]>, number> = {
-  xs: 24,
-  sm: 32,
-  md: 40,
-  lg: 56,
-};
+
 
 const TEXT_TONE: Record<TextTone, React.ComponentProps<typeof Body>["tone"]> = {
   primary: "primary",
@@ -151,7 +146,7 @@ function renderCell<Row>(spec: TableCellSpec<Row>, row: Row) {
     case "badge":
       return <Badge label={spec.label} tone={spec.tone} />;
     case "avatar":
-      return <Avatar initials={spec.initials} size={AVATAR_SIZE[spec.size ?? "md"]} />;
+      return <Avatar initials={spec.initials} size={spec.size ?? "md"} />;
     case "image": {
       const size = IMAGE_SIZE[spec.size ?? "md"];
       const radius = spec.shape === "rounded" ? 12 : 0;

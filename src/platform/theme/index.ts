@@ -9,9 +9,17 @@
 
 import { createTheme } from "./factory";
 import type { DeepPartial, ThemeDefinition, ThemeOverride } from "./contracts";
+import type {
+  Variants,
+  ButtonVariant,
+  BadgeVariant,
+  TagVariant,
+  InputVariant,
+  AvatarVariant,
+  ProgressBarVariant,
+} from "../ui/contracts";
 
 // ─── This App's Brand ──────────────────────────────────────────────
-// Change these to rebrand. Every other color is derived from them.
 
 const BRAND = {
   primary: "#4F8EF7",
@@ -25,8 +33,6 @@ const BRAND = {
 export const defaultBrand = BRAND;
 
 // ─── Generated Theme ───────────────────────────────────────────────
-// Base from factory (dark: true generates structure), then override
-// surface/text colors with a true near-black canvas.
 
 const _base = createTheme({
   brand: BRAND,
@@ -61,206 +67,166 @@ export const tokens = {
 
 type Tokens = ThemeDefinition;
 
-// ─── Re-exports for backwards compatibility ────────────────────────
-
 export const { colors } = tokens;
 
-// ─── Semantic builders (shapes from any token set) ──────────────────
-// Extracted so per-app themes can re-derive component shapes from
-// their own (e.g. dark/branded) color tokens instead of inheriting the
-// default light palette. `createAppTheme()` below consumes these.
+// ─── Default variant factory ───────────────────────────────────────
+// Provides a fallback variant library derived from any token set.
+// Apps merge their own variants on top:
+//
+//   const appVariants = {
+//     ...createVariants(tokens),
+//     button: { ...createVariants(tokens).button, meditate: { ... } },
+//   };
 
-function buildShapes(tokens: Tokens) {
+export function createVariants(t: Tokens): Variants {
+  const pill = t.colors.radii.pill;
+  const full = t.colors.radii.full;
+  const { space, typography, radii } = t.colors;
+
+  const badgeBase = {
+    borderRadius: full,
+    paddingVertical: space.xs,
+    paddingHorizontal: space.sm,
+    fontSize: typography.sizes.xs,
+    fontWeight: typography.weights.semibold,
+    borderWidth: 1,
+  } satisfies Partial<BadgeVariant>;
+
+  const tagBase = {
+    borderRadius: pill,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    fontSize: 12,
+    fontWeight: typography.weights.semibold,
+  } satisfies Partial<TagVariant>;
+
+  const progressBarBase = {
+    trackColor: t.colors.surfaceAlt,
+    height: 4,
+    borderRadius: pill,
+  } satisfies Partial<ProgressBarVariant>;
+
+  const avatarBase = {
+    borderRadius: full,
+    backgroundColor: t.colors.primaryMuted,
+    color: t.colors.primary,
+  } satisfies Partial<AvatarVariant>;
+
   return {
-  button: {
-    primary: {
-      backgroundColor: tokens.colors.primary,
-      color: tokens.colors.textInverse,
-      borderRadius: tokens.colors.radii.pill,
-      paddingVertical: tokens.colors.space.sm,
-      paddingHorizontal: tokens.colors.space.lg,
-      fontSize: tokens.colors.typography.sizes.md,
-      fontWeight: tokens.colors.typography.weights.semibold,
-      shadow: "none",
-    },
-    primaryLg: {
-      backgroundColor: tokens.colors.primary,
-      color: tokens.colors.textInverse,
-      borderRadius: tokens.colors.radii.pill,
-      paddingVertical: tokens.colors.space.md,
-      paddingHorizontal: tokens.colors.space.xl,
-      fontSize: tokens.colors.typography.sizes.md,
-      fontWeight: tokens.colors.typography.weights.semibold,
-      shadow: "none",
-    },
-    secondary: {
-      backgroundColor: tokens.colors.surfaceAlt,
-      color: tokens.colors.textPrimary,
-      borderWidth: 1,
-      borderColor: tokens.colors.border,
-      borderRadius: tokens.colors.radii.pill,
-      paddingVertical: tokens.colors.space.sm,
-      paddingHorizontal: tokens.colors.space.md,
-      fontSize: tokens.colors.typography.sizes.sm,
-      fontWeight: tokens.colors.typography.weights.medium,
-    },
-    ghost: {
-      backgroundColor: "transparent",
-      color: tokens.colors.textMuted,
-      paddingVertical: tokens.colors.space.sm,
-      paddingHorizontal: tokens.colors.space.sm,
-      fontSize: tokens.colors.typography.sizes.sm,
-      fontWeight: tokens.colors.typography.weights.medium,
-      borderRadius: tokens.colors.radii.pill,
-    },
-    danger: {
-      backgroundColor: tokens.colors.errorMuted,
-      color: tokens.colors.error,
-      borderRadius: tokens.colors.radii.md,
-      paddingVertical: tokens.colors.space.md,
-      paddingHorizontal: tokens.colors.space.xl,
-      fontSize: tokens.colors.typography.sizes.md,
-      fontWeight: tokens.colors.typography.weights.semibold,
-      borderWidth: 1,
-      borderColor: tokens.colors.error,
-    },
-  },
+    button: {
+      primary: {
+        backgroundColor: t.colors.primary,
+        color: t.colors.textInverse,
+        borderRadius: pill,
+        paddingVertical: space.sm,
+        paddingHorizontal: space.lg,
+        fontSize: typography.sizes.md,
+        fontWeight: typography.weights.semibold,
+        minHeight: 54,
+      },
+      primaryLg: {
+        backgroundColor: t.colors.primary,
+        color: t.colors.textInverse,
+        borderRadius: pill,
+        paddingVertical: space.md,
+        paddingHorizontal: space.xl,
+        fontSize: typography.sizes.md,
+        fontWeight: typography.weights.semibold,
+        minHeight: 64,
+      },
+      secondary: {
+        backgroundColor: t.colors.surfaceAlt,
+        color: t.colors.textPrimary,
+        borderWidth: 1,
+        borderColor: t.colors.border,
+        borderRadius: pill,
+        paddingVertical: space.sm,
+        paddingHorizontal: space.md,
+        fontSize: typography.sizes.sm,
+        fontWeight: typography.weights.medium,
+        minHeight: 36,
+      },
+      ghost: {
+        backgroundColor: "transparent",
+        color: t.colors.textMuted,
+        borderRadius: pill,
+        paddingVertical: space.sm,
+        paddingHorizontal: space.sm,
+        fontSize: typography.sizes.sm,
+        fontWeight: typography.weights.medium,
+        minHeight: 36,
+      },
+      danger: {
+        backgroundColor: t.colors.errorMuted,
+        color: t.colors.error,
+        borderWidth: 1,
+        borderColor: t.colors.error,
+        borderRadius: radii.md,
+        paddingVertical: space.md,
+        paddingHorizontal: space.xl,
+        fontSize: typography.sizes.md,
+        fontWeight: typography.weights.semibold,
+        minHeight: 54,
+      },
+    } satisfies Record<string, ButtonVariant>,
 
-  input: {
-    default: {
-      backgroundColor: tokens.colors.surfaceAlt,
-      color: tokens.colors.textPrimary,
-      borderWidth: 1,
-      borderColor: tokens.colors.border,
-      borderRadius: tokens.colors.radii.md,
-      paddingVertical: tokens.colors.space.md,
-      paddingHorizontal: tokens.colors.space.md,
-      fontSize: tokens.colors.typography.sizes.md,
-      fontFamily: tokens.colors.typography.fontFamily,
-    },
-    focus: {
-      borderColor: tokens.colors.borderFocus,
-      borderWidth: 1.5,
-      shadow: `0 0 0 3px ${tokens.colors.primaryMuted}`,
-    },
-    error: {
-      borderColor: tokens.colors.error,
-      borderWidth: 1.5,
-    },
-    lg: {
-      paddingVertical: tokens.colors.space.lg,
-      paddingHorizontal: tokens.colors.space.lg,
-      fontSize: tokens.colors.typography.sizes.lg,
-      borderRadius: tokens.colors.radii.lg,
-    },
-  },
+    badge: {
+      muted:   { ...badgeBase, backgroundColor: t.colors.surfaceAlt,   color: t.colors.textMuted, borderColor: t.colors.border   },
+      success: { ...badgeBase, backgroundColor: t.colors.successMuted,  color: t.colors.success,   borderColor: t.colors.success  },
+      warning: { ...badgeBase, backgroundColor: t.colors.warningMuted,  color: t.colors.warning,   borderColor: t.colors.warning  },
+      danger:  { ...badgeBase, backgroundColor: t.colors.errorMuted,    color: t.colors.error,     borderColor: t.colors.error    },
+      info:    { ...badgeBase, backgroundColor: t.colors.infoMuted,     color: t.colors.info,      borderColor: t.colors.info     },
+    } satisfies Record<string, BadgeVariant>,
 
-  card: {
-    backgroundColor: tokens.colors.surfaceStrong,
-    borderRadius: tokens.colors.radii.xl,
-    padding: tokens.colors.space.md,
-    shadow: tokens.colors.shadowLg,
-    borderWidth: 1,
-    borderColor: tokens.colors.borderSubtle,
-  },
-  cardInteractive: {
-    backgroundColor: tokens.colors.surface,
-    borderRadius: tokens.colors.radii.xl,
-    padding: tokens.colors.space.md,
-    shadow: tokens.colors.shadowLg,
-    borderWidth: 1,
-    borderColor: tokens.colors.borderHover,
-  },
+    tag: {
+      muted:     { ...tagBase, backgroundColor: t.colors.surfaceWash,         color: t.colors.textMuted     },
+      secondary: { ...tagBase, backgroundColor: t.colors.surfaceWash,         color: t.colors.textSecondary },
+      accent:    { ...tagBase, backgroundColor: t.colors.accentMuted,         color: t.colors.primary       },
+      action:    { ...tagBase, backgroundColor: t.colors.actionAccentMuted,   color: t.colors.actionAccent  },
+      success:   { ...tagBase, backgroundColor: t.colors.successAccentMuted,  color: t.colors.success       },
+      warning:   { ...tagBase, backgroundColor: t.colors.warningMuted,        color: t.colors.warning       },
+      danger:    { ...tagBase, backgroundColor: t.colors.errorMuted,          color: t.colors.error         },
+      info:      { ...tagBase, backgroundColor: t.colors.infoMuted,           color: t.colors.info          },
+    } satisfies Record<string, TagVariant>,
 
-  avatar: {
-    xs: { width: 24, height: 24, borderRadius: tokens.colors.radii.full, fontSize: 10 },
-    sm: { width: 32, height: 32, borderRadius: tokens.colors.radii.full, fontSize: 12 },
-    md: { width: 40, height: 40, borderRadius: tokens.colors.radii.full, fontSize: 14 },
-    lg: { width: 56, height: 56, borderRadius: tokens.colors.radii.full, fontSize: 20 },
-    xl: { width: 80, height: 80, borderRadius: tokens.colors.radii.full, fontSize: 28 },
-    xl2: { width: 120, height: 120, borderRadius: tokens.colors.radii.full, fontSize: 42 },
-  },
+    input: {
+      default: {
+        backgroundColor: t.colors.surfaceAlt,
+        color: t.colors.textPrimary,
+        borderWidth: 1,
+        borderColor: t.colors.border,
+        borderRadius: pill,
+        paddingVertical: space.md,
+        paddingHorizontal: space.md,
+        fontSize: typography.sizes.md,
+        fontFamily: typography.fontFamily,
+        placeholderColor: t.colors.textMuted,
+      },
+    } satisfies Record<string, InputVariant>,
 
-  badge: {
-    default: {
-      backgroundColor: tokens.colors.primaryMuted,
-      color: tokens.colors.primary,
-      borderRadius: tokens.colors.radii.full,
-      paddingVertical: tokens.colors.space.xs,
-      paddingHorizontal: tokens.colors.space.sm,
-      fontSize: tokens.colors.typography.sizes.xs,
-      fontWeight: tokens.colors.typography.weights.semibold,
-    },
-    success: {
-      backgroundColor: tokens.colors.successMuted,
-      color: tokens.colors.success,
-      borderRadius: tokens.colors.radii.full,
-      paddingVertical: tokens.colors.space.xs,
-      paddingHorizontal: tokens.colors.space.sm,
-      fontSize: tokens.colors.typography.sizes.xs,
-      fontWeight: tokens.colors.typography.weights.semibold,
-    },
-    warning: {
-      backgroundColor: tokens.colors.warningMuted,
-      color: tokens.colors.warning,
-      borderRadius: tokens.colors.radii.full,
-      paddingVertical: tokens.colors.space.xs,
-      paddingHorizontal: tokens.colors.space.sm,
-      fontSize: tokens.colors.typography.sizes.xs,
-      fontWeight: tokens.colors.typography.weights.semibold,
-    },
-    error: {
-      backgroundColor: tokens.colors.errorMuted,
-      color: tokens.colors.error,
-      borderRadius: tokens.colors.radii.full,
-      paddingVertical: tokens.colors.space.xs,
-      paddingHorizontal: tokens.colors.space.sm,
-      fontSize: tokens.colors.typography.sizes.xs,
-      fontWeight: tokens.colors.typography.weights.semibold,
-    },
-    info: {
-      backgroundColor: tokens.colors.infoMuted,
-      color: tokens.colors.info,
-      borderRadius: tokens.colors.radii.full,
-      paddingVertical: tokens.colors.space.xs,
-      paddingHorizontal: tokens.colors.space.sm,
-      fontSize: tokens.colors.typography.sizes.xs,
-      fontWeight: tokens.colors.typography.weights.semibold,
-    },
-  },
+    avatar: {
+      xs:    { ...avatarBase, width: 24,  height: 24,  fontSize: 10 },
+      sm:    { ...avatarBase, width: 32,  height: 32,  fontSize: 12 },
+      md:    { ...avatarBase, width: 40,  height: 40,  fontSize: 14 },
+      lg:    { ...avatarBase, width: 56,  height: 56,  fontSize: 20 },
+      xl:    { ...avatarBase, width: 80,  height: 80,  fontSize: 28 },
+      "2xl": { ...avatarBase, width: 120, height: 120, fontSize: 42 },
+    } satisfies Record<string, AvatarVariant>,
 
-  tag: {
-    backgroundColor: tokens.colors.surfaceAlt,
-    color: tokens.colors.textSecondary,
-    borderRadius: tokens.colors.radii.sm,
-    paddingVertical: tokens.colors.space.xs,
-    paddingHorizontal: tokens.colors.space.sm,
-    fontSize: tokens.colors.typography.sizes.xs,
-    fontWeight: tokens.colors.typography.weights.medium,
-  },
-
-  divider: {
-    height: 1,
-    backgroundColor: tokens.colors.border,
-    marginVertical: tokens.colors.space.md,
-  },
-
-  skeleton: {
-    backgroundColor: tokens.colors.surfaceAlt,
-    borderRadius: tokens.colors.radii.sm,
-  },
-  } as const;
+    progressBar: {
+      primary: { ...progressBarBase, fillColor: t.colors.primary },
+      success: { ...progressBarBase, fillColor: t.colors.success },
+      warning: { ...progressBarBase, fillColor: t.colors.warning },
+      danger:  { ...progressBarBase, fillColor: t.colors.error   },
+    } satisfies Record<string, ProgressBarVariant>,
+  };
 }
 
-export const shapes = buildShapes(tokens);
-
-export type Theme = typeof tokens & {
-  shapes: ReturnType<typeof buildShapes>;
-};
+export type Theme = typeof tokens & { variants: Variants };
 
 export const theme: Theme = {
   ...tokens,
-  shapes,
+  variants: createVariants(tokens),
 };
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
@@ -290,10 +256,9 @@ function mergeDefined<T>(base: T, override?: DeepPartial<T>): T {
 }
 
 function buildThemeFromTokens(nextTokens: Tokens): Theme {
-  const nextShapes = buildShapes(nextTokens);
   return {
     ...nextTokens,
-    shapes: nextShapes,
+    variants: createVariants(nextTokens),
   };
 }
 
@@ -308,18 +273,18 @@ export function applyThemeOverride(baseTheme: Theme, override?: ThemeOverride): 
   return buildThemeFromTokens(nextTokens);
 }
 
-// ─── Per-app theming ───────────────────────────────────────────────
-// Build a complete Theme from brand options plus optional raw color
-// overrides (e.g. a true dark palette). Component shapes are
-// re-derived from the overridden tokens, so Buttons/Badges/Panels all
-// recolor correctly — this is the "edit design globally" primitive.
-
 export function createAppTheme(
   options: Parameters<typeof createTheme>[0],
   override?: ThemeOverride,
+  variantOverrides?: Partial<Variants>,
 ): Theme {
   const base = createTheme(options);
-  return applyThemeOverride(buildThemeFromTokens(base), override);
+  const withColors = applyThemeOverride(buildThemeFromTokens(base), override);
+  if (!variantOverrides) return withColors;
+  return {
+    ...withColors,
+    variants: { ...withColors.variants, ...variantOverrides },
+  };
 }
 
 export { createTheme } from "./factory";

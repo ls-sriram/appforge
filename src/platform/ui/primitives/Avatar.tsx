@@ -1,19 +1,32 @@
 import React from "react";
+import { Text } from "react-native";
 import { View } from "@tamagui/core";
-import { Body } from "./Text";
+import { useTheme } from "../../theme/ThemeProvider";
 
 interface AvatarProps {
   initials?: string;
-  size?: number;
+  size?: string;
 }
 
-export function Avatar({ initials = "?", size = 40 }: AvatarProps) {
+export function Avatar({ initials = "?", size = "md" }: AvatarProps) {
+  const theme = useTheme();
+  const s = theme.variants.avatar?.[size];
   const letters = initials.slice(0, 2).toUpperCase();
+
   return (
-    <View w={size} h={size} br={9999} bg="$primaryMuted" ai="center" jc="center">
-      <Body color="$primary" weight="bold" size="sm">
+    <View
+      ai="center"
+      jc="center"
+      style={{
+        width: s?.width,
+        height: s?.height,
+        borderRadius: s?.borderRadius,
+        backgroundColor: s?.backgroundColor,
+      }}
+    >
+      <Text style={{ color: s?.color, fontSize: s?.fontSize, fontWeight: "700" }}>
         {letters}
-      </Body>
+      </Text>
     </View>
   );
 }

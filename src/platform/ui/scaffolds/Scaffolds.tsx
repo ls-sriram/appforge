@@ -6,7 +6,7 @@ import { contentWidths, workspaceShell } from "../../theme/tokens";
 import { useViewport, type ViewportTier } from "../../theme/Viewport";
 import {
   type ScaffoldSlotPlacement,
-} from "../contract";
+} from "../contracts";
 import { noopUi, type UiStamp } from "../viz";
 
 type SlotNode = React.ReactNode;

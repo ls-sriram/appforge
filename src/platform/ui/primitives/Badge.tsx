@@ -1,52 +1,40 @@
 import React from "react";
+import { Text } from "react-native";
 import { View } from "@tamagui/core";
-import { Body } from "./Text";
-
-export type BadgeTone = "success" | "warning" | "danger" | "info" | "muted";
-
-const BG: Record<BadgeTone, string> = {
-  success: "$successMuted",
-  warning: "$warningMuted",
-  danger:  "$errorMuted",
-  info:    "$infoMuted",
-  muted:   "$surfaceAlt",
-};
-const BORDER: Record<BadgeTone, string> = {
-  success: "$success",
-  warning: "$warning",
-  danger:  "$error",
-  info:    "$info",
-  muted:   "$border",
-};
-const COLOR: Record<BadgeTone, string> = {
-  success: "$success",
-  warning: "$warning",
-  danger:  "$error",
-  info:    "$info",
-  muted:   "$textMuted",
-};
+import { useTheme } from "../../theme/ThemeProvider";
 
 interface BadgeProps {
   label: string;
-  tone?: BadgeTone;
+  tone?: string;
 }
 
 export function Badge({ label, tone = "muted" }: BadgeProps) {
+  const theme = useTheme();
+  const s = theme.variants.badge?.[tone];
+
   return (
     <View
       fd="row"
       ai="center"
-      py={4}
-      px={8}
-      br={9999}
       alignSelf="flex-start"
-      bg={BG[tone]}
-      borderColor={BORDER[tone]}
-      borderWidth={1}
+      style={{
+        backgroundColor: s?.backgroundColor,
+        borderRadius: s?.borderRadius,
+        paddingVertical: s?.paddingVertical,
+        paddingHorizontal: s?.paddingHorizontal,
+        borderWidth: s?.borderWidth,
+        borderColor: s?.borderColor,
+      }}
     >
-      <Body color={COLOR[tone]} size="xs" weight="bold">
+      <Text
+        style={{
+          color: s?.color,
+          fontSize: s?.fontSize,
+          fontWeight: s?.fontWeight as any,
+        }}
+      >
         {label}
-      </Body>
+      </Text>
     </View>
   );
 }

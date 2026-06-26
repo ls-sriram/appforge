@@ -68,7 +68,7 @@ describe("ThemeProvider", () => {
     expect(nextTheme.colors.state.hover).toBe("rgba(1,2,3,0.4)");
     expect(nextTheme.colors.layout.maxContentWidth).toBe(720);
     expect(nextTheme.colors.layout.pagePadding).toBe(theme.colors.layout.pagePadding);
-    expect(nextTheme.shapes.button.primary.backgroundColor).toBe("#123456");
+    expect(nextTheme.variants.button!.primary.backgroundColor).toBe("#123456");
   });
 
   it("accepts provider-level theme overrides", () => {
@@ -80,6 +80,6 @@ describe("ThemeProvider", () => {
     const { result } = renderHook(() => useTheme(), { wrapper });
 
     expect(result.current.colors.primary).toBe("#654321");
-    expect(result.current.shapes.button.primary.backgroundColor).toBe("#654321");
+    expect(result.current.variants.button!.primary.backgroundColor).toBe("#654321");
   });
 });
