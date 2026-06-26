@@ -42,7 +42,7 @@ export function SizingToolbar({
         alignItems: "center",
         borderWidth: 1,
         borderColor: t.colors.border,
-        borderRadius: t.colors.radii.pill,
+        borderRadius: t.radii.pill,
         overflow: "hidden",
         opacity: disabled ? 0.5 : 1,
       }}

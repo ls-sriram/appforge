@@ -84,9 +84,10 @@ export const { colors } = tokens;
 //   };
 
 export function createVariants(t: Tokens): Variants {
-  const pill = t.colors.radii.pill;
-  const full = t.colors.radii.full;
-  const { space, typography, radii } = t.colors;
+  const pill = t.radii.pill;
+  const full = t.radii.full;
+  const { space, typography } = t.colors;
+  const { radii } = t;
 
   const badgeBase = {
     borderRadius: full,
@@ -99,9 +100,9 @@ export function createVariants(t: Tokens): Variants {
 
   const tagBase = {
     borderRadius: pill,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    fontSize: 12,
+    paddingVertical: space.xs,
+    paddingHorizontal: space.sm,
+    fontSize: typography.sizes.xs,
     fontWeight: typography.weights.semibold,
   } satisfies Partial<TagVariant>;
 
@@ -115,7 +116,7 @@ export function createVariants(t: Tokens): Variants {
     borderRadius: full,
     backgroundColor: t.colors.primaryMuted,
     color: t.colors.primary,
-    fontWeight: "700",
+    fontWeight: typography.weights.semibold,
   } satisfies Partial<AvatarVariant>;
 
   return {
@@ -235,7 +236,6 @@ export function createVariants(t: Tokens): Variants {
         paddingVertical: space.md,
         paddingHorizontal: space.md,
         fontSize: typography.sizes.md,
-        fontFamily: typography.fontFamily,
         placeholderColor: t.colors.textMuted,
         minHeight: 54,
         interaction: {
@@ -268,8 +268,8 @@ export function createVariants(t: Tokens): Variants {
         borderColor: t.colors.border,
         borderWidth: 1,
         color: t.colors.textSecondary,
-        paddingVertical: 6,
-        paddingHorizontal: 12,
+        paddingVertical: space.xs,
+        paddingHorizontal: space.sm + 2,
         fontSize: typography.sizes.xs,
         fontWeight: typography.weights.regular,
         interaction: {
@@ -301,11 +301,10 @@ export function createVariants(t: Tokens): Variants {
         color: t.colors.textPrimary,
         borderWidth: 1,
         borderColor: t.colors.border,
-        borderRadius: t.colors.radii.md,
+        borderRadius: radii.md,
         paddingVertical: space.md,
         paddingHorizontal: space.md,
         fontSize: typography.sizes.md,
-        fontFamily: typography.fontFamily,
         minHeight: 120,
         placeholderColor: t.colors.textMuted,
         interaction: {
@@ -320,7 +319,7 @@ export function createVariants(t: Tokens): Variants {
         backgroundColor: t.colors.surfaceAlt,
         borderColor: t.colors.border,
         borderWidth: 1,
-        borderRadius: t.colors.radii.pill,
+        borderRadius: pill,
         minHeight: 54,
         paddingVertical: space.md,
         paddingHorizontal: space.md,
@@ -328,11 +327,17 @@ export function createVariants(t: Tokens): Variants {
         placeholderColor: t.colors.textMuted,
         menuBackgroundColor: t.colors.surfaceStrong,
         menuBorderColor: t.colors.borderSubtle,
-        menuBorderRadius: t.colors.radii.md,
+        menuBorderRadius: radii.md,
         optionSelectedBackgroundColor: t.colors.primaryMuted,
         optionSelectedColor: t.colors.primary,
         optionColor: t.colors.textPrimary,
         optionFontSize: typography.sizes.md,
+        fieldGap: 8,
+        triggerGap: space.sm + 2,
+        optionRowGap: space.xxs,
+        optionFontWeight: typography.weights.regular,
+        optionSelectedFontWeight: typography.weights.medium,
+        optionDescriptionFontSize: typography.sizes.sm,
         interaction: {
           disabledOpacity: 0.5,
           hover: { borderColor: t.colors.borderHover },
@@ -346,7 +351,7 @@ export function createVariants(t: Tokens): Variants {
         backgroundColor: t.colors.surfaceAlt,
         borderColor: t.colors.border,
         borderWidth: 1,
-        borderRadius: t.colors.radii.md,
+        borderRadius: radii.md,
         minHeight: 54,
         paddingVertical: space.md,
         paddingHorizontal: space.md,
@@ -354,14 +359,24 @@ export function createVariants(t: Tokens): Variants {
         placeholderColor: t.colors.textMuted,
         menuBackgroundColor: t.colors.surfaceStrong,
         menuBorderColor: t.colors.borderSubtle,
-        menuBorderRadius: t.colors.radii.md,
+        menuBorderRadius: radii.md,
         optionSelectedBackgroundColor: t.colors.primaryMuted,
         optionSelectedColor: t.colors.primary,
         optionColor: t.colors.textPrimary,
         optionFontSize: typography.sizes.md,
+        fieldGap: 8,
+        triggerGap: space.sm + 2,
+        optionRowGap: space.xxs,
+        optionFontWeight: typography.weights.regular,
+        optionSelectedFontWeight: typography.weights.medium,
+        optionDescriptionFontSize: typography.sizes.sm,
         tokenBackgroundColor: t.colors.primaryMuted,
         tokenColor: t.colors.primary,
-        tokenBorderRadius: t.colors.radii.pill,
+        tokenBorderRadius: pill,
+        tokenPaddingVertical: space.xs,
+        tokenPaddingHorizontal: space.sm,
+        tokenFontWeight: typography.weights.medium,
+        tokenFontSize: typography.sizes.sm,
         interaction: {
           disabledOpacity: 0.5,
           hover: { borderColor: t.colors.borderHover },

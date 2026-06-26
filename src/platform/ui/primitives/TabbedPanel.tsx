@@ -63,7 +63,7 @@ function IconActionButton({
         minHeight: 28,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: t.colors.radii.pill,
+        borderRadius: t.radii.pill,
         opacity: disabled ? 0.4 : 1,
       }}
       testID={testID}

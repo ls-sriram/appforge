@@ -24,6 +24,13 @@ export interface SelectVariant {
   optionSelectedColor: string;
   optionColor: string;
   optionFontSize: number;
+  optionFontWeight: string | number;
+  optionSelectedFontWeight: string | number;
+  optionDescriptionFontSize: number;
+  // layout
+  fieldGap: number;
+  triggerGap: number;
+  optionRowGap: number;
   interaction?: InteractionContract;
 }
 
@@ -71,7 +78,7 @@ export function Select({
   );
 
   return (
-    <View style={{ gap: 8 }} testID={testID}>
+    <View style={{ gap: s.fieldGap }} testID={testID}>
       {label ? (
         <Text style={{ color: theme.colors.textSecondary, fontSize: s.optionFontSize }}>{label}</Text>
       ) : null}
@@ -100,7 +107,7 @@ export function Select({
                 paddingHorizontal: s.paddingHorizontal,
                 flexDirection: "row",
                 alignItems: "center",
-                gap: 12,
+                gap: s.triggerGap,
                 opacity,
               }}
             >
@@ -144,16 +151,16 @@ export function Select({
                   borderBottomColor: s.menuBorderColor,
                   flexDirection: "row",
                   alignItems: "center",
-                  gap: 12,
+                  gap: s.triggerGap,
                   opacity: option.disabled ? (ix?.disabledOpacity ?? 0.5) : 1,
                 }}
               >
-                <View style={{ flex: 1, gap: 4 }}>
-                  <Text style={{ color: isSelected ? s.optionSelectedColor : s.optionColor, fontSize: s.optionFontSize, fontWeight: isSelected ? "600" : "400" }}>
+                <View style={{ flex: 1, gap: s.optionRowGap }}>
+                  <Text style={{ color: isSelected ? s.optionSelectedColor : s.optionColor, fontSize: s.optionFontSize, fontWeight: (isSelected ? s.optionSelectedFontWeight : s.optionFontWeight) as any }}>
                     {option.label}
                   </Text>
                   {option.description ? (
-                    <Text style={{ color: s.placeholderColor, fontSize: s.optionFontSize - 1 }}>
+                    <Text style={{ color: s.placeholderColor, fontSize: s.optionDescriptionFontSize }}>
                       {option.description}
                     </Text>
                   ) : null}
@@ -166,7 +173,7 @@ export function Select({
       ) : null}
 
       {helperText ? (
-        <Text style={{ color: s.placeholderColor, fontSize: s.optionFontSize - 1 }}>{helperText}</Text>
+        <Text style={{ color: s.placeholderColor, fontSize: s.optionDescriptionFontSize }}>{helperText}</Text>
       ) : null}
     </View>
   );

@@ -42,7 +42,7 @@ export function SelectableChip({
   if (!s) throw new Error(`Unknown selectableChip variant "${variant}"`);
 
   const ix = s.interaction;
-  const borderRadius = shape === "pill" ? theme.colors.radii.pill : theme.colors.radii.sm;
+  const borderRadius = shape === "pill" ? theme.radii.pill : theme.radii.sm;
 
   return (
     <Pressable

@@ -25,10 +25,21 @@ export interface MultiSelectVariant {
   optionSelectedColor: string;
   optionColor: string;
   optionFontSize: number;
+  optionFontWeight: string | number;
+  optionSelectedFontWeight: string | number;
+  optionDescriptionFontSize: number;
+  // layout
+  fieldGap: number;
+  triggerGap: number;
+  optionRowGap: number;
   // selected tokens shown in trigger
   tokenBackgroundColor: string;
   tokenColor: string;
   tokenBorderRadius: number;
+  tokenPaddingVertical: number;
+  tokenPaddingHorizontal: number;
+  tokenFontWeight: string | number;
+  tokenFontSize: number;
   interaction?: InteractionContract;
 }
 
@@ -72,7 +83,7 @@ export function MultiSelect({
   );
 
   return (
-    <View style={{ gap: 8 }} testID={testID}>
+    <View style={{ gap: s.fieldGap }} testID={testID}>
       {label ? (
         <Text style={{ color: theme.colors.textSecondary, fontSize: s.optionFontSize }}>{label}</Text>
       ) : null}
@@ -101,25 +112,25 @@ export function MultiSelect({
                 paddingHorizontal: s.paddingHorizontal,
                 flexDirection: "row",
                 alignItems: "center",
-                gap: 12,
+                gap: s.triggerGap,
                 opacity,
               }}
             >
-              <View style={{ flex: 1, gap: 8 }}>
+              <View style={{ flex: 1, gap: s.fieldGap }}>
                 {selectedOptions.length ? (
-                  <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+                  <View style={{ flexDirection: "row", flexWrap: "wrap", gap: s.fieldGap }}>
                     {selectedOptions.map((option) => (
                       <View
                         key={option.value}
                         style={{
                           backgroundColor: s.tokenBackgroundColor,
                           borderRadius: s.tokenBorderRadius,
-                          paddingVertical: 6,
-                          paddingHorizontal: 10,
+                          paddingVertical: s.tokenPaddingVertical,
+                          paddingHorizontal: s.tokenPaddingHorizontal,
                           alignSelf: "flex-start",
                         }}
                       >
-                        <Text style={{ color: s.tokenColor, fontSize: s.optionFontSize - 1, fontWeight: "600" }}>
+                        <Text style={{ color: s.tokenColor, fontSize: s.tokenFontSize, fontWeight: s.tokenFontWeight as any }}>
                           {option.label}
                         </Text>
                       </View>
@@ -164,16 +175,16 @@ export function MultiSelect({
                   borderBottomColor: s.menuBorderColor,
                   flexDirection: "row",
                   alignItems: "center",
-                  gap: 12,
+                  gap: s.triggerGap,
                   opacity: option.disabled ? (ix?.disabledOpacity ?? 0.5) : 1,
                 }}
               >
-                <View style={{ flex: 1, gap: 4 }}>
-                  <Text style={{ color: isSelected ? s.optionSelectedColor : s.optionColor, fontSize: s.optionFontSize, fontWeight: isSelected ? "600" : "400" }}>
+                <View style={{ flex: 1, gap: s.optionRowGap }}>
+                  <Text style={{ color: isSelected ? s.optionSelectedColor : s.optionColor, fontSize: s.optionFontSize, fontWeight: (isSelected ? s.optionSelectedFontWeight : s.optionFontWeight) as any }}>
                     {option.label}
                   </Text>
                   {option.description ? (
-                    <Text style={{ color: s.placeholderColor, fontSize: s.optionFontSize - 1 }}>{option.description}</Text>
+                    <Text style={{ color: s.placeholderColor, fontSize: s.optionDescriptionFontSize }}>{option.description}</Text>
                   ) : null}
                 </View>
                 {isSelected ? <Icon name="check" tone="accent" /> : null}
@@ -184,7 +195,7 @@ export function MultiSelect({
       ) : null}
 
       {helperText ? (
-        <Text style={{ color: s.placeholderColor, fontSize: s.optionFontSize - 1 }}>{helperText}</Text>
+        <Text style={{ color: s.placeholderColor, fontSize: s.optionDescriptionFontSize }}>{helperText}</Text>
       ) : null}
     </View>
   );

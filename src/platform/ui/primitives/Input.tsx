@@ -12,7 +12,6 @@ export interface InputVariant {
   paddingVertical: number;
   paddingHorizontal: number;
   fontSize: number;
-  fontFamily: string;
   minHeight: number;
   placeholderColor?: string;
   interaction?: InteractionContract;
@@ -51,7 +50,7 @@ export const Input = React.forwardRef<TextInput, InputProps>(
             paddingHorizontal: s.paddingHorizontal,
             color: s.color,
             fontSize: s.fontSize,
-            fontFamily: s.fontFamily,
+            fontFamily: theme.colors.typography.fontFamily,
             minHeight: s.minHeight,
           }}
         />

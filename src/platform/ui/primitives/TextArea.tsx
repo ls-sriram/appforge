@@ -12,7 +12,6 @@ export interface TextAreaVariant {
   paddingVertical: number;
   paddingHorizontal: number;
   fontSize: number;
-  fontFamily: string;
   minHeight: number;
   placeholderColor?: string;
   interaction?: InteractionContract;
@@ -54,7 +53,7 @@ export const TextArea = React.forwardRef<TextInput, TextAreaProps>(
             paddingHorizontal: s.paddingHorizontal,
             color: s.color,
             fontSize: s.fontSize,
-            fontFamily: s.fontFamily,
+            fontFamily: theme.colors.typography.fontFamily,
             minHeight: s.minHeight,
           }}
         />

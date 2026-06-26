@@ -107,15 +107,6 @@ export interface Theme {
       "2xl": number;
       "3xl": number;
     };
-    radii: {
-      none: number;
-      sm: number;
-      md: number;
-      lg: number;
-      xl: number;
-      pill: number;
-      full: number;
-    };
     typography: {
       fontFamily: string;
       fontFamilyMono: string;
@@ -168,6 +159,15 @@ export interface Theme {
       pagePadding: number;
       headerHeight: number;
     };
+  };
+  radii: {
+    none: number;
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
+    pill: number;
+    full: number;
   };
 }
 
@@ -322,15 +322,6 @@ export function createTheme(options: ThemeOptions): Theme {
         "2xl": 44,
         "3xl": 64,
       },
-      radii: {
-        none: 0,
-        sm: Math.round(6 * radiusScale),
-        md: Math.round(10 * radiusScale),
-        lg: Math.round(14 * radiusScale),
-        xl: Math.round(20 * radiusScale),
-        pill: 9999,
-        full: 9999,
-      },
       typography: {
         fontFamily,
         fontFamilyMono: "'SF Mono', 'JetBrains Mono', monospace",
@@ -383,6 +374,15 @@ export function createTheme(options: ThemeOptions): Theme {
         pagePadding: 24,
         headerHeight: 56,
       },
+    },
+    radii: {
+      none: 0,
+      sm: Math.round(6 * radiusScale),
+      md: Math.round(10 * radiusScale),
+      lg: Math.round(14 * radiusScale),
+      xl: Math.round(20 * radiusScale),
+      pill: 9999,
+      full: 9999,
     },
   };
 }
