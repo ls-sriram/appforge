@@ -5,6 +5,7 @@ import type { InputVariant } from "../primitives/Input";
 import type { AvatarVariant } from "../primitives/Avatar";
 import type { ProgressBarVariant } from "../primitives/ProgressBar";
 import type { ImageVariant } from "../primitives/Table";
+import type { TableVariant } from "../primitives/Table";
 import type { SelectableChipVariant } from "../primitives/SelectableChip";
 import type { TextAreaVariant } from "../primitives/TextArea";
 import type { SelectVariant } from "../primitives/Select";
@@ -18,6 +19,7 @@ export type {
   AvatarVariant,
   ProgressBarVariant,
   ImageVariant,
+  TableVariant,
   SelectableChipVariant,
   TextAreaVariant,
   SelectVariant,
@@ -32,6 +34,7 @@ export interface Variants {
   avatar?: Record<string, AvatarVariant>;
   progressBar?: Record<string, ProgressBarVariant>;
   image?: Record<string, ImageVariant>;
+  table?: Record<string, TableVariant>;
   selectableChip?: Record<string, SelectableChipVariant>;
   textArea?: Record<string, TextAreaVariant>;
   select?: Record<string, SelectVariant>;

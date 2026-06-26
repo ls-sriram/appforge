@@ -18,6 +18,7 @@ import type {
   AvatarVariant,
   ProgressBarVariant,
   ImageVariant,
+  TableVariant,
   SelectableChipVariant,
   TextAreaVariant,
   SelectVariant,
@@ -261,6 +262,22 @@ export function createVariants(t: Tokens): Variants {
       card: { width: 40, height: 40, borderRadius: radii.md },
       hero: { width: 56, height: 56, borderRadius: radii.md },
     } satisfies Record<string, ImageVariant>,
+
+    table: {
+      default: {
+        backgroundColor: t.colors.surfaceStrong,
+        headerBackgroundColor: t.colors.surface,
+        borderColor: t.colors.borderSubtle,
+        borderWidth: 1,
+        borderRadius: "$4",
+        emptyPadding: "$4",
+        contentPaddingHorizontal: "$4",
+        headerPaddingVertical: "$3",
+        headerGap: "$3",
+        dividerWidth: 1,
+        stripedRowBackgroundColor: t.colors.surface,
+      },
+    } satisfies Record<string, TableVariant>,
 
     progressBar: {
       primary: { ...progressBarBase, fillColor: t.colors.primary },

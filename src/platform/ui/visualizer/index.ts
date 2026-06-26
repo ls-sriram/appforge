@@ -36,6 +36,7 @@ export type {
   TableCellSpec,
   TableColumn,
   TableColumnKind,
+  TableVariant,
   TableImageVariant,
   TableProps,
   TableWidth,
