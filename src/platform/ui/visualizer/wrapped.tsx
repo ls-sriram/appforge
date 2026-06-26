@@ -30,6 +30,7 @@ import {
   Input as RealInput,
   ProgressBar as RealProgressBar,
   SelectableChip as RealSelectableChip,
+  SizingToolbar as RealSizingToolbar,
   TextArea as RealTextArea,
 } from "../index";
 
@@ -43,7 +44,7 @@ const SNAPSHOT_KEYS = [
   "w", "h", "maxWidth", "minWidth", "maxHeight", "minHeight",
   "fontFamily", "fontSize", "ta", "tt", "letterSpacing", "opacity",
   "tone", "size", "weight", "variant", "placeholder", "selected",
-  "initials", "value", "total", "icon", "label",
+  "initials", "value", "total", "icon", "label", "disabled",
 ] as const;
 
 function snapshotProps(
@@ -192,4 +193,5 @@ export const SelectableChip = makeWrappedInBox(
   "SelectableChip",
   "label",
 );
+export const SizingToolbar = makeWrappedInBox(RealSizingToolbar, "SizingToolbar");
 export const TextArea = makeWrappedInBox(RealTextArea, "TextArea");

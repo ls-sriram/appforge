@@ -1,17 +1,17 @@
 import React from "react";
-import { createUi, type UiStamp } from "../index";
-import { LoginLayout } from "../../../features/login/login.stage";
-import { RegisterLayout } from "../../../features/register/register.stage";
-import { ForgotPasswordLayout } from "../../../features/auth/forgot-password.stage";
-import { OnboardingLayout } from "../../../features/onboarding/onboarding.stage";
+import { createUi, YStack, type UiStamp } from "../index";
+import { LoginSurface } from "../../../features/login/ui/LoginSurface";
+import { RegisterSurface } from "../../../features/register/ui/RegisterSurface";
+import { ForgotPasswordSurface } from "../../../features/auth/ForgotPasswordSurface";
+import { OnboardingScaffold } from "../../../features/onboarding/ui/OnboardingScaffold";
+import { OnboardingStepperBlock } from "../../../features/onboarding/ui/OnboardingStepperBlock";
+import { OnboardingHeroBlock } from "../../../features/onboarding/ui/OnboardingHeroBlock";
+import { OnboardingQuestionBlock } from "../../../features/onboarding/ui/OnboardingQuestionBlock";
+import { OnboardingChipsBlock } from "../../../features/onboarding/ui/OnboardingChipsBlock";
 import { AuthWelcomeBlock } from "../../../features/auth/ui/blocks/AuthWelcomeBlock";
 import { AuthFormBlock } from "../../../features/auth/ui/blocks/AuthFormBlock";
 import { AuthFieldBlock } from "../../../features/auth/ui/blocks/AuthFieldBlock";
 import { AuthSubmitBlock } from "../../../features/auth/ui/blocks/AuthSubmitBlock";
-import { OnboardingHeroBlock } from "../../../features/onboarding/ui/OnboardingHeroBlock";
-import { OnboardingQuestionBlock } from "../../../features/onboarding/ui/OnboardingQuestionBlock";
-import { OnboardingChipsBlock } from "../../../features/onboarding/ui/OnboardingChipsBlock";
-import { OnboardingStepperBlock } from "../../../features/onboarding/ui/OnboardingStepperBlock";
 
 export interface VisualizerScreenRegistration {
   id: string;
@@ -19,7 +19,7 @@ export interface VisualizerScreenRegistration {
   sourcePath: string;
   feature?: string;
   kind: "screen";
-  Component: React.ComponentType;
+  renderPreview: () => React.ReactElement;
 }
 
 export interface VisualizerBlockRegistration {
@@ -35,34 +35,78 @@ export const VISUALIZER_SCREENS: VisualizerScreenRegistration[] = [
   {
     id: "login",
     label: "Login",
-    sourcePath: "src/features/login/login.stage.tsx",
+    sourcePath: "src/features/login/ui/LoginSurface.tsx",
     feature: "login",
     kind: "screen",
-    Component: LoginLayout,
+    renderPreview: () => (
+      <LoginSurface
+        ui={createUi("login")}
+        data={{ email: "", password: "", emailError: "", passwordError: "", generalError: "", loading: false, isAuthenticated: false }}
+        dispatch={() => {}}
+      />
+    ),
   },
   {
     id: "register",
     label: "Register",
-    sourcePath: "src/features/register/register.stage.tsx",
+    sourcePath: "src/features/register/ui/RegisterSurface.tsx",
     feature: "register",
     kind: "screen",
-    Component: RegisterLayout,
+    renderPreview: () => (
+      <RegisterSurface
+        ui={createUi("register")}
+        data={{ fullName: "", fullNameError: "", email: "", emailError: "", password: "", passwordError: "", generalError: "", loading: false, registered: false }}
+        dispatch={() => {}}
+      />
+    ),
   },
   {
     id: "forgot-password",
     label: "Forgot Password",
-    sourcePath: "src/features/auth/forgot-password.stage.tsx",
+    sourcePath: "src/features/auth/ForgotPasswordSurface.tsx",
     feature: "auth",
     kind: "screen",
-    Component: ForgotPasswordLayout,
+    renderPreview: () => (
+      <ForgotPasswordSurface
+        ui={createUi("forgot-password")}
+        data={{ email: "", emailError: "", generalError: "", loading: false, isSuccess: false }}
+        dispatch={() => {}}
+      />
+    ),
   },
   {
     id: "onboarding",
     label: "Onboarding",
-    sourcePath: "src/features/onboarding/onboarding.stage.tsx",
+    sourcePath: "src/features/onboarding/ui/OnboardingScaffold.tsx",
     feature: "onboarding",
     kind: "screen",
-    Component: OnboardingLayout,
+    renderPreview: () => {
+      const ui = createUi("onboarding");
+      return (
+        <YStack {...ui("root")} bg="$bg" f={1} p="$4" gap="$4">
+          <OnboardingStepperBlock ui={ui.scope("stepper")} step={1} total={3} />
+          <OnboardingScaffold
+            ui={ui.scope("scaffold")}
+            stepper={null}
+            hero={
+              <OnboardingHeroBlock
+                ui={ui.scope("hero")}
+                title="Tell us about yourself"
+                subtitle="This helps us personalize your experience."
+              />
+            }
+            question={<OnboardingQuestionBlock ui={ui.scope("question")} text="What best describes you?" />}
+            answerRegion={
+              <OnboardingChipsBlock
+                ui={ui.scope("answers")}
+                options={["Beginner", "Intermediate", "Advanced"]}
+                selected="Intermediate"
+              />
+            }
+          />
+        </YStack>
+      );
+    },
   },
 ];
 

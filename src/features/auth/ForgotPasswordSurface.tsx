@@ -47,13 +47,10 @@ export function ForgotPasswordSurface({ ui = noopUi, data, dispatch }: ForgotPas
         </AuthFormBlock>
         <Button
           {...ui("back")}
+          variant="secondary"
+          label={app.copy.auth.forgotPasswordBackLabel}
           onPress={() => dispatch({ type: "go_to_login" })}
-          bg="$surfaceAlt"
-          borderWidth={1}
-          borderColor="$border"
-        >
-          <Body {...ui("back-label")}>{app.copy.auth.forgotPasswordBackLabel}</Body>
-        </Button>
+        />
       </YStack>
     </CenteredPageLayout>
   );

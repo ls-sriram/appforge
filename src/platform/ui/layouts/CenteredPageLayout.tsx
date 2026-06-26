@@ -2,6 +2,7 @@ import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
 import { useViewport } from "../../theme/Viewport";
+import { contentWidths } from "../../theme/tokens";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type CenteredPageLayoutWidth = "narrow" | "regular";
@@ -9,11 +10,6 @@ type CenteredPageLayoutWidth = "narrow" | "regular";
 type Props = {
   children: React.ReactNode;
   width?: CenteredPageLayoutWidth;
-};
-
-const MAX_WIDTH: Record<CenteredPageLayoutWidth, number> = {
-  narrow: 480,
-  regular: 640,
 };
 
 export function CenteredPageLayout({ children, width = "narrow" }: Props) {
@@ -37,7 +33,7 @@ export function CenteredPageLayout({ children, width = "narrow" }: Props) {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View style={[styles.content, { maxWidth: MAX_WIDTH[width] }]}>
+        <View style={[styles.content, { maxWidth: contentWidths[width] }]}>
           {children}
         </View>
       </ScrollView>

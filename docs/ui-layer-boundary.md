@@ -143,6 +143,7 @@ Closed value primitives:
 - `ColorPalettePicker`
 - `Icon`
 - `SelectableChip`
+- `SizingToolbar`
 - `Tag`
 - `Avatar`
 - `Badge`
@@ -219,6 +220,14 @@ Preset action locations:
 - relevant scaffold presets may include platform-owned action slots such as `actions`
 - the scaffold owns where the action region lives
 - the caller owns which buttons, menus, or controls render inside that region
+
+Sizing toolbar primitive:
+- `SizingToolbar` is a closed value primitive for finite size selection in compact action regions
+- supported values are fixed: `sm`, `md`, `lg`
+- default presentation is icon-only using platform-owned size icons
+- callers may override which icon is shown for each fixed size, but may not change the option set
+- intended placement is scaffold action regions such as `HeaderScaffold` and `PanelScaffold`
+- it is not a generic segmented control or arbitrary sizing DSL
 
 Preset scaffold library:
 - `PLATFORM_SCAFFOLDS.page`

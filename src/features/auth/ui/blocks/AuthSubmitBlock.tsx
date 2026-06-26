@@ -29,16 +29,12 @@ export function AuthSubmitBlock({
       ) : null}
       <Button
         {...ui("button")}
+        variant="primary"
+        label={loading ? "Loading..." : label}
         onPress={onPress}
         disabled={disabled ?? loading}
-        testID={testID}
-        bg="$textPrimary"
-        opacity={disabled ?? loading ? 0.45 : 1}
-      >
-        <Body {...ui("label")} color="$textInverse" fontFamily="$bold">
-          {loading ? "Loading..." : label}
-        </Body>
-      </Button>
+        loading={loading}
+      />
     </YStack>
   );
 }

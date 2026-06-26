@@ -10,7 +10,7 @@ import React, { useState, useRef, useCallback } from "react";
 import { Body, Button, ScrollView, YStack } from "../../../platform/ui/index";
 import { FeatureCard } from "./FeatureCard";
 import type { IconName } from "../../../platform/ui/index";
-import { useViewport } from "../../../platform/theme/Viewport";
+import { useViewport } from "../../../platform/ui/index";
 
 export interface OnboardingStep {
   icon: IconName;

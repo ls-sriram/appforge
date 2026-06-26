@@ -17,8 +17,12 @@ This document records public UI/theme contract changes that affect apps or tools
 - `View` is no longer part of the public `@ui` export surface.
 - `Stack` is no longer part of the public `@ui` export surface.
 - Feature and reusable block composition should prefer `YStack`, `XStack`, `ScrollView`, and approved leaf primitives.
+- `ColorPalettePicker` is now part of the public `@ui` surface as a closed-form color swatch + hex editor primitive.
+- `Select` and `MultiSelect` are now part of the public `@ui` surface as closed-form option-picker primitives.
 - `Table` is now part of the public `@ui` surface as a closed-form data table primitive.
+- `SizingToolbar` is now part of the public `@ui` surface as a closed-form icon-only size selector for scaffold action regions.
 - `Table` owns widths, alignment, density, borders, and row geometry. Callers provide `columns`, `rows`, and per-column cell content only.
+- `SizingToolbar` owns a fixed `sm` / `md` / `lg` contract and default dedicated size icons; callers may override icons per fixed value but may not supply arbitrary options.
 - Rich cells are supported through finite cell kinds (`text`, `tag`, `badge`, `avatar`, `image`, `custom`), but callers may not control table layout with raw `style` or per-row width overrides.
 - The stable visualizer/inspector contract remains the explicit `ui("id")` stamping flow and rendered `data-uiid` nodes.
 - Visualizer-participating roots should create IDs from a unique root prefix via `createUi(prefix)`, then derive child IDs with `ui.scope(...)` so the final `data-uiid` values are hierarchical and non-colliding.

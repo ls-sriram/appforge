@@ -17,6 +17,17 @@ export const section = {
   maxWidth: 960,
 } as const;
 
+// ─── Content Max-Widths ──────────────────────────────────────────
+// Named layout widths for page-level content columns. Use these
+// instead of raw pixel values in layouts and pages.
+
+export const contentWidths = {
+  xs: 320,
+  narrow: 480,
+  regular: 640,
+  wide: 960,
+} as const;
+
 export const workspaceShell = {
   sidebarWidth: 232,
   mobileNavMinWidth: 280,

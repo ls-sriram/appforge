@@ -1,4 +1,5 @@
 import {
+  CLOSED_VALUE_PRIMITIVES,
   PLATFORM_SCAFFOLDS,
   SCAFFOLD_GAP_PRESETS,
   SCAFFOLD_KINDS,
@@ -58,5 +59,9 @@ describe("platform scaffold contract", () => {
     const sidebarSlot = PLATFORM_SCAFFOLDS.page.slots.find((slot) => slot.name === "sidebar");
 
     expect(sidebarSlot?.placement).toBe("left");
+  });
+
+  it("includes SizingToolbar in the closed primitive contract and export surface", () => {
+    expect(CLOSED_VALUE_PRIMITIVES).toContain("SizingToolbar");
   });
 });

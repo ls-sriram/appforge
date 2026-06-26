@@ -9,6 +9,9 @@ import { useTheme } from "../../theme/ThemeProvider";
  */
 
 export type IconName =
+  | "panel-size-sm"
+  | "panel-size-md"
+  | "panel-size-lg"
   | "mic"
   | "search"
   | "home"
@@ -76,6 +79,24 @@ const ICON_SIZE_MAP: Record<IconSize, number> = {
 };
 
 const icons: Record<IconName, (color: string) => React.ReactNode> = {
+  "panel-size-sm": (c) => (
+    <>
+      <Path d="M5 7h14v10H5z" stroke={c} strokeWidth="2" fill="none" rx="2" />
+      <Path d="M8 10h8M8 14h6" stroke={c} strokeWidth="2" strokeLinecap="round" />
+    </>
+  ),
+  "panel-size-md": (c) => (
+    <>
+      <Path d="M4 6h16v12H4z" stroke={c} strokeWidth="2" fill="none" rx="2" />
+      <Path d="M7 10h10M7 14h10" stroke={c} strokeWidth="2" strokeLinecap="round" />
+    </>
+  ),
+  "panel-size-lg": (c) => (
+    <>
+      <Path d="M3 5h18v14H3z" stroke={c} strokeWidth="2" fill="none" rx="2" />
+      <Path d="M6 10h12M6 14h12" stroke={c} strokeWidth="2" strokeLinecap="round" />
+    </>
+  ),
   mic: (c) => (
     <>
       <Path

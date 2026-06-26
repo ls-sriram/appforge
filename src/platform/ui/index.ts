@@ -70,6 +70,8 @@ export type {
   SelectableChipShape,
   SelectableChipFrame,
 } from "./primitives/SelectableChip";
+export { SizingToolbar } from "./primitives/SizingToolbar";
+export type { SizingToolbarProps, SizingToolbarValue } from "./primitives/SizingToolbar";
 export { Tag } from "./primitives/Tag";
 export type { TagProps } from "./primitives/Tag";
 export { Avatar } from "./primitives/Avatar";

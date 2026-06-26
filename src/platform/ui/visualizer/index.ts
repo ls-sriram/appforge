@@ -45,6 +45,8 @@ export type {
   IconName,
   IconSize,
   IconTone,
+  SizingToolbarProps,
+  SizingToolbarValue,
 } from "../index";
 
 // ── Wrapped — visualizer-aware versions of the render primitives ─────────────
@@ -63,5 +65,6 @@ export {
   Input,
   ProgressBar,
   SelectableChip,
+  SizingToolbar,
   TextArea,
 } from "./wrapped";

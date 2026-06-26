@@ -35,12 +35,8 @@ export function AuthWelcomeBlock({
       </YStack>
 
       <YStack {...ui("actions")} gap="$3">
-        <Button {...ui("sign-in")} onPress={onSignIn} bg="$primary">
-          <Body {...ui("sign-in-label")} color="$textInverse" fontFamily="$bold">Sign In</Body>
-        </Button>
-        <Button {...ui("create-account")} onPress={onCreateAccount} bg="$surfaceAlt" borderWidth={1} borderColor="$border">
-          <Body {...ui("create-account-label")}>Create Account</Body>
-        </Button>
+        <Button {...ui("sign-in")} variant="primary" label="Sign In" onPress={onSignIn} />
+        <Button {...ui("create-account")} variant="secondary" label="Create Account" onPress={onCreateAccount} />
       </YStack>
     </YStack>
   );
