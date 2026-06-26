@@ -17,6 +17,7 @@ import type {
   InputVariant,
   AvatarVariant,
   ProgressBarVariant,
+  ImageVariant,
   SelectableChipVariant,
   TextAreaVariant,
   SelectVariant,
@@ -255,6 +256,12 @@ export function createVariants(t: Tokens): Variants {
       "2xl": { ...avatarBase, width: 120, height: 120, fontSize: 42, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.97 } } },
     } satisfies Record<string, AvatarVariant>,
 
+    image: {
+      thumbnail: { width: 32, height: 32, borderRadius: radii.sm },
+      card: { width: 40, height: 40, borderRadius: radii.md },
+      hero: { width: 56, height: 56, borderRadius: radii.md },
+    } satisfies Record<string, ImageVariant>,
+
     progressBar: {
       primary: { ...progressBarBase, fillColor: t.colors.primary },
       success: { ...progressBarBase, fillColor: t.colors.success },
@@ -392,6 +399,8 @@ export function createLayouts(t: Tokens): Record<string, LayoutContract> {
     compact: {
       controlHeight: 28,
       rowHeight: 32,
+      rowPadding: space.xs,
+      cellGap: space.sm,
       panelPadding: space.xs,
       sectionGap: space.sm + 2,
       itemGap: space.xs,
@@ -402,6 +411,8 @@ export function createLayouts(t: Tokens): Record<string, LayoutContract> {
     comfortable: {
       controlHeight: 36,
       rowHeight: 40,
+      rowPadding: space.sm,
+      cellGap: space.sm,
       panelPadding: space.md,
       sectionGap: space.lg - 2,
       itemGap: space.sm,
@@ -412,6 +423,8 @@ export function createLayouts(t: Tokens): Record<string, LayoutContract> {
     spacious: {
       controlHeight: 48,
       rowHeight: 56,
+      rowPadding: space.md,
+      cellGap: space.md,
       panelPadding: space.lg + 2,
       sectionGap: space.xl,
       itemGap: space.md,

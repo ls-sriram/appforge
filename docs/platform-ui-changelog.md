@@ -42,3 +42,13 @@ This document records public UI/theme contract changes that affect apps or tools
 
 - If downstream code imported `ThemeOverride` via a deep file path, switch to `@appforge/platform/theme`.
 - If downstream code imported `View` or `Stack` from `@ui`, replace those imports with approved layout primitives or consume a platform primitive that already expresses the intended layout.
+
+## 2026-06-26
+
+### UI surface
+
+- `Table` now reads row geometry from the platform layout contract instead of an internal density enum.
+- `Table` accepts `layout?: string` to resolve an explicit named layout; otherwise it uses the active layout from `useLayout()`.
+- Table avatar cells now require an explicit avatar `variant`; the primitive no longer injects a default avatar size.
+- Table image cells now require an explicit theme-backed image `variant`; the primitive no longer owns `xs` / `sm` / `md` / `lg` image sizing.
+- The shared theme variants contract now includes `variants.image`, and the shared layout contract now includes `rowPadding` and `cellGap` for row-based primitives.

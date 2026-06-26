@@ -9,6 +9,8 @@
 export interface LayoutContract {
   controlHeight: number;
   rowHeight: number;
+  rowPadding: number;
+  cellGap: number;
 
   panelPadding: number;
   sectionGap: number;

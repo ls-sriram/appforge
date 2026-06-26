@@ -18,6 +18,7 @@ export {
   type TagVariant,
   type InputVariant,
   type AvatarVariant,
+  type ImageVariant,
   type ProgressBarVariant,
   type Variants,
   type LayoutContract,
@@ -62,7 +63,7 @@ export type {
   TableCellSpec,
   TableColumn,
   TableColumnKind,
-  TableDensity,
+  ImageVariant as TableImageVariant,
   TableProps,
   TableWidth,
 } from "./primitives/Table";

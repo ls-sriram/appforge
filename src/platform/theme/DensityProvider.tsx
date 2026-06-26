@@ -21,8 +21,16 @@ export function DensityProvider({
   );
 }
 
-export function useLayout(): LayoutContract {
+export function useLayout(name?: string): LayoutContract {
+  const theme = useTheme();
   const ctx = useContext(DensityContext);
-  if (!ctx) throw new Error("useLayout() must be called within a DensityProvider");
-  return ctx;
+  if (name) {
+    const layout = theme.layouts[name];
+    if (!layout) throw new Error(`Unknown layout "${name}"`);
+    return layout;
+  }
+  if (ctx) return ctx;
+  const fallback = theme.layouts.comfortable;
+  if (!fallback) throw new Error("useLayout() requires a DensityProvider or a theme.layouts.comfortable fallback");
+  return fallback;
 }
