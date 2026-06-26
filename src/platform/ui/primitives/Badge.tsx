@@ -1,40 +1,69 @@
 import React from "react";
-import { Text } from "react-native";
-import { View } from "@tamagui/core";
+import { Pressable, Text, View } from "react-native";
 import { useTheme } from "../../theme/ThemeProvider";
+import type { InteractionContract } from "../contracts/interaction";
+
+export interface BadgeVariant {
+  backgroundColor: string;
+  color: string;
+  borderRadius: number;
+  paddingVertical: number;
+  paddingHorizontal: number;
+  fontSize: number;
+  fontWeight: string | number;
+  borderWidth?: number;
+  borderColor?: string;
+  interaction?: InteractionContract;
+}
 
 interface BadgeProps {
   label: string;
-  tone?: string;
+  variant: string;
+  onPress?: () => void;
+  disabled?: boolean;
 }
 
-export function Badge({ label, tone = "muted" }: BadgeProps) {
+export function Badge({ label, variant, onPress, disabled }: BadgeProps) {
   const theme = useTheme();
-  const s = theme.variants.badge?.[tone];
+  const s = theme.variants.badge?.[variant];
+  if (!s) throw new Error(`Unknown badge variant "${variant}"`);
 
-  return (
-    <View
-      fd="row"
-      ai="center"
-      alignSelf="flex-start"
-      style={{
-        backgroundColor: s?.backgroundColor,
-        borderRadius: s?.borderRadius,
-        paddingVertical: s?.paddingVertical,
-        paddingHorizontal: s?.paddingHorizontal,
-        borderWidth: s?.borderWidth,
-        borderColor: s?.borderColor,
-      }}
-    >
-      <Text
+  const ix = s.interaction;
+  const content = (pressed?: boolean, hovered?: boolean) => {
+    const activeStyle = pressed ? ix?.pressed : hovered ? ix?.hover : undefined;
+    const opacity = disabled ? (ix?.disabledOpacity ?? 0.45) : (activeStyle as { opacity?: number } | undefined)?.opacity ?? 1;
+
+    return (
+      <View
         style={{
-          color: s?.color,
-          fontSize: s?.fontSize,
-          fontWeight: s?.fontWeight as any,
+          flexDirection: "row",
+          alignItems: "center",
+          alignSelf: "flex-start",
+          backgroundColor: activeStyle?.backgroundColor ?? s.backgroundColor,
+          borderRadius: s.borderRadius,
+          paddingVertical: s.paddingVertical,
+          paddingHorizontal: s.paddingHorizontal,
+          borderWidth: s.borderWidth,
+          borderColor: activeStyle?.borderColor ?? s.borderColor,
+          opacity,
         }}
       >
-        {label}
-      </Text>
-    </View>
-  );
+        <Text style={{ color: activeStyle?.color ?? s.color, fontSize: s.fontSize, fontWeight: s.fontWeight as any }}>
+          {label}
+        </Text>
+      </View>
+    );
+  };
+
+  if (onPress) {
+    return (
+      <Pressable onPress={onPress} disabled={disabled}>
+        {({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) =>
+          content(pressed, hovered)
+        }
+      </Pressable>
+    );
+  }
+
+  return content();
 }

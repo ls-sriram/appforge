@@ -1,68 +1,10 @@
-/**
- * Variant contracts for value primitives.
- *
- * Each interface defines what an application-provided variant must supply.
- * Fields are resolved values (strings/numbers) — not token references.
- * Applications define variant names; AppForge defines the contract.
- */
+import type { ButtonVariant } from "../primitives/Button";
+import type { BadgeVariant } from "../primitives/Badge";
+import type { TagVariant } from "../primitives/Tag";
+import type { InputVariant } from "../primitives/Input";
+import type { AvatarVariant } from "../primitives/Avatar";
 
-export interface ButtonVariant {
-  backgroundColor: string;
-  color: string;
-  borderRadius: number;
-  paddingVertical: number;
-  paddingHorizontal: number;
-  fontSize: number;
-  fontWeight: string | number;
-  minHeight?: number;
-  borderWidth?: number;
-  borderColor?: string;
-  shadow?: string;
-}
-
-export interface BadgeVariant {
-  backgroundColor: string;
-  color: string;
-  borderRadius: number;
-  paddingVertical: number;
-  paddingHorizontal: number;
-  fontSize: number;
-  fontWeight: string | number;
-  borderWidth?: number;
-  borderColor?: string;
-}
-
-export interface TagVariant {
-  backgroundColor: string;
-  color: string;
-  borderRadius: number;
-  paddingVertical: number;
-  paddingHorizontal: number;
-  fontSize: number;
-  fontWeight: string | number;
-}
-
-export interface InputVariant {
-  backgroundColor: string;
-  color: string;
-  borderWidth: number;
-  borderColor: string;
-  borderRadius: number;
-  paddingVertical: number;
-  paddingHorizontal: number;
-  fontSize: number;
-  fontFamily: string;
-  placeholderColor?: string;
-}
-
-export interface AvatarVariant {
-  width: number;
-  height: number;
-  borderRadius: number;
-  fontSize: number;
-  backgroundColor: string;
-  color: string;
-}
+export type { ButtonVariant, BadgeVariant, TagVariant, InputVariant, AvatarVariant };
 
 export interface ProgressBarVariant {
   trackColor: string;

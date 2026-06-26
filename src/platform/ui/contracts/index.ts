@@ -1,5 +1,7 @@
+export * from "./interaction";
 export * from "./variants";
 export * from "./scaffolds";
+export * from "./layouts";
 
 // ─── Primitive Registry ───────────────────────────────────────────
 // Used by tooling (visualizer, codegen) to enumerate what AppForge owns.

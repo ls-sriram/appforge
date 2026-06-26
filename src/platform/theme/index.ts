@@ -17,6 +17,7 @@ import type {
   InputVariant,
   AvatarVariant,
   ProgressBarVariant,
+  LayoutContract,
 } from "../ui/contracts";
 
 // ─── This App's Brand ──────────────────────────────────────────────
@@ -110,6 +111,7 @@ export function createVariants(t: Tokens): Variants {
     borderRadius: full,
     backgroundColor: t.colors.primaryMuted,
     color: t.colors.primary,
+    fontWeight: "700",
   } satisfies Partial<AvatarVariant>;
 
   return {
@@ -123,6 +125,12 @@ export function createVariants(t: Tokens): Variants {
         fontSize: typography.sizes.md,
         fontWeight: typography.weights.semibold,
         minHeight: 54,
+        interaction: {
+          disabledOpacity: 0.4,
+          loading: { opacity: 0.7 },
+          pressed: { opacity: 0.8, scale: 0.97 },
+          hover: { opacity: 0.92 },
+        },
       },
       primaryLg: {
         backgroundColor: t.colors.primary,
@@ -133,6 +141,12 @@ export function createVariants(t: Tokens): Variants {
         fontSize: typography.sizes.md,
         fontWeight: typography.weights.semibold,
         minHeight: 64,
+        interaction: {
+          disabledOpacity: 0.4,
+          loading: { opacity: 0.7 },
+          pressed: { opacity: 0.8, scale: 0.97 },
+          hover: { opacity: 0.92 },
+        },
       },
       secondary: {
         backgroundColor: t.colors.surfaceAlt,
@@ -145,6 +159,12 @@ export function createVariants(t: Tokens): Variants {
         fontSize: typography.sizes.sm,
         fontWeight: typography.weights.medium,
         minHeight: 36,
+        interaction: {
+          disabledOpacity: 0.4,
+          loading: { opacity: 0.7 },
+          pressed: { opacity: 0.7 },
+          hover: { borderColor: t.colors.borderHover },
+        },
       },
       ghost: {
         backgroundColor: "transparent",
@@ -155,6 +175,12 @@ export function createVariants(t: Tokens): Variants {
         fontSize: typography.sizes.sm,
         fontWeight: typography.weights.medium,
         minHeight: 36,
+        interaction: {
+          disabledOpacity: 0.35,
+          loading: { opacity: 0.6 },
+          pressed: { opacity: 0.6 },
+          hover: { color: t.colors.textSecondary },
+        },
       },
       danger: {
         backgroundColor: t.colors.errorMuted,
@@ -167,26 +193,32 @@ export function createVariants(t: Tokens): Variants {
         fontSize: typography.sizes.md,
         fontWeight: typography.weights.semibold,
         minHeight: 54,
+        interaction: {
+          disabledOpacity: 0.4,
+          loading: { opacity: 0.7 },
+          pressed: { opacity: 0.75, scale: 0.98 },
+          hover: { opacity: 0.9 },
+        },
       },
     } satisfies Record<string, ButtonVariant>,
 
     badge: {
-      muted:   { ...badgeBase, backgroundColor: t.colors.surfaceAlt,   color: t.colors.textMuted, borderColor: t.colors.border   },
-      success: { ...badgeBase, backgroundColor: t.colors.successMuted,  color: t.colors.success,   borderColor: t.colors.success  },
-      warning: { ...badgeBase, backgroundColor: t.colors.warningMuted,  color: t.colors.warning,   borderColor: t.colors.warning  },
-      danger:  { ...badgeBase, backgroundColor: t.colors.errorMuted,    color: t.colors.error,     borderColor: t.colors.error    },
-      info:    { ...badgeBase, backgroundColor: t.colors.infoMuted,     color: t.colors.info,      borderColor: t.colors.info     },
+      muted:   { ...badgeBase, backgroundColor: t.colors.surfaceAlt,   color: t.colors.textMuted, borderColor: t.colors.border,  interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
+      success: { ...badgeBase, backgroundColor: t.colors.successMuted,  color: t.colors.success,   borderColor: t.colors.success, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
+      warning: { ...badgeBase, backgroundColor: t.colors.warningMuted,  color: t.colors.warning,   borderColor: t.colors.warning, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
+      danger:  { ...badgeBase, backgroundColor: t.colors.errorMuted,    color: t.colors.error,     borderColor: t.colors.error,   interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
+      info:    { ...badgeBase, backgroundColor: t.colors.infoMuted,     color: t.colors.info,      borderColor: t.colors.info,    interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
     } satisfies Record<string, BadgeVariant>,
 
     tag: {
-      muted:     { ...tagBase, backgroundColor: t.colors.surfaceWash,         color: t.colors.textMuted     },
-      secondary: { ...tagBase, backgroundColor: t.colors.surfaceWash,         color: t.colors.textSecondary },
-      accent:    { ...tagBase, backgroundColor: t.colors.accentMuted,         color: t.colors.primary       },
-      action:    { ...tagBase, backgroundColor: t.colors.actionAccentMuted,   color: t.colors.actionAccent  },
-      success:   { ...tagBase, backgroundColor: t.colors.successAccentMuted,  color: t.colors.success       },
-      warning:   { ...tagBase, backgroundColor: t.colors.warningMuted,        color: t.colors.warning       },
-      danger:    { ...tagBase, backgroundColor: t.colors.errorMuted,          color: t.colors.error         },
-      info:      { ...tagBase, backgroundColor: t.colors.infoMuted,           color: t.colors.info          },
+      muted:     { ...tagBase, backgroundColor: t.colors.surfaceWash,        color: t.colors.textMuted,     interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.surfaceAlt,          color: t.colors.textPrimary  } } },
+      secondary: { ...tagBase, backgroundColor: t.colors.surfaceWash,        color: t.colors.textSecondary, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.surfaceAlt,          color: t.colors.textPrimary  } } },
+      accent:    { ...tagBase, backgroundColor: t.colors.accentMuted,        color: t.colors.primary,       interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.primary,             color: t.colors.textInverse  } } },
+      action:    { ...tagBase, backgroundColor: t.colors.actionAccentMuted,  color: t.colors.actionAccent,  interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.actionAccent,        color: t.colors.textInverse  } } },
+      success:   { ...tagBase, backgroundColor: t.colors.successAccentMuted, color: t.colors.success,       interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.success,             color: t.colors.textInverse  } } },
+      warning:   { ...tagBase, backgroundColor: t.colors.warningMuted,       color: t.colors.warning,       interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.warning,             color: t.colors.textInverse  } } },
+      danger:    { ...tagBase, backgroundColor: t.colors.errorMuted,         color: t.colors.error,         interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.error,               color: t.colors.textInverse  } } },
+      info:      { ...tagBase, backgroundColor: t.colors.infoMuted,          color: t.colors.info,          interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: t.colors.info,                color: t.colors.textInverse  } } },
     } satisfies Record<string, TagVariant>,
 
     input: {
@@ -201,16 +233,22 @@ export function createVariants(t: Tokens): Variants {
         fontSize: typography.sizes.md,
         fontFamily: typography.fontFamily,
         placeholderColor: t.colors.textMuted,
+        minHeight: 54,
+        interaction: {
+          disabledOpacity: 0.5,
+          focused: { borderColor: t.colors.primary, borderWidth: 2 },
+          hover: { borderColor: t.colors.borderHover },
+        },
       },
     } satisfies Record<string, InputVariant>,
 
     avatar: {
-      xs:    { ...avatarBase, width: 24,  height: 24,  fontSize: 10 },
-      sm:    { ...avatarBase, width: 32,  height: 32,  fontSize: 12 },
-      md:    { ...avatarBase, width: 40,  height: 40,  fontSize: 14 },
-      lg:    { ...avatarBase, width: 56,  height: 56,  fontSize: 20 },
-      xl:    { ...avatarBase, width: 80,  height: 80,  fontSize: 28 },
-      "2xl": { ...avatarBase, width: 120, height: 120, fontSize: 42 },
+      xs:    { ...avatarBase, width: 24,  height: 24,  fontSize: 10, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.93 } } },
+      sm:    { ...avatarBase, width: 32,  height: 32,  fontSize: 12, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.93 } } },
+      md:    { ...avatarBase, width: 40,  height: 40,  fontSize: 14, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.93 } } },
+      lg:    { ...avatarBase, width: 56,  height: 56,  fontSize: 20, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.95 } } },
+      xl:    { ...avatarBase, width: 80,  height: 80,  fontSize: 28, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.96 } } },
+      "2xl": { ...avatarBase, width: 120, height: 120, fontSize: 42, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.97 } } },
     } satisfies Record<string, AvatarVariant>,
 
     progressBar: {
@@ -222,11 +260,48 @@ export function createVariants(t: Tokens): Variants {
   };
 }
 
-export type Theme = typeof tokens & { variants: Variants };
+export function createLayouts(t: Tokens): Record<string, LayoutContract> {
+  const { space, typography } = t.colors;
+  return {
+    compact: {
+      controlHeight: 28,
+      rowHeight: 32,
+      panelPadding: space.xs,
+      sectionGap: space.sm + 2,
+      itemGap: space.xs,
+      iconSize: 14,
+      fontSize: typography.sizes.sm,
+      labelSize: typography.sizes.xs,
+    },
+    comfortable: {
+      controlHeight: 36,
+      rowHeight: 40,
+      panelPadding: space.md,
+      sectionGap: space.lg - 2,
+      itemGap: space.sm,
+      iconSize: 16,
+      fontSize: typography.sizes.md,
+      labelSize: typography.sizes.sm,
+    },
+    spacious: {
+      controlHeight: 48,
+      rowHeight: 56,
+      panelPadding: space.lg + 2,
+      sectionGap: space.xl,
+      itemGap: space.md,
+      iconSize: 20,
+      fontSize: typography.sizes.md,
+      labelSize: typography.sizes.sm,
+    },
+  };
+}
+
+export type Theme = typeof tokens & { variants: Variants; layouts: Record<string, LayoutContract> };
 
 export const theme: Theme = {
   ...tokens,
   variants: createVariants(tokens),
+  layouts: createLayouts(tokens),
 };
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
@@ -259,6 +334,7 @@ function buildThemeFromTokens(nextTokens: Tokens): Theme {
   return {
     ...nextTokens,
     variants: createVariants(nextTokens),
+    layouts: createLayouts(nextTokens),
   };
 }
 

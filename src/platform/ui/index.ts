@@ -36,6 +36,7 @@ export {
   type AvatarVariant,
   type ProgressBarVariant,
   type Variants,
+  type LayoutContract,
   type LayoutPrimitiveName,
   type ValuePrimitiveName,
   type PlatformBypassProp,
@@ -111,7 +112,8 @@ export {
   type ViewportTier,
 } from "../theme/Viewport";
 export { ViewportProvider } from "../theme/ViewportProvider";
-export { createVariants } from "../theme";
+export { createVariants, createLayouts } from "../theme";
+export { DensityProvider, useLayout } from "../theme/DensityProvider";
 export {
   CenteredPageScaffold,
   HeaderScaffold,

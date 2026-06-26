@@ -29,19 +29,19 @@ export type TableTextCell = {
 export type TableTagCell = {
   type: "tag";
   label: string;
-  tone?: TagProps["tone"];
+  variant: TagProps["variant"];
 };
 
 export type TableBadgeCell = {
   type: "badge";
   label: string;
-  tone?: string;
+  variant: string;
 };
 
 export type TableAvatarCell = {
   type: "avatar";
   initials: string;
-  size?: "xs" | "sm" | "md" | "lg";
+  variant?: string;
 };
 
 export type TableImageCell = {
@@ -142,11 +142,11 @@ function getCellAlignment(align: TableAlign = "start") {
 function renderCell<Row>(spec: TableCellSpec<Row>, row: Row) {
   switch (spec.type) {
     case "tag":
-      return <Tag label={spec.label} tone={spec.tone} />;
+      return <Tag label={spec.label} variant={spec.variant} />;
     case "badge":
-      return <Badge label={spec.label} tone={spec.tone} />;
+      return <Badge label={spec.label} variant={spec.variant} />;
     case "avatar":
-      return <Avatar initials={spec.initials} size={spec.size ?? "md"} />;
+      return <Avatar initials={spec.initials} variant={spec.variant ?? "md"} />;
     case "image": {
       const size = IMAGE_SIZE[spec.size ?? "md"];
       const radius = spec.shape === "rounded" ? 12 : 0;
