@@ -92,7 +92,7 @@ Intent:
 
 Source of truth:
 - `src/platform/ui/index.ts`
-- `src/platform/ui/contract.ts`
+- `src/platform/ui/contracts/` (interaction, variants, layouts)
 
 ### Closed Editable Surface
 
@@ -106,7 +106,7 @@ Intent:
 - if a layout or visual control needs to be tool-editable, the platform must first model it as a finite prop, variant, or token-backed value
 
 Source of truth:
-- `src/platform/ui/contract.ts`
+- `src/platform/ui/contracts/` (interaction, variants, layouts)
 - this document
 
 ### Stable UI ID Contract
@@ -169,7 +169,7 @@ Definition:
 - scaffolds are not shared value primitives and are not a render primitive in this phase
 
 Source of truth:
-- `src/platform/ui/contract.ts`
+- `src/platform/ui/contracts/` (interaction, variants, layouts)
 
 Platform-owned scaffold kinds:
 - `page`
@@ -246,14 +246,6 @@ Tabbed panel primitive:
 - it reuses platform panel structure internally, but it is not itself a scaffold or layout helper in the public contract
 - it is not a generic docking system, cross-host transfer surface, or drag/drop workspace DSL
 
-Preset scaffold library:
-- `PLATFORM_SCAFFOLDS.page`
-- `PLATFORM_SCAFFOLDS.centeredPage`
-- `PLATFORM_SCAFFOLDS.header`
-- `PLATFORM_SCAFFOLDS.sidebar`
-- `PLATFORM_SCAFFOLDS.panel`
-- `PLATFORM_SCAFFOLDS.panelCollection`
-
 Default reusable scaffold helpers:
 - `CenteredPageScaffold`
 - `PageScaffold`
@@ -305,24 +297,18 @@ Rules:
 
 When a prop class is forbidden in the closed editable surface, use the platform replacement contract instead of an arbitrary value.
 
-Sizing replacements:
-- use `CLOSED_WIDTH_PRESETS` from `src/platform/ui/contract.ts` instead of arbitrary width roles
-- use `CLOSED_MIN_HEIGHT_PRESETS` instead of arbitrary `minHeight`
-- use `CLOSED_MAX_HEIGHT_PRESETS` instead of arbitrary `maxHeight`
+Variant replacements:
+- use `variant: string` on closed value primitives instead of raw style props (`bg=`, `borderWidth=`, `px=`, `color=`, etc.)
+- variant names are app-defined; default variants are provided by `createVariants(tokens)` in `src/platform/ui/theme/index.ts`
 
-Opacity replacements:
-- use `CLOSED_OPACITY_PRESETS` instead of arbitrary `opacity` values
-
-Border replacements:
-- use `CLOSED_BORDER_WIDTH_PRESETS` instead of arbitrary repeated border width values
-
-Placement replacements:
-- use `CLOSED_OVERLAY_PLACEMENTS` instead of arbitrary absolute positioning and inset combinations
+Layout replacements:
+- use `LayoutContract` fields via `useLayout()` for density-driven spacing instead of hardcoded pixel values
+- layout contract names are app-defined; defaults are provided by `createLayouts(tokens)`
 
 Rules:
-- a closed-editable consumer may select a predefined preset
-- a closed-editable consumer may not invent a new numeric value outside the preset family
-- if a preset family is insufficient, extend the platform contract before using a new raw value
+- a closed-editable consumer selects a named variant or reads a layout field
+- a closed-editable consumer must not pass raw visual values to closed value primitives
+- if a new visual dimension needs to be tool-editable, model it as a new variant field before using a raw value
 
 Removed shared UI APIs:
 - `Block` and its prop/type system
@@ -395,12 +381,10 @@ import { Body, Button, Heading, XStack, YStack } from "@ui";
 <YStack bg="$bg" f={1} p="$md" gap="$md">
   <Heading>Profile</Heading>
   <YStack bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$lg" p="$md">
-    <Body color="$textMuted">Direct Tamagui props only.</Body>
+    <Body tone="muted">Direct Tamagui props only on open layout primitives.</Body>
   </YStack>
   <XStack gap="$sm">
-    <Button bg="$primary">
-      <Body color="$textInverse" fontFamily="$bold">Save</Body>
-    </Button>
+    <Button variant="primary" onPress={onSave}>Save</Button>
   </XStack>
 </YStack>
 ```
@@ -490,7 +474,7 @@ The following are intentionally deferred:
 ## Enforcement
 
 - `@ui` / `src/platform/ui/index.ts` is the only supported shared UI import surface.
-- `src/platform/ui/contract.ts` is the platform-owned manifest for open vs closed UI surface categories.
+- `src/platform/ui/contracts/` (interaction, variants, layouts) is the platform-owned manifest for open vs closed UI surface categories.
 - Shared helpers must keep ordinary props. No repo-specific public styling DSL.
 - Public platform primitives must not accept `style` as an override escape hatch.
 - Architecture lint: `npm run lint:arch`

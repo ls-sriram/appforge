@@ -1,51 +1,3 @@
-# AGENTS.md for `src/ui/primitives`
-
-## Scope
-
-Applies to `src/ui/primitives/**`.
-
-## Responsibility
-
-Primitives are the small set of retained shared helpers that encapsulate behavior, icon mapping, accessibility, or non-trivial rendering — not styling convenience.
-
-## Retained helpers
-
-| File | What it provides |
-|---|---|
-| `Text.tsx` | `Display`, `Heading`, `Label`, `Body` — typographic role wrappers with `tone`/`size`/`weight` variants |
-| `TextRoles.tsx` | `MetaText`, `ActionText` |
-| `Button.tsx` | `Button` — pressable with accessibility, loading, disabled, fullWidth handling |
-| `Input.tsx` | `Input` — controlled text field with RN interop |
-| `TextArea.tsx` | `TextArea` — multiline controlled field |
-| `Icon.tsx` | `Icon` — icon name→component map, `tone` color mapping |
-| `Avatar.tsx` | `Avatar` |
-| `Badge.tsx` | `Badge` — small status labels |
-| `Tag.tsx` | `Tag` |
-| `Chip.tsx` | `Chip` |
-| `SelectableChip.tsx` | `SelectableChip` — toggleable chip with selected state |
-| `Link.tsx` | `Link` — tappable URL with RN/web interop |
-| `Toggle.tsx` | `Toggle` |
-| `ProgressBar.tsx` | `ProgressBar` |
-| `Skeleton.tsx` | `Skeleton` — loading placeholder |
-| `EmptyState.tsx` | `EmptyState` |
-| `TapTarget.tsx` | `TapTarget` |
-| `LayoutGrid.tsx` | `LayoutGrid` |
-| `Layout.tsx` | `ScrollArea` |
-
-## Rules
-
-- Use ordinary props only. Do not expose custom layout/surface/text vocabularies.
-- No feature imports.
-- No domain terms in names or prop contracts.
-- Prefer re-exporting or lightly wrapping Tamagui behavior over creating a new API layer.
-- If a helper becomes a thin alias with no meaningful behavior, delete it instead of keeping it for naming convenience.
-
-## Removed
-
-The following were removed and must not be recreated:
-
-- `SStack.tsx` and all exports: `Col`, `Row`, `Card`, `Screen`, `Rule`, `Divider`, `AbsLayer`, `SegmentRow`, `SegmentOpt`, `VRule`, `NavBar`, `ChipBtn`, `BlockBtn`
-- `Block` — the layout container with `direction`/`space`/`pad`/`align` props
 # AGENTS.md for `src/platform/ui/primitives`
 
 ## Scope
@@ -124,7 +76,6 @@ Forbidden:
     borderRadius={12}
     padding={16}
 />
-
 ```
 
 ---
@@ -178,6 +129,8 @@ Rules:
 - Variants own appearance.
 - Primitives own behavior.
 
+Each primitive that is variant-driven exports its own variant interface (e.g. `ButtonVariant`, `TableVariant`). `contracts/variants.ts` assembles them into the `Variants` map. Applications pass a `Variants` object to `ThemeProvider` via `createVariants(tokens)` (optionally extended with app-specific variants).
+
 ---
 
 ## Layout Contracts
@@ -205,6 +158,10 @@ Layout contracts do not define:
 - feature semantics
 - row vs column
 - business concepts
+
+The active layout contract is set by `DensityProvider` and read with `useLayout(layout?)`. Primitives that are density-sensitive (e.g. `Table`) accept an optional `layout?: string` prop and call `useLayout(layout)` internally.
+
+`LayoutContract` fields are defined in `contracts/layouts.ts`. Applications create layout contracts via `createLayouts(tokens)` and may extend them.
 
 ---
 
@@ -271,7 +228,7 @@ Scaffolds do not own:
 
 A contract is a public API.
 
-`contract.ts` may contain only:
+`contracts/` may contain only:
 
 - APIs consumed by applications
 - APIs consumed by primitives
@@ -288,25 +245,28 @@ Delete:
 
 ## Existing Primitives
 
-- Text.tsx
-- TextRoles.tsx
-- Button.tsx
-- Input.tsx
-- TextArea.tsx
-- Icon.tsx
-- Avatar.tsx
-- Badge.tsx
-- Tag.tsx
-- Chip.tsx
-- SelectableChip.tsx
-- Link.tsx
-- Toggle.tsx
-- ProgressBar.tsx
-- Skeleton.tsx
-- EmptyState.tsx
-- TapTarget.tsx
-- LayoutGrid.tsx
-- Layout.tsx
+| File | What it provides |
+|---|---|
+| `Text.tsx` | `Display`, `Heading`, `Label`, `Body` — typographic role wrappers with `tone`/`size`/`weight` variants |
+| `Button.tsx` | `Button` — pressable with variant, loading, disabled, interaction state |
+| `Input.tsx` | `Input` — controlled text field; uses `"default"` variant internally |
+| `TextArea.tsx` | `TextArea` — multiline controlled field with required `variant` |
+| `Icon.tsx` | `Icon` — icon name→component map, `tone` color mapping |
+| `Avatar.tsx` | `Avatar` — initials avatar with required `variant` (xs/sm/md/lg/xl/2xl in defaults) |
+| `Badge.tsx` | `Badge` — small status labels with required `variant` |
+| `Tag.tsx` | `Tag` — label chip with required `variant` |
+| `SelectableChip.tsx` | `SelectableChip` — toggleable chip with required `variant` and selected state |
+| `ProgressBar.tsx` | `ProgressBar` — determinate fill bar with required `variant` |
+| `Select.tsx` | `Select` — single-value dropdown with required `variant` |
+| `MultiSelect.tsx` | `MultiSelect` — multi-value token field with required `variant` |
+| `ColorPalettePicker.tsx` | `ColorPalettePicker` — hex/swatch color editor |
+| `ColorSwatch.tsx` | `ColorSwatch` — read-only color preview |
+| `SizingToolbar.tsx` | `SizingToolbar` — closed sm/md/lg size selector for compact action regions |
+| `Tabs.tsx` | `Tabs` — one-of-many tab navigation |
+| `TabbedPanel.tsx` | `TabbedPanel` — controlled tabbed panel host |
+| `Table.tsx` | `Table` — data table with column/cell specs, variant, and optional layout contract |
+| `dialog.ts` | `dialog` — imperative alert/confirm API |
+| `linking.ts` | `linking` — URL open utility |
 
 ---
 
@@ -322,12 +282,15 @@ Reject:
 - platform-owned visual semantics
 - silent fallback behavior
 - runtime token resolution
+- raw style props passed to closed primitives (`bg=`, `borderWidth=`, `px=`, `color=`, etc.)
+- `label=` prop on Button (use children)
+- missing `variant=` on variant-driven primitives
 
 Require:
 
 - ownership clarity
 - explicit contracts
-- variant validation
+- variant validation (throw on unknown variants)
 - application-controlled appearance
 - no feature imports
 - no domain terminology in primitive APIs
