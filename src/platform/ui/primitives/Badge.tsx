@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import { useTheme } from "../theme/ThemeProvider";
+import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface BadgeVariant {
@@ -24,8 +24,8 @@ interface BadgeProps {
 }
 
 export function Badge({ label, variant, onPress, disabled }: BadgeProps) {
-  const theme = useTheme();
-  const s = theme.variants.badge?.[variant];
+  const { variants } = useUI();
+  const s = variants.badge?.[variant];
   if (!s) throw new Error(`Unknown badge variant "${variant}"`);
 
   const ix = s.interaction;

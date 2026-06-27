@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TextInput, View } from "react-native";
-import { useTheme } from "../theme/ThemeProvider";
+import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface InputVariant {
@@ -23,8 +23,8 @@ export type InputProps = Omit<React.ComponentProps<typeof TextInput>, "style"> &
 
 export const Input = React.forwardRef<TextInput, InputProps>(
   function Input({ onFocus, onBlur, disabled, ...props }, ref) {
-    const theme = useTheme();
-    const s = theme.variants.input?.["default"];
+    const { theme, variants } = useUI();
+    const s = variants.input?.["default"];
     if (!s) throw new Error('Unknown input variant "default"');
 
     const [focused, setFocused] = useState(false);

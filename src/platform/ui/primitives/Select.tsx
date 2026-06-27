@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import { useTheme } from "../theme/ThemeProvider";
+import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 import { Icon } from "./Icon";
 
@@ -64,8 +64,8 @@ export function Select({
   disabled = false,
   testID,
 }: SelectProps) {
-  const theme = useTheme();
-  const s = theme.variants.select?.[variant];
+  const { theme, variants } = useUI();
+  const s = variants.select?.[variant];
   if (!s) throw new Error(`Unknown select variant "${variant}"`);
 
   const [open, setOpen] = React.useState(false);

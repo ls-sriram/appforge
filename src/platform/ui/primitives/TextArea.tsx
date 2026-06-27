@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TextInput, View } from "react-native";
-import { useTheme } from "../theme/ThemeProvider";
+import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface TextAreaVariant {
@@ -24,8 +24,8 @@ export type TextAreaProps = Omit<React.ComponentProps<typeof TextInput>, "style"
 
 export const TextArea = React.forwardRef<TextInput, TextAreaProps>(
   function TextArea({ variant, onFocus, onBlur, disabled, ...props }, ref) {
-    const theme = useTheme();
-    const s = theme.variants.textArea?.[variant];
+    const { theme, variants } = useUI();
+    const s = variants.textArea?.[variant];
     if (!s) throw new Error(`Unknown textArea variant "${variant}"`);
 
     const [focused, setFocused] = useState(false);

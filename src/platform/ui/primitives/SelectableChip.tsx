@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, Text } from "react-native";
-import { useTheme } from "../theme/ThemeProvider";
+import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface SelectableChipVariant {
@@ -37,8 +37,8 @@ export function SelectableChip({
   frame = "content",
   disabled = false,
 }: SelectableChipProps) {
-  const theme = useTheme();
-  const s = theme.variants.selectableChip?.[variant];
+  const { theme, variants } = useUI();
+  const s = variants.selectableChip?.[variant];
   if (!s) throw new Error(`Unknown selectableChip variant "${variant}"`);
 
   const ix = s.interaction;

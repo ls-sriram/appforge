@@ -1,36 +1,38 @@
 import React, { createContext, useContext, ReactNode } from "react";
-import { useTheme } from "./ThemeProvider";
+import { useUI } from "./ThemeProvider";
 import type { LayoutContract } from "../contracts";
 
-const DensityContext = createContext<LayoutContract | null>(null);
+const LayoutContext = createContext<LayoutContract | null>(null);
 
-export function DensityProvider({
-  density = "comfortable",
+export function LayoutProvider({
+  layout = "comfortable",
   children,
 }: {
-  density?: string;
+  layout?: string;
   children: ReactNode;
 }) {
-  const theme = useTheme();
-  const layout = theme.layouts[density];
-  if (!layout) throw new Error(`Unknown density "${density}"`);
+  const ui = useUI();
+  const activeLayout = ui.layouts[layout];
+  if (!activeLayout) throw new Error(`Unknown layout "${layout}"`);
   return (
-    <DensityContext.Provider value={layout}>
+    <LayoutContext.Provider value={activeLayout}>
       {children}
-    </DensityContext.Provider>
+    </LayoutContext.Provider>
   );
 }
 
 export function useLayout(name?: string): LayoutContract {
-  const theme = useTheme();
-  const ctx = useContext(DensityContext);
+  const ui = useUI();
+  const ctx = useContext(LayoutContext);
   if (name) {
-    const layout = theme.layouts[name];
+    const layout = ui.layouts[name];
     if (!layout) throw new Error(`Unknown layout "${name}"`);
     return layout;
   }
   if (ctx) return ctx;
-  const fallback = theme.layouts.comfortable;
-  if (!fallback) throw new Error("useLayout() requires a DensityProvider or a theme.layouts.comfortable fallback");
+  const fallback = ui.layouts.comfortable;
+  if (!fallback) throw new Error("useLayout() requires a LayoutProvider or a ui.layouts.comfortable fallback");
   return fallback;
 }
+
+export const DensityProvider = LayoutProvider;

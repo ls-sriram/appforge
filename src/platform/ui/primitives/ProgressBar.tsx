@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { useTheme } from "../theme/ThemeProvider";
+import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface ProgressBarVariant {
@@ -18,8 +18,8 @@ interface ProgressBarProps {
 }
 
 export function ProgressBar({ value, total = 100, variant }: ProgressBarProps) {
-  const theme = useTheme();
-  const s = theme.variants.progressBar?.[variant];
+  const { variants } = useUI();
+  const s = variants.progressBar?.[variant];
   if (!s) throw new Error(`Unknown progressBar variant "${variant}"`);
 
   const pct = Math.min(Math.max((value / total) * 100, 0), 100);

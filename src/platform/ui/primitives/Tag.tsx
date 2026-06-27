@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import { useTheme } from "../theme/ThemeProvider";
+import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface TagVariant {
@@ -23,8 +23,8 @@ export interface TagProps {
 }
 
 export function Tag({ label, variant, selected = false, onPress, disabled }: TagProps) {
-  const theme = useTheme();
-  const s = theme.variants.tag?.[variant];
+  const { variants } = useUI();
+  const s = variants.tag?.[variant];
   if (!s) throw new Error(`Unknown tag variant "${variant}"`);
 
   const ix = s.interaction;

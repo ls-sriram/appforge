@@ -1,13 +1,21 @@
 import React from "react";
 import { Pressable, View } from "react-native";
 import { Icon, type IconName } from "./Icon";
-import { useTheme } from "../theme/ThemeProvider";
+import { useUI } from "../theme/ThemeProvider";
 
-function hexAlpha(hex: string, a: number): string {
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return `rgba(${r}, ${g}, ${b}, ${a})`;
+export interface SizingToolbarVariant {
+  containerBorderWidth: number;
+  containerBorderColor: string;
+  containerBorderRadius: number;
+  containerDisabledOpacity: number;
+  buttonMinWidth: number;
+  buttonMinHeight: number;
+  buttonPaddingHorizontal: number;
+  buttonPaddingVertical: number;
+  buttonSelectedBackgroundColor: string;
+  buttonUnselectedBackgroundColor: string;
+  buttonDividerWidth: number;
+  buttonDividerColor: string;
 }
 
 export type SizingToolbarValue = "sm" | "md" | "lg";
@@ -15,6 +23,7 @@ export type SizingToolbarValue = "sm" | "md" | "lg";
 export interface SizingToolbarProps {
   value: SizingToolbarValue;
   onChange: (value: SizingToolbarValue) => void;
+  variant?: string;
   disabled?: boolean;
   icons?: Partial<Record<SizingToolbarValue, IconName>>;
 }
@@ -36,10 +45,13 @@ const LABELS: Record<SizingToolbarValue, string> = {
 export function SizingToolbar({
   value,
   onChange,
+  variant = "default",
   disabled = false,
   icons,
 }: SizingToolbarProps) {
-  const t = useTheme();
+  const { variants } = useUI();
+  const s = variants.sizingToolbar?.[variant];
+  if (!s) throw new Error(`Unknown sizingToolbar variant "${variant}"`);
 
   return (
     <View
@@ -47,11 +59,11 @@ export function SizingToolbar({
       style={{
         flexDirection: "row",
         alignItems: "center",
-        borderWidth: 1,
-        borderColor: t.palette.border,
-        borderRadius: t.radii.pill,
+        borderWidth: s.containerBorderWidth,
+        borderColor: s.containerBorderColor,
+        borderRadius: s.containerBorderRadius,
         overflow: "hidden",
-        opacity: disabled ? 0.5 : 1,
+        opacity: disabled ? s.containerDisabledOpacity : 1,
       }}
     >
       {ORDER.map((option, index) => {
@@ -68,15 +80,15 @@ export function SizingToolbar({
             onPress={() => onChange(option)}
             testID={`sizing-toolbar-${option}`}
             style={{
-              minWidth: 36,
-              minHeight: 36,
-              paddingHorizontal: 9,
-              paddingVertical: 8,
+              minWidth: s.buttonMinWidth,
+              minHeight: s.buttonMinHeight,
+              paddingHorizontal: s.buttonPaddingHorizontal,
+              paddingVertical: s.buttonPaddingVertical,
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: selected ? hexAlpha(t.palette.primary, 0.12) : t.palette.surface,
-              borderLeftWidth: index === 0 ? 0 : 1,
-              borderLeftColor: t.palette.border,
+              backgroundColor: selected ? s.buttonSelectedBackgroundColor : s.buttonUnselectedBackgroundColor,
+              borderLeftWidth: index === 0 ? 0 : s.buttonDividerWidth,
+              borderLeftColor: s.buttonDividerColor,
             }}
           >
             <Icon

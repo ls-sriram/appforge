@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 import type { TextInput } from "react-native";
-import { useTheme } from "../../../../platform/ui/theme/ThemeProvider";
-import { Icon, Input, noopUi, type UiStamp, XStack, YStack } from "../../../../platform/ui/index";
+import { Icon, Input, noopUi, type UiStamp, useThemeTokens, XStack, YStack } from "../../../../platform/ui/index";
 import type { IconName } from "../../../../platform/ui/index";
 
 export interface InputHandle {
@@ -43,7 +42,7 @@ export function AuthDarkField({
   testID,
   hasError = false,
 }: AuthDarkFieldProps) {
-  const theme = useTheme();
+  const theme = useThemeTokens();
   const [showPassword, setShowPassword] = useState(false);
   const localInputRef = useRef<TextInput | undefined>(undefined);
   const effectiveInputRef = inputRef ?? localInputRef;
@@ -65,27 +64,27 @@ export function AuthDarkField({
         <YStack {...ui("padding")} px="$5" py="$3">
           <XStack {...ui("row")} ai="center" gap="$3">
             <Icon {...ui("icon")} name={icon} size="lg" />
-            <Input
-              {...ui("input")}
-              ref={(instance: TextInput | null) => {
-                effectiveInputRef.current = instance ?? undefined;
-              }}
-              f={1}
-              minHeight={36}
-              placeholder={placeholder}
-              placeholderTextColor={theme.palette.textMuted}
-              value={value}
-              onChangeText={onChangeText}
-              editable
-              secureTextEntry={hide}
-              autoCapitalize={autoCapitalize}
-              keyboardType={keyboardType}
-              autoComplete={autoComplete}
-              returnKeyType={returnKeyType}
-              onSubmitEditing={onSubmitEditing}
-              blurOnSubmit={blurOnSubmit}
-              testID={testID}
-            />
+            <YStack f={1}>
+              <Input
+                {...ui("input")}
+                ref={(instance: TextInput | null) => {
+                  effectiveInputRef.current = instance ?? undefined;
+                }}
+                placeholder={placeholder}
+                placeholderTextColor={theme.palette.textMuted}
+                value={value}
+                onChangeText={onChangeText}
+                editable
+                secureTextEntry={hide}
+                autoCapitalize={autoCapitalize}
+                keyboardType={keyboardType}
+                autoComplete={autoComplete}
+                returnKeyType={returnKeyType}
+                onSubmitEditing={onSubmitEditing}
+                blurOnSubmit={blurOnSubmit}
+                testID={testID}
+              />
+            </YStack>
             {secureTextEntry ? (
               <YStack
                 {...ui("toggle")}

@@ -2,10 +2,10 @@ import React from 'react'
 import { TamaguiProvider } from '@tamagui/core'
 import { createConfigForTheme } from './config'
 import {
-  applyThemeOverride,
-  theme as defaultTheme,
-  Theme,
-  ThemeOverride,
+  applyUiOverride,
+  uiRuntime as defaultUiRuntime,
+  UiRuntime,
+  UiOverride,
 } from './theme'
 import { ThemeProvider } from './theme/ThemeProvider'
 
@@ -14,24 +14,24 @@ import { ThemeProvider } from './theme/ThemeProvider'
 // context from the same active platform theme so feature UI stays in sync.
 export function UIProvider({
   children,
-  value = defaultTheme,
+  value = defaultUiRuntime,
   override,
 }: {
   children: React.ReactNode
-  value?: Theme
-  override?: ThemeOverride
+  value?: UiRuntime
+  override?: UiOverride
 }) {
-  const activeTheme = React.useMemo(
-    () => applyThemeOverride(value, override),
+  const activeUi = React.useMemo(
+    () => applyUiOverride(value, override),
     [override, value],
   )
   const config = React.useMemo(
-    () => createConfigForTheme(activeTheme),
-    [activeTheme],
+    () => createConfigForTheme(activeUi.theme),
+    [activeUi],
   )
 
   return (
-    <ThemeProvider value={activeTheme}>
+    <ThemeProvider value={activeUi}>
       <TamaguiProvider config={config} defaultTheme="dark">
         {children}
       </TamaguiProvider>

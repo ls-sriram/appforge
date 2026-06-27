@@ -1,46 +1,54 @@
 /**
  * ─────────────────────────────────────────────────────────────────
- * THEME PROVIDER — React Context for theme access.
+ * UI RUNTIME PROVIDER — React Context for UI runtime access.
  *
- * Wraps the app root so every component can consume the theme
- * via `useTheme()`. Enables future runtime theme switching
- * (dark mode, A/B themes, brand reskins).
+ * Wraps the app root so components can consume the assembled UI runtime
+ * via `useUI()` and the token layer via `useTheme()`.
  *
- * Views are dumb — they call `useTheme()` for style values.
+ * The runtime keeps ownership explicit:
+ * - `theme` for tokens
+ * - `variants` for component appearance
+ * - `layouts` for density/rhythm
  * ─────────────────────────────────────────────────────────────────
  */
 
 import React, { createContext, useContext, ReactNode } from "react";
-import { applyThemeOverride, theme as defaultTheme, Theme, ThemeOverride } from "./index";
+import { applyUiOverride, uiRuntime as defaultUiRuntime, type Theme, type UiOverride, type UiRuntime } from "./index";
 
 // ─── Context ────────────────────────────────────────────────────
 
-const ThemeContext = createContext<Theme>(defaultTheme);
+const UIContext = createContext<UiRuntime>(defaultUiRuntime);
 
 // ─── Provider ───────────────────────────────────────────────────
 
 export function ThemeProvider({
   children,
-  value = defaultTheme,
+  value = defaultUiRuntime,
   override,
 }: {
   children: ReactNode;
-  value?: Theme;
-  override?: ThemeOverride;
+  value?: UiRuntime;
+  override?: UiOverride;
 }) {
   return (
-    <ThemeContext.Provider value={applyThemeOverride(value, override)}>
+    <UIContext.Provider value={applyUiOverride(value, override)}>
       {children}
-    </ThemeContext.Provider>
+    </UIContext.Provider>
   );
 }
 
 // ─── Hook ───────────────────────────────────────────────────────
 
-export function useTheme(): Theme {
-  const ctx = useContext(ThemeContext);
+export function useUI(): UiRuntime {
+  const ctx = useContext(UIContext);
   if (!ctx) {
-    throw new Error("useTheme() must be called within a ThemeProvider");
+    throw new Error("useUI() must be called within a ThemeProvider");
   }
   return ctx;
 }
+
+export function useTheme(): Theme {
+  return useUI().theme;
+}
+
+export const useThemeTokens = useTheme;

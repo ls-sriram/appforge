@@ -1,9 +1,9 @@
 import React from "react";
 import { Pressable, View } from "react-native";
-import { useTheme } from "../theme/ThemeProvider";
+import { useUI } from "../theme/ThemeProvider";
 import { PanelScaffold } from "../scaffolds";
 import { type UiStamp, noopUi } from "../viz";
-import { Icon, type IconName } from "./Icon";
+import { Icon, type IconName, type IconTone } from "./Icon";
 import { Tabs } from "./Tabs";
 
 export interface TabbedPanelTab {
@@ -22,11 +22,22 @@ export interface TabbedPanelProps {
   tabs: TabbedPanelTab[];
   activeTabId: string | null;
   onActiveTabChange: (tabId: string) => void;
+  variant?: string;
   onCloseTab?: (tabId: string) => void;
   onMoveTab?: (tabId: string, direction: TabbedPanelMoveDirection) => void;
   actions?: React.ReactNode;
   emptyState?: React.ReactNode;
   ui?: UiStamp;
+}
+
+export interface TabbedPanelVariant {
+  actionButtonMinWidth: number;
+  actionButtonMinHeight: number;
+  actionButtonBorderRadius: number;
+  actionButtonDisabledOpacity: number;
+  actionIconTone: IconTone;
+  disabledActionIconTone: IconTone;
+  inlineActionsMarginRight: number;
 }
 
 interface IconActionButtonProps {
@@ -35,6 +46,7 @@ interface IconActionButtonProps {
   disabled?: boolean;
   onPress: () => void;
   testID?: string;
+  variant: string;
 }
 
 function hasContent(node: React.ReactNode) {
@@ -47,8 +59,11 @@ function IconActionButton({
   disabled = false,
   onPress,
   testID,
+  variant,
 }: IconActionButtonProps) {
-  const t = useTheme();
+  const { variants } = useUI();
+  const s = variants.tabbedPanel?.[variant];
+  if (!s) throw new Error(`Unknown tabbedPanel variant "${variant}"`);
 
   return (
     <Pressable
@@ -59,16 +74,16 @@ function IconActionButton({
       nativeID={testID}
       onPress={onPress}
       style={{
-        minWidth: 28,
-        minHeight: 28,
+        minWidth: s.actionButtonMinWidth,
+        minHeight: s.actionButtonMinHeight,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: t.radii.pill,
-        opacity: disabled ? 0.4 : 1,
+        borderRadius: s.actionButtonBorderRadius,
+        opacity: disabled ? s.actionButtonDisabledOpacity : 1,
       }}
       testID={testID}
     >
-      <Icon name={icon} size="sm" tone={disabled ? "muted" : "secondary"} />
+      <Icon name={icon} size="sm" tone={disabled ? s.disabledActionIconTone : s.actionIconTone} />
     </Pressable>
   );
 }
@@ -77,6 +92,7 @@ export function TabbedPanel({
   tabs,
   activeTabId,
   onActiveTabChange,
+  variant = "default",
   onCloseTab,
   onMoveTab,
   actions,
@@ -89,6 +105,9 @@ export function TabbedPanel({
   const canMove = !!activeTab && !!onMoveTab && activeTab.movable !== false;
   const canMoveLeft = canMove && activeIndex > 0;
   const canMoveRight = canMove && activeIndex >= 0 && activeIndex < tabs.length - 1;
+  const { variants } = useUI();
+  const s = variants.tabbedPanel?.[variant];
+  if (!s) throw new Error(`Unknown tabbedPanel variant "${variant}"`);
 
   const header = tabs.length > 0 ? (
     <Tabs
@@ -101,12 +120,13 @@ export function TabbedPanel({
       }))}
       testID={ui("tabs").__uiid}
       value={activeTabId ?? ""}
+      variant={variant}
     />
   ) : null;
 
   const builtInActions = activeTab ? (
     <View style={styles.actionsRow}>
-      {hasContent(actions) ? <View style={styles.inlineActions}>{actions}</View> : null}
+      {hasContent(actions) ? <View style={getInlineActionsStyle(s.inlineActionsMarginRight)}>{actions}</View> : null}
       {canMove ? (
         <>
           <IconActionButton
@@ -119,6 +139,7 @@ export function TabbedPanel({
               }
             }}
             testID={ui("move-left").__uiid}
+            variant={variant}
           />
           <IconActionButton
             accessibilityLabel="Move active tab right"
@@ -130,6 +151,7 @@ export function TabbedPanel({
               }
             }}
             testID={ui("move-right").__uiid}
+            variant={variant}
           />
         </>
       ) : null}
@@ -139,12 +161,13 @@ export function TabbedPanel({
           icon="x"
           onPress={() => onCloseTab?.(activeTab.id)}
           testID={ui("close").__uiid}
+          variant={variant}
         />
       ) : null}
     </View>
   ) : hasContent(actions) ? (
     <View style={styles.actionsRow}>
-      <View style={styles.inlineActions}>{actions}</View>
+      <View style={getInlineActionsStyle(s.inlineActionsMarginRight)}>{actions}</View>
     </View>
   ) : null;
 
@@ -164,9 +187,12 @@ const styles = {
     alignItems: "center",
     flexShrink: 0,
   },
-  inlineActions: {
+} as const;
+
+function getInlineActionsStyle(marginRight: number) {
+  return {
     flexDirection: "row",
     alignItems: "center",
-    marginRight: 4,
-  },
-} as const;
+    marginRight,
+  } as const;
+}

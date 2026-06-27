@@ -2,9 +2,9 @@ import React from "react";
 import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "../theme/ThemeProvider";
-import { contentWidths, workspaceShell } from "../theme/tokens";
 import { useViewport, type ViewportTier } from "../theme/Viewport";
 import { noopUi, type UiStamp } from "../viz";
+import { centeredPageWidths, pageShell } from "./defaults";
 
 type SlotNode = React.ReactNode;
 type SidebarPlacement = "left" | "right";
@@ -125,7 +125,7 @@ export function CenteredPageScaffold({
         <View
           nativeID={ui("well").__uiid}
           testID={ui("well").__uiid}
-          style={[styles.centeredWell, { maxWidth: contentWidths[width] }]}
+          style={[styles.centeredWell, { maxWidth: centeredPageWidths[width] }]}
         >
           <Section testID={ui("header").__uiid}>
             {header}
@@ -283,7 +283,7 @@ export function PageScaffold({
 }: PageScaffoldProps) {
   const viewport = useViewport();
   const bodyDirection = viewport.isMobile ? "column" : "row";
-  const sidebarWidth = viewport.isMobile ? "100%" : workspaceShell.sidebarWidth;
+  const sidebarWidth = viewport.isMobile ? "100%" : pageShell.sidebarWidth;
   const sidebarSlot = sidebar ? (
     <View
       data-uiid={ui("sidebar").__uiid}

@@ -1,7 +1,7 @@
 import React from "react";
 import { renderHook } from "@testing-library/react-native";
-import { applyThemeOverride, theme } from "./index";
-import { ThemeProvider, useTheme } from "./ThemeProvider";
+import { applyThemeOverride, applyUiOverride, uiRuntime } from "./index";
+import { ThemeProvider, useTheme, useUI } from "./ThemeProvider";
 
 describe("ThemeProvider", () => {
   it("provides the default theme via useTheme", () => {
@@ -48,13 +48,33 @@ describe("ThemeProvider", () => {
   });
 
   it("applies palette overrides and rebuilds variants", () => {
-    const nextTheme = applyThemeOverride(theme, {
+    const nextUi = applyThemeOverride(uiRuntime, {
       palette: { primary: "#123456" },
     });
 
-    expect(nextTheme.palette.primary).toBe("#123456");
-    expect(nextTheme.variants.button!.primary.backgroundColor).toBe("#123456");
-    expect(nextTheme.spacing.md).toBe(theme.spacing.md);
+    expect(nextUi.theme.palette.primary).toBe("#123456");
+    expect(nextUi.variants.button!.primary.backgroundColor).toBe("#123456");
+    expect(nextUi.theme.spacing.md).toBe(uiRuntime.theme.spacing.md);
+  });
+
+  it("applies token, layout, and variant overrides together", () => {
+    const nextUi = applyUiOverride(uiRuntime, {
+      spacing: { md: 24 },
+      typography: { family: "Test Sans", size: { md: 17 } },
+      radii: { pill: 777 },
+      breakpoints: { desktop: 1440 },
+      layouts: { comfortable: { panelPadding: 99 } },
+      variants: { button: { primary: { minHeight: 88 } } },
+    });
+
+    expect(nextUi.theme.spacing.md).toBe(24);
+    expect(nextUi.theme.typography.family).toBe("Test Sans");
+    expect(nextUi.theme.typography.size.md).toBe(17);
+    expect(nextUi.theme.radii.pill).toBe(777);
+    expect(nextUi.theme.breakpoints.desktop).toBe(1440);
+    expect(nextUi.layouts.comfortable.panelPadding).toBe(99);
+    expect(nextUi.variants.button!.primary.minHeight).toBe(88);
+    expect(nextUi.variants.button!.primary.paddingHorizontal).not.toBeUndefined();
   });
 
   it("accepts provider-level theme overrides", () => {
@@ -63,9 +83,9 @@ describe("ThemeProvider", () => {
       children,
     });
 
-    const { result } = renderHook(() => useTheme(), { wrapper });
+    const { result } = renderHook(() => useUI(), { wrapper });
 
-    expect(result.current.palette.primary).toBe("#654321");
+    expect(result.current.theme.palette.primary).toBe("#654321");
     expect(result.current.variants.button!.primary.backgroundColor).toBe("#654321");
   });
 });

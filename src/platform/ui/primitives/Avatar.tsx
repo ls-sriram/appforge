@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import { useTheme } from "../theme/ThemeProvider";
+import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface AvatarVariant {
@@ -24,8 +24,8 @@ interface AvatarProps {
 }
 
 export function Avatar({ initials = "?", variant, selected = false, loading = false, onPress, disabled }: AvatarProps) {
-  const theme = useTheme();
-  const s = theme.variants.avatar?.[variant];
+  const { variants } = useUI();
+  const s = variants.avatar?.[variant];
   if (!s) throw new Error(`Unknown avatar variant "${variant}"`);
 
   const letters = initials.slice(0, 2).toUpperCase();

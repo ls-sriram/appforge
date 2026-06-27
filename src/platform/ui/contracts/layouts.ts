@@ -3,7 +3,7 @@
  *
  * AppForge defines the contract; applications provide the three presets.
  * Primitives and feature code read the active layout via useLayout().
- * The active density is set by DensityProvider in the React tree.
+ * The active layout is set by LayoutProvider in the React tree.
  */
 
 export interface LayoutContract {

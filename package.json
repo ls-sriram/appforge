@@ -4,8 +4,8 @@
   "description": "Shared UI, features, and API layer for AppForge-scaffolded apps.",
   "exports": {
     "./ui": "./src/platform/ui/index.ts",
-    "./theme": "./src/platform/theme/index.ts",
-    "./theme/*": "./src/platform/theme/*",
+    "./theme": "./src/platform/ui/theme/index.ts",
+    "./theme/*": "./src/platform/ui/theme/*",
     "./providers/*": "./src/platform/providers/*",
     "./navigation/*": "./src/platform/navigation/*",
     "./api/*": "./src/platform/api/*",

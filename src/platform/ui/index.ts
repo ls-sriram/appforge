@@ -21,6 +21,10 @@ export {
   type ImageVariant,
   type TableVariant,
   type ProgressBarVariant,
+  type TabsVariant,
+  type SizingToolbarVariant,
+  type TabbedPanelVariant,
+  type ColorPalettePickerVariant,
   type Variants,
   type LayoutContract,
 } from "./contracts";
@@ -80,8 +84,16 @@ export {
   type ViewportTier,
 } from "./theme/Viewport";
 export { ViewportProvider } from "./theme/ViewportProvider";
-export { createVariants, createLayouts } from "./theme";
-export { DensityProvider, useLayout } from "./theme/DensityProvider";
+export { ThemeProvider, useUI, useThemeTokens } from "./theme/ThemeProvider";
+export {
+  createVariants,
+  createLayouts,
+  createUiRuntime,
+  createAppUiRuntime,
+  uiRuntime,
+  type UiRuntime,
+} from "./theme";
+export { LayoutProvider, DensityProvider, useLayout } from "./theme/DensityProvider";
 export {
   CenteredPageScaffold,
   HeaderScaffold,

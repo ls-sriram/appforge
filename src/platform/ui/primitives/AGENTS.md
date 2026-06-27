@@ -159,7 +159,7 @@ Layout contracts do not define:
 - row vs column
 - business concepts
 
-The active layout contract is set by `DensityProvider` and read with `useLayout(layout?)`. Primitives that are density-sensitive (e.g. `Table`) accept an optional `layout?: string` prop and call `useLayout(layout)` internally.
+The active layout profile is set by `LayoutProvider` and read with `useLayout(layout?)`. Primitives that are density-sensitive (e.g. `Table`) accept an optional `layout?: string` prop and call `useLayout(layout)` internally.
 
 `LayoutContract` fields are defined in `contracts/layouts.ts`. Applications create layout contracts via `createLayouts(tokens)` and may extend them.
 

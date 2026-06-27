@@ -2,7 +2,7 @@ import React from "react";
 import { Image, type ImageSourcePropType } from "react-native";
 import { View } from "@tamagui/core";
 import { useLayout } from "../theme/DensityProvider";
-import { useTheme } from "../theme/ThemeProvider";
+import { useUI } from "../theme/ThemeProvider";
 import { Avatar } from "./Avatar";
 import { Badge } from "./Badge";
 import { Body, Label } from "./Text";
@@ -187,9 +187,9 @@ export function Table<Row>({
   striped = false,
   emptyLabel = "No rows.",
 }: TableProps<Row>) {
-  const theme = useTheme();
+  const ui = useUI();
   const tableLayout = useLayout(layout);
-  const tableVariant = theme.variants.table?.[variant];
+  const tableVariant = ui.variants.table?.[variant];
   if (!tableVariant) throw new Error(`Unknown table variant "${variant}"`);
 
   if (rows.length === 0) {
@@ -262,7 +262,7 @@ export function Table<Row>({
                 ai={getCellAlignment(column.align)}
                 minWidth={0}
               >
-                {renderCell(spec, row, theme.variants.image)}
+                {renderCell(spec, row, ui.variants.image)}
               </View>
             );
           })}

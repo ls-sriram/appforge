@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
-import { useTheme } from "../theme/ThemeProvider";
+import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface ButtonVariant {
@@ -28,8 +28,8 @@ export type ButtonProps = {
 };
 
 export function Button({ variant, selected = false, loading = false, disabled, onPress, children }: ButtonProps) {
-  const theme = useTheme();
-  const s = theme.variants.button?.[variant];
+  const { variants } = useUI();
+  const s = variants.button?.[variant];
   if (!s) throw new Error(`Unknown button variant "${variant}"`);
 
   return (

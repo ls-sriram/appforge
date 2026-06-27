@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import { useTheme } from "../theme/ThemeProvider";
+import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 import { Icon } from "./Icon";
 import type { SelectOption } from "./Select";
@@ -66,8 +66,8 @@ export function MultiSelect({
   disabled = false,
   testID,
 }: MultiSelectProps) {
-  const theme = useTheme();
-  const s = theme.variants.multiSelect?.[variant];
+  const { theme, variants } = useUI();
+  const s = variants.multiSelect?.[variant];
   if (!s) throw new Error(`Unknown multiSelect variant "${variant}"`);
 
   const [open, setOpen] = React.useState(false);

@@ -63,7 +63,7 @@ The `contracts/` barrel is the source of truth for the variant and layout contra
 
 ## Shared Surface
 
-- `theme/`: theme factory, token schema, `DensityProvider`, `ThemeProvider`, `Viewport`
+- `theme/`: theme factory, runtime assembly, `LayoutProvider`, `ThemeProvider`, `Viewport`
 - `contracts/`: interaction, variant, and layout contract types
 - `primitives/`: closed-form leaf primitives
 - `scaffolds/`: slot-structured layout scaffold helpers

@@ -10,6 +10,10 @@ import type { SelectableChipVariant } from "../primitives/SelectableChip";
 import type { TextAreaVariant } from "../primitives/TextArea";
 import type { SelectVariant } from "../primitives/Select";
 import type { MultiSelectVariant } from "../primitives/MultiSelect";
+import type { TabsVariant } from "../primitives/Tabs";
+import type { SizingToolbarVariant } from "../primitives/SizingToolbar";
+import type { TabbedPanelVariant } from "../primitives/TabbedPanel";
+import type { ColorPalettePickerVariant } from "../primitives/ColorPalettePicker";
 
 export type {
   ButtonVariant,
@@ -24,6 +28,10 @@ export type {
   TextAreaVariant,
   SelectVariant,
   MultiSelectVariant,
+  TabsVariant,
+  SizingToolbarVariant,
+  TabbedPanelVariant,
+  ColorPalettePickerVariant,
 };
 
 export interface Variants {
@@ -39,4 +47,8 @@ export interface Variants {
   textArea?: Record<string, TextAreaVariant>;
   select?: Record<string, SelectVariant>;
   multiSelect?: Record<string, MultiSelectVariant>;
+  tabs?: Record<string, TabsVariant>;
+  sizingToolbar?: Record<string, SizingToolbarVariant>;
+  tabbedPanel?: Record<string, TabbedPanelVariant>;
+  colorPalettePicker?: Record<string, ColorPalettePickerVariant>;
 }

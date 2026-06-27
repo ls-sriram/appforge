@@ -8,24 +8,67 @@ Applies to `src/platform/ui/theme/**`.
 
 The theme layer owns:
 
-- design tokens: palette, semantic colors, typography, spacing, radii, borders, elevation, breakpoints, layout constants
+- design tokens: palette, semantic colors, typography, spacing, radii, breakpoints
 - the `Theme` interface and `createTheme()` factory
-- the default variant library via `createVariants(tokens)`
-- the default layout contract library via `createLayouts(tokens)`
-- density management via `DensityProvider` and `useLayout()`
+- the default token set in `defaults.ts`
+- the default variant library via `createVariants(theme)`
+- the default layout contract library via `createLayouts(theme)`
+- runtime assembly via `UiRuntime` and `createUiRuntime(theme)`
+- layout lookup via `LayoutProvider` and `useLayout()`
 
-## Theme Structure
+Ownership is distinct from runtime containment:
 
-`Theme` (returned by `createTheme()`) has two top-level branches:
+- `Theme` owns token values only
+- `Variants` owns component appearance
+- `LayoutContract` owns density/rhythm presets
+- `UiRuntime` assembles those three for React lookup
 
 ```ts
-Theme {
-  colors: { ... }   // all color, space, typography tokens
-  radii: { none, sm, md, lg, xl, pill, full }  // top-level, NOT under colors
+UiRuntime {
+  theme: Theme
+  variants: Variants
+  layouts: Record<string, LayoutContract>
 }
 ```
 
-`radii` is top-level on `Theme`. Do not nest it under `colors`.
+Do not infer ownership from `useUI()` object shape.
+
+## Module Structure
+
+- `factory.ts`: token-level `Theme` interface and `createTheme()`
+- `defaults.ts`: default brand and default token set
+- `variants.ts`: variant factory
+- `layouts.ts`: layout factory
+- `runtime.ts`: `UiRuntime`, runtime assembly, and override application
+- `ThemeProvider.tsx`: React context hooks (`useUI()`, `useTheme()`)
+
+## Runtime Overrides
+
+`ThemeOverride` owns token overrides.
+
+Supported sections:
+
+- `palette`
+- `spacing`
+- `typography`
+- `radii`
+- `breakpoints`
+
+`UiRuntimeOverride` owns resolved runtime overrides.
+
+Supported sections:
+
+- `layouts`
+- `variants`
+
+`UiOverride` is the combined provider-facing surface accepted by `ThemeProvider` and `UIProvider`.
+
+Rules:
+
+- Token sections override `Theme` ownership only.
+- `layouts` override the resolved layout library after `createLayouts(theme)`.
+- `variants` override the resolved variant library after `createVariants(theme)`.
+- Do not add new primitive-only visual defaults in render functions when a token, layout, or variant override can carry that value.
 
 ## Token Rules
 
@@ -36,13 +79,13 @@ Theme {
 
 ## Variant Contract
 
-`createVariants(tokens)` returns the default `Variants` map that applications pass to `ThemeProvider`. Applications can extend it:
+`createVariants(theme)` returns the default `Variants` map used by `UiRuntime`. Applications can extend it:
 
 ```ts
 const appVariants = {
-  ...createVariants(tokens),
+  ...createVariants(theme),
   button: {
-    ...createVariants(tokens).button,
+    ...createVariants(theme).button,
     meditate: { ... },
   },
 };
@@ -51,12 +94,12 @@ const appVariants = {
 Rules:
 - Variant fields are concrete resolved values (`string | number`), never token references.
 - Each variant key must satisfy its variant interface (`satisfies Record<string, XxxVariant>`).
-- `fontFamily` is not a variant field. Primitives read it directly from `theme.colors.typography.fontFamily`.
+- `fontFamily` is not a variant field. Primitives read it from `ui.theme.typography.family`.
 - Visual decisions that primitives make at render time (sizes, colors, radii) belong in variants, not hardcoded in primitive render functions.
 
 ## Layout Contract
 
-`createLayouts(tokens)` returns the default named layout contracts. Each entry implements `LayoutContract`:
+`createLayouts(theme)` returns the default named layout contracts. Each entry implements `LayoutContract`:
 
 ```ts
 LayoutContract {
@@ -65,11 +108,12 @@ LayoutContract {
 }
 ```
 
-`DensityProvider` sets the active named layout contract. `useLayout(name?)` reads it.
+`LayoutProvider` sets the active named layout profile. `useLayout(name?)` reads it from `ui.layouts`.
 
 Primitives that are density-sensitive accept `layout?: string` and call `useLayout(layout)`. Feature code reads `useLayout()` to consume the active layout for feature-level spacing.
 
 ## Checks
 
-- Run `npm run typecheck` after changing token interfaces or theme factory output.
+- Run `npm run typecheck` after changing token interfaces, runtime assembly, or theme factory output.
+- Focused runtime checks live in `theme.test.ts`.
 - Any access to `theme.colors.radii` is a bug — use `theme.radii` instead.
