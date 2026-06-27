@@ -18,6 +18,10 @@
 - `docs/ui-layer-boundary.md`
 - `docs/platform-ui-changelog.md`
 
+## Platform UI
+
+- `src/platform/ui/README.md` (caller-facing usage guide for `@ui`)
+
 ## Decisions (Durable)
 
 - `docs/decisions/` (ADR files)

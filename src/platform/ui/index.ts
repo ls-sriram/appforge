@@ -5,7 +5,6 @@ export {
   Text,
   Theme,
   styled,
-  useTheme,
   TamaguiProvider,
   type GetProps,
 } from "@tamagui/core";
@@ -84,7 +83,7 @@ export {
   type ViewportTier,
 } from "./theme/Viewport";
 export { ViewportProvider } from "./theme/ViewportProvider";
-export { ThemeProvider, useUI, useThemeTokens } from "./theme/ThemeProvider";
+export { ThemeProvider, useUI, useTheme, useThemeTokens } from "./theme/ThemeProvider";
 export {
   createVariants,
   createLayouts,
@@ -93,6 +92,7 @@ export {
   uiRuntime,
   type UiRuntime,
 } from "./theme";
+export type { ThemeOverride, UiRuntimeOverride, UiOverride } from "./theme";
 export { LayoutProvider, DensityProvider, useLayout } from "./theme/DensityProvider";
 export {
   CenteredPageScaffold,
