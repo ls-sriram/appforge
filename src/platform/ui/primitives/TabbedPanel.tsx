@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, View } from "react-native";
-import { useTheme } from "../../theme/ThemeProvider";
+import { useTheme } from "../theme/ThemeProvider";
 import { PanelScaffold } from "../scaffolds";
 import { type UiStamp, noopUi } from "../viz";
 import { Icon, type IconName } from "./Icon";

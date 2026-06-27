@@ -1,8 +1,8 @@
 import React from "react";
 import { Image, type ImageSourcePropType } from "react-native";
 import { View } from "@tamagui/core";
-import { useLayout } from "../../theme/DensityProvider";
-import { useTheme } from "../../theme/ThemeProvider";
+import { useLayout } from "../theme/DensityProvider";
+import { useTheme } from "../theme/ThemeProvider";
 import { Avatar } from "./Avatar";
 import { Badge } from "./Badge";
 import { Body, Label } from "./Text";
@@ -56,11 +56,11 @@ export interface TableVariant {
   headerBackgroundColor: string;
   borderColor: string;
   borderWidth: number;
-  borderRadius: string | number;
-  emptyPadding: string | number;
-  contentPaddingHorizontal: string | number;
-  headerPaddingVertical: string | number;
-  headerGap: string | number;
+  borderRadius: number;
+  emptyPadding: number;
+  contentPaddingHorizontal: number;
+  headerPaddingVertical: number;
+  headerGap: number;
   dividerWidth: number;
   stripedRowBackgroundColor: string;
 }

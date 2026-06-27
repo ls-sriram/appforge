@@ -9,9 +9,13 @@ export type DeepPartial<T> = {
 };
 
 export type ThemeDefinition = GeneratedTheme;
-export type ThemeColorDefinition = ThemeDefinition["colors"];
-export type ThemeColorOverride = DeepPartial<ThemeColorDefinition>;
+export type ThemePaletteDefinition = ThemeDefinition["palette"];
+export type ThemePaletteOverride = DeepPartial<ThemePaletteDefinition>;
+
+// Legacy aliases
+export type ThemeColorDefinition = ThemePaletteDefinition;
+export type ThemeColorOverride = ThemePaletteOverride;
 
 export interface ThemeOverride {
-  colors?: ThemeColorOverride;
+  palette?: ThemePaletteOverride;
 }

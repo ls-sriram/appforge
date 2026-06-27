@@ -3,7 +3,7 @@ import path from "path";
 import React from "react";
 import { Text } from "react-native";
 import TestRenderer, { act } from "react-test-renderer";
-import { ThemeProvider } from "../../theme/ThemeProvider";
+import { ThemeProvider } from "../theme/ThemeProvider";
 import { createUi } from "../viz";
 import { TabbedPanel } from "./TabbedPanel";
 

@@ -1,9 +1,9 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useTheme } from "../../theme/ThemeProvider";
-import { contentWidths, workspaceShell } from "../../theme/tokens";
-import { useViewport, type ViewportTier } from "../../theme/Viewport";
+import { useTheme } from "../theme/ThemeProvider";
+import { contentWidths, workspaceShell } from "../theme/tokens";
+import { useViewport, type ViewportTier } from "../theme/Viewport";
 import { noopUi, type UiStamp } from "../viz";
 
 type SlotNode = React.ReactNode;
@@ -100,13 +100,13 @@ export function CenteredPageScaffold({
 }: CenteredPageScaffoldProps) {
   const theme = useTheme();
   const viewport = useViewport();
-  const horizontalPadding = viewport.isMobile ? theme.colors.space.md : theme.colors.space.xl;
-  const verticalPadding = viewport.isMobile ? theme.colors.space.lg : theme.colors.space["2xl"];
+  const horizontalPadding = viewport.isMobile ? theme.spacing.md : theme.spacing.xl;
+  const verticalPadding = viewport.isMobile ? theme.spacing.lg : theme.spacing.xl;
 
   return (
     <SafeAreaView
       edges={["top", "bottom", "left", "right"]}
-      style={[styles.safeArea, { backgroundColor: theme.colors.bg }]}
+      style={[styles.safeArea, { backgroundColor: theme.palette.background }]}
       testID={ui("root").__uiid}
     >
       <ScrollView

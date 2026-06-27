@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import Svg, { Path, Circle, Rect } from "react-native-svg";
-import { useTheme } from "../../theme/ThemeProvider";
+import { useTheme } from "../theme/ThemeProvider";
 
 /**
  * Icon — SVG icon atom.
@@ -347,22 +347,22 @@ export function Icon({ name, size = "3xl", tone = "muted", ...rest }: IconProps)
   const theme = useTheme();
   const resolvedColor =
     tone === "secondary"
-      ? theme.colors.textSecondary
+      ? theme.palette.textSecondary
       : tone === "accent" || tone === "brand"
-        ? theme.colors.primary
+        ? theme.palette.primary
         : tone === "action"
-          ? theme.colors.actionAccent
+          ? theme.palette.primary
           : tone === "success"
-            ? theme.colors.success
+            ? theme.palette.success
             : tone === "warning"
-              ? theme.colors.warning
+              ? theme.palette.warning
               : tone === "danger"
-                ? theme.colors.error
+                ? theme.palette.error
                 : tone === "info"
-                  ? theme.colors.info
+                  ? theme.palette.info
                   : tone === "inverse"
-                    ? theme.colors.textInverse
-                    : theme.colors.textMuted;
+                    ? theme.palette.textInverse
+                    : theme.palette.textMuted;
   const resolvedSize = ICON_SIZE_MAP[size];
   return (
     <View style={{ width: resolvedSize, height: resolvedSize }} {...(rest as object)}>

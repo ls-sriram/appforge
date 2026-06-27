@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
-import { useTheme } from "../../theme/ThemeProvider";
+import { useTheme } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface ButtonVariant {

@@ -1,6 +1,6 @@
 import React from "react";
 import TestRenderer, { act } from "react-test-renderer";
-import { ThemeProvider } from "../../theme/ThemeProvider";
+import { ThemeProvider } from "../theme/ThemeProvider";
 import { SizingToolbar } from "./SizingToolbar";
 
 jest.mock("react-native-svg", () => {

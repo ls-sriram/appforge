@@ -17,7 +17,4 @@ export interface LayoutContract {
   itemGap: number;
 
   iconSize: number;
-
-  fontSize: number;
-  labelSize: number;
 }

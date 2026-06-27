@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TextInput, View } from "react-native";
-import { useTheme } from "../../theme/ThemeProvider";
+import { useTheme } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface InputVariant {
@@ -50,7 +50,7 @@ export const Input = React.forwardRef<TextInput, InputProps>(
             paddingHorizontal: s.paddingHorizontal,
             color: s.color,
             fontSize: s.fontSize,
-            fontFamily: theme.colors.typography.fontFamily,
+            fontFamily: theme.typography.family,
             minHeight: s.minHeight,
           }}
         />

@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, View } from "react-native";
-import { useTheme } from "../../theme/ThemeProvider";
+import { useTheme } from "../theme/ThemeProvider";
 import { Icon, type IconName } from "./Icon";
 import { Body } from "./Text";
 
@@ -35,7 +35,7 @@ export function Tabs({
         flexDirection: "row",
         alignItems: "stretch",
         borderBottomWidth: 1,
-        borderBottomColor: t.colors.borderSubtle,
+        borderBottomColor: t.palette.border,
       }}
       testID={testID}
     >
@@ -59,7 +59,7 @@ export function Tabs({
               alignItems: "center",
               justifyContent: "center",
               borderBottomWidth: 2,
-              borderBottomColor: selected ? t.colors.primary : "transparent",
+              borderBottomColor: selected ? t.palette.primary : "transparent",
               opacity: isDisabled ? 0.5 : 1,
             }}
           >

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, ReactNode } from "react";
 import { useTheme } from "./ThemeProvider";
-import type { LayoutContract } from "../ui/contracts";
+import type { LayoutContract } from "../contracts";
 
 const DensityContext = createContext<LayoutContract | null>(null);
 

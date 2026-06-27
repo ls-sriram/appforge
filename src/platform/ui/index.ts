@@ -78,10 +78,10 @@ export {
   getViewportTier,
   type ViewportInfo,
   type ViewportTier,
-} from "../theme/Viewport";
-export { ViewportProvider } from "../theme/ViewportProvider";
-export { createVariants, createLayouts } from "../theme";
-export { DensityProvider, useLayout } from "../theme/DensityProvider";
+} from "./theme/Viewport";
+export { ViewportProvider } from "./theme/ViewportProvider";
+export { createVariants, createLayouts } from "./theme";
+export { DensityProvider, useLayout } from "./theme/DensityProvider";
 export {
   CenteredPageScaffold,
   HeaderScaffold,

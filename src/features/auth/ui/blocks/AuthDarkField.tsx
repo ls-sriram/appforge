@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import type { TextInput } from "react-native";
-import { useTheme } from "../../../../platform/theme/ThemeProvider";
+import { useTheme } from "../../../../platform/ui/theme/ThemeProvider";
 import { Icon, Input, noopUi, type UiStamp, XStack, YStack } from "../../../../platform/ui/index";
 import type { IconName } from "../../../../platform/ui/index";
 
@@ -73,7 +73,7 @@ export function AuthDarkField({
               f={1}
               minHeight={36}
               placeholder={placeholder}
-              placeholderTextColor={theme.colors.textMuted}
+              placeholderTextColor={theme.palette.textMuted}
               value={value}
               onChangeText={onChangeText}
               editable

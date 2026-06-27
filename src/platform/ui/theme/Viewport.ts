@@ -2,7 +2,7 @@ import { useWindowDimensions } from "react-native";
 import { useTheme } from "./ThemeProvider";
 import { useViewportOverride } from "./ViewportProvider";
 
-export type ViewportTier = "mobile" | "tablet" | "desktop" | "wide";
+export type ViewportTier = "mobile" | "tablet" | "desktop";
 
 export interface ViewportInfo {
   width: number;
@@ -11,14 +11,12 @@ export interface ViewportInfo {
   isMobile: boolean;
   isTablet: boolean;
   isDesktop: boolean;
-  isWide: boolean;
 }
 
 export function getViewportTier(
   width: number,
-  breakpoints: { tablet: number; desktop: number; wide: number }
+  breakpoints: { tablet: number; desktop: number }
 ): ViewportTier {
-  if (width >= breakpoints.wide) return "wide";
   if (width >= breakpoints.desktop) return "desktop";
   if (width >= breakpoints.tablet) return "tablet";
   return "mobile";
@@ -31,14 +29,13 @@ export function useViewport(): ViewportInfo {
 
   if (override) return override;
 
-  const tier = getViewportTier(width, t.colors.breakpoints);
+  const tier = getViewportTier(width, t.breakpoints);
   return {
     width,
     height,
     tier,
     isMobile: tier === "mobile",
     isTablet: tier === "tablet",
-    isDesktop: tier === "desktop" || tier === "wide",
-    isWide: tier === "wide",
+    isDesktop: tier === "desktop",
   };
 }

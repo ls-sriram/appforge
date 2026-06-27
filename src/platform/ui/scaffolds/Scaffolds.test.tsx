@@ -3,8 +3,8 @@ import path from "path";
 import React from "react";
 import { Text, View } from "react-native";
 import TestRenderer, { act } from "react-test-renderer";
-import { ThemeProvider } from "../../theme/ThemeProvider";
-import { ViewportProvider } from "../../theme/ViewportProvider";
+import { ThemeProvider } from "../theme/ThemeProvider";
+import { ViewportProvider } from "../theme/ViewportProvider";
 import { createUi } from "../viz";
 import { CenteredPageScaffold } from "./Scaffolds";
 
@@ -40,7 +40,6 @@ function Wrapper({ children }: { children: React.ReactNode }) {
           isMobile: false,
           isTablet: false,
           isDesktop: true,
-          isWide: false,
         }}
       >
         {children}

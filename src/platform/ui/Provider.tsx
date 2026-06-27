@@ -6,8 +6,8 @@ import {
   theme as defaultTheme,
   Theme,
   ThemeOverride,
-} from '../theme'
-import { ThemeProvider } from '../theme/ThemeProvider'
+} from './theme'
+import { ThemeProvider } from './theme/ThemeProvider'
 
 // Initialises Tamagui — must wrap the entire app tree before any styled()
 // atom renders. It now derives the Tamagui theme and the platform theme

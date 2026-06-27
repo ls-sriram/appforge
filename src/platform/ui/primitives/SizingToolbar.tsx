@@ -1,7 +1,14 @@
 import React from "react";
 import { Pressable, View } from "react-native";
 import { Icon, type IconName } from "./Icon";
-import { useTheme } from "../../theme/ThemeProvider";
+import { useTheme } from "../theme/ThemeProvider";
+
+function hexAlpha(hex: string, a: number): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
+}
 
 export type SizingToolbarValue = "sm" | "md" | "lg";
 
@@ -41,7 +48,7 @@ export function SizingToolbar({
         flexDirection: "row",
         alignItems: "center",
         borderWidth: 1,
-        borderColor: t.colors.border,
+        borderColor: t.palette.border,
         borderRadius: t.radii.pill,
         overflow: "hidden",
         opacity: disabled ? 0.5 : 1,
@@ -67,9 +74,9 @@ export function SizingToolbar({
               paddingVertical: 8,
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: selected ? t.colors.primaryMuted : t.colors.surface,
+              backgroundColor: selected ? hexAlpha(t.palette.primary, 0.12) : t.palette.surface,
               borderLeftWidth: index === 0 ? 0 : 1,
-              borderLeftColor: t.colors.border,
+              borderLeftColor: t.palette.border,
             }}
           >
             <Icon

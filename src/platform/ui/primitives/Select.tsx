@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import { useTheme } from "../../theme/ThemeProvider";
+import { useTheme } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 import { Icon } from "./Icon";
 
@@ -80,7 +80,7 @@ export function Select({
   return (
     <View style={{ gap: s.fieldGap }} testID={testID}>
       {label ? (
-        <Text style={{ color: theme.colors.textSecondary, fontSize: s.optionFontSize }}>{label}</Text>
+        <Text style={{ color: theme.palette.textSecondary, fontSize: s.optionFontSize }}>{label}</Text>
       ) : null}
 
       <Pressable

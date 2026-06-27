@@ -1,6 +1,6 @@
 import { createTamagui, createFont, createTokens } from '@tamagui/core'
 import { createAnimations } from '@tamagui/animations-react-native'
-import type { Theme as PlatformTheme } from '../theme'
+import type { Theme as PlatformTheme } from './theme'
 
 const animations = createAnimations({
   fast:   { type: 'spring', damping: 20, mass: 1.2, stiffness: 250 },
@@ -306,40 +306,46 @@ export const resolvedLightTheme: Record<string, string> = {
 }
 
 // ── Config ────────────────────────────────────────────────────────────────────
+function hexToRgba(hex: string, a: number): string {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${a})`;
+}
+
 function createRuntimeTheme(theme: PlatformTheme) {
+  const p = theme.palette;
   return {
-    bg: theme.colors.bg,
-    surface: theme.colors.surface,
-    surfaceStrong: theme.colors.surfaceStrong,
-    surfaceAlt: theme.colors.surfaceAlt,
-    surfaceMuted: theme.colors.surfaceMuted,
-    border: theme.colors.border,
-    borderSubtle: theme.colors.borderSubtle,
-    borderFocus: theme.colors.borderFocus,
-    textPrimary: theme.colors.textPrimary,
-    textSecondary: theme.colors.textSecondary,
-    textMuted: theme.colors.textMuted,
-    textTertiary: theme.colors.textTertiary,
-    textInverse: theme.colors.textInverse,
-    colorFaint: theme.colors.textMuted,
-    colorSoft: theme.colors.textSecondary,
-    colorTertiary: theme.colors.textTertiary,
-    colorInverse: theme.colors.textPrimary,
-    primary: theme.colors.primary,
-    primaryMuted: theme.colors.primaryMuted,
-    accent: theme.colors.accent,
-    accentMuted: theme.colors.accentMuted,
-    success: theme.colors.success,
-    successMuted: theme.colors.successMuted,
-    warning: theme.colors.warning,
-    warningMuted: theme.colors.warningMuted,
-    error: theme.colors.error,
-    errorMuted: theme.colors.errorMuted,
-    info: theme.colors.info,
-    infoMuted: theme.colors.infoMuted,
-    chipBg: theme.colors.surfaceAlt,
-    chipBorder: theme.colors.border,
-    scrim: 'rgba(5,10,18,0.64)',
+    bg:            p.background,
+    surface:       p.surface,
+    surfaceStrong: p.surface,
+    surfaceAlt:    p.surfaceAlt,
+    surfaceMuted:  p.surface,
+    border:        p.border,
+    borderSubtle:  p.border,
+    borderFocus:   p.borderFocus,
+    textPrimary:   p.textPrimary,
+    textSecondary: p.textSecondary,
+    textMuted:     p.textMuted,
+    textInverse:   p.textInverse,
+    colorFaint:    p.textMuted,
+    colorSoft:     p.textSecondary,
+    colorInverse:  p.textPrimary,
+    primary:       p.primary,
+    primaryMuted:  hexToRgba(p.primary, 0.14),
+    accent:        p.primary,
+    accentMuted:   hexToRgba(p.primary, 0.14),
+    success:       p.success,
+    successMuted:  hexToRgba(p.success, 0.12),
+    warning:       p.warning,
+    warningMuted:  hexToRgba(p.warning, 0.12),
+    error:         p.error,
+    errorMuted:    hexToRgba(p.error, 0.12),
+    info:          p.info,
+    infoMuted:     hexToRgba(p.info, 0.12),
+    chipBg:        p.surfaceAlt,
+    chipBorder:    p.border,
+    scrim:         'rgba(5,10,18,0.64)',
   } as const
 }
 
