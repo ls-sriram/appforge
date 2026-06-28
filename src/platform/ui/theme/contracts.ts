@@ -15,6 +15,7 @@ export type ThemePaletteOverride = DeepPartial<ThemePaletteDefinition>;
 export type ThemeSpacingOverride = DeepPartial<ThemeDefinition["spacing"]>;
 export type ThemeTypographyOverride = DeepPartial<ThemeDefinition["typography"]>;
 export type ThemeRadiiOverride = DeepPartial<ThemeDefinition["radii"]>;
+export type ThemeElevationOverride = DeepPartial<ThemeDefinition["elevation"]>;
 export type ThemeBreakpointsOverride = DeepPartial<ThemeDefinition["breakpoints"]>;
 export type LayoutsOverride = Record<string, DeepPartial<LayoutContract>>;
 export type VariantsOverride = DeepPartial<Variants>;
@@ -28,6 +29,7 @@ export interface ThemeOverride {
   spacing?: ThemeSpacingOverride;
   typography?: ThemeTypographyOverride;
   radii?: ThemeRadiiOverride;
+  elevation?: ThemeElevationOverride;
   breakpoints?: ThemeBreakpointsOverride;
 }
 

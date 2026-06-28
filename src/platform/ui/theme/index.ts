@@ -1,4 +1,4 @@
-export { createTheme, type Theme, type ThemeOptions } from "./factory";
+export { createTheme, type ElevationPreset, type Theme, type ThemeOptions } from "./factory";
 export { defaultBrand, palette, tokens } from "./defaults";
 export { createLayouts } from "./layouts";
 export {
@@ -19,6 +19,7 @@ export type {
   ThemePaletteDefinition,
   ThemePaletteOverride,
   ThemeDefinition,
+  ThemeElevationOverride,
   ThemeOverride,
   UiOverride,
   UiRuntimeOverride,

@@ -67,6 +67,7 @@ export function applyThemeOverride(baseUi: UiRuntime, override?: ThemeOverride):
     spacing: mergeDefined(baseUi.theme.spacing, override.spacing),
     typography: mergeDefined(baseUi.theme.typography, override.typography),
     radii: mergeDefined(baseUi.theme.radii, override.radii),
+    elevation: mergeDefined(baseUi.theme.elevation, override.elevation),
     breakpoints: mergeDefined(baseUi.theme.breakpoints, override.breakpoints),
   };
   return createUiRuntime(nextTheme);

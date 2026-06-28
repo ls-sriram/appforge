@@ -2,6 +2,12 @@
   "name": "@appforge/platform",
   "version": "0.1.0",
   "description": "Shared UI, features, and API layer for AppForge-scaffolded apps.",
+  "files": [
+    "src",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
   "exports": {
     "./ui": "./src/platform/ui/index.ts",
     "./theme": "./src/platform/ui/theme/index.ts",

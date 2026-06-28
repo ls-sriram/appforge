@@ -3,6 +3,8 @@ import { renderHook } from "@testing-library/react-native";
 import { applyThemeOverride, applyUiOverride, uiRuntime } from "./index";
 import { ThemeProvider, useTheme, useUI } from "./ThemeProvider";
 
+type ZStackExport = typeof import("../index").ZStack;
+
 describe("ThemeProvider", () => {
   it("provides the default theme via useTheme", () => {
     const { result } = renderHook(() => useTheme(), {
@@ -47,6 +49,27 @@ describe("ThemeProvider", () => {
     expect(result.current.spacing.xl).toBe(30);
   });
 
+  it("provides elevation tokens", () => {
+    const { result } = renderHook(() => useTheme(), {
+      wrapper: ThemeProvider,
+    });
+
+    expect(result.current.elevation.none).toEqual({
+      shadowColor: "#000000",
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 0,
+      shadowRadius: 0,
+      elevation: 0,
+    });
+    expect(result.current.elevation.md).toEqual({
+      shadowColor: "#000000",
+      shadowOffset: { width: 0, height: 3 },
+      shadowOpacity: 0.22,
+      shadowRadius: 6,
+      elevation: 3,
+    });
+  });
+
   it("applies palette overrides and rebuilds variants", () => {
     const nextUi = applyThemeOverride(uiRuntime, {
       palette: { primary: "#123456" },
@@ -62,6 +85,7 @@ describe("ThemeProvider", () => {
       spacing: { md: 24 },
       typography: { family: "Test Sans", size: { md: 17 } },
       radii: { pill: 777 },
+      elevation: { lg: { shadowRadius: 24, elevation: 9 } },
       breakpoints: { desktop: 1440 },
       layouts: { comfortable: { panelPadding: 99 } },
       variants: { button: { primary: { minHeight: 88 } } },
@@ -71,10 +95,18 @@ describe("ThemeProvider", () => {
     expect(nextUi.theme.typography.family).toBe("Test Sans");
     expect(nextUi.theme.typography.size.md).toBe(17);
     expect(nextUi.theme.radii.pill).toBe(777);
+    expect(nextUi.theme.elevation.lg.shadowRadius).toBe(24);
+    expect(nextUi.theme.elevation.lg.elevation).toBe(9);
+    expect(nextUi.theme.elevation.lg.shadowOpacity).toBe(uiRuntime.theme.elevation.lg.shadowOpacity);
     expect(nextUi.theme.breakpoints.desktop).toBe(1440);
     expect(nextUi.layouts.comfortable.panelPadding).toBe(99);
     expect(nextUi.variants.button!.primary.minHeight).toBe(88);
     expect(nextUi.variants.button!.primary.paddingHorizontal).not.toBeUndefined();
+  });
+
+  it("exports ZStack through the shared UI barrel", () => {
+    let exported: ZStackExport | undefined;
+    expect(exported).toBeUndefined();
   });
 
   it("accepts provider-level theme overrides", () => {

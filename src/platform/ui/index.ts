@@ -93,6 +93,7 @@ export {
   type UiRuntime,
 } from "./theme";
 export type { ThemeOverride, UiRuntimeOverride, UiOverride } from "./theme";
+export type { ElevationPreset, ThemeElevationOverride } from "./theme";
 export { LayoutProvider, DensityProvider, useLayout } from "./theme/DensityProvider";
 export {
   CenteredPageScaffold,
@@ -143,6 +144,9 @@ export const YStack = styled(View, {
 export const XStack = styled(View, {
   name: "XStack",
   flexDirection: "row",
+});
+export const ZStack = styled(View, {
+  name: "ZStack",
 });
 export const ScrollView = styled(RNScrollView, {
   name: "ScrollView",

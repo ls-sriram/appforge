@@ -15,6 +15,17 @@ export interface ThemeOptions {
   radiusScale?: number;
 }
 
+export interface ElevationPreset {
+  shadowColor: string;
+  shadowOffset: {
+    width: number;
+    height: number;
+  };
+  shadowOpacity: number;
+  shadowRadius: number;
+  elevation?: number;
+}
+
 export interface Theme {
   palette: {
     primary: string;
@@ -63,6 +74,13 @@ export interface Theme {
     lg: number;
     xl: number;
     pill: number;
+  };
+  elevation: {
+    none: ElevationPreset;
+    sm: ElevationPreset;
+    md: ElevationPreset;
+    lg: ElevationPreset;
+    xl: ElevationPreset;
   };
   breakpoints: {
     mobile: number;
@@ -150,6 +168,43 @@ export function createTheme(options: ThemeOptions): Theme {
       lg: Math.round(14 * radiusScale),
       xl: Math.round(20 * radiusScale),
       pill: 9999,
+    },
+    elevation: {
+      none: {
+        shadowColor: "#000000",
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0,
+        shadowRadius: 0,
+        elevation: 0,
+      },
+      sm: {
+        shadowColor: "#000000",
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: dark ? 0.18 : 0.08,
+        shadowRadius: 2,
+        elevation: 1,
+      },
+      md: {
+        shadowColor: "#000000",
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: dark ? 0.22 : 0.12,
+        shadowRadius: 6,
+        elevation: 3,
+      },
+      lg: {
+        shadowColor: "#000000",
+        shadowOffset: { width: 0, height: 8 },
+        shadowOpacity: dark ? 0.28 : 0.16,
+        shadowRadius: 16,
+        elevation: 6,
+      },
+      xl: {
+        shadowColor: "#000000",
+        shadowOffset: { width: 0, height: 14 },
+        shadowOpacity: dark ? 0.34 : 0.2,
+        shadowRadius: 28,
+        elevation: 10,
+      },
     },
     breakpoints: {
       mobile: 0,

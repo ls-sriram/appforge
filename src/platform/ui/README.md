@@ -76,7 +76,7 @@ Use closed primitives with semantic props, not raw visual styling:
 
 - `Button`, `Badge`, `Tag`, `Avatar`, `Tabs`, `Table`, `SizingToolbar`, `TabbedPanel` use `variant`
 - `Body`, `Heading`, `Label`, `Display` use `tone`, `size`, and `weight`
-- open layout styling belongs on `XStack`, `YStack`, and `ScrollView`
+- open layout styling belongs on `XStack`, `YStack`, `ZStack`, and `ScrollView`
 
 This is correct:
 
@@ -147,9 +147,25 @@ const themeOverride: ThemeOverride = {
   spacing: {
     md: 18,
   },
+  elevation: {
+    md: {
+      shadowRadius: 10,
+      elevation: 4,
+    },
+  },
 }
 
 <UIProvider value={uiRuntime} override={themeOverride} />
+```
+
+`theme.elevation` is a semantic token family of resolved cross-platform presets:
+
+```ts
+theme.elevation.none
+theme.elevation.sm
+theme.elevation.md
+theme.elevation.lg
+theme.elevation.xl
 ```
 
 Use runtime overrides when changing layout profiles or component variants:
