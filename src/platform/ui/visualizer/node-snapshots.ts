@@ -1,5 +1,6 @@
 export type VisualizerNodeSnapshot = {
   type: string;
+  label: string;
   props: Record<string, unknown>;
 };
 

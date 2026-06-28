@@ -21,14 +21,14 @@ export function AuthSubmitBlock({
   testID,
 }: AuthSubmitBlockProps) {
   return (
-    <YStack {...ui("root")} gap="$3">
+    <YStack {...ui("root", `${label} submit block`)} gap="$3">
       {generalError ? (
-        <YStack {...ui("error-box")} bg="$errorMuted" borderColor="$error" borderWidth={1} br="$2" p="$3">
-          <Body {...ui("error-text")} color="$error" fontSize="$2">{generalError}</Body>
+        <YStack {...ui("error-box", `${label} error box`)} bg="$errorMuted" borderColor="$error" borderWidth={1} br="$2" p="$3">
+          <Body {...ui("error-text", `${label} error text`)} color="$error" fontSize="$2">{generalError}</Body>
         </YStack>
       ) : null}
       <Button
-        {...ui("button")}
+        {...ui("button", `${label} button`)}
         variant="primary"
         onPress={onPress}
         disabled={disabled ?? loading}

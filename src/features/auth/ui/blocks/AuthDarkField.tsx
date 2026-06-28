@@ -50,23 +50,23 @@ export function AuthDarkField({
 
   return (
     <YStack
-      {...ui("press-target")}
+      {...ui("press-target", `${placeholder} press target`)}
       onPress={() => effectiveInputRef.current?.focus()}
       cursor="text"
     >
       <YStack
-        {...ui("frame")}
+        {...ui("frame", `${placeholder} frame`)}
         bg={hasError ? "$errorMuted" : "$surfaceStrong"}
         borderColor={hasError ? "$error" : "$border"}
         borderWidth={1}
         br="$3"
       >
-        <YStack {...ui("padding")} px="$5" py="$3">
-          <XStack {...ui("row")} ai="center" gap="$3">
-            <Icon {...ui("icon")} name={icon} size="lg" />
-            <YStack f={1}>
+        <YStack {...ui("padding", `${placeholder} padding`)} px="$5" py="$3">
+          <XStack {...ui("row", `${placeholder} row`)} ai="center" gap="$3">
+            <Icon {...ui("icon", `${placeholder} icon`)} name={icon} size="lg" />
+            <YStack {...ui("input-wrap", `${placeholder} input wrapper`)} f={1}>
               <Input
-                {...ui("input")}
+                {...ui("input", `${placeholder} input`)}
                 ref={(instance: TextInput | null) => {
                   effectiveInputRef.current = instance ?? undefined;
                 }}
@@ -87,11 +87,11 @@ export function AuthDarkField({
             </YStack>
             {secureTextEntry ? (
               <YStack
-                {...ui("toggle")}
+                {...ui("toggle", `${placeholder} visibility toggle`)}
                 onPress={() => setShowPassword((x) => !x)}
                 pressStyle={{ opacity: 0.7 }}
               >
-                <Icon {...ui("toggle-icon")} name="eye" size="lg" />
+                <Icon {...ui("toggle-icon", `${placeholder} visibility toggle icon`)} name="eye" size="lg" />
               </YStack>
             ) : null}
           </XStack>

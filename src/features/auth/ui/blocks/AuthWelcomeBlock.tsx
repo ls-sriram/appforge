@@ -15,7 +15,7 @@ export function AuthWelcomeBlock({
 }: AuthWelcomeBlockProps) {
   return (
     <YStack
-      {...ui("root")}
+      {...ui("root", "Auth welcome card")}
       gap="$6"
       px="$5"
       py="$6"
@@ -24,19 +24,19 @@ export function AuthWelcomeBlock({
       borderColor="$borderSubtle"
       br="$4"
     >
-      <YStack {...ui("copy")} gap="$4">
-        <Label {...ui("eyebrow")} color="$textMuted" textTransform="uppercase" letterSpacing={1}>
+      <YStack {...ui("copy", "Auth welcome copy")} gap="$4">
+        <Label {...ui("eyebrow", "Auth welcome eyebrow")} color="$textMuted" textTransform="uppercase" letterSpacing={1}>
           {app.name}
         </Label>
-        <Display {...ui("title")}>{app.tagline}</Display>
-        <Body {...ui("body")} color="$textMuted" size="lg">
+        <Display {...ui("title", "Auth welcome title")}>{app.tagline}</Display>
+        <Body {...ui("body", "Auth welcome body")} color="$textMuted" size="lg">
           Pick up where you left off or create an account to start building.
         </Body>
       </YStack>
 
-      <YStack {...ui("actions")} gap="$3">
-        <Button {...ui("sign-in")} variant="primary" onPress={onSignIn}>Sign In</Button>
-        <Button {...ui("create-account")} variant="secondary" onPress={onCreateAccount}>Create Account</Button>
+      <YStack {...ui("actions", "Auth welcome actions")} gap="$3">
+        <Button {...ui("sign-in", "Sign in button")} variant="primary" onPress={onSignIn}>Sign In</Button>
+        <Button {...ui("create-account", "Create account button")} variant="secondary" onPress={onCreateAccount}>Create Account</Button>
       </YStack>
     </YStack>
   );

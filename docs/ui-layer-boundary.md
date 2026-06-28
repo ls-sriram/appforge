@@ -384,7 +384,7 @@ The platform provides shared primitives and contracts. Features compose them. Fe
 
 External tools and visualizer flows may rely on:
 
-- stable UI IDs exposed through the platform visualizer helpers
+- stable UI IDs and human-readable labels exposed through the platform visualizer helpers
 - existing primitive APIs
 - existing variant names and variant fields
 - existing layout profiles and layout fields

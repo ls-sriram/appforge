@@ -8,9 +8,10 @@
  *
  * Each wrapper:
  *   1. Reads an explicit __uiid from props when provided.
- *   2. Looks up propOverrides[__uiid] from VisualizerContext.
- *   3. Merges overrides into the component's props (inspector → live update).
- *   4. Passes data-viz-selected and onClick — CSS handles the outline.
+ *   2. Reads an explicit __uilabel from props when provided.
+ *   3. Looks up propOverrides[__uiid] from VisualizerContext.
+ *   4. Merges overrides into the component's props (inspector → live update).
+ *   5. Passes data-viz-selected and onClick — CSS handles the outline.
  */
 import React from "react";
 import { useVisualizerContext } from "../visualizer-context";
@@ -92,7 +93,11 @@ function makeWrapped<P extends AnyProps>(
   displayName: string,
   textProp?: "children" | "label",
 ) {
-  function VisualizerWrapped({ __uiid: explicitId, ...rest }: P & { __uiid?: string }) {
+  function VisualizerWrapped({
+    __uiid: explicitId,
+    __uilabel: explicitLabel,
+    ...rest
+  }: P & { __uiid?: string; __uilabel?: string }) {
     const ctx = useVisualizerContext();
 
     if (!ctx.active || !explicitId) {
@@ -107,13 +112,15 @@ function makeWrapped<P extends AnyProps>(
     React.useLayoutEffect(() => {
       setNodeSnapshot(__uiid, {
         type: displayName,
+        label: explicitLabel ?? displayName,
         props: snapshotProps(displayName, merged, textProp),
       });
       return () => clearNodeSnapshot(__uiid);
-    }, [__uiid, merged]);
+    }, [__uiid, explicitLabel, merged]);
 
     const vizProps: AnyProps = {
       "data-viz-type": displayName,
+      "data-viz-label": explicitLabel,
       "data-viz-selected": __uiid === ctx.selectedNodeId ? "true" : undefined,
       "data-uiid": __uiid,
       onClick: (e: React.MouseEvent) => { e.stopPropagation(); ctx.onSelect(__uiid); },
@@ -136,7 +143,11 @@ function makeWrappedInBox<P extends AnyProps>(
   displayName: string,
   textProp?: "children" | "label",
 ) {
-  function VisualizerWrapped({ __uiid: explicitId, ...rest }: P & { __uiid?: string }) {
+  function VisualizerWrapped({
+    __uiid: explicitId,
+    __uilabel: explicitLabel,
+    ...rest
+  }: P & { __uiid?: string; __uilabel?: string }) {
     const ctx = useVisualizerContext();
 
     if (!ctx.active || !explicitId) {
@@ -152,16 +163,18 @@ function makeWrappedInBox<P extends AnyProps>(
     React.useLayoutEffect(() => {
       setNodeSnapshot(__uiid, {
         type: displayName,
+        label: explicitLabel ?? displayName,
         props: snapshotProps(displayName, merged, textProp),
       });
       return () => clearNodeSnapshot(__uiid);
-    }, [__uiid, merged]);
+    }, [__uiid, explicitLabel, merged]);
 
     return (
       // @ts-ignore — div is web-only; this barrel only runs on web
       <div
         data-uiid={__uiid}
         data-viz-type={displayName}
+        data-viz-label={explicitLabel}
         data-viz-selected={isSelected ? "true" : undefined}
         onClick={(e: React.MouseEvent) => { e.stopPropagation(); ctx.onSelect(__uiid); }}
         style={{ display: "contents" }}

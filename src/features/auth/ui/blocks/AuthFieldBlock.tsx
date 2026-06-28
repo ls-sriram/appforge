@@ -40,7 +40,7 @@ export function AuthFieldBlock({
   testID,
 }: AuthFieldBlockProps) {
   return (
-    <YStack {...ui("root")} gap="$2">
+    <YStack {...ui("root", `${placeholder} field block`)} gap="$2">
       <AuthDarkField
         ui={ui.scope("field")}
         icon={icon}
@@ -58,7 +58,7 @@ export function AuthFieldBlock({
         inputRef={inputRef}
         testID={testID}
       />
-      {error ? <Label {...ui("error")} color="$error" fontSize="$2">{error}</Label> : null}
+      {error ? <Label {...ui("error", `${placeholder} field error`)} color="$error" fontSize="$2">{error}</Label> : null}
     </YStack>
   );
 }

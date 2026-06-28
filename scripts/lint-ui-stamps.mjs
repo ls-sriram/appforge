@@ -45,7 +45,7 @@ for (const sourceFile of sourceFiles) {
         (args[1].getKind() === SyntaxKind.JsxElement || args[1].getKind() === SyntaxKind.JsxSelfClosingElement)
       ) {
         errors.push(
-          `${sourceFile.getFilePath()}:${call.getStartLineNumber()} old ui(id, <Element />) wrapper form is not allowed; use {...ui("id")} on the JSX element instead.`,
+          `${sourceFile.getFilePath()}:${call.getStartLineNumber()} old ui(id, <Element />) wrapper form is not allowed; use {...ui("id", "Label")} on the JSX element instead.`,
         );
       }
       return;
@@ -65,12 +65,29 @@ for (const sourceFile of sourceFiles) {
       if (!expr || expr.getKind() !== SyntaxKind.CallExpression) return false;
       const call = expr.asKindOrThrow(SyntaxKind.CallExpression);
       if (call.getExpression().getText() !== "ui") return false;
-      return call.getArguments().length === 1;
+      const args = call.getArguments();
+      if (args.length !== 2) return false;
+      if (
+        args[1].getKind() === SyntaxKind.JsxElement
+        || args[1].getKind() === SyntaxKind.JsxSelfClosingElement
+      ) {
+        return false;
+      }
+      return true;
+    });
+    const hasScopedUiProp = opening.getAttributes().some((attr) => {
+      if (attr.getKind() !== SyntaxKind.JsxAttribute) return false;
+      if (attr.getNameNode().getText() !== "ui") return false;
+      const initializer = attr.getInitializer();
+      if (!initializer || initializer.getKind() !== SyntaxKind.JsxExpression) return false;
+      if (!initializer) return false;
+      const expr = initializer.getExpression();
+      return expr?.getText().startsWith("ui.scope(") ?? false;
     });
 
-    if (!hasUiStamp) {
+    if (!hasUiStamp && !hasScopedUiProp) {
       errors.push(
-        `${sourceFile.getFilePath()}:${opening.getStartLineNumber()} <${tagName}> is missing an explicit {...ui("id")} stamp.`,
+        `${sourceFile.getFilePath()}:${opening.getStartLineNumber()} <${tagName}> is missing an explicit {...ui("id", "Label")} stamp.`,
       );
     }
   });

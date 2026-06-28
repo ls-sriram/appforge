@@ -15,7 +15,7 @@ export function OnboardingScaffold({
   answerRegion?: React.ReactNode;
 }) {
   return (
-    <YStack {...ui("root")} gap="$4">
+    <YStack {...ui("root", "Onboarding scaffold")} gap="$4">
       {stepper}
       {hero}
       {question}

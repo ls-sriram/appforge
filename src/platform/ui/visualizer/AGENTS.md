@@ -23,7 +23,7 @@ Architecture doc: `docs/ui-layer-boundary.md`
 **`makeWrapped`** — for Tamagui `styled(Stack)` components (YStack, XStack, Body, Heading, Label, Display, Tag). These forward `data-*` props through to the DOM natively.
 
 ```tsx
-// Passes data-uiid, data-viz-selected, onClick directly on the component.
+// Passes data-uiid, data-viz-label, data-viz-selected, onClick directly on the component.
 return <RealComp {...merged} {...vizProps} />;
 ```
 
@@ -31,7 +31,7 @@ return <RealComp {...merged} {...vizProps} />;
 
 ```tsx
 return (
-  <div data-uiid={__uiid} data-viz-selected={...} onClick={...} style={{ display: "contents" }}>
+  <div data-uiid={__uiid} data-viz-label={...} data-viz-selected={...} onClick={...} style={{ display: "contents" }}>
     <RealComp {...merged} />
   </div>
 );
@@ -41,15 +41,16 @@ Use `makeWrapped` by default. Switch to `makeWrappedInBox` only when the compone
 
 ---
 
-## Each wrapper does three things
+## Each wrapper does four things
 
 1. Uses the explicit `__uiid` passed from layout/stage code.
-2. Looks up `propOverrides[__uiid]` from `VisualizerContext` and merges into the component's props.
-3. Stamps `data-uiid`, `data-viz-type`, `data-viz-selected`, and `onClick` so the DOM walk discovers nodes and CSS selection works.
+2. Uses the explicit `__uilabel` passed from layout/stage code.
+3. Looks up `propOverrides[__uiid]` from `VisualizerContext` and merges into the component's props.
+4. Stamps `data-uiid`, `data-viz-label`, `data-viz-type`, `data-viz-selected`, and `onClick` so the DOM walk discovers nodes and CSS selection works.
 
 When `ctx.active === false` or `__uiid` is absent, the wrapper is a passthrough — it renders `<RealComp {...rest} />` with no overhead.
 
-Stage/layout files must pass explicit stamps down through a `ui` helper parameter and spread them onto meaningful shared UI primitives as `{...ui("id")}`. The DOM walk only discovers nodes that are explicitly stamped.
+Stage/layout files must pass explicit stamps down through a `ui` helper parameter and spread them onto meaningful shared UI primitives as `{...ui("id", "Label")}`. The DOM walk only discovers nodes that are explicitly stamped.
 
 ---
 

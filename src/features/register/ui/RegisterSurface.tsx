@@ -32,7 +32,7 @@ export function RegisterSurface({ ui = noopUi, data, dispatch, submitDisabled }:
             onPress: () => dispatch({ type: "go_to_login" }),
           }}
         >
-          <YStack {...ui("fields")} gap="$4">
+          <YStack {...ui("fields", "Register fields")} gap="$4">
             <AuthFieldBlock
               ui={ui.scope("name-field")}
               icon="user"

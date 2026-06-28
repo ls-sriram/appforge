@@ -10,10 +10,10 @@ interface Props {
 
 export function OnboardingChipsBlock({ ui = noopUi, options, selected, onSelect }: Props) {
   return (
-    <XStack {...ui("root")} gap="$3" flexWrap="wrap">
+    <XStack {...ui("root", "Onboarding chip list")} gap="$3" flexWrap="wrap">
       {options.map((label, index) => (
         <SelectableChip
-          {...ui(`option-${index}`)}
+          {...ui(`option-${index}`, `Onboarding option ${index + 1}: ${label}`)}
           key={label}
           variant="md"
           label={label}

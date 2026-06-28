@@ -11,8 +11,8 @@ export function OnboardingStepperBlock({
   total: number;
 }) {
   return (
-    <XStack {...ui("root")} ai="center" jc="space-between">
-      <Body {...ui("label")} fontSize="$2" color="$textMuted">Step {step} of {total}</Body>
+    <XStack {...ui("root", "Onboarding stepper")} ai="center" jc="space-between">
+      <Body {...ui("label", "Onboarding step label")} fontSize="$2" color="$textMuted">Step {step} of {total}</Body>
     </XStack>
   );
 }

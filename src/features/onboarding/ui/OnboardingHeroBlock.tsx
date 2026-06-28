@@ -11,9 +11,9 @@ export function OnboardingHeroBlock({
   subtitle?: string;
 }) {
   return (
-    <YStack {...ui("root")} gap="$2">
-      <Heading {...ui("title")}>{title}</Heading>
-      {subtitle ? <Body {...ui("subtitle")} color="$textMuted">{subtitle}</Body> : null}
+    <YStack {...ui("root", "Onboarding hero")} gap="$2">
+      <Heading {...ui("title", "Onboarding hero title")}>{title}</Heading>
+      {subtitle ? <Body {...ui("subtitle", "Onboarding hero subtitle")} color="$textMuted">{subtitle}</Body> : null}
     </YStack>
   );
 }

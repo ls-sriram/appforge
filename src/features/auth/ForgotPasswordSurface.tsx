@@ -17,12 +17,12 @@ export function ForgotPasswordSurface({ ui = noopUi, data, dispatch }: ForgotPas
   return (
     <CenteredPageScaffold
       content={(
-        <YStack {...ui("root")} gap="$3">
+        <YStack {...ui("root", "Forgot password screen")} gap="$3">
           <AuthFormBlock
             ui={ui.scope("form")}
             subtitle={app.copy.auth.forgotPasswordSubtitle}
           >
-            <YStack {...ui("fields")} gap="$4">
+            <YStack {...ui("fields", "Forgot password fields")} gap="$4">
               <AuthFieldBlock
                 ui={ui.scope("email-field")}
                 icon="mail"
@@ -46,7 +46,7 @@ export function ForgotPasswordSurface({ ui = noopUi, data, dispatch }: ForgotPas
             </YStack>
           </AuthFormBlock>
           <Button
-            {...ui("back")}
+            {...ui("back", "Back to login button")}
             variant="secondary"
             onPress={() => dispatch({ type: "go_to_login" })}
           >

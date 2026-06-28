@@ -107,7 +107,7 @@ export function CenteredPageScaffold({
     <SafeAreaView
       edges={["top", "bottom", "left", "right"]}
       style={[styles.safeArea, { backgroundColor: theme.palette.background }]}
-      testID={ui("root").__uiid}
+      testID={ui("root", "Centered page scaffold root").__uiid}
     >
       <ScrollView
         contentContainerStyle={{
@@ -123,17 +123,17 @@ export function CenteredPageScaffold({
         style={styles.scroll}
       >
         <View
-          nativeID={ui("well").__uiid}
-          testID={ui("well").__uiid}
+          nativeID={ui("well", "Centered page scaffold well").__uiid}
+          testID={ui("well", "Centered page scaffold well").__uiid}
           style={[styles.centeredWell, { maxWidth: centeredPageWidths[width] }]}
         >
-          <Section testID={ui("header").__uiid}>
+          <Section testID={ui("header", "Centered page scaffold header").__uiid}>
             {header}
           </Section>
-          <Section testID={ui("content").__uiid}>
+          <Section testID={ui("content", "Centered page scaffold content").__uiid}>
             {content}
           </Section>
-          <Section testID={ui("footer").__uiid}>
+          <Section testID={ui("footer", "Centered page scaffold footer").__uiid}>
             {footer}
           </Section>
         </View>
@@ -156,20 +156,20 @@ export function HeaderScaffold({
 
   return (
     <View
-      nativeID={ui("root").__uiid}
-      testID={ui("root").__uiid}
+      nativeID={ui("root", "Header scaffold root").__uiid}
+      testID={ui("root", "Header scaffold root").__uiid}
       style={styles.headerRow}
     >
       {showLeading ? (
-        <View nativeID={ui("leading").__uiid} testID={ui("leading").__uiid} style={styles.headerEdge}>
+        <View nativeID={ui("leading", "Header scaffold leading").__uiid} testID={ui("leading", "Header scaffold leading").__uiid} style={styles.headerEdge}>
           {leading}
         </View>
       ) : null}
-      <View nativeID={ui("title").__uiid} testID={ui("title").__uiid} style={styles.headerTitle}>
+      <View nativeID={ui("title", "Header scaffold title").__uiid} testID={ui("title", "Header scaffold title").__uiid} style={styles.headerTitle}>
         {title}
       </View>
       {showActions ? (
-        <View nativeID={ui("actions").__uiid} testID={ui("actions").__uiid} style={[styles.headerEdge, styles.actionsAlign]}>
+        <View nativeID={ui("actions", "Header scaffold actions").__uiid} testID={ui("actions", "Header scaffold actions").__uiid} style={[styles.headerEdge, styles.actionsAlign]}>
           {actions}
         </View>
       ) : null}
@@ -190,17 +190,17 @@ export function SidebarScaffold({
 
   return (
     <View
-      nativeID={ui("root").__uiid}
-      testID={ui("root").__uiid}
+      nativeID={ui("root", "Sidebar scaffold root").__uiid}
+      testID={ui("root", "Sidebar scaffold root").__uiid}
       style={styles.sidebarColumn}
     >
-      <Section testID={ui("header").__uiid}>
+      <Section testID={ui("header", "Sidebar scaffold header").__uiid}>
         {header}
       </Section>
-      <Section testID={ui("content").__uiid}>
+      <Section testID={ui("content", "Sidebar scaffold content").__uiid}>
         {collapsed ? collapsedContent : content}
       </Section>
-      <Section testID={ui("footer").__uiid}>
+      <Section testID={ui("footer", "Sidebar scaffold footer").__uiid}>
         {footer}
       </Section>
     </View>
@@ -218,26 +218,26 @@ export function PanelScaffold({
 
   return (
     <View
-      nativeID={ui("root").__uiid}
-      testID={ui("root").__uiid}
+      nativeID={ui("root", "Panel scaffold root").__uiid}
+      testID={ui("root", "Panel scaffold root").__uiid}
       style={styles.panel}
     >
       {showHeaderBand ? (
         <View
-          nativeID={ui("header").__uiid}
-          testID={ui("header").__uiid}
+          nativeID={ui("header", "Panel scaffold header").__uiid}
+          testID={ui("header", "Panel scaffold header").__uiid}
           style={styles.headerRow}
         >
           <View style={styles.panelHeader}>{header}</View>
-          <View nativeID={ui("actions").__uiid} testID={ui("actions").__uiid} style={styles.actionsAlign}>
+          <View nativeID={ui("actions", "Panel scaffold actions").__uiid} testID={ui("actions", "Panel scaffold actions").__uiid} style={styles.actionsAlign}>
             {actions}
           </View>
         </View>
       ) : null}
-      <Section testID={ui("content").__uiid}>
+      <Section testID={ui("content", "Panel scaffold content").__uiid}>
         {content}
       </Section>
-      <Section testID={ui("footer").__uiid}>
+      <Section testID={ui("footer", "Panel scaffold footer").__uiid}>
         {footer}
       </Section>
     </View>
@@ -254,19 +254,19 @@ export function PanelCollectionScaffold({
 
   return (
     <View
-      nativeID={ui("root").__uiid}
-      testID={ui("root").__uiid}
+      nativeID={ui("root", "Panel collection scaffold root").__uiid}
+      testID={ui("root", "Panel collection scaffold root").__uiid}
       style={styles.collection}
     >
       {showHeaderBand ? (
-        <View nativeID={ui("header").__uiid} testID={ui("header").__uiid} style={styles.headerRow}>
+        <View nativeID={ui("header", "Panel collection scaffold header").__uiid} testID={ui("header", "Panel collection scaffold header").__uiid} style={styles.headerRow}>
           <View style={styles.panelHeader}>{header}</View>
-          <View nativeID={ui("actions").__uiid} testID={ui("actions").__uiid} style={styles.actionsAlign}>
+          <View nativeID={ui("actions", "Panel collection scaffold actions").__uiid} testID={ui("actions", "Panel collection scaffold actions").__uiid} style={styles.actionsAlign}>
             {actions}
           </View>
         </View>
       ) : null}
-      <View nativeID={ui("items").__uiid} testID={ui("items").__uiid} style={styles.collectionItems}>
+      <View nativeID={ui("items", "Panel collection scaffold items").__uiid} testID={ui("items", "Panel collection scaffold items").__uiid} style={styles.collectionItems}>
         {items}
       </View>
     </View>
@@ -286,7 +286,7 @@ export function PageScaffold({
   const sidebarWidth = viewport.isMobile ? "100%" : pageShell.sidebarWidth;
   const sidebarSlot = sidebar ? (
     <View
-      data-uiid={ui("sidebar").__uiid}
+      data-uiid={ui("sidebar", "Page scaffold sidebar").__uiid}
       style={[
         styles.sidebarRail,
         {
@@ -300,13 +300,13 @@ export function PageScaffold({
 
   return (
     <View
-      testID={ui("root").__uiid}
+      testID={ui("root", "Page scaffold root").__uiid}
       style={styles.pageRoot}
     >
       {hasContent(header) ? (
         <View
-          nativeID={ui("header").__uiid}
-          testID={ui("header").__uiid}
+          nativeID={ui("header", "Page scaffold header").__uiid}
+          testID={ui("header", "Page scaffold header").__uiid}
           style={styles.pageBand}
         >
           {header}
@@ -322,8 +322,8 @@ export function PageScaffold({
       >
         {sidebarPlacement === "left" ? sidebarSlot : null}
         <View
-          nativeID={ui("content").__uiid}
-          testID={ui("content").__uiid}
+          nativeID={ui("content", "Page scaffold content").__uiid}
+          testID={ui("content", "Page scaffold content").__uiid}
           style={styles.pageContent}
         >
           {content}
@@ -332,8 +332,8 @@ export function PageScaffold({
       </View>
       {hasContent(footer) ? (
         <View
-          nativeID={ui("footer").__uiid}
-          testID={ui("footer").__uiid}
+          nativeID={ui("footer", "Page scaffold footer").__uiid}
+          testID={ui("footer", "Page scaffold footer").__uiid}
           style={styles.pageBand}
         >
           {footer}

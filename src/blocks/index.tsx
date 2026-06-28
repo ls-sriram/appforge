@@ -4,7 +4,7 @@
  * Shared visual blocks — AppForge primitives only. No hooks, no API calls,
  * no imports from features/. These components are the static design layer:
  * they accept variant contracts and display props, render using the token
- * system, and can be previewed via the visualizer registry.
+ * system, and can be previewed by external visualizer consumers.
  *
  * Variant contracts (tone, size, variant, density) are the inspector's
  * editing vocabulary. Keep blocks inside the platform's closed-form surface.

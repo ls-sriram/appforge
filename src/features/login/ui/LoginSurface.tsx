@@ -30,7 +30,7 @@ export function LoginSurface({ ui = noopUi, data, dispatch }: LoginSurfaceProps)
             onPress: () => dispatch({ type: "go_to_register" }),
           }}
         >
-          <YStack {...ui("fields")} gap="$4">
+          <YStack {...ui("fields", "Login fields")} gap="$4">
             <AuthFieldBlock
               ui={ui.scope("email-field")}
               icon="mail"
@@ -59,7 +59,7 @@ export function LoginSurface({ ui = noopUi, data, dispatch }: LoginSurfaceProps)
               testID="password-input"
             />
             <Button
-              {...ui("forgot-link")}
+              {...ui("forgot-link", "Forgot password link")}
               variant="ghost"
               onPress={() => dispatch({ type: "go_to_forgot_password" })}
             >

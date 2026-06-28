@@ -118,7 +118,7 @@ export function TabbedPanel({
         icon: tab.icon,
         disabled: tab.disabled,
       }))}
-      testID={ui("tabs").__uiid}
+      testID={ui("tabs", "Tabbed panel tabs").__uiid}
       value={activeTabId ?? ""}
       variant={variant}
     />
@@ -138,7 +138,7 @@ export function TabbedPanel({
                 onMoveTab(activeTab.id, "left");
               }
             }}
-            testID={ui("move-left").__uiid}
+            testID={ui("move-left", "Move tab left button").__uiid}
             variant={variant}
           />
           <IconActionButton
@@ -150,7 +150,7 @@ export function TabbedPanel({
                 onMoveTab(activeTab.id, "right");
               }
             }}
-            testID={ui("move-right").__uiid}
+            testID={ui("move-right", "Move tab right button").__uiid}
             variant={variant}
           />
         </>
@@ -160,7 +160,7 @@ export function TabbedPanel({
           accessibilityLabel="Close active tab"
           icon="x"
           onPress={() => onCloseTab?.(activeTab.id)}
-          testID={ui("close").__uiid}
+          testID={ui("close", "Close tab button").__uiid}
           variant={variant}
         />
       ) : null}
