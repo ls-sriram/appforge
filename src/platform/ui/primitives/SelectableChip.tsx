@@ -3,17 +3,26 @@ import { Pressable, Text } from "react-native";
 import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
-export interface SelectableChipVariant {
-  backgroundColor: string;
-  borderColor: string;
-  borderWidth: number;
-  color: string;
-  paddingVertical: number;
-  paddingHorizontal: number;
-  fontSize: number;
-  fontWeight: string | number;
+export interface SelectableChipContract {
+  container: {
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+    paddingVertical: number;
+    paddingHorizontal: number;
+  };
+  shape: {
+    pillBorderRadius: number;
+    roundedBorderRadius: number;
+  };
+  text: {
+    color: string;
+    fontSize: number;
+    fontWeight: string | number;
+  };
   interaction?: InteractionContract;
 }
+
 
 export type SelectableChipShape = "pill" | "rounded";
 export type SelectableChipFrame = "content" | "fill";
@@ -37,12 +46,12 @@ export function SelectableChip({
   frame = "content",
   disabled = false,
 }: SelectableChipProps) {
-  const { theme, variants } = useUI();
-  const s = variants.selectableChip?.[variant];
+  const { contracts } = useUI();
+  const s = contracts.selectableChip?.[variant];
   if (!s) throw new Error(`Unknown selectableChip variant "${variant}"`);
 
   const ix = s.interaction;
-  const borderRadius = shape === "pill" ? theme.radii.pill : theme.radii.sm;
+  const borderRadius = shape === "pill" ? s.shape.pillBorderRadius : s.shape.roundedBorderRadius;
 
   return (
     <Pressable
@@ -58,12 +67,12 @@ export function SelectableChip({
           : (activeStyle as { opacity?: number } | undefined)?.opacity ?? 1;
 
         return {
-          backgroundColor: activeStyle?.backgroundColor ?? s.backgroundColor,
-          borderColor: activeStyle?.borderColor ?? s.borderColor,
-          borderWidth: s.borderWidth,
+          backgroundColor: activeStyle?.backgroundColor ?? s.container.backgroundColor,
+          borderColor: activeStyle?.borderColor ?? s.container.borderColor,
+          borderWidth: s.container.borderWidth,
           borderRadius,
-          paddingHorizontal: s.paddingHorizontal,
-          paddingVertical: s.paddingVertical,
+          paddingHorizontal: s.container.paddingHorizontal,
+          paddingVertical: s.container.paddingVertical,
           alignItems: "center" as const,
           justifyContent: "center" as const,
           flex: frame === "fill" ? 1 : undefined,
@@ -80,9 +89,9 @@ export function SelectableChip({
         return (
           <Text
             style={{
-              color: activeStyle?.color ?? s.color,
-              fontSize: s.fontSize,
-              fontWeight: (selected ? (ix?.selected?.fontWeight ?? s.fontWeight) : s.fontWeight) as any,
+              color: activeStyle?.color ?? s.text.color,
+              fontSize: s.text.fontSize,
+              fontWeight: (selected ? (ix?.selected?.fontWeight ?? s.text.fontWeight) : s.text.fontWeight) as any,
               textAlign: frame === "fill" ? "center" : "left",
             }}
           >

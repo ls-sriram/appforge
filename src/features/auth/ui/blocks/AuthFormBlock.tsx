@@ -1,5 +1,5 @@
 import React from "react";
-import { Body, Heading, Icon, Label, noopUi, type UiStamp, XStack, YStack } from "../../../../platform/ui/index";
+import { Body, Heading, Icon, Label, noopUi, type UiStamp, XStack, YStack, useThemeTokens } from "../../../../platform/ui/index";
 import { app } from "../../../../config/app";
 
 type AuthFormFooter = {
@@ -23,12 +23,13 @@ export function AuthFormBlock({
   showTerms = false,
   footer,
 }: AuthFormBlockProps) {
+  const theme = useThemeTokens();
   return (
     <YStack {...ui("card", "Auth form card")} bg="$surface" borderWidth={1} borderColor="$borderSubtle" br="$4" p="$5">
       <YStack {...ui("content", "Auth form content")} gap="$4">
         <YStack {...ui("brand", "Auth form brand")} gap="$3" ai="center">
           <XStack {...ui("brand-row", "Auth form brand row")} ai="center" gap="$3">
-            <Icon {...ui("brand-icon", "Auth form brand icon")} name="zap" size="md" />
+            <Icon {...ui("brand-icon", "Auth form brand icon")} color={theme.palette.textPrimary} name="zap" size={16} />
             <Heading {...ui("brand-title", "Auth form brand title")} fontFamily="$bold">{app.name}</Heading>
           </XStack>
           <Body {...ui("subtitle", "Auth form subtitle")} color="$textMuted" textAlign="center">{subtitle}</Body>

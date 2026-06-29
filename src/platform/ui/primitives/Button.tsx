@@ -3,20 +3,25 @@ import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
-export interface ButtonVariant {
-  backgroundColor: string;
-  color: string;
-  borderRadius: number;
-  paddingVertical: number;
-  paddingHorizontal: number;
-  fontSize: number;
-  fontWeight: string | number;
-  minHeight?: number;
-  borderWidth?: number;
-  borderColor?: string;
-  shadow?: string;
+export interface ButtonContract {
+  container: {
+    backgroundColor: string;
+    borderRadius: number;
+    paddingVertical: number;
+    paddingHorizontal: number;
+    minHeight?: number;
+    borderWidth?: number;
+    borderColor?: string;
+    shadow?: string;
+  };
+  text: {
+    color: string;
+    fontSize: number;
+    fontWeight: string | number;
+  };
   interaction?: InteractionContract;
 }
+
 
 export type ButtonProps = {
   variant: string;
@@ -28,8 +33,8 @@ export type ButtonProps = {
 };
 
 export function Button({ variant, selected = false, loading = false, disabled, onPress, children }: ButtonProps) {
-  const { variants } = useUI();
-  const s = variants.button?.[variant];
+  const { contracts } = useUI();
+  const s = contracts.button?.[variant];
   if (!s) throw new Error(`Unknown button variant "${variant}"`);
 
   return (
@@ -54,13 +59,13 @@ export function Button({ variant, selected = false, loading = false, disabled, o
         return (
           <View
             style={{
-              backgroundColor: activeStyle?.backgroundColor ?? s.backgroundColor,
-              borderRadius: s.borderRadius,
-              paddingVertical: s.paddingVertical,
-              paddingHorizontal: s.paddingHorizontal,
-              minHeight: s.minHeight,
-              borderWidth: activeBorderWidth ?? s.borderWidth,
-              borderColor: activeStyle?.borderColor ?? s.borderColor,
+              backgroundColor: activeStyle?.backgroundColor ?? s.container.backgroundColor,
+              borderRadius: s.container.borderRadius,
+              paddingVertical: s.container.paddingVertical,
+              paddingHorizontal: s.container.paddingHorizontal,
+              minHeight: s.container.minHeight,
+              borderWidth: activeBorderWidth ?? s.container.borderWidth,
+              borderColor: activeStyle?.borderColor ?? s.container.borderColor,
               opacity,
               transform: scale !== undefined ? [{ scale }] : undefined,
               alignItems: "center",
@@ -68,9 +73,9 @@ export function Button({ variant, selected = false, loading = false, disabled, o
             }}
           >
             {loading ? (
-              <ActivityIndicator color={s.color} />
+              <ActivityIndicator color={s.text.color} />
             ) : (
-              <Text style={{ color: activeStyle?.color ?? s.color, fontSize: s.fontSize, fontWeight: s.fontWeight as any }}>
+              <Text style={{ color: activeStyle?.color ?? s.text.color, fontSize: s.text.fontSize, fontWeight: s.text.fontWeight as any }}>
                 {children}
               </Text>
             )}

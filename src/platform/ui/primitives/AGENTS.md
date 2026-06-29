@@ -11,7 +11,7 @@ Application
     owns:
         tokens
         layout contracts
-        visual variants
+        visual contracts
         visual hierarchy
         density
 
@@ -85,7 +85,7 @@ Forbidden:
 Applications own:
 
 - tokens
-- variants
+- contracts
 - layout contracts
 - colors
 - typography values
@@ -107,16 +107,16 @@ Primitives own:
 
 ---
 
-## Variants
+## Contracts
 
-Variants are resolved visual definitions.
+Resolved contracts are explicit visual definitions.
 
 ```text
 tokens
     ↓
-createVariants(tokens)
+createContracts(tokens)
     ↓
-resolved variants
+resolved contracts
     ↓
 primitives
 ```
@@ -125,11 +125,11 @@ Rules:
 
 - Never introduce TokenRef.
 - Never introduce runtime token resolution.
-- Missing variants are programming errors and must throw.
-- Variants own appearance.
+- Missing contracts are programming errors and must throw.
+- Contracts own appearance.
 - Primitives own behavior.
 
-Each primitive that is variant-driven exports its own variant interface (e.g. `ButtonVariant`, `TableVariant`). `contracts/variants.ts` assembles them into the `Variants` map. Applications pass a `Variants` object to `ThemeProvider` via `createVariants(tokens)` (optionally extended with app-specific variants).
+Each variant-driven primitive exports its own resolved contract interface (e.g. `ButtonContract`, `TableContract`). `contracts/variants.ts` assembles them into the `PrimitiveContracts` map. Applications pass that resolved contract map to `ThemeProvider` via `createContracts(tokens)` (optionally extended with app-specific contract entries).
 
 ---
 
@@ -192,18 +192,16 @@ Good:
 
 ## Text
 
-Text semantics remain platform-owned.
+Text wrappers stay open, but rendering below `UiRuntime` must be explicit.
 
 Allowed:
 
 ```tsx
-<Body tone="primary" />
-<Body tone="muted" />
-<Heading />
-<Label />
+<Body color="$textPrimary" fontSize="$3" lineHeight="$3" />
+<Heading fontFamily="$bold" fontSize="$5" lineHeight="$5" />
 ```
 
-Applications redefine token values.
+Do not add semantic text props that resolve visual meaning inside primitives.
 
 ---
 
@@ -247,11 +245,11 @@ Delete:
 
 | File | What it provides |
 |---|---|
-| `Text.tsx` | `Display`, `Heading`, `Label`, `Body` — typographic role wrappers with `tone`/`size`/`weight` variants |
+| `Text.tsx` | `Display`, `Heading`, `Label`, `Body` — typographic wrappers that accept explicit text values |
 | `Button.tsx` | `Button` — pressable with variant, loading, disabled, interaction state |
 | `Input.tsx` | `Input` — controlled text field; uses `"default"` variant internally |
 | `TextArea.tsx` | `TextArea` — multiline controlled field with required `variant` |
-| `Icon.tsx` | `Icon` — icon name→component map, `tone` color mapping |
+| `Icon.tsx` | `Icon` — icon name→component map with explicit `color` and numeric `size` |
 | `Avatar.tsx` | `Avatar` — initials avatar with required `variant` (xs/sm/md/lg/xl/2xl in defaults) |
 | `Badge.tsx` | `Badge` — small status labels with required `variant` |
 | `Tag.tsx` | `Tag` — label chip with required `variant` |

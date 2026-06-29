@@ -4,35 +4,57 @@ import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 import { Icon } from "./Icon";
 
-export interface SelectVariant {
-  // trigger
-  backgroundColor: string;
-  borderColor: string;
-  borderWidth: number;
-  borderRadius: number;
-  minHeight: number;
-  paddingVertical: number;
-  paddingHorizontal: number;
-  color: string;
-  placeholderColor: string;
-  // menu
-  menuBackgroundColor: string;
-  menuBorderColor: string;
-  menuBorderRadius: number;
-  // option rows
-  optionSelectedBackgroundColor: string;
-  optionSelectedColor: string;
-  optionColor: string;
-  optionFontSize: number;
-  optionFontWeight: string | number;
-  optionSelectedFontWeight: string | number;
-  optionDescriptionFontSize: number;
-  // layout
-  fieldGap: number;
-  triggerGap: number;
-  optionRowGap: number;
+export interface SelectContract {
+  label: {
+    color: string;
+    fontSize: number;
+  };
+  trigger: {
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+    borderRadius: number;
+    minHeight: number;
+    paddingVertical: number;
+    paddingHorizontal: number;
+    gap: number;
+  };
+  text: {
+    color: string;
+    fontFamily: string;
+    placeholderColor: string;
+  };
+  icon: {
+    color: string;
+    size: number;
+    selectedColor: string;
+  };
+  menu: {
+    backgroundColor: string;
+    borderColor: string;
+    borderRadius: number;
+  };
+  option: {
+    selectedBackgroundColor: string;
+    color: string;
+    selectedColor: string;
+    fontSize: number;
+    fontWeight: string | number;
+    selectedFontWeight: string | number;
+    descriptionFontSize: number;
+    descriptionColor: string;
+    rowGap: number;
+  };
+  helper: {
+    color: string;
+    fontSize: number;
+  };
+  layout: {
+    fieldGap: number;
+  };
   interaction?: InteractionContract;
 }
+
 
 export interface SelectOption {
   label: string;
@@ -64,8 +86,8 @@ export function Select({
   disabled = false,
   testID,
 }: SelectProps) {
-  const { theme, variants } = useUI();
-  const s = variants.select?.[variant];
+  const { contracts } = useUI();
+  const s = contracts.select?.[variant];
   if (!s) throw new Error(`Unknown select variant "${variant}"`);
 
   const [open, setOpen] = React.useState(false);
@@ -78,9 +100,9 @@ export function Select({
   );
 
   return (
-    <View style={{ gap: s.fieldGap }} testID={testID}>
+    <View style={{ gap: s.layout.fieldGap }} testID={testID}>
       {label ? (
-        <Text style={{ color: theme.palette.textSecondary, fontSize: s.optionFontSize }}>{label}</Text>
+        <Text style={{ color: s.label.color, fontSize: s.label.fontSize, fontFamily: s.text.fontFamily }}>{label}</Text>
       ) : null}
 
       <Pressable
@@ -98,25 +120,25 @@ export function Select({
           return (
             <View
               style={{
-                backgroundColor: activeStyle?.backgroundColor ?? s.backgroundColor,
-                borderColor: activeStyle?.borderColor ?? s.borderColor,
-                borderWidth: s.borderWidth,
-                borderRadius: s.borderRadius,
-                minHeight: s.minHeight,
-                paddingVertical: s.paddingVertical,
-                paddingHorizontal: s.paddingHorizontal,
+                backgroundColor: activeStyle?.backgroundColor ?? s.trigger.backgroundColor,
+                borderColor: activeStyle?.borderColor ?? s.trigger.borderColor,
+                borderWidth: s.trigger.borderWidth,
+                borderRadius: s.trigger.borderRadius,
+                minHeight: s.trigger.minHeight,
+                paddingVertical: s.trigger.paddingVertical,
+                paddingHorizontal: s.trigger.paddingHorizontal,
                 flexDirection: "row",
                 alignItems: "center",
-                gap: s.triggerGap,
+                gap: s.trigger.gap,
                 opacity,
               }}
             >
               <View style={{ flex: 1 }}>
-                <Text style={{ color: selected ? s.color : s.placeholderColor, fontSize: s.optionFontSize }}>
+                <Text style={{ color: selected ? s.text.color : s.text.placeholderColor, fontSize: s.option.fontSize, fontFamily: s.text.fontFamily }}>
                   {selected?.label ?? placeholder}
                 </Text>
               </View>
-              <Icon name="chevron-down" tone="muted" />
+              <Icon color={s.icon.color} name="chevron-down" size={s.icon.size} />
             </View>
           );
         }}
@@ -125,10 +147,10 @@ export function Select({
       {open ? (
         <View
           style={{
-            backgroundColor: s.menuBackgroundColor,
-            borderWidth: s.borderWidth,
-            borderColor: s.menuBorderColor,
-            borderRadius: s.menuBorderRadius,
+            backgroundColor: s.menu.backgroundColor,
+            borderWidth: s.trigger.borderWidth,
+            borderColor: s.menu.borderColor,
+            borderRadius: s.menu.borderRadius,
             overflow: "hidden",
           }}
           testID={testID ? `${testID}-menu` : undefined}
@@ -144,28 +166,35 @@ export function Select({
                 onPress={() => handleSelect(option.value)}
                 testID={testID ? `${testID}-option-${option.value}` : undefined}
                 style={{
-                  backgroundColor: isSelected ? s.optionSelectedBackgroundColor : "transparent",
-                  paddingVertical: s.paddingVertical,
-                  paddingHorizontal: s.paddingHorizontal,
+                  backgroundColor: isSelected ? s.option.selectedBackgroundColor : "transparent",
+                  paddingVertical: s.trigger.paddingVertical,
+                  paddingHorizontal: s.trigger.paddingHorizontal,
                   borderBottomWidth: index === options.length - 1 ? 0 : 1,
-                  borderBottomColor: s.menuBorderColor,
+                  borderBottomColor: s.menu.borderColor,
                   flexDirection: "row",
                   alignItems: "center",
-                  gap: s.triggerGap,
+                  gap: s.trigger.gap,
                   opacity: option.disabled ? (ix?.disabledOpacity ?? 0.5) : 1,
                 }}
               >
-                <View style={{ flex: 1, gap: s.optionRowGap }}>
-                  <Text style={{ color: isSelected ? s.optionSelectedColor : s.optionColor, fontSize: s.optionFontSize, fontWeight: (isSelected ? s.optionSelectedFontWeight : s.optionFontWeight) as any }}>
+                <View style={{ flex: 1, gap: s.option.rowGap }}>
+                  <Text
+                    style={{
+                      color: isSelected ? s.option.selectedColor : s.option.color,
+                      fontSize: s.option.fontSize,
+                      fontWeight: (isSelected ? s.option.selectedFontWeight : s.option.fontWeight) as any,
+                      fontFamily: s.text.fontFamily,
+                    }}
+                  >
                     {option.label}
                   </Text>
                   {option.description ? (
-                    <Text style={{ color: s.placeholderColor, fontSize: s.optionDescriptionFontSize }}>
+                    <Text style={{ color: s.option.descriptionColor, fontSize: s.option.descriptionFontSize, fontFamily: s.text.fontFamily }}>
                       {option.description}
                     </Text>
                   ) : null}
                 </View>
-                {isSelected ? <Icon name="check" tone="accent" /> : null}
+                {isSelected ? <Icon color={s.icon.selectedColor} name="check" size={s.icon.size} /> : null}
               </Pressable>
             );
           })}
@@ -173,7 +202,7 @@ export function Select({
       ) : null}
 
       {helperText ? (
-        <Text style={{ color: s.placeholderColor, fontSize: s.optionDescriptionFontSize }}>{helperText}</Text>
+        <Text style={{ color: s.helper.color, fontSize: s.helper.fontSize, fontFamily: s.text.fontFamily }}>{helperText}</Text>
       ) : null}
     </View>
   );

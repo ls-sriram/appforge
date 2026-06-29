@@ -28,18 +28,18 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 }
 
 function renderTabs(element: React.ReactElement) {
-  let tree: TestRenderer.ReactTestRenderer | null = null;
+  let tree: any = null;
 
   act(() => {
     tree = TestRenderer.create(element);
   });
 
-  return tree as TestRenderer.ReactTestRenderer;
+  return tree as any;
 }
 
-function findTabNodes(tree: TestRenderer.ReactTestRenderer) {
+function findTabNodes(tree: any) {
   return tree.root.findAll(
-    (node) =>
+    (node: any) =>
       typeof node.props.testID === "string" &&
       node.props.testID.startsWith("tabs-tab-") &&
       typeof node.props.onPress === "function",
@@ -48,7 +48,7 @@ function findTabNodes(tree: TestRenderer.ReactTestRenderer) {
 
 beforeAll(() => {
   if (typeof window !== "undefined" && typeof window.dispatchEvent !== "function") {
-    (window as typeof window & { dispatchEvent: () => void }).dispatchEvent = () => {};
+    (window as typeof window & { dispatchEvent: () => boolean }).dispatchEvent = () => false;
   }
 });
 
@@ -69,7 +69,7 @@ describe("Tabs", () => {
     const tabs = findTabNodes(tree);
 
     expect(tabs).toHaveLength(3);
-    expect(tabs.map((tab) => tab.props.testID)).toEqual([
+    expect(tabs.map((tab: any) => tab.props.testID)).toEqual([
       "tabs-tab-overview",
       "tabs-tab-activity",
       "tabs-tab-settings",
@@ -84,7 +84,7 @@ describe("Tabs", () => {
     );
 
     const tabs = findTabNodes(tree);
-    const states = Object.fromEntries(tabs.map((tab) => [tab.props.testID, tab.props.accessibilityState.selected]));
+    const states = Object.fromEntries(tabs.map((tab: any) => [tab.props.testID, tab.props.accessibilityState.selected]));
 
     expect(states["tabs-tab-activity"]).toBe(true);
     expect(states["tabs-tab-overview"]).toBe(false);
@@ -98,7 +98,7 @@ describe("Tabs", () => {
       </Wrapper>,
     );
 
-    const tab = findTabNodes(tree).find((node) => node.props.testID === "tabs-tab-settings");
+    const tab = findTabNodes(tree).find((node: any) => node.props.testID === "tabs-tab-settings");
 
     act(() => {
       tab?.props.onPress();
@@ -120,7 +120,7 @@ describe("Tabs", () => {
       </Wrapper>,
     );
 
-    const tab = findTabNodes(tree).find((node) => node.props.testID === "tabs-tab-activity");
+    const tab = findTabNodes(tree).find((node: any) => node.props.testID === "tabs-tab-activity");
 
     expect(tab?.props.disabled).toBe(true);
   });

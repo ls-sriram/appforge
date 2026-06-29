@@ -19,12 +19,13 @@ export type TableColumnKind =
   | "image"
   | "custom";
 
-type TextTone = "primary" | "secondary" | "muted" | "accent" | "danger" | "success" | "warning" | "info";
-
 export type TableTextCell = {
   type?: "text";
   value: string;
-  tone?: TextTone;
+  color?: string;
+  fontFamily?: string;
+  fontSize?: number;
+  lineHeight?: number;
 };
 
 export type TableTagCell = {
@@ -45,25 +46,50 @@ export type TableAvatarCell = {
   variant: string;
 };
 
-export interface ImageVariant {
-  width: number;
-  height: number;
-  borderRadius: number;
+export interface ImageContract {
+  frame: {
+    width: number;
+    height: number;
+    borderRadius: number;
+  };
 }
 
-export interface TableVariant {
-  backgroundColor: string;
-  headerBackgroundColor: string;
-  borderColor: string;
-  borderWidth: number;
-  borderRadius: number;
-  emptyPadding: number;
-  contentPaddingHorizontal: number;
-  headerPaddingVertical: number;
-  headerGap: number;
-  dividerWidth: number;
-  stripedRowBackgroundColor: string;
+export interface TableContract {
+  container: {
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+    borderRadius: number;
+  };
+  header: {
+    backgroundColor: string;
+    paddingVertical: number;
+    gap: number;
+    textColor: string;
+    textFontFamily: string;
+    textFontSize: number;
+    textLineHeight: number;
+  };
+  row: {
+    contentPaddingHorizontal: number;
+    dividerWidth: number;
+    stripedBackgroundColor: string;
+  };
+  cellText: {
+    color: string;
+    fontFamily: string;
+    fontSize: number;
+    lineHeight: number;
+  };
+  empty: {
+    padding: number;
+    textColor: string;
+    textFontFamily: string;
+    textFontSize: number;
+    textLineHeight: number;
+  };
 }
+
 
 export type TableImageCell = {
   type: "image";
@@ -112,17 +138,6 @@ const CELL_WIDTH: Record<Exclude<TableWidth, "content" | "fill">, number> = {
   xl: 320,
 };
 
-const TEXT_TONE: Record<TextTone, React.ComponentProps<typeof Body>["tone"]> = {
-  primary: "primary",
-  secondary: "secondary",
-  muted: "muted",
-  accent: "accent",
-  danger: "danger",
-  success: "success",
-  warning: "warning",
-  info: "info",
-};
-
 function getCellLayout(width: TableWidth = "fill") {
   if (width === "fill") {
     return { flex: 1, minWidth: 0 };
@@ -142,7 +157,8 @@ function getCellAlignment(align: TableAlign = "start") {
 function renderCell<Row>(
   spec: TableCellSpec<Row>,
   row: Row,
-  imageVariants: Record<string, ImageVariant> | undefined,
+  imageVariants: Record<string, ImageContract> | undefined,
+  tableVariant: TableContract,
 ) {
   switch (spec.type) {
     case "tag":
@@ -159,9 +175,9 @@ function renderCell<Row>(
           source={spec.src}
           accessibilityLabel={spec.alt}
           style={{
-            width: image.width,
-            height: image.height,
-            borderRadius: image.borderRadius,
+            width: image.frame.width,
+            height: image.frame.height,
+            borderRadius: image.frame.borderRadius,
           }}
         />
       );
@@ -171,7 +187,12 @@ function renderCell<Row>(
     case "text":
     default:
       return (
-        <Body tone={TEXT_TONE[spec.tone ?? "primary"]} size="sm">
+        <Body
+          color={spec.color ?? tableVariant.cellText.color}
+          fontFamily={spec.fontFamily ?? tableVariant.cellText.fontFamily}
+          fontSize={spec.fontSize ?? tableVariant.cellText.fontSize}
+          lineHeight={spec.lineHeight ?? tableVariant.cellText.lineHeight}
+        >
           {spec.value}
         </Body>
       );
@@ -189,42 +210,49 @@ export function Table<Row>({
 }: TableProps<Row>) {
   const ui = useUI();
   const tableLayout = useLayout(layout);
-  const tableVariant = ui.variants.table?.[variant];
+  const tableVariant = ui.contracts.table?.[variant];
   if (!tableVariant) throw new Error(`Unknown table variant "${variant}"`);
 
   if (rows.length === 0) {
     return (
       <View
-        bg={tableVariant.backgroundColor}
-        borderWidth={tableVariant.borderWidth}
-        borderColor={tableVariant.borderColor}
-        br={tableVariant.borderRadius}
-        p={tableVariant.emptyPadding}
+        bg={tableVariant.container.backgroundColor}
+        borderWidth={tableVariant.container.borderWidth}
+        borderColor={tableVariant.container.borderColor}
+        br={tableVariant.container.borderRadius}
+        p={tableVariant.empty.padding}
       >
-        <Body tone="muted">{emptyLabel}</Body>
+        <Body
+          color={tableVariant.empty.textColor}
+          fontFamily={tableVariant.empty.textFontFamily}
+          fontSize={tableVariant.empty.textFontSize}
+          lineHeight={tableVariant.empty.textLineHeight}
+        >
+          {emptyLabel}
+        </Body>
       </View>
     );
   }
 
   return (
     <View
-      bg={tableVariant.backgroundColor}
-      borderWidth={tableVariant.borderWidth}
-      borderColor={tableVariant.borderColor}
-      br={tableVariant.borderRadius}
+      bg={tableVariant.container.backgroundColor}
+      borderWidth={tableVariant.container.borderWidth}
+      borderColor={tableVariant.container.borderColor}
+      br={tableVariant.container.borderRadius}
       overflow="hidden"
     >
       <View
-        bg={tableVariant.headerBackgroundColor}
-        borderBottomWidth={tableVariant.dividerWidth}
-        borderBottomColor={tableVariant.borderColor}
+        bg={tableVariant.header.backgroundColor}
+        borderBottomWidth={tableVariant.row.dividerWidth}
+        borderBottomColor={tableVariant.container.borderColor}
       >
         <View
           fd="row"
           ai="center"
-          px={tableVariant.contentPaddingHorizontal}
-          py={tableVariant.headerPaddingVertical}
-          gap={tableVariant.headerGap}
+          px={tableVariant.row.contentPaddingHorizontal}
+          py={tableVariant.header.paddingVertical}
+          gap={tableVariant.header.gap}
         >
           {columns.map((column) => (
             <View
@@ -232,7 +260,12 @@ export function Table<Row>({
               {...getCellLayout(column.width)}
               ai={getCellAlignment(column.align)}
             >
-              <Label tone="muted">
+              <Label
+                color={tableVariant.header.textColor}
+                fontFamily={tableVariant.header.textFontFamily}
+                fontSize={tableVariant.header.textFontSize}
+                lineHeight={tableVariant.header.textLineHeight}
+              >
                 {column.header}
               </Label>
             </View>
@@ -245,13 +278,13 @@ export function Table<Row>({
           key={rowKey(row, index)}
           fd="row"
           ai="center"
-          px={tableVariant.contentPaddingHorizontal}
+          px={tableVariant.row.contentPaddingHorizontal}
           py={tableLayout.rowPadding}
           gap={tableLayout.cellGap}
           minHeight={tableLayout.rowHeight}
-          bg={striped && index % 2 === 1 ? tableVariant.stripedRowBackgroundColor : "transparent"}
-          borderTopWidth={index === 0 ? 0 : tableVariant.dividerWidth}
-          borderTopColor={tableVariant.borderColor}
+          bg={striped && index % 2 === 1 ? tableVariant.row.stripedBackgroundColor : "transparent"}
+          borderTopWidth={index === 0 ? 0 : tableVariant.row.dividerWidth}
+          borderTopColor={tableVariant.container.borderColor}
         >
           {columns.map((column) => {
             const spec = column.cell(row);
@@ -262,7 +295,7 @@ export function Table<Row>({
                 ai={getCellAlignment(column.align)}
                 minWidth={0}
               >
-                {renderCell(spec, row, ui.variants.image)}
+                {renderCell(spec, row, ui.contracts.image, tableVariant)}
               </View>
             );
           })}

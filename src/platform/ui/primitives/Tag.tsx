@@ -3,16 +3,21 @@ import { Pressable, Text, View } from "react-native";
 import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
-export interface TagVariant {
-  backgroundColor: string;
-  color: string;
-  borderRadius: number;
-  paddingVertical: number;
-  paddingHorizontal: number;
-  fontSize: number;
-  fontWeight: string | number;
+export interface TagContract {
+  container: {
+    backgroundColor: string;
+    borderRadius: number;
+    paddingVertical: number;
+    paddingHorizontal: number;
+  };
+  text: {
+    color: string;
+    fontSize: number;
+    fontWeight: string | number;
+  };
   interaction?: InteractionContract;
 }
+
 
 export interface TagProps {
   label: string;
@@ -23,8 +28,8 @@ export interface TagProps {
 }
 
 export function Tag({ label, variant, selected = false, onPress, disabled }: TagProps) {
-  const { variants } = useUI();
-  const s = variants.tag?.[variant];
+  const { contracts } = useUI();
+  const s = contracts.tag?.[variant];
   if (!s) throw new Error(`Unknown tag variant "${variant}"`);
 
   const ix = s.interaction;
@@ -46,16 +51,16 @@ export function Tag({ label, variant, selected = false, onPress, disabled }: Tag
           flexDirection: "row",
           alignItems: "center",
           alignSelf: "flex-start",
-          backgroundColor: activeStyle?.backgroundColor ?? s.backgroundColor,
-          borderRadius: s.borderRadius,
-          paddingVertical: s.paddingVertical,
-          paddingHorizontal: s.paddingHorizontal,
+          backgroundColor: activeStyle?.backgroundColor ?? s.container.backgroundColor,
+          borderRadius: s.container.borderRadius,
+          paddingVertical: s.container.paddingVertical,
+          paddingHorizontal: s.container.paddingHorizontal,
           borderWidth: activeStyle?.borderColor !== undefined ? 1 : undefined,
           borderColor: activeStyle?.borderColor,
           opacity,
         }}
       >
-        <Text style={{ color: activeStyle?.color ?? s.color, fontSize: s.fontSize, fontWeight: s.fontWeight as any }}>
+        <Text style={{ color: activeStyle?.color ?? s.text.color, fontSize: s.text.fontSize, fontWeight: s.text.fontWeight as any }}>
           {label}
         </Text>
       </View>

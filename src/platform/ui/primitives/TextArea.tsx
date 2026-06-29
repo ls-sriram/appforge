@@ -3,19 +3,23 @@ import { TextInput, View } from "react-native";
 import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
-export interface TextAreaVariant {
-  backgroundColor: string;
-  color: string;
-  borderWidth: number;
-  borderColor: string;
-  borderRadius: number;
-  paddingVertical: number;
-  paddingHorizontal: number;
-  fontSize: number;
-  minHeight: number;
-  placeholderColor?: string;
+export interface TextAreaContract {
+  field: {
+    backgroundColor: string;
+    color: string;
+    fontFamily: string;
+    borderWidth: number;
+    borderColor: string;
+    borderRadius: number;
+    paddingVertical: number;
+    paddingHorizontal: number;
+    fontSize: number;
+    minHeight: number;
+    placeholderColor?: string;
+  };
   interaction?: InteractionContract;
 }
+
 
 export type TextAreaProps = Omit<React.ComponentProps<typeof TextInput>, "style" | "multiline"> & {
   variant: string;
@@ -24,8 +28,8 @@ export type TextAreaProps = Omit<React.ComponentProps<typeof TextInput>, "style"
 
 export const TextArea = React.forwardRef<TextInput, TextAreaProps>(
   function TextArea({ variant, onFocus, onBlur, disabled, ...props }, ref) {
-    const { theme, variants } = useUI();
-    const s = variants.textArea?.[variant];
+    const { contracts } = useUI();
+    const s = contracts.textArea?.[variant];
     if (!s) throw new Error(`Unknown textArea variant "${variant}"`);
 
     const [focused, setFocused] = useState(false);
@@ -39,22 +43,22 @@ export const TextArea = React.forwardRef<TextInput, TextAreaProps>(
           ref={ref}
           multiline
           textAlignVertical="top"
-          placeholderTextColor={s.placeholderColor}
+          placeholderTextColor={s.field.placeholderColor}
           editable={!disabled}
           onFocus={(e) => { setFocused(true); onFocus?.(e); }}
           onBlur={(e) => { setFocused(false); onBlur?.(e); }}
           {...props}
           style={{
-            backgroundColor: s.backgroundColor,
-            borderRadius: s.borderRadius,
-            borderWidth: focusedStyle?.borderWidth ?? s.borderWidth,
-            borderColor: focusedStyle?.borderColor ?? s.borderColor,
-            paddingVertical: s.paddingVertical,
-            paddingHorizontal: s.paddingHorizontal,
-            color: s.color,
-            fontSize: s.fontSize,
-            fontFamily: theme.typography.family,
-            minHeight: s.minHeight,
+            backgroundColor: s.field.backgroundColor,
+            borderRadius: s.field.borderRadius,
+            borderWidth: focusedStyle?.borderWidth ?? s.field.borderWidth,
+            borderColor: focusedStyle?.borderColor ?? s.field.borderColor,
+            paddingVertical: s.field.paddingVertical,
+            paddingHorizontal: s.field.paddingHorizontal,
+            color: s.field.color,
+            fontSize: s.field.fontSize,
+            fontFamily: s.field.fontFamily,
+            minHeight: s.field.minHeight,
           }}
         />
       </View>

@@ -6,11 +6,20 @@ Use `@ui` as the only shared import surface. Do not import from `src/platform/ui
 
 ## Ownership Model
 
-The runtime is assembled from three separate concerns:
+The UI system has a hard resolution boundary at `UiRuntime`.
+
+Above `UiRuntime`:
 
 - `theme` owns visual tokens
-- `variants` own component appearance
+- `contracts` own resolved component appearance
 - `layouts` own rhythm and density profiles
+- application/bootstrap code assembles those values
+
+Below `UiRuntime`:
+
+- `ThemeProvider` only provides a fully realized runtime
+- primitives only render explicit values
+- feature rendering consumes realized values
 
 That ownership is exposed through the runtime API:
 
@@ -18,7 +27,7 @@ That ownership is exposed through the runtime API:
 const ui = useUI()
 
 ui.theme.palette.primary
-ui.variants.button.primary
+ui.contracts.button.primary
 ui.layouts.compact
 ```
 
@@ -27,6 +36,13 @@ Use the narrowest hook that matches the job:
 - `useTheme()` or `useThemeTokens()` when you only need tokens
 - `useUI()` when you need variant or layout lookup
 - `useLayout()` when you need the active layout profile or an explicit named profile
+
+For layout contracts, the source of truth now lives in [`contracts/layouts.ts`](/Users/sriraml/Documents/GitHub/appforge/src/platform/ui/contracts/layouts.ts):
+
+- `LayoutContract` defines the stable semantic field names
+- `layoutContractDefinition` shows what each field means and which platform primitives consume it
+- `platformLayoutDefaults` shows the platform's default profile realization side by side
+- layout values are fully resolved numbers, including `iconSize`, `fontSize`, and `labelSize`
 
 ## App Setup
 
@@ -64,25 +80,26 @@ import { XStack, YStack, Body, Heading, Button } from "@ui"
 export function EmptyState() {
   return (
     <YStack gap="$md" ai="center" p="$lg">
-      <Heading size="lg">No projects yet</Heading>
-      <Body tone="secondary">Create one to get started.</Body>
+      <Heading fontSize="$5" lineHeight="$5">No projects yet</Heading>
+      <Body color="$textSecondary">Create one to get started.</Body>
       <Button variant="primary">Create project</Button>
     </YStack>
   )
 }
 ```
 
-Use closed primitives with semantic props, not raw visual styling:
+Use closed primitives with realized contracts, not raw visual styling:
 
 - `Button`, `Badge`, `Tag`, `Avatar`, `Tabs`, `Table`, `SizingToolbar`, `TabbedPanel` use `variant`
-- `Body`, `Heading`, `Label`, `Display` use `tone`, `size`, and `weight`
+- `Body`, `Heading`, `Label`, `Display` accept explicit text values such as `color`, `fontSize`, `lineHeight`, and `fontFamily`
+- `Icon` accepts explicit `color` and numeric `size`
 - open layout styling belongs on `XStack`, `YStack`, `ZStack`, and `ScrollView`
 
 This is correct:
 
 ```tsx
 <Button variant="primary">Save</Button>
-<Body tone="muted" size="sm">Last updated 2m ago</Body>
+<Body color="$textMuted" fontSize="$2" lineHeight="$2">Last updated 2m ago</Body>
 ```
 
 This is not:
@@ -124,7 +141,7 @@ export function TableMeta() {
   const ui = useUI()
   const layout = useLayout()
 
-  const table = ui.variants.table?.default
+  const table = ui.contracts.table?.default
 
   return {
     rowHeight: layout.rowHeight,
@@ -135,30 +152,34 @@ export function TableMeta() {
 
 ## Overrides And Custom Runtimes
 
-Use token overrides to change token ownership only:
+Runtime/provider overrides no longer exist. Resolve values before you cross the `UiRuntime` boundary.
 
-```tsx
-import { UIProvider, uiRuntime, type ThemeOverride } from "@ui"
+If you need a dedicated branded runtime, assemble it above the provider:
 
-const themeOverride: ThemeOverride = {
-  palette: {
+```ts
+import { createTheme, createContracts, createLayouts } from "@ui"
+
+const theme = createTheme({
+  brand: {
     primary: "#0F766E",
   },
-  spacing: {
-    md: 18,
-  },
-  elevation: {
-    md: {
-      shadowRadius: 10,
-      elevation: 4,
-    },
-  },
-}
+  fontFamily: "'IBM Plex Sans', sans-serif",
+})
 
-<UIProvider value={uiRuntime} override={themeOverride} />
+export const acmeUi = {
+  theme,
+  contracts: createContracts(theme),
+  layouts: createLayouts(theme),
+}
 ```
 
-`theme.elevation` is a semantic token family of resolved cross-platform presets:
+Then pass the realized runtime directly:
+
+```tsx
+<UIProvider value={acmeUi} />
+```
+
+`theme.elevation` remains a semantic token family of resolved cross-platform presets:
 
 ```ts
 theme.elevation.none
@@ -168,59 +189,22 @@ theme.elevation.lg
 theme.elevation.xl
 ```
 
-Use runtime overrides when changing layout profiles or component variants:
-
-```tsx
-import { UIProvider, uiRuntime, type UiRuntimeOverride } from "@ui"
-
-const runtimeOverride: UiRuntimeOverride = {
-  layouts: {
-    dashboard: {
-      rowHeight: 44,
-      panelPadding: 20,
-    },
-  },
-  variants: {
-    button: {
-      primary: {
-        minHeight: 44,
-      },
-    },
-  },
-}
-
-<UIProvider value={uiRuntime} override={runtimeOverride} />
-```
-
-If you need a dedicated branded runtime, build it once and pass it into `UIProvider`:
-
-```ts
-import { createAppUiRuntime } from "@ui"
-
-export const acmeUi = createAppUiRuntime({
-  brand: {
-    primary: "#2563EB",
-  },
-  fontFamily: "'IBM Plex Sans', sans-serif",
-})
-```
-
 ## Extension Rules
 
 For platform contributors extending the system:
 
 - add new token fields in `theme/factory.ts`
 - set platform defaults in `theme/defaults.ts`
-- derive appearance in `theme/variants.ts`
+- derive resolved appearance contracts in `theme/variants.ts`
 - derive rhythm profiles in `theme/layouts.ts`
-- assemble final runtime in `theme/runtime.ts`
+- assemble the final realized runtime above `ThemeProvider`
 
 For feature callers:
 
-- prefer existing variants and layouts first
-- add new variants when a primitive needs a reusable appearance
+- prefer existing contracts and layouts first
+- add new contract entries when a primitive needs a reusable appearance
 - add new layouts when a screen family needs a reusable rhythm profile
-- do not hardcode platform theme values into primitives
+- do not resolve semantics inside primitives
 - do not depend on raw Tamagui theme access through `@ui`
 
 ## Related Docs

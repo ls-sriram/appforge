@@ -7,7 +7,7 @@
  */
 
 import React from "react";
-import { Body, Heading, Icon, YStack, type IconName } from "../../../platform/ui/index";
+import { Body, Heading, Icon, YStack, type IconName, useThemeTokens } from "../../../platform/ui/index";
 
 export interface FeatureCardProps {
   icon: IconName;
@@ -20,6 +20,7 @@ export function FeatureCard({
   title,
   description,
 }: FeatureCardProps) {
+  const theme = useThemeTokens();
   return (
     <YStack ai="center" gap="$4">
       <YStack
@@ -31,7 +32,7 @@ export function FeatureCard({
         ai="center"
         jc="center"
       >
-        <Icon name={icon} size="5xl" />
+        <Icon color={theme.palette.textPrimary} name={icon} size={48} />
       </YStack>
       <YStack ai="center" gap="$2">
         <Heading textAlign="center">{title}</Heading>

@@ -63,7 +63,7 @@ export function AuthDarkField({
       >
         <YStack {...ui("padding", `${placeholder} padding`)} px="$5" py="$3">
           <XStack {...ui("row", `${placeholder} row`)} ai="center" gap="$3">
-            <Icon {...ui("icon", `${placeholder} icon`)} name={icon} size="lg" />
+            <Icon {...ui("icon", `${placeholder} icon`)} color={theme.palette.textSecondary} name={icon} size={18} />
             <YStack {...ui("input-wrap", `${placeholder} input wrapper`)} f={1}>
               <Input
                 {...ui("input", `${placeholder} input`)}
@@ -91,7 +91,7 @@ export function AuthDarkField({
                 onPress={() => setShowPassword((x) => !x)}
                 pressStyle={{ opacity: 0.7 }}
               >
-                <Icon {...ui("toggle-icon", `${placeholder} visibility toggle icon`)} name="eye" size="lg" />
+                <Icon {...ui("toggle-icon", `${placeholder} visibility toggle icon`)} color={theme.palette.textSecondary} name="eye" size={18} />
               </YStack>
             ) : null}
           </XStack>

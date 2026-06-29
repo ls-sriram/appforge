@@ -1,12 +1,6 @@
 import React from "react";
 import { View } from "react-native";
 import Svg, { Path, Circle, Rect } from "react-native-svg";
-import { useTheme } from "../theme/ThemeProvider";
-
-/**
- * Icon — SVG icon atom.
- * Accepts a named icon string and renders it with theme colors.
- */
 
 export type IconName =
   | "panel-size-sm"
@@ -51,32 +45,6 @@ export type IconName =
   | "info"
   | "key"
   | "eye";
-
-export type IconTone =
-  | "muted"
-  | "secondary"
-  | "accent"
-  | "action"
-  | "success"
-  | "warning"
-  | "danger"
-  | "info"
-  | "inverse"
-  | "brand";
-export type IconSize = "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl";
-
-const ICON_SIZE_MAP: Record<IconSize, number> = {
-  "2xs": 10,
-  xs: 12,
-  sm: 14,
-  md: 16,
-  lg: 18,
-  xl: 20,
-  "2xl": 22,
-  "3xl": 24,
-  "4xl": 32,
-  "5xl": 48,
-};
 
 const icons: Record<IconName, (color: string) => React.ReactNode> = {
   "panel-size-sm": (c) => (
@@ -338,36 +306,16 @@ const icons: Record<IconName, (color: string) => React.ReactNode> = {
 
 interface IconProps {
   name: IconName;
-  size?: IconSize;
-  tone?: IconTone;
+  size: number;
+  color: string;
   [key: string]: unknown;
 }
 
-export function Icon({ name, size = "3xl", tone = "muted", ...rest }: IconProps) {
-  const theme = useTheme();
-  const resolvedColor =
-    tone === "secondary"
-      ? theme.palette.textSecondary
-      : tone === "accent" || tone === "brand"
-        ? theme.palette.primary
-        : tone === "action"
-          ? theme.palette.primary
-          : tone === "success"
-            ? theme.palette.success
-            : tone === "warning"
-              ? theme.palette.warning
-              : tone === "danger"
-                ? theme.palette.error
-                : tone === "info"
-                  ? theme.palette.info
-                  : tone === "inverse"
-                    ? theme.palette.textInverse
-                    : theme.palette.textMuted;
-  const resolvedSize = ICON_SIZE_MAP[size];
+export function Icon({ name, size, color, ...rest }: IconProps) {
   return (
-    <View style={{ width: resolvedSize, height: resolvedSize }} {...(rest as object)}>
-      <Svg width={resolvedSize} height={resolvedSize} viewBox="0 0 24 24">
-        {icons[name]?.(resolvedColor)}
+    <View style={{ width: size, height: size }} {...(rest as object)}>
+      <Svg width={size} height={size} viewBox="0 0 24 24">
+        {icons[name]?.(color)}
       </Svg>
     </View>
   );

@@ -2,7 +2,7 @@
  * AccountCard — account metadata (member since, last login).
  */
 import React from "react";
-import { Body, Icon, XStack, YStack } from "../../../platform/ui/index";
+import { Body, Icon, XStack, YStack, useThemeTokens } from "../../../platform/ui/index";
 import { dateOwner } from "../../../platform/core/dates";
 
 export interface AccountCardProps {
@@ -33,6 +33,7 @@ function formatRelative(iso?: string): string {
 }
 
 export function AccountCard({ createdAt, lastLoginAt }: AccountCardProps) {
+  const theme = useThemeTokens();
   return (
     <YStack bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$3" p="$4">
       <YStack gap="$3">
@@ -45,7 +46,7 @@ export function AccountCard({ createdAt, lastLoginAt }: AccountCardProps) {
             <YStack bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" p="$3">
               <YStack gap="$2">
                 <XStack ai="center" gap="$2">
-                  <Icon name="calendar" size="md" tone="muted" />
+                  <Icon color={theme.palette.textMuted} name="calendar" size={16} />
                   <Body fontSize="$1" color="$textMuted">
                       Member since
                   </Body>
@@ -59,7 +60,7 @@ export function AccountCard({ createdAt, lastLoginAt }: AccountCardProps) {
             <YStack bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" p="$3">
               <YStack gap="$2">
                 <XStack ai="center" gap="$2">
-                  <Icon name="activity" size="md" tone="muted" />
+                  <Icon color={theme.palette.textMuted} name="activity" size={16} />
                   <Body fontSize="$1" color="$textMuted">
                       Last login
                   </Body>

@@ -3,20 +3,30 @@ import { Pressable, View } from "react-native";
 import { Icon, type IconName } from "./Icon";
 import { useUI } from "../theme/ThemeProvider";
 
-export interface SizingToolbarVariant {
-  containerBorderWidth: number;
-  containerBorderColor: string;
-  containerBorderRadius: number;
-  containerDisabledOpacity: number;
-  buttonMinWidth: number;
-  buttonMinHeight: number;
-  buttonPaddingHorizontal: number;
-  buttonPaddingVertical: number;
-  buttonSelectedBackgroundColor: string;
-  buttonUnselectedBackgroundColor: string;
-  buttonDividerWidth: number;
-  buttonDividerColor: string;
+export interface SizingToolbarContract {
+  container: {
+    borderWidth: number;
+    borderColor: string;
+    borderRadius: number;
+    disabledOpacity: number;
+  };
+  button: {
+    minWidth: number;
+    minHeight: number;
+    paddingHorizontal: number;
+    paddingVertical: number;
+    selectedBackgroundColor: string;
+    unselectedBackgroundColor: string;
+    dividerWidth: number;
+    dividerColor: string;
+  };
+  icon: {
+    selectedColor: string;
+    unselectedColor: string;
+    size: number;
+  };
 }
+
 
 export type SizingToolbarValue = "sm" | "md" | "lg";
 
@@ -49,8 +59,8 @@ export function SizingToolbar({
   disabled = false,
   icons,
 }: SizingToolbarProps) {
-  const { variants } = useUI();
-  const s = variants.sizingToolbar?.[variant];
+  const { contracts } = useUI();
+  const s = contracts.sizingToolbar?.[variant];
   if (!s) throw new Error(`Unknown sizingToolbar variant "${variant}"`);
 
   return (
@@ -59,11 +69,11 @@ export function SizingToolbar({
       style={{
         flexDirection: "row",
         alignItems: "center",
-        borderWidth: s.containerBorderWidth,
-        borderColor: s.containerBorderColor,
-        borderRadius: s.containerBorderRadius,
+        borderWidth: s.container.borderWidth,
+        borderColor: s.container.borderColor,
+        borderRadius: s.container.borderRadius,
         overflow: "hidden",
-        opacity: disabled ? s.containerDisabledOpacity : 1,
+        opacity: disabled ? s.container.disabledOpacity : 1,
       }}
     >
       {ORDER.map((option, index) => {
@@ -72,7 +82,7 @@ export function SizingToolbar({
 
         return (
           <Pressable
-            key={option}
+              key={option}
             accessibilityRole="button"
             accessibilityLabel={LABELS[option]}
             accessibilityState={{ selected, disabled }}
@@ -80,21 +90,21 @@ export function SizingToolbar({
             onPress={() => onChange(option)}
             testID={`sizing-toolbar-${option}`}
             style={{
-              minWidth: s.buttonMinWidth,
-              minHeight: s.buttonMinHeight,
-              paddingHorizontal: s.buttonPaddingHorizontal,
-              paddingVertical: s.buttonPaddingVertical,
+              minWidth: s.button.minWidth,
+              minHeight: s.button.minHeight,
+              paddingHorizontal: s.button.paddingHorizontal,
+              paddingVertical: s.button.paddingVertical,
               alignItems: "center",
               justifyContent: "center",
-              backgroundColor: selected ? s.buttonSelectedBackgroundColor : s.buttonUnselectedBackgroundColor,
-              borderLeftWidth: index === 0 ? 0 : s.buttonDividerWidth,
-              borderLeftColor: s.buttonDividerColor,
+              backgroundColor: selected ? s.button.selectedBackgroundColor : s.button.unselectedBackgroundColor,
+              borderLeftWidth: index === 0 ? 0 : s.button.dividerWidth,
+              borderLeftColor: s.button.dividerColor,
             }}
           >
             <Icon
+              color={selected ? s.icon.selectedColor : s.icon.unselectedColor}
               name={iconName}
-              size="md"
-              tone={selected ? "brand" : "muted"}
+              size={s.icon.size}
             />
           </Pressable>
         );

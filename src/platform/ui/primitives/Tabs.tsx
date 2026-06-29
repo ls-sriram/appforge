@@ -1,25 +1,39 @@
 import React from "react";
 import { Pressable, View } from "react-native";
 import { useUI } from "../theme/ThemeProvider";
-import { Icon, type IconName, type IconTone } from "./Icon";
+import { Icon, type IconName } from "./Icon";
 import { Body } from "./Text";
 
-export interface TabsVariant {
-  listBorderWidth: number;
-  listBorderColor: string;
-  itemMinHeight: number;
-  itemPaddingHorizontal: number;
-  itemPaddingVertical: number;
-  itemGap: number;
-  itemBorderWidth: number;
-  selectedBorderColor: string;
-  unselectedBorderColor: string;
-  disabledOpacity: number;
-  selectedIconTone: IconTone;
-  unselectedIconTone: IconTone;
-  selectedTextTone: React.ComponentProps<typeof Body>["tone"];
-  unselectedTextTone: React.ComponentProps<typeof Body>["tone"];
+export interface TabsContract {
+  list: {
+    borderWidth: number;
+    borderColor: string;
+  };
+  item: {
+    minHeight: number;
+    paddingHorizontal: number;
+    paddingVertical: number;
+    gap: number;
+    borderWidth: number;
+    selectedBorderColor: string;
+    unselectedBorderColor: string;
+    disabledOpacity: number;
+  };
+  icon: {
+    size: number;
+    selectedColor: string;
+    unselectedColor: string;
+  };
+  text: {
+    fontSize: number;
+    lineHeight: number;
+    selectedColor: string;
+    unselectedColor: string;
+    selectedFontFamily: string;
+    unselectedFontFamily: string;
+  };
 }
+
 
 export interface TabOption {
   label: string;
@@ -45,8 +59,8 @@ export function Tabs({
   disabled = false,
   testID,
 }: TabsProps) {
-  const { variants } = useUI();
-  const s = variants.tabs?.[variant];
+  const { contracts } = useUI();
+  const s = contracts.tabs?.[variant];
   if (!s) throw new Error(`Unknown tabs variant "${variant}"`);
 
   return (
@@ -55,8 +69,8 @@ export function Tabs({
       style={{
         flexDirection: "row",
         alignItems: "stretch",
-        borderBottomWidth: s.listBorderWidth,
-        borderBottomColor: s.listBorderColor,
+        borderBottomWidth: s.list.borderWidth,
+        borderBottomColor: s.list.borderColor,
       }}
       testID={testID}
     >
@@ -74,34 +88,35 @@ export function Tabs({
             onPress={() => onValueChange(option.value)}
             testID={testID ? `${testID}-tab-${option.value}` : undefined}
             style={{
-              minHeight: s.itemMinHeight,
-              paddingHorizontal: s.itemPaddingHorizontal,
-              paddingVertical: s.itemPaddingVertical,
+              minHeight: s.item.minHeight,
+              paddingHorizontal: s.item.paddingHorizontal,
+              paddingVertical: s.item.paddingVertical,
               alignItems: "center",
               justifyContent: "center",
-              borderBottomWidth: s.itemBorderWidth,
-              borderBottomColor: selected ? s.selectedBorderColor : s.unselectedBorderColor,
-              opacity: isDisabled ? s.disabledOpacity : 1,
+              borderBottomWidth: s.item.borderWidth,
+              borderBottomColor: selected ? s.item.selectedBorderColor : s.item.unselectedBorderColor,
+              opacity: isDisabled ? s.item.disabledOpacity : 1,
             }}
           >
             <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                gap: s.itemGap,
+                gap: s.item.gap,
               }}
             >
               {option.icon ? (
                 <Icon
+                  color={selected ? s.icon.selectedColor : s.icon.unselectedColor}
                   name={option.icon}
-                  size="sm"
-                  tone={selected ? s.selectedIconTone : s.unselectedIconTone}
+                  size={s.icon.size}
                 />
               ) : null}
               <Body
-                tone={selected ? s.selectedTextTone : s.unselectedTextTone}
-                weight={selected ? "bold" : "regular"}
-                size="sm"
+                color={selected ? s.text.selectedColor : s.text.unselectedColor}
+                fontFamily={selected ? s.text.selectedFontFamily : s.text.unselectedFontFamily}
+                fontSize={s.text.fontSize}
+                lineHeight={s.text.lineHeight}
               >
                 {option.label}
               </Body>

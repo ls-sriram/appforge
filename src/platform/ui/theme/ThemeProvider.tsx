@@ -7,13 +7,13 @@
  *
  * The runtime keeps ownership explicit:
  * - `theme` for tokens
- * - `variants` for component appearance
+ * - `contracts` for resolved component appearance
  * - `layouts` for density/rhythm
  * ─────────────────────────────────────────────────────────────────
  */
 
 import React, { createContext, useContext, ReactNode } from "react";
-import { applyUiOverride, uiRuntime as defaultUiRuntime, type Theme, type UiOverride, type UiRuntime } from "./index";
+import { uiRuntime as defaultUiRuntime, type Theme, type UiRuntime } from "./index";
 
 // ─── Context ────────────────────────────────────────────────────
 
@@ -24,14 +24,12 @@ const UIContext = createContext<UiRuntime>(defaultUiRuntime);
 export function ThemeProvider({
   children,
   value = defaultUiRuntime,
-  override,
 }: {
   children: ReactNode;
   value?: UiRuntime;
-  override?: UiOverride;
 }) {
   return (
-    <UIContext.Provider value={applyUiOverride(value, override)}>
+    <UIContext.Provider value={value}>
       {children}
     </UIContext.Provider>
   );

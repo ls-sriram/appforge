@@ -32,24 +32,24 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 }
 
 function renderTabbedPanel(element: React.ReactElement) {
-  let tree: TestRenderer.ReactTestRenderer | null = null;
+  let tree: any = null;
 
   act(() => {
     tree = TestRenderer.create(element);
   });
 
-  return tree as TestRenderer.ReactTestRenderer;
+  return tree as any;
 }
 
-function findInteractiveByTestId(tree: TestRenderer.ReactTestRenderer, testID: string) {
+function findInteractiveByTestId(tree: any, testID: string) {
   return tree.root.findAll(
-    (node) => node.props.testID === testID && typeof node.props.onPress === "function",
+    (node: any) => node.props.testID === testID && typeof node.props.onPress === "function",
   );
 }
 
-function findHostText(tree: TestRenderer.ReactTestRenderer, text: string) {
+function findHostText(tree: any, text: string) {
   return tree.root.findAll(
-    (node) => node.type === "Text" && node.props.children === text,
+    (node: any) => node.type === "Text" && node.props.children === text,
   );
 }
 

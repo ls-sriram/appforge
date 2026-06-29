@@ -5,43 +5,66 @@ import type { InteractionContract } from "../contracts/interaction";
 import { Icon } from "./Icon";
 import type { SelectOption } from "./Select";
 
-export interface MultiSelectVariant {
-  // trigger
-  backgroundColor: string;
-  borderColor: string;
-  borderWidth: number;
-  borderRadius: number;
-  minHeight: number;
-  paddingVertical: number;
-  paddingHorizontal: number;
-  color: string;
-  placeholderColor: string;
-  // menu
-  menuBackgroundColor: string;
-  menuBorderColor: string;
-  menuBorderRadius: number;
-  // option rows
-  optionSelectedBackgroundColor: string;
-  optionSelectedColor: string;
-  optionColor: string;
-  optionFontSize: number;
-  optionFontWeight: string | number;
-  optionSelectedFontWeight: string | number;
-  optionDescriptionFontSize: number;
-  // layout
-  fieldGap: number;
-  triggerGap: number;
-  optionRowGap: number;
-  // selected tokens shown in trigger
-  tokenBackgroundColor: string;
-  tokenColor: string;
-  tokenBorderRadius: number;
-  tokenPaddingVertical: number;
-  tokenPaddingHorizontal: number;
-  tokenFontWeight: string | number;
-  tokenFontSize: number;
+export interface MultiSelectContract {
+  label: {
+    color: string;
+    fontSize: number;
+  };
+  trigger: {
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+    borderRadius: number;
+    minHeight: number;
+    paddingVertical: number;
+    paddingHorizontal: number;
+    gap: number;
+  };
+  text: {
+    color: string;
+    fontFamily: string;
+    placeholderColor: string;
+  };
+  icon: {
+    color: string;
+    size: number;
+    selectedColor: string;
+  };
+  menu: {
+    backgroundColor: string;
+    borderColor: string;
+    borderRadius: number;
+  };
+  option: {
+    selectedBackgroundColor: string;
+    selectedColor: string;
+    color: string;
+    fontSize: number;
+    fontWeight: string | number;
+    selectedFontWeight: string | number;
+    descriptionFontSize: number;
+    descriptionColor: string;
+    rowGap: number;
+  };
+  token: {
+    backgroundColor: string;
+    color: string;
+    borderRadius: number;
+    paddingVertical: number;
+    paddingHorizontal: number;
+    fontWeight: string | number;
+    fontSize: number;
+  };
+  helper: {
+    color: string;
+    fontSize: number;
+  };
+  layout: {
+    fieldGap: number;
+  };
   interaction?: InteractionContract;
 }
+
 
 export interface MultiSelectProps {
   variant: string;
@@ -66,8 +89,8 @@ export function MultiSelect({
   disabled = false,
   testID,
 }: MultiSelectProps) {
-  const { theme, variants } = useUI();
-  const s = variants.multiSelect?.[variant];
+  const { contracts } = useUI();
+  const s = contracts.multiSelect?.[variant];
   if (!s) throw new Error(`Unknown multiSelect variant "${variant}"`);
 
   const [open, setOpen] = React.useState(false);
@@ -83,9 +106,9 @@ export function MultiSelect({
   );
 
   return (
-    <View style={{ gap: s.fieldGap }} testID={testID}>
+    <View style={{ gap: s.layout.fieldGap }} testID={testID}>
       {label ? (
-        <Text style={{ color: theme.palette.textSecondary, fontSize: s.optionFontSize }}>{label}</Text>
+        <Text style={{ color: s.label.color, fontSize: s.label.fontSize, fontFamily: s.text.fontFamily }}>{label}</Text>
       ) : null}
 
       <Pressable
@@ -103,44 +126,44 @@ export function MultiSelect({
           return (
             <View
               style={{
-                backgroundColor: activeStyle?.backgroundColor ?? s.backgroundColor,
-                borderColor: activeStyle?.borderColor ?? s.borderColor,
-                borderWidth: s.borderWidth,
-                borderRadius: s.borderRadius,
-                minHeight: s.minHeight,
-                paddingVertical: s.paddingVertical,
-                paddingHorizontal: s.paddingHorizontal,
+                backgroundColor: activeStyle?.backgroundColor ?? s.trigger.backgroundColor,
+                borderColor: activeStyle?.borderColor ?? s.trigger.borderColor,
+                borderWidth: s.trigger.borderWidth,
+                borderRadius: s.trigger.borderRadius,
+                minHeight: s.trigger.minHeight,
+                paddingVertical: s.trigger.paddingVertical,
+                paddingHorizontal: s.trigger.paddingHorizontal,
                 flexDirection: "row",
                 alignItems: "center",
-                gap: s.triggerGap,
+                gap: s.trigger.gap,
                 opacity,
               }}
             >
-              <View style={{ flex: 1, gap: s.fieldGap }}>
+              <View style={{ flex: 1, gap: s.layout.fieldGap }}>
                 {selectedOptions.length ? (
-                  <View style={{ flexDirection: "row", flexWrap: "wrap", gap: s.fieldGap }}>
+                  <View style={{ flexDirection: "row", flexWrap: "wrap", gap: s.layout.fieldGap }}>
                     {selectedOptions.map((option) => (
                       <View
                         key={option.value}
                         style={{
-                          backgroundColor: s.tokenBackgroundColor,
-                          borderRadius: s.tokenBorderRadius,
-                          paddingVertical: s.tokenPaddingVertical,
-                          paddingHorizontal: s.tokenPaddingHorizontal,
+                          backgroundColor: s.token.backgroundColor,
+                          borderRadius: s.token.borderRadius,
+                          paddingVertical: s.token.paddingVertical,
+                          paddingHorizontal: s.token.paddingHorizontal,
                           alignSelf: "flex-start",
                         }}
                       >
-                        <Text style={{ color: s.tokenColor, fontSize: s.tokenFontSize, fontWeight: s.tokenFontWeight as any }}>
+                        <Text style={{ color: s.token.color, fontSize: s.token.fontSize, fontWeight: s.token.fontWeight as any, fontFamily: s.text.fontFamily }}>
                           {option.label}
                         </Text>
                       </View>
                     ))}
                   </View>
                 ) : (
-                  <Text style={{ color: s.placeholderColor, fontSize: s.optionFontSize }}>{placeholder}</Text>
+                  <Text style={{ color: s.text.placeholderColor, fontSize: s.option.fontSize, fontFamily: s.text.fontFamily }}>{placeholder}</Text>
                 )}
               </View>
-              <Icon name="chevron-down" tone="muted" />
+              <Icon color={s.icon.color} name="chevron-down" size={s.icon.size} />
             </View>
           );
         }}
@@ -149,10 +172,10 @@ export function MultiSelect({
       {open ? (
         <View
           style={{
-            backgroundColor: s.menuBackgroundColor,
-            borderWidth: s.borderWidth,
-            borderColor: s.menuBorderColor,
-            borderRadius: s.menuBorderRadius,
+            backgroundColor: s.menu.backgroundColor,
+            borderWidth: s.trigger.borderWidth,
+            borderColor: s.menu.borderColor,
+            borderRadius: s.menu.borderRadius,
             overflow: "hidden",
           }}
           testID={testID ? `${testID}-menu` : undefined}
@@ -168,26 +191,31 @@ export function MultiSelect({
                 onPress={() => toggleValue(option.value)}
                 testID={testID ? `${testID}-option-${option.value}` : undefined}
                 style={{
-                  backgroundColor: isSelected ? s.optionSelectedBackgroundColor : "transparent",
-                  paddingVertical: s.paddingVertical,
-                  paddingHorizontal: s.paddingHorizontal,
+                  backgroundColor: isSelected ? s.option.selectedBackgroundColor : "transparent",
+                  paddingVertical: s.trigger.paddingVertical,
+                  paddingHorizontal: s.trigger.paddingHorizontal,
                   borderBottomWidth: index === options.length - 1 ? 0 : 1,
-                  borderBottomColor: s.menuBorderColor,
+                  borderBottomColor: s.menu.borderColor,
                   flexDirection: "row",
                   alignItems: "center",
-                  gap: s.triggerGap,
+                  gap: s.trigger.gap,
                   opacity: option.disabled ? (ix?.disabledOpacity ?? 0.5) : 1,
                 }}
               >
-                <View style={{ flex: 1, gap: s.optionRowGap }}>
-                  <Text style={{ color: isSelected ? s.optionSelectedColor : s.optionColor, fontSize: s.optionFontSize, fontWeight: (isSelected ? s.optionSelectedFontWeight : s.optionFontWeight) as any }}>
+                <View style={{ flex: 1, gap: s.option.rowGap }}>
+                  <Text
+                    style={{
+                      color: isSelected ? s.option.selectedColor : s.option.color,
+                      fontSize: s.option.fontSize,
+                      fontWeight: (isSelected ? s.option.selectedFontWeight : s.option.fontWeight) as any,
+                      fontFamily: s.text.fontFamily,
+                    }}
+                  >
                     {option.label}
                   </Text>
-                  {option.description ? (
-                    <Text style={{ color: s.placeholderColor, fontSize: s.optionDescriptionFontSize }}>{option.description}</Text>
-                  ) : null}
+                  {option.description ? <Text style={{ color: s.option.descriptionColor, fontSize: s.option.descriptionFontSize, fontFamily: s.text.fontFamily }}>{option.description}</Text> : null}
                 </View>
-                {isSelected ? <Icon name="check" tone="accent" /> : null}
+                {isSelected ? <Icon color={s.icon.selectedColor} name="check" size={s.icon.size} /> : null}
               </Pressable>
             );
           })}
@@ -195,7 +223,7 @@ export function MultiSelect({
       ) : null}
 
       {helperText ? (
-        <Text style={{ color: s.placeholderColor, fontSize: s.optionDescriptionFontSize }}>{helperText}</Text>
+        <Text style={{ color: s.helper.color, fontSize: s.helper.fontSize, fontFamily: s.text.fontFamily }}>{helperText}</Text>
       ) : null}
     </View>
   );

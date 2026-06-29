@@ -49,21 +49,21 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 }
 
 function renderScaffold(element: React.ReactElement) {
-  let tree: TestRenderer.ReactTestRenderer | null = null;
+  let tree: any = null;
 
   act(() => {
     tree = TestRenderer.create(element);
   });
 
-  return tree as TestRenderer.ReactTestRenderer;
+  return tree as any;
 }
 
-function findByTestId(tree: TestRenderer.ReactTestRenderer, testID: string) {
-  return tree.root.findAll((node) => node.props.testID === testID);
+function findByTestId(tree: any, testID: string) {
+  return tree.root.findAll((node: any) => node.props.testID === testID);
 }
 
-function findHostText(tree: TestRenderer.ReactTestRenderer, text: string) {
-  return tree.root.findAll((node) => node.type === "Text" && node.props.children === text);
+function findHostText(tree: any, text: string) {
+  return tree.root.findAll((node: any) => node.type === "Text" && node.props.children === text);
 }
 
 describe("CenteredPageScaffold", () => {

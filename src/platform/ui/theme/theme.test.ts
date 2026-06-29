@@ -1,6 +1,6 @@
 import React from "react";
 import { renderHook } from "@testing-library/react-native";
-import { applyThemeOverride, applyUiOverride, uiRuntime } from "./index";
+import { createLayouts, createTheme, createContracts, uiRuntime } from "./index";
 import { ThemeProvider, useTheme, useUI } from "./ThemeProvider";
 
 type ZStackExport = typeof import("../index").ZStack;
@@ -70,38 +70,11 @@ describe("ThemeProvider", () => {
     });
   });
 
-  it("applies palette overrides and rebuilds variants", () => {
-    const nextUi = applyThemeOverride(uiRuntime, {
-      palette: { primary: "#123456" },
-    });
-
-    expect(nextUi.theme.palette.primary).toBe("#123456");
-    expect(nextUi.variants.button!.primary.backgroundColor).toBe("#123456");
-    expect(nextUi.theme.spacing.md).toBe(uiRuntime.theme.spacing.md);
-  });
-
-  it("applies token, layout, and variant overrides together", () => {
-    const nextUi = applyUiOverride(uiRuntime, {
-      spacing: { md: 24 },
-      typography: { family: "Test Sans", size: { md: 17 } },
-      radii: { pill: 777 },
-      elevation: { lg: { shadowRadius: 24, elevation: 9 } },
-      breakpoints: { desktop: 1440 },
-      layouts: { comfortable: { panelPadding: 99 } },
-      variants: { button: { primary: { minHeight: 88 } } },
-    });
-
-    expect(nextUi.theme.spacing.md).toBe(24);
-    expect(nextUi.theme.typography.family).toBe("Test Sans");
-    expect(nextUi.theme.typography.size.md).toBe(17);
-    expect(nextUi.theme.radii.pill).toBe(777);
-    expect(nextUi.theme.elevation.lg.shadowRadius).toBe(24);
-    expect(nextUi.theme.elevation.lg.elevation).toBe(9);
-    expect(nextUi.theme.elevation.lg.shadowOpacity).toBe(uiRuntime.theme.elevation.lg.shadowOpacity);
-    expect(nextUi.theme.breakpoints.desktop).toBe(1440);
-    expect(nextUi.layouts.comfortable.panelPadding).toBe(99);
-    expect(nextUi.variants.button!.primary.minHeight).toBe(88);
-    expect(nextUi.variants.button!.primary.paddingHorizontal).not.toBeUndefined();
+  it("exposes a static realized uiRuntime", () => {
+    expect(uiRuntime.contracts.button?.primary.container.backgroundColor).toBe(uiRuntime.theme.palette.primary);
+    expect(uiRuntime.layouts.comfortable.iconSize).toBe(16);
+    expect(uiRuntime.layouts.comfortable.fontSize).toBe(15);
+    expect(uiRuntime.layouts.comfortable.labelSize).toBe(13);
   });
 
   it("exports ZStack through the shared UI barrel", () => {
@@ -109,15 +82,27 @@ describe("ThemeProvider", () => {
     expect(exported).toBeUndefined();
   });
 
-  it("accepts provider-level theme overrides", () => {
+  it("passes through an explicitly realized runtime", () => {
+    const theme = createTheme({
+      brand: { primary: "#654321" },
+      dark: true,
+      fontFamily: "Test Sans",
+    });
+    const realizedUi = {
+      theme,
+      contracts: createContracts(theme),
+      layouts: createLayouts(theme),
+    };
+
     const wrapper = ({ children }: { children: React.ReactNode }) => React.createElement(ThemeProvider, {
-      override: { palette: { primary: "#654321" } },
+      value: realizedUi,
       children,
     });
 
     const { result } = renderHook(() => useUI(), { wrapper });
 
     expect(result.current.theme.palette.primary).toBe("#654321");
-    expect(result.current.variants.button!.primary.backgroundColor).toBe("#654321");
+    expect(result.current.contracts.button!.primary.container.backgroundColor).toBe("#654321");
+    expect(result.current).toBe(realizedUi);
   });
 });

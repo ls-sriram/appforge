@@ -146,7 +146,7 @@ export function RecordingPanel({
               accessibilityLabel={micLabel}
               cursor={micDisabled ? "default" : "pointer"}
             >
-              {isRecording ? null : <Icon name="mic" size="2xl" tone="inverse" />}
+              {isRecording ? null : <Icon color="#0A0A0A" name="mic" size={22} />}
             </YStack>
 
             <YStack f={1}>

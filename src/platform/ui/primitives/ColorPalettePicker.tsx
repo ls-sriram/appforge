@@ -6,21 +6,46 @@ import { Input } from "./Input";
 import { Icon } from "./Icon";
 import { Body, Label } from "./Text";
 
-export interface ColorPalettePickerVariant {
-  previewSize: number;
-  previewBorderWidth: number;
-  previewBorderRadius: number;
-  swatchSize: number;
-  swatchBorderWidth: number;
-  swatchBorderRadius: number;
-  placeholder: string;
-  defaultSwatches: string[];
-  previewBorderColor: string;
-  invalidPreviewBorderColor: string;
-  swatchBorderColor: string;
-  selectedSwatchBorderColor: string;
-  disabledOpacity: number;
+export interface ColorPalettePickerContract {
+  preview: {
+    size: number;
+    borderWidth: number;
+    borderRadius: number;
+    borderColor: string;
+    invalidBorderColor: string;
+  };
+  swatch: {
+    size: number;
+    borderWidth: number;
+    borderRadius: number;
+    borderColor: string;
+    selectedBorderColor: string;
+    disabledOpacity: number;
+    defaultColors: string[];
+  };
+  input: {
+    placeholder: string;
+  };
+  label: {
+    color: string;
+    fontSize: number;
+    fontFamily: string;
+  };
+  helper: {
+    color: string;
+    fontSize: number;
+    lineHeight: number;
+    fontFamily: string;
+  };
+  error: {
+    color: string;
+  };
+  icon: {
+    selectedColor: string;
+    selectedSize: number;
+  };
 }
+
 
 const PickerRoot = styled(View, {
   name: "ColorPalettePickerRoot",
@@ -71,8 +96,8 @@ export function ColorPalettePicker({
   placeholder,
   testID,
 }: ColorPalettePickerProps) {
-  const { variants } = useUI();
-  const s = variants.colorPalettePicker?.[variant];
+  const { contracts } = useUI();
+  const s = contracts.colorPalettePicker?.[variant];
   if (!s) throw new Error(`Unknown colorPalettePicker variant "${variant}"`);
   const [draft, setDraft] = React.useState(normalizeHex(value));
 
@@ -81,8 +106,8 @@ export function ColorPalettePicker({
   }, [value]);
 
   const previewColor = coercePreviewColor(draft);
-  const effectivePalette = palette ?? s.defaultSwatches;
-  const effectivePlaceholder = placeholder ?? s.placeholder;
+  const effectivePalette = palette ?? s.swatch.defaultColors;
+  const effectivePlaceholder = placeholder ?? s.input.placeholder;
 
   const handleHexChange = React.useCallback(
     (nextText: string) => {
@@ -106,16 +131,24 @@ export function ColorPalettePicker({
 
   return (
     <PickerRoot testID={testID}>
-      {label ? <Label tone="secondary">{label}</Label> : null}
-
+      {label ? (
+        <Label
+          color={s.label.color}
+          fontFamily={s.label.fontFamily}
+          fontSize={s.label.fontSize}
+          lineHeight={s.label.fontSize}
+        >
+          {label}
+        </Label>
+      ) : null}
       <View fd="row" ai="center" gap="$3">
         <View
-          width={s.previewSize}
-          height={s.previewSize}
-          borderRadius={s.previewBorderRadius}
-          borderWidth={s.previewBorderWidth}
+          width={s.preview.size}
+          height={s.preview.size}
+          borderRadius={s.preview.borderRadius}
+          borderWidth={s.preview.borderWidth}
           bg={previewColor}
-          borderColor={isValidHex(draft) ? s.previewBorderColor : s.invalidPreviewBorderColor}
+          borderColor={isValidHex(draft) ? s.preview.borderColor : s.preview.invalidBorderColor}
           testID={testID ? `${testID}-preview` : undefined}
         />
         <View f={1} gap="$2">
@@ -129,7 +162,12 @@ export function ColorPalettePicker({
             placeholder={effectivePlaceholder}
             testID={testID ? `${testID}-input` : undefined}
           />
-          <Body size="sm" tone={isValidHex(draft) ? "muted" : "danger"}>
+          <Body
+            color={isValidHex(draft) ? s.helper.color : s.error.color}
+            fontFamily={s.helper.fontFamily}
+            fontSize={s.helper.fontSize}
+            lineHeight={s.helper.lineHeight}
+          >
             {isValidHex(draft) ? "Hex color" : "Enter a valid 6-digit hex color"}
           </Body>
         </View>
@@ -147,25 +185,34 @@ export function ColorPalettePicker({
               disabled={disabled}
               onPress={() => handlePalettePick(normalized)}
               style={{
-                width: s.swatchSize,
-                height: s.swatchSize,
-                borderRadius: s.swatchBorderRadius,
-                borderWidth: s.swatchBorderWidth,
+                width: s.swatch.size,
+                height: s.swatch.size,
+                borderRadius: s.swatch.borderRadius,
+                borderWidth: s.swatch.borderWidth,
                 alignItems: "center",
                 justifyContent: "center",
                 backgroundColor: normalized,
-                borderColor: selected ? s.selectedSwatchBorderColor : s.swatchBorderColor,
-                opacity: disabled ? s.disabledOpacity : 1,
+                borderColor: selected ? s.swatch.selectedBorderColor : s.swatch.borderColor,
+                opacity: disabled ? s.swatch.disabledOpacity : 1,
               }}
               testID={testID ? `${testID}-swatch-${normalized.slice(1)}` : undefined}
             >
-              {selected ? <Icon name="check" tone="inverse" size="sm" /> : null}
+              {selected ? <Icon color={s.icon.selectedColor} name="check" size={s.icon.selectedSize} /> : null}
             </Pressable>
           );
         })}
       </PaletteGrid>
 
-      {helperText ? <Body size="sm" tone="muted">{helperText}</Body> : null}
+      {helperText ? (
+        <Body
+          color={s.helper.color}
+          fontFamily={s.helper.fontFamily}
+          fontSize={s.helper.fontSize}
+          lineHeight={s.helper.lineHeight}
+        >
+          {helperText}
+        </Body>
+      ) : null}
     </PickerRoot>
   );
 }

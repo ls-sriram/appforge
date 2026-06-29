@@ -3,18 +3,23 @@ import { Pressable, Text, View } from "react-native";
 import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
-export interface BadgeVariant {
-  backgroundColor: string;
-  color: string;
-  borderRadius: number;
-  paddingVertical: number;
-  paddingHorizontal: number;
-  fontSize: number;
-  fontWeight: string | number;
-  borderWidth?: number;
-  borderColor?: string;
+export interface BadgeContract {
+  container: {
+    backgroundColor: string;
+    borderRadius: number;
+    paddingVertical: number;
+    paddingHorizontal: number;
+    borderWidth?: number;
+    borderColor?: string;
+  };
+  text: {
+    color: string;
+    fontSize: number;
+    fontWeight: string | number;
+  };
   interaction?: InteractionContract;
 }
+
 
 interface BadgeProps {
   label: string;
@@ -24,8 +29,8 @@ interface BadgeProps {
 }
 
 export function Badge({ label, variant, onPress, disabled }: BadgeProps) {
-  const { variants } = useUI();
-  const s = variants.badge?.[variant];
+  const { contracts } = useUI();
+  const s = contracts.badge?.[variant];
   if (!s) throw new Error(`Unknown badge variant "${variant}"`);
 
   const ix = s.interaction;
@@ -39,16 +44,16 @@ export function Badge({ label, variant, onPress, disabled }: BadgeProps) {
           flexDirection: "row",
           alignItems: "center",
           alignSelf: "flex-start",
-          backgroundColor: activeStyle?.backgroundColor ?? s.backgroundColor,
-          borderRadius: s.borderRadius,
-          paddingVertical: s.paddingVertical,
-          paddingHorizontal: s.paddingHorizontal,
-          borderWidth: s.borderWidth,
-          borderColor: activeStyle?.borderColor ?? s.borderColor,
+          backgroundColor: activeStyle?.backgroundColor ?? s.container.backgroundColor,
+          borderRadius: s.container.borderRadius,
+          paddingVertical: s.container.paddingVertical,
+          paddingHorizontal: s.container.paddingHorizontal,
+          borderWidth: s.container.borderWidth,
+          borderColor: activeStyle?.borderColor ?? s.container.borderColor,
           opacity,
         }}
       >
-        <Text style={{ color: activeStyle?.color ?? s.color, fontSize: s.fontSize, fontWeight: s.fontWeight as any }}>
+        <Text style={{ color: activeStyle?.color ?? s.text.color, fontSize: s.text.fontSize, fontWeight: s.text.fontWeight as any }}>
           {label}
         </Text>
       </View>

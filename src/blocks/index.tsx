@@ -11,7 +11,7 @@
  */
 
 import React from "react";
-import { Body, Heading, Icon, XStack, YStack } from "../platform/ui/index";
+import { Body, Heading, Icon, XStack, YStack, useThemeTokens } from "../platform/ui/index";
 
 // ── ProfileCard ───────────────────────────────────────────────────────────────
 
@@ -47,6 +47,7 @@ export function ProfileCard({
   density = "normal",
   onPress,
 }: ProfileCardProps) {
+  const theme = useThemeTokens();
   const initials = (name || email || "?")
     .split(" ")
     .map((p) => p[0] ?? "")
@@ -74,14 +75,14 @@ export function ProfileCard({
           ai="center"
           jc="center"
         >
-          <Body tone="accent" weight="bold">{initials}</Body>
+          <Body color="$primary" fontFamily="$bold">{initials}</Body>
         </YStack>
         <YStack gap="$1" f={1}>
-          <Heading size="md">{name}</Heading>
-          <Body size="sm" tone="secondary">{email}</Body>
-          {uid ? <Body size="xs" tone="muted">ID: {uid}</Body> : null}
+          <Heading fontSize="$4" lineHeight="$4">{name}</Heading>
+          <Body color="$textSecondary" fontSize="$2" lineHeight="$2">{email}</Body>
+          {uid ? <Body color="$textMuted" fontSize="$1" lineHeight="$1">ID: {uid}</Body> : null}
         </YStack>
-        <Icon name="chevron-right" size="xl" tone="muted" />
+        <Icon color={theme.palette.textMuted} name="chevron-right" size={20} />
       </XStack>
     </YStack>
   );

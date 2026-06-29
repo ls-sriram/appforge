@@ -3,19 +3,23 @@ import { TextInput, View } from "react-native";
 import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
-export interface InputVariant {
-  backgroundColor: string;
-  color: string;
-  borderWidth: number;
-  borderColor: string;
-  borderRadius: number;
-  paddingVertical: number;
-  paddingHorizontal: number;
-  fontSize: number;
-  minHeight: number;
-  placeholderColor?: string;
+export interface InputContract {
+  field: {
+    backgroundColor: string;
+    color: string;
+    fontFamily: string;
+    borderWidth: number;
+    borderColor: string;
+    borderRadius: number;
+    paddingVertical: number;
+    paddingHorizontal: number;
+    fontSize: number;
+    minHeight: number;
+    placeholderColor?: string;
+  };
   interaction?: InteractionContract;
 }
+
 
 export type InputProps = Omit<React.ComponentProps<typeof TextInput>, "style"> & {
   disabled?: boolean;
@@ -23,8 +27,8 @@ export type InputProps = Omit<React.ComponentProps<typeof TextInput>, "style"> &
 
 export const Input = React.forwardRef<TextInput, InputProps>(
   function Input({ onFocus, onBlur, disabled, ...props }, ref) {
-    const { theme, variants } = useUI();
-    const s = variants.input?.["default"];
+    const { contracts } = useUI();
+    const s = contracts.input?.["default"];
     if (!s) throw new Error('Unknown input variant "default"');
 
     const [focused, setFocused] = useState(false);
@@ -36,22 +40,22 @@ export const Input = React.forwardRef<TextInput, InputProps>(
       <View style={{ opacity }}>
         <TextInput
           ref={ref}
-          placeholderTextColor={s.placeholderColor}
+          placeholderTextColor={s.field.placeholderColor}
           editable={!disabled}
           onFocus={(e) => { setFocused(true); onFocus?.(e); }}
           onBlur={(e) => { setFocused(false); onBlur?.(e); }}
           {...props}
           style={{
-            backgroundColor: s.backgroundColor,
-            borderRadius: s.borderRadius,
-            borderWidth: focusedStyle?.borderWidth ?? s.borderWidth,
-            borderColor: focusedStyle?.borderColor ?? s.borderColor,
-            paddingVertical: s.paddingVertical,
-            paddingHorizontal: s.paddingHorizontal,
-            color: s.color,
-            fontSize: s.fontSize,
-            fontFamily: theme.typography.family,
-            minHeight: s.minHeight,
+            backgroundColor: s.field.backgroundColor,
+            borderRadius: s.field.borderRadius,
+            borderWidth: focusedStyle?.borderWidth ?? s.field.borderWidth,
+            borderColor: focusedStyle?.borderColor ?? s.field.borderColor,
+            paddingVertical: s.field.paddingVertical,
+            paddingHorizontal: s.field.paddingHorizontal,
+            color: s.field.color,
+            fontSize: s.field.fontSize,
+            fontFamily: s.field.fontFamily,
+            minHeight: s.field.minHeight,
           }}
         />
       </View>

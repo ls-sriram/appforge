@@ -12,7 +12,7 @@ export type { SelectOption, SelectProps } from './Select'
 export { MultiSelect } from './MultiSelect'
 export type { MultiSelectProps } from './MultiSelect'
 export { Icon } from './Icon'
-export type { IconName, IconSize, IconTone } from './Icon'
+export type { IconName } from './Icon'
 export { Avatar } from './Avatar'
 export { Badge } from './Badge'
 export { Tag } from './Tag'
@@ -32,8 +32,8 @@ export type {
   TableCellSpec,
   TableColumn,
   TableColumnKind,
-  TableVariant,
-  ImageVariant as TableImageVariant,
+  TableContract,
+  ImageContract as TableImageContract,
   TableProps,
   TableWidth,
 } from './Table'

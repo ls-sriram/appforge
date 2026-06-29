@@ -29,7 +29,7 @@ export function AuthWelcomeBlock({
           {app.name}
         </Label>
         <Display {...ui("title", "Auth welcome title")}>{app.tagline}</Display>
-        <Body {...ui("body", "Auth welcome body")} color="$textMuted" size="lg">
+        <Body {...ui("body", "Auth welcome body")} color="$textMuted" fontSize="$4" lineHeight="$4">
           Pick up where you left off or create an account to start building.
         </Body>
       </YStack>

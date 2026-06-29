@@ -12,20 +12,25 @@ export { SafeAreaView } from "react-native-safe-area-context";
 export { UIProvider } from "./Provider";
 export { config } from "./config";
 export {
-  type ButtonVariant,
-  type BadgeVariant,
-  type TagVariant,
-  type InputVariant,
-  type AvatarVariant,
-  type ImageVariant,
-  type TableVariant,
-  type ProgressBarVariant,
-  type TabsVariant,
-  type SizingToolbarVariant,
-  type TabbedPanelVariant,
-  type ColorPalettePickerVariant,
-  type Variants,
+  type ButtonContract,
+  type BadgeContract,
+  type TagContract,
+  type InputContract,
+  type AvatarContract,
+  type ImageContract,
+  type TableContract,
+  type ProgressBarContract,
+  type TabsContract,
+  type SizingToolbarContract,
+  type TabbedPanelContract,
+  type ColorPalettePickerContract,
+  type PrimitiveContracts,
   type LayoutContract,
+  type LayoutProfileName,
+} from "./contracts";
+export {
+  layoutContractDefinition,
+  platformLayoutDefaults,
 } from "./contracts";
 export { Display, Heading, Label, Body } from "./primitives/Text";
 export { Button } from "./primitives/Button";
@@ -40,7 +45,7 @@ export { Select } from "./primitives/Select";
 export type { SelectOption, SelectProps } from "./primitives/Select";
 export { MultiSelect } from "./primitives/MultiSelect";
 export type { MultiSelectProps } from "./primitives/MultiSelect";
-export { Icon, type IconName, type IconSize, type IconTone } from "./primitives/Icon";
+export { Icon, type IconName } from "./primitives/Icon";
 export { SelectableChip } from "./primitives/SelectableChip";
 export type {
   SelectableChipShape,
@@ -67,7 +72,7 @@ export type {
   TableCellSpec,
   TableColumn,
   TableColumnKind,
-  ImageVariant as TableImageVariant,
+  ImageContract as TableImageContract,
   TableProps,
   TableWidth,
 } from "./primitives/Table";
@@ -85,14 +90,11 @@ export {
 export { ViewportProvider } from "./theme/ViewportProvider";
 export { ThemeProvider, useUI, useTheme, useThemeTokens } from "./theme/ThemeProvider";
 export {
-  createVariants,
+  createContracts,
   createLayouts,
-  createUiRuntime,
-  createAppUiRuntime,
   uiRuntime,
   type UiRuntime,
 } from "./theme";
-export type { ThemeOverride, UiRuntimeOverride, UiOverride } from "./theme";
 export type { ElevationPreset, ThemeElevationOverride } from "./theme";
 export { LayoutProvider, DensityProvider, useLayout } from "./theme/DensityProvider";
 export {

@@ -31,7 +31,7 @@ Shared, domain-free UI foundation built on Tamagui.
 - `TextArea` — requires `variant: string`
 - `Select`, `MultiSelect` — require `variant: string`
 - `ColorPalettePicker`, `ColorSwatch`
-- `Icon` — accepts `name`, `size`, `tone`
+- `Icon` — accepts `name`, `size: number`, `color: string`
 - `SelectableChip` — requires `variant: string`
 - `SizingToolbar`, `Tabs`, `TabbedPanel`
 - `Avatar`, `Badge`, `Tag`, `ProgressBar` — require `variant: string`
@@ -40,30 +40,24 @@ Shared, domain-free UI foundation built on Tamagui.
 
 Closed primitives must not be treated as arbitrary layout surfaces. Do not pass `bg=`, `borderWidth=`, `px=`, `color=`, or other visual style props to them. Use `variant=` instead.
 
-## Text Atom Variants
+## Text Atoms
 
-`Display`, `Heading`, `Label`, and `Body` expose `tone`, `size`, and `weight` variant props. These express typographic role and semantic color, not a parallel styling DSL:
-
-- `tone`: `primary` | `secondary` | `muted` | `accent` | `inverse` | `danger` | `success` | `warning` | `info`
-- `size`: component-specific scale (e.g. `xs`/`sm`/`md`/`lg`/`xl` for `Body`)
-- `weight`: `regular` | `bold`
-
-Use these instead of raw `color`, `fontFamily`, or `fontSize` when the semantic maps cleanly. Do not add new variant enums beyond those already defined.
+`Display`, `Heading`, `Label`, and `Body` are open text wrappers. Pass explicit text values such as `color`, `fontFamily`, `fontSize`, and `lineHeight`. Do not add semantic text props that reintroduce resolution below `UiRuntime`.
 
 ## Contracts
 
 The contracts directory (`contracts/`) exports:
 
 - `InteractionContract` — hover, pressed, focused, selected, loading states for variant-driven primitives
-- `LayoutContract` — density-driven spatial fields (`controlHeight`, `rowHeight`, `rowPadding`, `cellGap`, `panelPadding`, `sectionGap`, `itemGap`, `iconSize`)
-- `Variants` — the assembled map of all variant records consumed by `ThemeProvider`
-- Individual variant interfaces (`ButtonVariant`, `TableVariant`, `AvatarVariant`, etc.)
+- `LayoutContract` — density-driven spatial fields (`controlHeight`, `rowHeight`, `rowPadding`, `cellGap`, `panelPadding`, `sectionGap`, `itemGap`, `iconSize`, `fontSize`, `labelSize`)
+- `PrimitiveContracts` — the assembled map of resolved primitive contract records consumed by `ThemeProvider`
+- Individual contract interfaces (`ButtonContract`, `TableContract`, `AvatarContract`, etc.)
 
 The `contracts/` barrel is the source of truth for the variant and layout contract types.
 
 ## Shared Surface
 
-- `theme/`: theme factory, runtime assembly, `LayoutProvider`, `ThemeProvider`, `Viewport`
+- `theme/`: theme factory, realized runtime defaults, `LayoutProvider`, `ThemeProvider`, `Viewport`
 - `contracts/`: interaction, variant, and layout contract types
 - `primitives/`: closed-form leaf primitives
 - `scaffolds/`: slot-structured layout scaffold helpers
@@ -76,7 +70,7 @@ The following no longer exist and must not be imported:
 - `Block` — use `XStack`/`YStack` with raw Tamagui props
 - `Col`, `Row`, `Card`, `Screen`, `Rule`, `Divider`, `AbsLayer` (from old `SStack`) — removed
 - `shared panels` and `shared blocks` — removed; compose inline per feature
-- `Text variant="h3"` / old text weight enum — use `Heading`/`Body`/`Label`/`Display` with `tone`/`size`/`weight`
+- `Text variant="h3"` / old text weight enum — use `Heading`/`Body`/`Label`/`Display` with explicit text props
 - `PLATFORM_SCAFFOLDS`, `SCAFFOLD_KINDS`, `SCAFFOLD_SLOT_BEHAVIORS`, `SCAFFOLD_SLOT_PLACEMENTS` — removed; scaffold structure is code, not data
 - `VALUE_PRIMITIVES`, `LAYOUT_PRIMITIVES`, `PLATFORM_BYPASS_PROPS` — removed; use the actual TypeScript interfaces
 - `SelectableChipSize` — removed; use `variant: string`

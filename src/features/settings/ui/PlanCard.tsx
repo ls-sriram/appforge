@@ -3,7 +3,7 @@
  */
 
 import React from "react";
-import { Body, Button, Heading, Icon, XStack, YStack } from "../../../platform/ui/index";
+import { Body, Button, Heading, Icon, XStack, YStack, useThemeTokens } from "../../../platform/ui/index";
 import type { Plan } from "../services/user-profile.service";
 
 export interface PlanCardProps {
@@ -41,6 +41,7 @@ function formatDate(iso?: string): string {
 }
 
 export function PlanCard({ plan, onUpgrade }: PlanCardProps) {
+  const theme = useThemeTokens();
   const name = plan?.name ?? "free";
   const statusLabel = plan ? STATUS_LABELS[plan.status] ?? plan.status : "Inactive";
   const badgeBg = plan?.status === "past_due" ? "$warningMuted" : "$successMuted";
@@ -76,7 +77,11 @@ export function PlanCard({ plan, onUpgrade }: PlanCardProps) {
 
         {plan?.expiresAt ? (
           <XStack bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" px="$3" py="$2" ai="center" gap="$2">
-            <Icon name="calendar" size="sm" tone={name === "pro" ? "brand" : name === "trial" ? "warning" : "muted"} />
+            <Icon
+              color={name === "pro" ? theme.palette.primary : name === "trial" ? theme.palette.warning : theme.palette.textMuted}
+              name="calendar"
+              size={14}
+            />
             <Body fontSize="$1" color="$textSecondary">
               {plan.cancelAtPeriodEnd ? "Access ends" : "Renews"} {formatDate(plan.expiresAt)}
             </Body>

@@ -9,7 +9,7 @@
  */
 
 import React from "react";
-import { Body, Heading, Icon, XStack, YStack } from "../../../platform/ui/index";
+import { Body, Heading, Icon, XStack, YStack, useThemeTokens } from "../../../platform/ui/index";
 
 export interface ProfileCardProps {
   name?: string;
@@ -32,6 +32,7 @@ export function ProfileCard({
   onPress,
   size = "lg",
 }: ProfileCardProps) {
+  const theme = useThemeTokens();
   const name = identity?.name ?? nameProp;
   const email = identity?.email ?? emailProp ?? "";
   const uid = identity?.uid ?? uidProp ?? "";
@@ -69,7 +70,7 @@ export function ProfileCard({
             ) : null}
           </YStack>
         </XStack>
-        {onPress ? <Icon name="chevron-right" size="xl" tone="muted" /> : null}
+        {onPress ? <Icon color={theme.palette.textMuted} name="chevron-right" size={20} /> : null}
       </XStack>
     </YStack>
   );

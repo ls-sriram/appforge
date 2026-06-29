@@ -3,7 +3,7 @@ import { Pressable, View } from "react-native";
 import { useUI } from "../theme/ThemeProvider";
 import { PanelScaffold } from "../scaffolds";
 import { type UiStamp, noopUi } from "../viz";
-import { Icon, type IconName, type IconTone } from "./Icon";
+import { Icon, type IconName } from "./Icon";
 import { Tabs } from "./Tabs";
 
 export interface TabbedPanelTab {
@@ -30,15 +30,23 @@ export interface TabbedPanelProps {
   ui?: UiStamp;
 }
 
-export interface TabbedPanelVariant {
-  actionButtonMinWidth: number;
-  actionButtonMinHeight: number;
-  actionButtonBorderRadius: number;
-  actionButtonDisabledOpacity: number;
-  actionIconTone: IconTone;
-  disabledActionIconTone: IconTone;
-  inlineActionsMarginRight: number;
+export interface TabbedPanelContract {
+  actionButton: {
+    minWidth: number;
+    minHeight: number;
+    borderRadius: number;
+    disabledOpacity: number;
+  };
+  actionIcon: {
+    size: number;
+    color: string;
+    disabledColor: string;
+  };
+  layout: {
+    inlineActionsMarginRight: number;
+  };
 }
+
 
 interface IconActionButtonProps {
   icon: IconName;
@@ -61,8 +69,8 @@ function IconActionButton({
   testID,
   variant,
 }: IconActionButtonProps) {
-  const { variants } = useUI();
-  const s = variants.tabbedPanel?.[variant];
+  const { contracts } = useUI();
+  const s = contracts.tabbedPanel?.[variant];
   if (!s) throw new Error(`Unknown tabbedPanel variant "${variant}"`);
 
   return (
@@ -74,16 +82,20 @@ function IconActionButton({
       nativeID={testID}
       onPress={onPress}
       style={{
-        minWidth: s.actionButtonMinWidth,
-        minHeight: s.actionButtonMinHeight,
+        minWidth: s.actionButton.minWidth,
+        minHeight: s.actionButton.minHeight,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: s.actionButtonBorderRadius,
-        opacity: disabled ? s.actionButtonDisabledOpacity : 1,
+        borderRadius: s.actionButton.borderRadius,
+        opacity: disabled ? s.actionButton.disabledOpacity : 1,
       }}
       testID={testID}
     >
-      <Icon name={icon} size="sm" tone={disabled ? s.disabledActionIconTone : s.actionIconTone} />
+      <Icon
+        color={disabled ? s.actionIcon.disabledColor : s.actionIcon.color}
+        name={icon}
+        size={s.actionIcon.size}
+      />
     </Pressable>
   );
 }
@@ -105,8 +117,8 @@ export function TabbedPanel({
   const canMove = !!activeTab && !!onMoveTab && activeTab.movable !== false;
   const canMoveLeft = canMove && activeIndex > 0;
   const canMoveRight = canMove && activeIndex >= 0 && activeIndex < tabs.length - 1;
-  const { variants } = useUI();
-  const s = variants.tabbedPanel?.[variant];
+  const { contracts } = useUI();
+  const s = contracts.tabbedPanel?.[variant];
   if (!s) throw new Error(`Unknown tabbedPanel variant "${variant}"`);
 
   const header = tabs.length > 0 ? (
@@ -126,7 +138,7 @@ export function TabbedPanel({
 
   const builtInActions = activeTab ? (
     <View style={styles.actionsRow}>
-      {hasContent(actions) ? <View style={getInlineActionsStyle(s.inlineActionsMarginRight)}>{actions}</View> : null}
+      {hasContent(actions) ? <View style={getInlineActionsStyle(s.layout.inlineActionsMarginRight)}>{actions}</View> : null}
       {canMove ? (
         <>
           <IconActionButton
@@ -167,7 +179,7 @@ export function TabbedPanel({
     </View>
   ) : hasContent(actions) ? (
     <View style={styles.actionsRow}>
-      <View style={getInlineActionsStyle(s.inlineActionsMarginRight)}>{actions}</View>
+      <View style={getInlineActionsStyle(s.layout.inlineActionsMarginRight)}>{actions}</View>
     </View>
   ) : null;
 

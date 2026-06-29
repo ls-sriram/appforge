@@ -19,9 +19,9 @@ function Wrapper({ children }: { children: React.ReactNode }) {
   return <ThemeProvider>{children}</ThemeProvider>;
 }
 
-function findButtons(tree: TestRenderer.ReactTestRenderer) {
+function findButtons(tree: any) {
   return tree.root.findAll(
-    (node) =>
+    (node: any) =>
       typeof node.props.testID === "string" &&
       node.props.testID.startsWith("sizing-toolbar-") &&
       typeof node.props.onPress === "function",
@@ -29,19 +29,19 @@ function findButtons(tree: TestRenderer.ReactTestRenderer) {
 }
 
 function renderToolbar(element: React.ReactElement) {
-  let tree: TestRenderer.ReactTestRenderer | null = null;
+  let tree: any = null;
 
   act(() => {
     tree = TestRenderer.create(element);
   });
 
-  return tree as TestRenderer.ReactTestRenderer;
+  return tree as any;
 }
 
 beforeAll(() => {
   if (typeof window !== "undefined" && typeof window.dispatchEvent !== "function") {
     // react-test-renderer expects this to exist when bubbling uncaught errors.
-    (window as typeof window & { dispatchEvent: () => void }).dispatchEvent = () => {};
+    (window as typeof window & { dispatchEvent: () => boolean }).dispatchEvent = () => false;
   }
 });
 
@@ -56,7 +56,7 @@ describe("SizingToolbar", () => {
     const buttons = findButtons(tree);
 
     expect(buttons).toHaveLength(3);
-    expect(buttons.map((button) => button.props.testID)).toEqual([
+    expect(buttons.map((button: any) => button.props.testID)).toEqual([
       "sizing-toolbar-sm",
       "sizing-toolbar-md",
       "sizing-toolbar-lg",
@@ -71,7 +71,7 @@ describe("SizingToolbar", () => {
     );
 
     const buttons = findButtons(tree);
-    const states = Object.fromEntries(buttons.map((button) => [button.props.testID, button.props.accessibilityState.selected]));
+    const states = Object.fromEntries(buttons.map((button: any) => [button.props.testID, button.props.accessibilityState.selected]));
 
     expect(states["sizing-toolbar-lg"]).toBe(true);
     expect(states["sizing-toolbar-sm"]).toBe(false);
@@ -85,7 +85,7 @@ describe("SizingToolbar", () => {
       </Wrapper>,
     );
 
-    const button = findButtons(tree).find((node) => node.props.testID === "sizing-toolbar-sm");
+    const button = findButtons(tree).find((node: any) => node.props.testID === "sizing-toolbar-sm");
 
     act(() => {
       button?.props.onPress();
@@ -102,7 +102,7 @@ describe("SizingToolbar", () => {
       </Wrapper>,
     );
 
-    const button = findButtons(tree).find((node) => node.props.testID === "sizing-toolbar-lg");
+    const button = findButtons(tree).find((node: any) => node.props.testID === "sizing-toolbar-lg");
 
     expect(button?.props.disabled).toBe(true);
   });
@@ -119,7 +119,7 @@ describe("SizingToolbar", () => {
       </Wrapper>,
     );
 
-    const button = findButtons(tree).find((node) => node.props.testID === "sizing-toolbar-lg");
+    const button = findButtons(tree).find((node: any) => node.props.testID === "sizing-toolbar-lg");
 
     act(() => {
       button?.props.onPress();

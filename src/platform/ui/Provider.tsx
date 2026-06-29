@@ -2,10 +2,8 @@ import React from 'react'
 import { TamaguiProvider } from '@tamagui/core'
 import { createConfigForTheme } from './config'
 import {
-  applyUiOverride,
   uiRuntime as defaultUiRuntime,
   UiRuntime,
-  UiOverride,
 } from './theme'
 import { ThemeProvider } from './theme/ThemeProvider'
 
@@ -15,23 +13,17 @@ import { ThemeProvider } from './theme/ThemeProvider'
 export function UIProvider({
   children,
   value = defaultUiRuntime,
-  override,
 }: {
   children: React.ReactNode
   value?: UiRuntime
-  override?: UiOverride
 }) {
-  const activeUi = React.useMemo(
-    () => applyUiOverride(value, override),
-    [override, value],
-  )
   const config = React.useMemo(
-    () => createConfigForTheme(activeUi.theme),
-    [activeUi],
+    () => createConfigForTheme(value.theme),
+    [value],
   )
 
   return (
-    <ThemeProvider value={activeUi}>
+    <ThemeProvider value={value}>
       <TamaguiProvider config={config} defaultTheme="dark">
         {children}
       </TamaguiProvider>

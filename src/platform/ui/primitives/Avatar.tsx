@@ -3,16 +3,21 @@ import { Pressable, Text, View } from "react-native";
 import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
-export interface AvatarVariant {
-  width: number;
-  height: number;
-  borderRadius: number;
-  fontSize: number;
-  fontWeight: string | number;
-  backgroundColor: string;
-  color: string;
+export interface AvatarContract {
+  frame: {
+    width: number;
+    height: number;
+    borderRadius: number;
+    backgroundColor: string;
+  };
+  text: {
+    fontSize: number;
+    fontWeight: string | number;
+    color: string;
+  };
   interaction?: InteractionContract;
 }
+
 
 interface AvatarProps {
   initials?: string;
@@ -24,8 +29,8 @@ interface AvatarProps {
 }
 
 export function Avatar({ initials = "?", variant, selected = false, loading = false, onPress, disabled }: AvatarProps) {
-  const { variants } = useUI();
-  const s = variants.avatar?.[variant];
+  const { contracts } = useUI();
+  const s = contracts.avatar?.[variant];
   if (!s) throw new Error(`Unknown avatar variant "${variant}"`);
 
   const letters = initials.slice(0, 2).toUpperCase();
@@ -48,10 +53,10 @@ export function Avatar({ initials = "?", variant, selected = false, loading = fa
     return (
       <View
         style={{
-          width: s.width,
-          height: s.height,
-          borderRadius: s.borderRadius,
-          backgroundColor: activeStyle?.backgroundColor ?? s.backgroundColor,
+          width: s.frame.width,
+          height: s.frame.height,
+          borderRadius: s.frame.borderRadius,
+          backgroundColor: activeStyle?.backgroundColor ?? s.frame.backgroundColor,
           borderWidth: (activeStyle as { borderWidth?: number } | undefined)?.borderWidth,
           borderColor: activeStyle?.borderColor,
           alignItems: "center",
@@ -60,7 +65,7 @@ export function Avatar({ initials = "?", variant, selected = false, loading = fa
           transform: scale !== undefined ? [{ scale }] : undefined,
         }}
       >
-        <Text style={{ color: activeStyle?.color ?? s.color, fontSize: s.fontSize, fontWeight: s.fontWeight as any }}>
+        <Text style={{ color: activeStyle?.color ?? s.text.color, fontSize: s.text.fontSize, fontWeight: s.text.fontWeight as any }}>
           {letters}
         </Text>
       </View>
