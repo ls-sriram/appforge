@@ -1,7 +1,7 @@
 import type { InteractionContract } from "../interaction";
 
 export interface ButtonContract {
-  container: {
+  frame: {
     backgroundColor: string;
     borderRadius: number;
     paddingVertical: number;

@@ -27,7 +27,7 @@ export interface TableContract {
     dividerWidth: number;
     stripedBackgroundColor: string;
   };
-  cellText: {
+  cell: {
     color: string;
     fontFamily: string;
     fontSize: number;
@@ -39,5 +39,10 @@ export interface TableContract {
     textFontFamily: string;
     textFontSize: number;
     textLineHeight: number;
+  };
+  interaction?: {
+    rowPressedOpacity?: number;
+    rowHoverBackgroundColor?: string;
+    disabledOpacity?: number;
   };
 }

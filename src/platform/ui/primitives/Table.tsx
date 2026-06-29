@@ -144,10 +144,10 @@ function renderCell<Row>(
     default:
       return (
         <Body
-          color={spec.color ?? tableVariant.cellText.color}
-          fontFamily={spec.fontFamily ?? tableVariant.cellText.fontFamily}
-          fontSize={spec.fontSize ?? tableVariant.cellText.fontSize}
-          lineHeight={spec.lineHeight ?? tableVariant.cellText.lineHeight}
+          color={spec.color ?? tableVariant.cell.color}
+          fontFamily={spec.fontFamily ?? tableVariant.cell.fontFamily}
+          fontSize={spec.fontSize ?? tableVariant.cell.fontSize}
+          lineHeight={spec.lineHeight ?? tableVariant.cell.lineHeight}
         >
           {spec.value}
         </Body>

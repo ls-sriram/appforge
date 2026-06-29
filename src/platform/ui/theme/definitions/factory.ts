@@ -271,7 +271,7 @@ export function createContracts(t: Theme): PrimitiveContracts {
   return {
     button: {
       primary: {
-        container: {
+        frame: {
           backgroundColor: p.primary,
           borderRadius: pill,
           paddingVertical: spacing.sm,
@@ -291,7 +291,7 @@ export function createContracts(t: Theme): PrimitiveContracts {
         },
       },
       secondary: {
-        container: {
+        frame: {
           backgroundColor: p.surfaceAlt,
           borderWidth: 1,
           borderColor: p.border,
@@ -313,7 +313,7 @@ export function createContracts(t: Theme): PrimitiveContracts {
         },
       },
       ghost: {
-        container: {
+        frame: {
           backgroundColor: "transparent",
           borderRadius: pill,
           paddingVertical: spacing.sm,
@@ -333,7 +333,7 @@ export function createContracts(t: Theme): PrimitiveContracts {
         },
       },
       danger: {
-        container: {
+        frame: {
           backgroundColor: errorMuted,
           borderWidth: 1,
           borderColor: p.error,
@@ -432,7 +432,7 @@ export function createContracts(t: Theme): PrimitiveContracts {
           dividerWidth: 1,
           stripedBackgroundColor: p.surfaceAlt,
         },
-        cellText: {
+        cell: {
           color: p.textPrimary,
           fontFamily: typography.family,
           fontSize: typography.size.sm,
@@ -444,6 +444,11 @@ export function createContracts(t: Theme): PrimitiveContracts {
           textFontFamily: typography.family,
           textFontSize: typography.size.md,
           textLineHeight: typography.size.md,
+        },
+        interaction: {
+          rowHoverBackgroundColor: p.surfaceAlt,
+          rowPressedOpacity: 0.85,
+          disabledOpacity: 0.5,
         },
       },
     } satisfies Record<string, TableContract>,

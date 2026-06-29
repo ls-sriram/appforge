@@ -71,7 +71,7 @@ describe("ThemeProvider", () => {
   });
 
   it("exposes a static realized uiRuntime", () => {
-    expect(uiRuntime.contracts.button?.primary.container.backgroundColor).toBe(uiRuntime.theme.palette.primary);
+    expect(uiRuntime.contracts.button?.primary.frame.backgroundColor).toBe(uiRuntime.theme.palette.primary);
     expect(uiRuntime.layouts.comfortable.iconSize).toBe(16);
     expect(uiRuntime.layouts.comfortable.fontSize).toBe(15);
     expect(uiRuntime.layouts.comfortable.labelSize).toBe(13);
@@ -102,7 +102,7 @@ describe("ThemeProvider", () => {
     const { result } = renderHook(() => useUI(), { wrapper });
 
     expect(result.current.theme.palette.primary).toBe("#654321");
-    expect(result.current.contracts.button!.primary.container.backgroundColor).toBe("#654321");
+    expect(result.current.contracts.button!.primary.frame.backgroundColor).toBe("#654321");
     expect(result.current).toBe(realizedUi);
   });
 });
