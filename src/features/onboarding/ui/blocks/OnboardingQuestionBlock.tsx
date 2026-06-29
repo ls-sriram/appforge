@@ -1,8 +1,8 @@
 import React from "react";
-import { OnboardingCard } from "./OnboardingCard";
-import { OnboardingScaffold } from "./OnboardingScaffold";
+import { OnboardingCardBlock } from "./OnboardingCardBlock";
+import { OnboardingScaffold } from "../scaffolds/OnboardingScaffold";
 
-export function OnboardingQuestionPanel({
+export function OnboardingQuestionBlock({
   hero,
   question,
   answerRegion,
@@ -12,13 +12,13 @@ export function OnboardingQuestionPanel({
   answerRegion?: React.ReactNode;
 }) {
   return (
-    <OnboardingCard size="tall">
+    <OnboardingCardBlock size="tall">
       <OnboardingScaffold
         stepper={null}
         hero={hero}
         question={question}
         answerRegion={answerRegion}
       />
-    </OnboardingCard>
+    </OnboardingCardBlock>
   );
 }

@@ -1,9 +1,10 @@
 export { useSettingsViewModel } from "./viewmodel/use-settings-viewmodel";
 export { useProfileEditViewModel } from "./viewmodel/use-profile-edit-viewmodel";
-export { AccountCard } from "./ui/AccountCard";
-export { PlanCard } from "./ui/PlanCard";
-export { ProfileCard } from "./ui/ProfileCard";
-export { UsageCard } from "./ui/UsageCard";
+export { AccountBlock } from "./ui/blocks/AccountBlock";
+export { PlanBlock } from "./ui/blocks/PlanBlock";
+export { ProfileBlock } from "./ui/blocks/ProfileBlock";
+export { UsageBlock } from "./ui/blocks/UsageBlock";
+export { createSettingsStyles } from "./ui/contracts/settingsStyles";
 export type { PlanModel, PlanName, PlanStatus, BackendPlanPayload } from "./domain/plan";
 export { parsePlanModel } from "./domain/plan";
 export type { UpgradeOfferModel } from "./domain/upgrade-offers";

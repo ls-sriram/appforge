@@ -7,36 +7,38 @@
  */
 
 import React from "react";
-import { Body, Heading, Icon, YStack, type IconName, useThemeTokens } from "../../../platform/ui/index";
+import { Body, Heading, Icon, YStack, type IconName } from "../../../../platform/ui/index";
+import type { FeatureHighlightStyle } from "../contracts/onboardingContracts";
 
-export interface FeatureCardProps {
+export interface FeatureHighlightBlockProps {
+  style: FeatureHighlightStyle;
   icon: IconName;
   title: string;
   description: string;
 }
 
-export function FeatureCard({
+export function FeatureHighlightBlock({
+  style,
   icon,
   title,
   description,
-}: FeatureCardProps) {
-  const theme = useThemeTokens();
+}: FeatureHighlightBlockProps) {
   return (
-    <YStack ai="center" gap="$4">
+    <YStack ai="center" gap={style.layout.rootGap}>
       <YStack
-        bg="$surfaceStrong"
-        borderColor="$borderSubtle"
-        borderWidth={1}
-        br="$3"
-        p="$4"
+        bg={style.frame.backgroundColor}
+        borderColor={style.frame.borderColor}
+        borderWidth={style.frame.borderWidth}
+        br={style.frame.borderRadius}
+        p={style.frame.padding}
         ai="center"
         jc="center"
       >
-        <Icon color={theme.palette.textPrimary} name={icon} size={48} />
+        <Icon color={style.icon.color} name={icon} size={style.icon.size} />
       </YStack>
-      <YStack ai="center" gap="$2">
+      <YStack ai="center" gap={style.layout.copyGap}>
         <Heading textAlign="center">{title}</Heading>
-        <Body textAlign="center" color="$textSecondary">
+        <Body textAlign="center" color={style.description.color}>
           {description}
         </Body>
       </YStack>

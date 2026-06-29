@@ -1,30 +1,35 @@
 import React from "react";
-import { Body, Button, CenteredPageScaffold, noopUi, type UiStamp, YStack } from "../../platform/ui/index";
-import { ViewProps } from "../../platform/core/types";
-import { AuthFieldBlock } from "./ui/blocks/AuthFieldBlock";
-import { AuthFormBlock } from "./ui/blocks/AuthFormBlock";
-import { AuthSubmitBlock } from "./ui/blocks/AuthSubmitBlock";
-import { ForgotPasswordAction, ForgotPasswordViewData } from "./ForgotPasswordController";
-import { app } from "../../config/app";
+import { Button, CenteredPageScaffold, noopUi, type UiStamp, useThemeTokens, YStack } from "../../../../platform/ui/index";
+import { ViewProps } from "../../../../platform/core/types";
+import { AuthFieldBlock } from "../blocks/AuthFieldBlock";
+import { AuthFormBlock } from "../blocks/AuthFormBlock";
+import { AuthSubmitBlock } from "../blocks/AuthSubmitBlock";
+import { createAuthStyles } from "../contracts/authStyles";
+import { ForgotPasswordAction, ForgotPasswordViewData } from "../../ForgotPasswordController";
+import { app } from "../../../../config/app";
 
 type Props = ViewProps<ForgotPasswordViewData, ForgotPasswordAction>;
 
-type ForgotPasswordSurfaceProps = Props & {
+type ForgotPasswordViewProps = Props & {
   ui?: UiStamp;
 };
 
-export function ForgotPasswordSurface({ ui = noopUi, data, dispatch }: ForgotPasswordSurfaceProps) {
+export function ForgotPasswordView({ ui = noopUi, data, dispatch }: ForgotPasswordViewProps) {
+  const theme = useThemeTokens();
+  const styles = createAuthStyles(theme);
   return (
     <CenteredPageScaffold
       content={(
         <YStack {...ui("root", "Forgot password screen")} gap="$3">
           <AuthFormBlock
             ui={ui.scope("form")}
+            style={styles.form}
             subtitle={app.copy.auth.forgotPasswordSubtitle}
           >
             <YStack {...ui("fields", "Forgot password fields")} gap="$4">
               <AuthFieldBlock
                 ui={ui.scope("email-field")}
+                style={styles.field}
                 icon="mail"
                 placeholder="Email"
                 value={data.email}
@@ -38,6 +43,7 @@ export function ForgotPasswordSurface({ ui = noopUi, data, dispatch }: ForgotPas
               />
               <AuthSubmitBlock
                 ui={ui.scope("submit")}
+                style={styles.submit}
                 label={app.copy.auth.forgotPasswordSubmitLabel}
                 loading={data.loading}
                 generalError={data.generalError}

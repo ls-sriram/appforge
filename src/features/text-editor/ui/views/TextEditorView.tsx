@@ -1,8 +1,8 @@
 import React from "react";
-import { Body, Button, Heading, Input, TextArea, XStack, YStack } from "../../../platform/ui/index";
-import type { TextDocumentModel } from "..";
+import { Body, Button, Heading, Input, TextArea, XStack, YStack } from "../../../../platform/ui/index";
+import type { TextDocumentModel } from "../../domain/model";
 
-interface TextEditorPanelProps {
+interface TextEditorViewProps {
   title: string;
   tag: string;
   version: string;
@@ -23,7 +23,7 @@ interface TextEditorPanelProps {
   onCreateNew: () => void;
 }
 
-export function TextEditorPanel(props: TextEditorPanelProps) {
+export function TextEditorView(props: TextEditorViewProps) {
   const statusText = props.error
     ? props.error
     : props.saveStatus === "success"

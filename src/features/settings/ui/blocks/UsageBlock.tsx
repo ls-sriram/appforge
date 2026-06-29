@@ -1,11 +1,13 @@
 /**
- * UsageCard — feature usage bars (reviews, entities, storage, etc.).
+ * UsageBlock — feature usage bars (reviews, entities, storage, etc.).
  */
 import React from "react";
-import { Body, XStack, YStack } from "../../../platform/ui/index";
-import type { Usage } from "../services/user-profile.service";
+import { Body, XStack, YStack } from "../../../../platform/ui/index";
+import type { Usage } from "../../services/user-profile.service";
+import type { UsageBlockStyle } from "../contracts/settingsContracts";
 
-export interface UsageCardProps {
+export interface UsageBlockProps {
+  style: UsageBlockStyle;
   usage?: Usage;
 }
 
@@ -31,11 +33,17 @@ const ENTRIES: UsageEntryDef[] = [
   { key: "storageBytes", label: "Storage", formatUsed: formatBytes, formatLimit: formatBytes },
 ];
 
-export function UsageCard({ usage }: UsageCardProps) {
+export function UsageBlock({ style, usage }: UsageBlockProps) {
   return (
-    <YStack bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$3" p="$4">
+    <YStack
+      bg={style.shell.container.backgroundColor}
+      borderColor={style.shell.container.borderColor}
+      borderWidth={style.shell.container.borderWidth}
+      br={style.shell.container.borderRadius}
+      p={style.shell.container.padding}
+    >
       <YStack gap="$3">
-        <Body fontSize="$1" color="$textMuted">
+        <Body fontSize={style.shell.sectionTitle.fontSize} color={style.shell.sectionTitle.color}>
           Usage
         </Body>
 
@@ -44,24 +52,31 @@ export function UsageCard({ usage }: UsageCardProps) {
             const metric = usage?.[def.key] ?? { used: 0, limit: 0, unlocked: false };
             const pct = metric.unlocked ? 0 : metric.limit > 0 ? (metric.used / metric.limit) * 100 : 0;
             const displayPct = Math.min(pct, 100);
-            const barColor = pct >= 90 ? "$error" : pct >= 70 ? "$warning" : "$primary";
+            const barColor = pct >= 90 ? style.bar.errorColor : pct >= 70 ? style.bar.warningColor : style.bar.primaryColor;
 
             return (
               <YStack key={def.key} flexBasis="48%" f={1} minWidth={0}>
-                <YStack bg="$surface" borderWidth={1} borderColor="$border" br="$2" overflow="hidden" p="$2">
+                <YStack
+                  bg={style.shell.card.backgroundColor}
+                  borderWidth={style.shell.card.borderWidth}
+                  borderColor={style.shell.card.borderColor}
+                  br={style.shell.card.borderRadius}
+                  overflow="hidden"
+                  p={style.shell.card.padding}
+                >
                     <YStack gap="$2">
                       <XStack ai="center" jc="space-between" gap="$2">
-                        <Body fontSize="$1" color="$textMuted" numberOfLines={1}>
+                        <Body fontSize={style.shell.sectionTitle.fontSize} color={style.shell.sectionTitle.color} numberOfLines={1}>
                           {def.label}
                         </Body>
-                        <Body fontSize="$2" color="$primary" numberOfLines={1}>
+                        <Body fontSize={style.metricValue.fontSize} color={style.metricValue.color} numberOfLines={1}>
                           {metric.unlocked
                             ? "Unlimited"
                             : `${def.formatUsed(metric.used)} / ${def.formatLimit(metric.limit)}`}
                         </Body>
                       </XStack>
                       {!metric.unlocked ? (
-                        <YStack h={4} br={9999} bg="$surfaceAlt" overflow="hidden">
+                        <YStack h={style.bar.trackHeight} br={style.bar.radius} bg={style.bar.trackColor} overflow="hidden">
                           <YStack h="100%" w={`${displayPct}%`} bg={barColor} />
                         </YStack>
                       ) : null}

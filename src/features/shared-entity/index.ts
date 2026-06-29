@@ -1,1 +1,1 @@
-export { SharedEntityScreen } from "./ui/SharedEntityScreen";
+export { SharedEntityView } from "./ui/views/SharedEntityView";

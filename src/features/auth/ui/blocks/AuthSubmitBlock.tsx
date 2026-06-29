@@ -1,8 +1,10 @@
 import React from "react";
 import { Body, Button, noopUi, type UiStamp, YStack } from "../../../../platform/ui/index";
+import type { AuthSubmitStyle } from "../contracts/authContracts";
 
 interface AuthSubmitBlockProps {
   ui?: UiStamp;
+  style: AuthSubmitStyle;
   label: string;
   loading: boolean;
   disabled?: boolean;
@@ -19,12 +21,20 @@ export function AuthSubmitBlock({
   generalError,
   onPress,
   testID,
+  style,
 }: AuthSubmitBlockProps) {
   return (
-    <YStack {...ui("root", `${label} submit block`)} gap="$3">
+    <YStack {...ui("root", `${label} submit block`)} gap={style.layout.gap}>
       {generalError ? (
-        <YStack {...ui("error-box", `${label} error box`)} bg="$errorMuted" borderColor="$error" borderWidth={1} br="$2" p="$3">
-          <Body {...ui("error-text", `${label} error text`)} color="$error" fontSize="$2">{generalError}</Body>
+        <YStack
+          {...ui("error-box", `${label} error box`)}
+          bg={style.errorBox.backgroundColor}
+          borderColor={style.errorBox.borderColor}
+          borderWidth={style.errorBox.borderWidth}
+          br={style.errorBox.borderRadius}
+          p={style.errorBox.padding}
+        >
+          <Body {...ui("error-text", `${label} error text`)} color={style.errorText.color} fontSize={style.errorText.fontSize}>{generalError}</Body>
         </YStack>
       ) : null}
       <Button

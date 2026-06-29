@@ -54,7 +54,7 @@ Platform callers may rely on:
 - token access through `useTheme()` / `useThemeTokens()`
 - runtime access through `useUI()`
 - layout profile access through `useLayout()`
-- provider/bootstrap APIs such as `UIProvider`, `ThemeProvider`, `LayoutProvider`, `createAppUiRuntime()`, and override types
+- provider/bootstrap APIs such as `UIProvider`, `ThemeProvider`, `LayoutProvider`, `createTheme()`, `createContracts()`, `createLayouts()`, and `uiRuntime`
 
 Platform callers may not rely on:
 
@@ -136,11 +136,11 @@ const layout = useLayout("compact")
 <Table variant="default" layout="compact" />
 ```
 
-## Layer 3: Variants
+## Layer 3: Primitive Contracts
 
 Path: `src/platform/ui/contracts/variants.ts`
 
-Variants own component appearance.
+Primitive contracts own component appearance.
 
 Examples:
 
@@ -150,7 +150,7 @@ Examples:
 - `badge.success`
 - `tabs.default`
 
-Variants may define:
+Primitive contracts may define:
 
 - colors
 - borders
@@ -159,14 +159,14 @@ Variants may define:
 - typography values used by a primitive
 - interaction-state appearance
 
-Variants do not define:
+Primitive contracts do not define:
 
 - feature composition
 - row/column arrangement
 - business behavior
 - cross-feature semantics
 
-Variants are resolved values consumed by primitives. They are derived from tokens via `createVariants(theme)` and may then be extended or overridden by the application.
+Primitive contracts are resolved values consumed by primitives. They are derived from tokens via `createContracts(theme)` above the runtime boundary.
 
 ## Layer 4: UI Runtime
 
@@ -182,7 +182,7 @@ The assembled runtime is:
 ```ts
 UiRuntime {
   theme: Theme
-  variants: Variants
+  contracts: PrimitiveContracts
   layouts: Record<string, LayoutContract>
 }
 ```
@@ -192,20 +192,46 @@ This object exists to make the dependency graph available to React consumers thr
 Ownership remains:
 
 - `Theme` owns tokens
-- `Variants` owns appearance
+- `PrimitiveContracts` owns appearance
 - `LayoutContract` owns density/rhythm
-- `UiRuntime` is assembled by the platform from platform-defined schemas and application-provided values
+- `UiRuntime` is the realized handoff object consumed below the boundary
 
 More precisely:
 
-- AppForge owns the runtime assembly mechanism, contract schemas, providers, and hooks
-- applications own the concrete token values, named variants, named layout profiles, and feature composition that feed that runtime
+- AppForge owns the runtime schemas, providers, hooks, and primitive renderers
+- applications own the concrete token values, named primitive contracts, named layout profiles, and feature composition that feed that runtime
 
 Use the narrowest API that matches the need:
 
 - `useTheme()` when only tokens are needed
-- `useUI()` when a primitive or feature needs variants or named layouts
+- `useUI()` when a primitive needs platform contracts or named layouts
 - `useLayout()` when only the active or named layout profile is needed
+
+## Feature Boundary
+
+Feature UI has its own hard boundary above reusable blocks.
+
+- `View`
+  - may resolve theme, layout, and primitive contracts into explicit realized values
+  - may assemble feature-local shared styles in `ui/contracts/`
+- `Block`
+  - may not resolve theme, layout, or primitive contracts for visuals
+  - consumes realized values only
+- `Scaffold`
+  - may resolve layout contracts and structural chrome only
+  - must not become a visual semantic-resolution layer
+
+Recommended feature structure:
+
+```text
+ui/
+  views/
+  blocks/
+  scaffolds/
+  contracts/
+```
+
+Use `*View.tsx`, `*Block.tsx`, and `*Scaffold.tsx` as the naming contract. Avoid `Surface`, `Panel`, and `Card` as architectural layer names.
 
 ## Layer 5: Primitives
 

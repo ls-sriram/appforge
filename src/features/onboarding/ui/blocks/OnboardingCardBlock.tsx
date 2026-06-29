@@ -1,7 +1,7 @@
 import React from "react";
-import { YStack } from "../../../platform/ui/index";
+import { YStack } from "../../../../platform/ui/index";
 
-export function OnboardingCard({
+export function OnboardingCardBlock({
   children,
   size = "default",
 }: {

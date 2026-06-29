@@ -4,7 +4,7 @@ import { routes } from "../../platform/navigation/routes";
 import {
   LoginAction,
   LoginController,
-  LoginSurface,
+  LoginView,
   LoginViewData,
   FirebaseLoginModel,
 } from "./index";
@@ -38,5 +38,5 @@ export function LoginRouteScreen({ authenticatedHref }: Props) {
     return <Redirect href={authenticatedHref} />;
   }
 
-  return <LoginSurface data={data} dispatch={dispatch} />;
+  return <LoginView data={data} dispatch={dispatch} />;
 }

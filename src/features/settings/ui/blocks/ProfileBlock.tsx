@@ -1,17 +1,19 @@
 /**
- * ProfileCard — displays the user's identity.
+ * ProfileBlock — displays the user's identity.
  *
  * Supports two APIs:
- *  1. Individual props: <ProfileCard name="..." email="..." uid="..." />
- *  2. Identity object: <ProfileCard identity={{ uid, email, name }} />
+ *  1. Individual props: <ProfileBlock name="..." email="..." uid="..." />
+ *  2. Identity object: <ProfileBlock identity={{ uid, email, name }} />
  *
  * Optional onPress for tappable cards.
  */
 
 import React from "react";
-import { Body, Heading, Icon, XStack, YStack, useThemeTokens } from "../../../platform/ui/index";
+import { Body, Heading, Icon, XStack, YStack } from "../../../../platform/ui/index";
+import type { ProfileBlockStyle } from "../contracts/settingsContracts";
 
-export interface ProfileCardProps {
+export interface ProfileBlockProps {
+  style: ProfileBlockStyle;
   name?: string;
   email?: string;
   uid?: string;
@@ -24,15 +26,15 @@ export interface ProfileCardProps {
   size?: "sm" | "md" | "lg";
 }
 
-export function ProfileCard({
+export function ProfileBlock({
+  style,
   name: nameProp,
   email: emailProp,
   uid: uidProp,
   identity,
   onPress,
   size = "lg",
-}: ProfileCardProps) {
-  const theme = useThemeTokens();
+}: ProfileBlockProps) {
   const name = identity?.name ?? nameProp;
   const email = identity?.email ?? emailProp ?? "";
   const uid = identity?.uid ?? uidProp ?? "";
@@ -43,34 +45,41 @@ export function ProfileCard({
     .slice(0, 2)
     .toUpperCase();
   const content = (
-    <YStack bg="$surfaceStrong" borderColor="$borderSubtle" borderWidth={1} br="$4" overflow="hidden" p="$4">
+    <YStack
+      bg={style.shell.container.backgroundColor}
+      borderColor={style.shell.container.borderColor}
+      borderWidth={style.shell.container.borderWidth}
+      br={style.shell.container.borderRadius}
+      overflow="hidden"
+      p={style.shell.container.padding}
+    >
       <XStack ai="center" jc="space-between" gap="$4">
         <XStack ai="center" gap="$4" f={1} minWidth={0}>
           <YStack
-            w={size === "sm" ? 32 : size === "md" ? 40 : 56}
-            h={size === "sm" ? 32 : size === "md" ? 40 : 56}
+            w={size === "sm" ? style.avatar.sizeSm : size === "md" ? style.avatar.sizeMd : style.avatar.sizeLg}
+            h={size === "sm" ? style.avatar.sizeSm : size === "md" ? style.avatar.sizeMd : style.avatar.sizeLg}
             br={9999}
-            bg="$primaryMuted"
+            bg={style.avatar.backgroundColor}
             ai="center"
             jc="center"
           >
-            <Body color="$primary" fontFamily="$bold">{initials}</Body>
+            <Body color={style.avatar.textColor} fontWeight={style.avatar.textFontWeight}>{initials}</Body>
           </YStack>
           <YStack gap={2} f={1} minWidth={0}>
             <Heading fontSize="$4" numberOfLines={1}>
               {name || "Anonymous"}
             </Heading>
-            <Body fontSize="$2" color="$textSecondary" numberOfLines={1}>
+            <Body fontSize={style.email.fontSize} color={style.email.color} numberOfLines={1}>
               {email || "No email available"}
             </Body>
             {uid ? (
-              <Body fontSize="$1" color="$textMuted" numberOfLines={1}>
+              <Body fontSize={style.uid.fontSize} color={style.uid.color} numberOfLines={1}>
                 ID: {uid.slice(0, 12)}…
               </Body>
             ) : null}
           </YStack>
         </XStack>
-        {onPress ? <Icon color={theme.palette.textMuted} name="chevron-right" size={20} /> : null}
+        {onPress ? <Icon color={style.chevron.color} name="chevron-right" size={style.chevron.size} /> : null}
       </XStack>
     </YStack>
   );

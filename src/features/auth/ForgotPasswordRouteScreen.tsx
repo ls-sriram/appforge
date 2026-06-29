@@ -3,7 +3,7 @@ import { dialog } from "../../platform/ui/index";
 import { useRouter, type Href } from "expo-router";
 import { app } from "../../config/app";
 import { ForgotPasswordAction, ForgotPasswordController, ForgotPasswordViewData } from "./ForgotPasswordController";
-import { ForgotPasswordSurface } from "./ForgotPasswordSurface";
+import { ForgotPasswordView } from "./ui/views/ForgotPasswordView";
 
 type Props = {
   loginHref: Href;
@@ -35,5 +35,5 @@ export function ForgotPasswordRouteScreen({ loginHref }: Props) {
     [controller, loginHref, router],
   );
 
-  return <ForgotPasswordSurface data={data} dispatch={dispatch} />;
+  return <ForgotPasswordView data={data} dispatch={dispatch} />;
 }

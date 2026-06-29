@@ -1,14 +1,14 @@
 import React from "react";
-import { Body, Heading, YStack } from "../../../platform/ui/index";
-import { dateOwner } from "../../../platform/core/dates";
-import { SharedEntityRenderer } from "../renderers/SharedEntityRenderer";
-import { useSharedEntityViewModel } from "../viewmodel/use-shared-entity-viewmodel";
+import { Body, Heading, YStack } from "../../../../platform/ui/index";
+import { dateOwner } from "../../../../platform/core/dates";
+import { SharedEntityRenderer } from "../../renderers/SharedEntityRenderer";
+import { useSharedEntityViewModel } from "../../viewmodel/use-shared-entity-viewmodel";
 
 interface Props {
   token?: string;
 }
 
-export function SharedEntityScreen({ token }: Props) {
+export function SharedEntityView({ token }: Props) {
   const vm = useSharedEntityViewModel(token);
 
   if (vm.state.loading) {

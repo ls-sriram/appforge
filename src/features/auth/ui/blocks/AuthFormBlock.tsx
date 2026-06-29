@@ -1,6 +1,7 @@
 import React from "react";
-import { Body, Heading, Icon, Label, noopUi, type UiStamp, XStack, YStack, useThemeTokens } from "../../../../platform/ui/index";
+import { Body, Heading, Icon, Label, noopUi, type UiStamp, XStack, YStack } from "../../../../platform/ui/index";
 import { app } from "../../../../config/app";
+import type { AuthFormStyle } from "../contracts/authContracts";
 
 type AuthFormFooter = {
   prompt: string;
@@ -10,6 +11,7 @@ type AuthFormFooter = {
 
 export interface AuthFormBlockProps {
   ui?: UiStamp;
+  style: AuthFormStyle;
   subtitle: string;
   children: React.ReactNode;
   showTerms?: boolean;
@@ -22,32 +24,39 @@ export function AuthFormBlock({
   children,
   showTerms = false,
   footer,
+  style,
 }: AuthFormBlockProps) {
-  const theme = useThemeTokens();
   return (
-    <YStack {...ui("card", "Auth form card")} bg="$surface" borderWidth={1} borderColor="$borderSubtle" br="$4" p="$5">
-      <YStack {...ui("content", "Auth form content")} gap="$4">
-        <YStack {...ui("brand", "Auth form brand")} gap="$3" ai="center">
-          <XStack {...ui("brand-row", "Auth form brand row")} ai="center" gap="$3">
-            <Icon {...ui("brand-icon", "Auth form brand icon")} color={theme.palette.textPrimary} name="zap" size={16} />
-            <Heading {...ui("brand-title", "Auth form brand title")} fontFamily="$bold">{app.name}</Heading>
+    <YStack
+      {...ui("card", "Auth form card")}
+      bg={style.card.backgroundColor}
+      borderWidth={style.card.borderWidth}
+      borderColor={style.card.borderColor}
+      br={style.card.borderRadius}
+      p={style.card.padding}
+    >
+      <YStack {...ui("content", "Auth form content")} gap={style.layout.contentGap}>
+        <YStack {...ui("brand", "Auth form brand")} gap={style.layout.brandGap} ai="center">
+          <XStack {...ui("brand-row", "Auth form brand row")} ai="center" gap={style.layout.brandRowGap}>
+            <Icon {...ui("brand-icon", "Auth form brand icon")} color={style.brandIcon.color} name="zap" size={style.brandIcon.size} />
+            <Heading {...ui("brand-title", "Auth form brand title")} fontWeight={style.brandTitle.fontWeight}>{app.name}</Heading>
           </XStack>
-          <Body {...ui("subtitle", "Auth form subtitle")} color="$textMuted" textAlign="center">{subtitle}</Body>
+          <Body {...ui("subtitle", "Auth form subtitle")} color={style.subtitle.color} textAlign="center">{subtitle}</Body>
         </YStack>
 
         {children}
 
         {showTerms ? (
-          <Label {...ui("terms", "Auth form terms")} color="$textMuted" textAlign="center">
+          <Label {...ui("terms", "Auth form terms")} color={style.terms.color} textAlign="center">
             By continuing, you agree to our Terms of Use and Privacy Policy.
           </Label>
         ) : null}
 
         {footer ? (
-          <XStack {...ui("footer", "Auth form footer")} ai="center" gap="$2" jc="center">
-            <Body {...ui("footer-prompt", "Auth form footer prompt")} fontSize="$2" color="$textMuted">{footer.prompt}</Body>
+          <XStack {...ui("footer", "Auth form footer")} ai="center" gap={style.layout.footerGap} jc="center">
+            <Body {...ui("footer-prompt", "Auth form footer prompt")} fontSize={style.footerPrompt.fontSize} color={style.footerPrompt.color}>{footer.prompt}</Body>
             <YStack {...ui("footer-link-wrap", "Auth form footer link wrapper")} onPress={footer.onPress} pressStyle={{ opacity: 0.7 }}>
-              <Label {...ui("footer-link", "Auth form footer link")} color="$primary" fontFamily="$bold">{footer.linkLabel}</Label>
+              <Label {...ui("footer-link", "Auth form footer link")} color={style.footerLink.color} fontWeight={style.footerLink.fontWeight}>{footer.linkLabel}</Label>
             </YStack>
           </XStack>
         ) : null}

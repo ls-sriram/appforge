@@ -3,9 +3,11 @@ import type { TextInput } from "react-native";
 import { Label, noopUi, type UiStamp, YStack } from "../../../../platform/ui/index";
 import { AuthDarkField, type InputHandle } from "./AuthDarkField";
 import type { IconName } from "../../../../platform/ui/index";
+import type { AuthFieldStyle } from "../contracts/authContracts";
 
 interface AuthFieldBlockProps {
   ui?: UiStamp;
+  style: AuthFieldStyle;
   icon: IconName;
   placeholder: string;
   value: string;
@@ -38,11 +40,13 @@ export function AuthFieldBlock({
   blurOnSubmit,
   inputRef,
   testID,
+  style,
 }: AuthFieldBlockProps) {
   return (
-    <YStack {...ui("root", `${placeholder} field block`)} gap="$2">
+    <YStack {...ui("root", `${placeholder} field block`)} gap={style.layout.gap}>
       <AuthDarkField
         ui={ui.scope("field")}
+        style={style}
         icon={icon}
         placeholder={placeholder}
         value={value}
@@ -58,7 +62,7 @@ export function AuthFieldBlock({
         inputRef={inputRef}
         testID={testID}
       />
-      {error ? <Label {...ui("error", `${placeholder} field error`)} color="$error" fontSize="$2">{error}</Label> : null}
+      {error ? <Label {...ui("error", `${placeholder} field error`)} color={style.error.textColor} fontSize={style.error.fontSize}>{error}</Label> : null}
     </YStack>
   );
 }

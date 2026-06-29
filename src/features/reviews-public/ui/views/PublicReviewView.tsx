@@ -1,6 +1,6 @@
 import React from "react";
-import { Body, Button, Heading, Input, XStack, YStack } from "../../../platform/ui/index";
-import { api } from "../../../platform/api/client";
+import { Body, Button, Heading, Input, XStack, YStack } from "../../../../platform/ui/index";
+import { api } from "../../../../platform/api/client";
 
 interface Props {
   token?: string;
@@ -31,7 +31,7 @@ interface ReviewTemplateResponse {
   reviewForm: ReviewTemplate;
 }
 
-export function PublicReviewScreen({ token }: Props) {
+export function PublicReviewView({ token }: Props) {
   const [loading, setLoading] = React.useState(true);
   const [saving, setSaving] = React.useState(false);
   const [error, setError] = React.useState<string>();

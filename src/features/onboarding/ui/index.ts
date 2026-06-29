@@ -1,8 +1,13 @@
-export { OnboardingActionDock } from "./OnboardingActionDock";
-export { OnboardingCard } from "./OnboardingCard";
+export { OnboardingActionDockBlock } from "./blocks/OnboardingActionDockBlock";
+export { OnboardingCardBlock } from "./blocks/OnboardingCardBlock";
 export { OnboardingCarousel } from "./OnboardingCarousel";
 export type { OnboardingStep } from "./OnboardingCarousel";
 export { OnboardingFrame } from "./OnboardingFrame";
-export { OnboardingProgress } from "./OnboardingProgress";
-export { OnboardingQuestionPanel } from "./OnboardingQuestionPanel";
-export { OnboardingScaffold } from "./OnboardingScaffold";
+export { OnboardingProgressBlock } from "./blocks/OnboardingProgressBlock";
+export { OnboardingQuestionBlock } from "./blocks/OnboardingQuestionBlock";
+export { OnboardingScaffold } from "./scaffolds/OnboardingScaffold";
+export { OnboardingHeroBlock } from "./blocks/OnboardingHeroBlock";
+export { OnboardingPromptBlock } from "./blocks/OnboardingPromptBlock";
+export { OnboardingStepperBlock } from "./blocks/OnboardingStepperBlock";
+export { FeatureHighlightBlock } from "./blocks/FeatureHighlightBlock";
+export { createOnboardingStyles } from "./contracts/onboardingStyles";

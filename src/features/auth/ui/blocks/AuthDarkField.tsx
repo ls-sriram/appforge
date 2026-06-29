@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
 import type { TextInput } from "react-native";
-import { Icon, Input, noopUi, type UiStamp, useThemeTokens, XStack, YStack } from "../../../../platform/ui/index";
+import { Icon, Input, noopUi, type UiStamp, XStack, YStack } from "../../../../platform/ui/index";
 import type { IconName } from "../../../../platform/ui/index";
+import type { AuthFieldStyle } from "../contracts/authContracts";
 
 export interface InputHandle {
   current?: TextInput;
@@ -9,6 +10,7 @@ export interface InputHandle {
 
 interface AuthDarkFieldProps {
   ui?: UiStamp;
+  style: AuthFieldStyle;
   icon: IconName;
   placeholder: string;
   value: string;
@@ -41,8 +43,8 @@ export function AuthDarkField({
   inputRef,
   testID,
   hasError = false,
+  style,
 }: AuthDarkFieldProps) {
-  const theme = useThemeTokens();
   const [showPassword, setShowPassword] = useState(false);
   const localInputRef = useRef<TextInput | undefined>(undefined);
   const effectiveInputRef = inputRef ?? localInputRef;
@@ -56,14 +58,14 @@ export function AuthDarkField({
     >
       <YStack
         {...ui("frame", `${placeholder} frame`)}
-        bg={hasError ? "$errorMuted" : "$surfaceStrong"}
-        borderColor={hasError ? "$error" : "$border"}
-        borderWidth={1}
-        br="$3"
+        bg={hasError ? style.states.error.frameBackgroundColor : style.frame.backgroundColor}
+        borderColor={hasError ? style.states.error.frameBorderColor : style.frame.borderColor}
+        borderWidth={style.frame.borderWidth}
+        br={style.frame.borderRadius}
       >
-        <YStack {...ui("padding", `${placeholder} padding`)} px="$5" py="$3">
-          <XStack {...ui("row", `${placeholder} row`)} ai="center" gap="$3">
-            <Icon {...ui("icon", `${placeholder} icon`)} color={theme.palette.textSecondary} name={icon} size={18} />
+        <YStack {...ui("padding", `${placeholder} padding`)} px={style.padding.horizontal} py={style.padding.vertical}>
+          <XStack {...ui("row", `${placeholder} row`)} ai="center" gap={style.padding.gap}>
+            <Icon {...ui("icon", `${placeholder} icon`)} color={style.icon.color} name={icon} size={style.icon.size} />
             <YStack {...ui("input-wrap", `${placeholder} input wrapper`)} f={1}>
               <Input
                 {...ui("input", `${placeholder} input`)}
@@ -71,7 +73,7 @@ export function AuthDarkField({
                   effectiveInputRef.current = instance ?? undefined;
                 }}
                 placeholder={placeholder}
-                placeholderTextColor={theme.palette.textMuted}
+                placeholderTextColor={style.input.placeholderColor}
                 value={value}
                 onChangeText={onChangeText}
                 editable
@@ -91,7 +93,7 @@ export function AuthDarkField({
                 onPress={() => setShowPassword((x) => !x)}
                 pressStyle={{ opacity: 0.7 }}
               >
-                <Icon {...ui("toggle-icon", `${placeholder} visibility toggle icon`)} color={theme.palette.textSecondary} name="eye" size={18} />
+                <Icon {...ui("toggle-icon", `${placeholder} visibility toggle icon`)} color={style.icon.color} name="eye" size={style.icon.size} />
               </YStack>
             ) : null}
           </XStack>

@@ -8,9 +8,10 @@
 
 import React, { useState, useRef, useCallback } from "react";
 import { Button, ScrollView, YStack } from "../../../platform/ui/index";
-import { FeatureCard } from "./FeatureCard";
+import { FeatureHighlightBlock } from "./blocks/FeatureHighlightBlock";
 import type { IconName } from "../../../platform/ui/index";
 import { useViewport } from "../../../platform/ui/index";
+import type { FeatureHighlightStyle } from "./contracts/onboardingContracts";
 
 export interface OnboardingStep {
   icon: IconName;
@@ -20,6 +21,7 @@ export interface OnboardingStep {
 }
 
 export interface OnboardingCarouselProps {
+  featureStyle: FeatureHighlightStyle;
   steps: OnboardingStep[];
   onComplete: () => void;
   ctaLabel?: string;
@@ -27,6 +29,7 @@ export interface OnboardingCarouselProps {
 }
 
 export function OnboardingCarousel({
+  featureStyle,
   steps,
   onComplete,
   ctaLabel = "Get Started",
@@ -68,7 +71,8 @@ export function OnboardingCarousel({
       >
         {steps.map((step, i) => (
           <YStack key={i}>
-            <FeatureCard
+            <FeatureHighlightBlock
+              style={featureStyle}
               icon={step.icon}
               title={step.title}
               description={step.description}

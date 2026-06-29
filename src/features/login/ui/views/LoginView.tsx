@@ -1,20 +1,23 @@
 import React from "react";
 import type { TextInput } from "react-native";
-import { ViewProps } from "../../../platform/core/types";
-import { Button, CenteredPageScaffold, noopUi, type UiStamp, YStack } from "../../../platform/ui/index";
-import { AuthFieldBlock } from "../../auth/ui/blocks/AuthFieldBlock";
-import { AuthFormBlock } from "../../auth/ui/blocks/AuthFormBlock";
-import { AuthSubmitBlock } from "../../auth/ui/blocks/AuthSubmitBlock";
-import { LoginAction, LoginViewData } from "../LoginController";
-import { app } from "../../../config/app";
+import { ViewProps } from "../../../../platform/core/types";
+import { Button, CenteredPageScaffold, noopUi, type UiStamp, useThemeTokens, YStack } from "../../../../platform/ui/index";
+import { AuthFieldBlock } from "../../../auth/ui/blocks/AuthFieldBlock";
+import { AuthFormBlock } from "../../../auth/ui/blocks/AuthFormBlock";
+import { AuthSubmitBlock } from "../../../auth/ui/blocks/AuthSubmitBlock";
+import { createAuthStyles } from "../../../auth/ui/contracts/authStyles";
+import { LoginAction, LoginViewData } from "../../LoginController";
+import { app } from "../../../../config/app";
 
 type Props = ViewProps<LoginViewData, LoginAction>;
 
-type LoginSurfaceProps = Props & {
+type LoginViewProps = Props & {
   ui?: UiStamp;
 };
 
-export function LoginSurface({ ui = noopUi, data, dispatch }: LoginSurfaceProps) {
+export function LoginView({ ui = noopUi, data, dispatch }: LoginViewProps) {
+  const theme = useThemeTokens();
+  const styles = createAuthStyles(theme);
   const passwordRef = React.useRef<TextInput | undefined>(undefined);
 
   return (
@@ -22,6 +25,7 @@ export function LoginSurface({ ui = noopUi, data, dispatch }: LoginSurfaceProps)
       content={(
         <AuthFormBlock
           ui={ui.scope("form")}
+          style={styles.form}
           subtitle={app.copy.auth.loginSubtitle}
           showTerms
           footer={{
@@ -33,6 +37,7 @@ export function LoginSurface({ ui = noopUi, data, dispatch }: LoginSurfaceProps)
           <YStack {...ui("fields", "Login fields")} gap="$4">
             <AuthFieldBlock
               ui={ui.scope("email-field")}
+              style={styles.field}
               icon="mail"
               placeholder="Email"
               value={data.email}
@@ -47,6 +52,7 @@ export function LoginSurface({ ui = noopUi, data, dispatch }: LoginSurfaceProps)
             />
             <AuthFieldBlock
               ui={ui.scope("password-field")}
+              style={styles.field}
               inputRef={passwordRef}
               icon="key"
               placeholder="Password"
@@ -67,6 +73,7 @@ export function LoginSurface({ ui = noopUi, data, dispatch }: LoginSurfaceProps)
             </Button>
             <AuthSubmitBlock
               ui={ui.scope("submit")}
+              style={styles.submit}
               label="Login →"
               loading={data.loading}
               generalError={data.generalError}

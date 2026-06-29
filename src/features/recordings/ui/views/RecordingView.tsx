@@ -1,9 +1,10 @@
 import React from "react";
-import { runtime } from "../../../platform/core/runtime";
-import { Body, Button, Heading, Icon, XStack, YStack } from "../../../platform/ui/index";
-import type { RecordingModel, RecordingShareModel, RecordingUiStatus } from "..";
+import { runtime } from "../../../../platform/core/runtime";
+import { Body, Button, Heading, Icon, XStack, YStack } from "../../../../platform/ui/index";
+import type { RecordingModel, RecordingUiStatus } from "../../domain/model";
+import type { RecordingShareModel as RecordingShare } from "../../domain/share-model";
 
-interface RecordingPanelProps {
+interface RecordingViewProps {
   status: RecordingUiStatus;
   error?: string;
   loading: boolean;
@@ -12,7 +13,7 @@ interface RecordingPanelProps {
   secondsElapsed: number;
   maxSeconds: number;
   playbackUrlById: Record<string, string>;
-  sharesByRecordingId: Record<string, RecordingShareModel[]>;
+  sharesByRecordingId: Record<string, RecordingShare[]>;
   shareLoadingByRecordingId: Record<string, boolean>;
   onStart: () => void;
   onStop: () => void;
@@ -23,7 +24,7 @@ interface RecordingPanelProps {
   onLoadShares: (id: string) => void;
 }
 
-export function RecordingPanel({
+export function RecordingView({
   status,
   error,
   loading,
@@ -41,7 +42,7 @@ export function RecordingPanel({
   onCreateShare,
   onRevokeShare,
   onLoadShares,
-}: RecordingPanelProps) {
+}: RecordingViewProps) {
   const dateTimeFormatter = React.useMemo(
     () =>
       new Intl.DateTimeFormat(undefined, {

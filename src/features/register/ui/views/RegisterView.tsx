@@ -1,19 +1,22 @@
 import React from "react";
-import { ViewProps } from "../../../platform/core/types";
-import { CenteredPageScaffold, noopUi, type UiStamp, YStack } from "../../../platform/ui/index";
-import { AuthFieldBlock } from "../../auth/ui/blocks/AuthFieldBlock";
-import { AuthFormBlock } from "../../auth/ui/blocks/AuthFormBlock";
-import { AuthSubmitBlock } from "../../auth/ui/blocks/AuthSubmitBlock";
-import { RegisterAction, RegisterViewData } from "../RegisterController";
-import { app } from "../../../config/app";
+import { ViewProps } from "../../../../platform/core/types";
+import { CenteredPageScaffold, noopUi, type UiStamp, useThemeTokens, YStack } from "../../../../platform/ui/index";
+import { AuthFieldBlock } from "../../../auth/ui/blocks/AuthFieldBlock";
+import { AuthFormBlock } from "../../../auth/ui/blocks/AuthFormBlock";
+import { AuthSubmitBlock } from "../../../auth/ui/blocks/AuthSubmitBlock";
+import { createAuthStyles } from "../../../auth/ui/contracts/authStyles";
+import { RegisterAction, RegisterViewData } from "../../RegisterController";
+import { app } from "../../../../config/app";
 
 type Props = ViewProps<RegisterViewData, RegisterAction>;
-type RegisterSurfaceProps = Props & {
+type RegisterViewProps = Props & {
   submitDisabled?: boolean;
   ui?: UiStamp;
 };
 
-export function RegisterSurface({ ui = noopUi, data, dispatch, submitDisabled }: RegisterSurfaceProps) {
+export function RegisterView({ ui = noopUi, data, dispatch, submitDisabled }: RegisterViewProps) {
+  const theme = useThemeTokens();
+  const styles = createAuthStyles(theme);
   const canSubmit =
     data.fullName.trim().length >= 2 &&
     data.email.trim().length > 0 &&
@@ -24,6 +27,7 @@ export function RegisterSurface({ ui = noopUi, data, dispatch, submitDisabled }:
       content={(
         <AuthFormBlock
           ui={ui.scope("form")}
+          style={styles.form}
           subtitle={app.copy.auth.registerSubtitle}
           showTerms
           footer={{
@@ -35,6 +39,7 @@ export function RegisterSurface({ ui = noopUi, data, dispatch, submitDisabled }:
           <YStack {...ui("fields", "Register fields")} gap="$4">
             <AuthFieldBlock
               ui={ui.scope("name-field")}
+              style={styles.field}
               icon="user"
               placeholder="Full Name"
               value={data.fullName}
@@ -46,6 +51,7 @@ export function RegisterSurface({ ui = noopUi, data, dispatch, submitDisabled }:
             />
             <AuthFieldBlock
               ui={ui.scope("email-field")}
+              style={styles.field}
               icon="mail"
               placeholder="Email"
               value={data.email}
@@ -58,6 +64,7 @@ export function RegisterSurface({ ui = noopUi, data, dispatch, submitDisabled }:
             />
             <AuthFieldBlock
               ui={ui.scope("password-field")}
+              style={styles.field}
               icon="key"
               placeholder="Password"
               value={data.password}
@@ -69,6 +76,7 @@ export function RegisterSurface({ ui = noopUi, data, dispatch, submitDisabled }:
             />
             <AuthSubmitBlock
               ui={ui.scope("submit")}
+              style={styles.submit}
               label="Create an account →"
               loading={data.loading}
               disabled={data.loading || !canSubmit || submitDisabled === true}

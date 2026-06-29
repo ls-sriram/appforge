@@ -191,7 +191,7 @@ export const app: AppConfig = {
 /**
  * Feature flag hook — use in components to conditionally render.
  *
- *   if (useFeature('billing')) { <PlanCard /> }
+ *   if (useFeature('billing')) { <PlanBlock /> }
  */
 export function useFeature(flag: keyof FeatureFlags): boolean {
   return app.features[flag];

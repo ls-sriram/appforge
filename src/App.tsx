@@ -33,11 +33,11 @@ export default function App() {
   );
 
   // Lazy import the view surface to keep feature boundaries
-  const { LoginSurface } = require("./features/login/ui/LoginSurface");
+  const { LoginView } = require("./features/login/ui/views/LoginView");
 
   return (
     <SafeAreaView>
-      <LoginSurface data={data} dispatch={dispatch} />
+      <LoginView data={data} dispatch={dispatch} />
     </SafeAreaView>
   );
 }
