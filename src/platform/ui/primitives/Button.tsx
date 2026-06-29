@@ -1,6 +1,5 @@
 import React from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
-import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface ButtonContract {
@@ -24,7 +23,7 @@ export interface ButtonContract {
 
 
 export type ButtonProps = {
-  variant: string;
+  contract: ButtonContract;
   selected?: boolean;
   disabled?: boolean;
   loading?: boolean;
@@ -32,10 +31,8 @@ export type ButtonProps = {
   children?: React.ReactNode;
 };
 
-export function Button({ variant, selected = false, loading = false, disabled, onPress, children }: ButtonProps) {
-  const { contracts } = useUI();
-  const s = contracts.button?.[variant];
-  if (!s) throw new Error(`Unknown button variant "${variant}"`);
+export function Button({ contract, selected = false, loading = false, disabled, onPress, children }: ButtonProps) {
+  const s = contract;
 
   return (
     <Pressable onPress={onPress} disabled={disabled || loading}>

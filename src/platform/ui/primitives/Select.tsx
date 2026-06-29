@@ -1,6 +1,5 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 import { Icon } from "./Icon";
 
@@ -64,7 +63,7 @@ export interface SelectOption {
 }
 
 export interface SelectProps {
-  variant: string;
+  contract: SelectContract;
   options: SelectOption[];
   value?: string | null;
   onValueChange: (value: string) => void;
@@ -76,7 +75,7 @@ export interface SelectProps {
 }
 
 export function Select({
-  variant,
+  contract,
   options,
   value,
   onValueChange,
@@ -86,9 +85,7 @@ export function Select({
   disabled = false,
   testID,
 }: SelectProps) {
-  const { contracts } = useUI();
-  const s = contracts.select?.[variant];
-  if (!s) throw new Error(`Unknown select variant "${variant}"`);
+  const s = contract;
 
   const [open, setOpen] = React.useState(false);
   const selected = options.find((o) => o.value === value);

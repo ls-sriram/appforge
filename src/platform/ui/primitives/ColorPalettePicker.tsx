@@ -1,10 +1,10 @@
 import { styled, View } from "@tamagui/core";
 import React from "react";
 import { Pressable } from "react-native";
-import { useUI } from "../theme/ThemeProvider";
 import { Input } from "./Input";
 import { Icon } from "./Icon";
 import { Body, Label } from "./Text";
+import type { InputContract } from "./Input";
 
 export interface ColorPalettePickerContract {
   preview: {
@@ -60,10 +60,11 @@ const PaletteGrid = styled(View, {
 });
 
 export interface ColorPalettePickerProps {
+  contract: ColorPalettePickerContract;
+  inputContract: InputContract;
   value: string;
   onValueChange: (value: string) => void;
   palette?: string[];
-  variant?: string;
   label?: string;
   helperText?: string;
   disabled?: boolean;
@@ -86,19 +87,18 @@ function coercePreviewColor(value: string): string {
 }
 
 export function ColorPalettePicker({
+  contract,
+  inputContract,
   value,
   onValueChange,
   palette,
-  variant = "default",
   label,
   helperText,
   disabled = false,
   placeholder,
   testID,
 }: ColorPalettePickerProps) {
-  const { contracts } = useUI();
-  const s = contracts.colorPalettePicker?.[variant];
-  if (!s) throw new Error(`Unknown colorPalettePicker variant "${variant}"`);
+  const s = contract;
   const [draft, setDraft] = React.useState(normalizeHex(value));
 
   React.useEffect(() => {
@@ -153,6 +153,7 @@ export function ColorPalettePicker({
         />
         <View f={1} gap="$2">
           <Input
+            contract={inputContract}
             value={draft}
             onChangeText={handleHexChange}
             autoCapitalize="characters"

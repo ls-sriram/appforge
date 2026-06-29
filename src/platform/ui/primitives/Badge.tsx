@@ -1,6 +1,5 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface BadgeContract {
@@ -22,16 +21,14 @@ export interface BadgeContract {
 
 
 interface BadgeProps {
+  contract: BadgeContract;
   label: string;
-  variant: string;
   onPress?: () => void;
   disabled?: boolean;
 }
 
-export function Badge({ label, variant, onPress, disabled }: BadgeProps) {
-  const { contracts } = useUI();
-  const s = contracts.badge?.[variant];
-  if (!s) throw new Error(`Unknown badge variant "${variant}"`);
+export function Badge({ contract, label, onPress, disabled }: BadgeProps) {
+  const s = contract;
 
   const ix = s.interaction;
   const content = (pressed?: boolean, hovered?: boolean) => {

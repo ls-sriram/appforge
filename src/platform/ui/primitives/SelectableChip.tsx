@@ -1,6 +1,5 @@
 import React from "react";
 import { Pressable, Text } from "react-native";
-import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface SelectableChipContract {
@@ -28,8 +27,8 @@ export type SelectableChipShape = "pill" | "rounded";
 export type SelectableChipFrame = "content" | "fill";
 
 interface SelectableChipProps {
+  contract: SelectableChipContract;
   label: string;
-  variant: string;
   selected: boolean;
   onPress: () => void;
   shape?: SelectableChipShape;
@@ -38,17 +37,15 @@ interface SelectableChipProps {
 }
 
 export function SelectableChip({
+  contract,
   label,
-  variant,
   selected,
   onPress,
   shape = "pill",
   frame = "content",
   disabled = false,
 }: SelectableChipProps) {
-  const { contracts } = useUI();
-  const s = contracts.selectableChip?.[variant];
-  if (!s) throw new Error(`Unknown selectableChip variant "${variant}"`);
+  const s = contract;
 
   const ix = s.interaction;
   const borderRadius = shape === "pill" ? s.shape.pillBorderRadius : s.shape.roundedBorderRadius;

@@ -1,7 +1,6 @@
 import React from "react";
 import { Pressable, View } from "react-native";
 import { Icon, type IconName } from "./Icon";
-import { useUI } from "../theme/ThemeProvider";
 
 export interface SizingToolbarContract {
   container: {
@@ -31,9 +30,9 @@ export interface SizingToolbarContract {
 export type SizingToolbarValue = "sm" | "md" | "lg";
 
 export interface SizingToolbarProps {
+  contract: SizingToolbarContract;
   value: SizingToolbarValue;
   onChange: (value: SizingToolbarValue) => void;
-  variant?: string;
   disabled?: boolean;
   icons?: Partial<Record<SizingToolbarValue, IconName>>;
 }
@@ -53,15 +52,13 @@ const LABELS: Record<SizingToolbarValue, string> = {
 };
 
 export function SizingToolbar({
+  contract,
   value,
   onChange,
-  variant = "default",
   disabled = false,
   icons,
 }: SizingToolbarProps) {
-  const { contracts } = useUI();
-  const s = contracts.sizingToolbar?.[variant];
-  if (!s) throw new Error(`Unknown sizingToolbar variant "${variant}"`);
+  const s = contract;
 
   return (
     <View

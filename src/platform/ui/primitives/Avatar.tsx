@@ -1,6 +1,5 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface AvatarContract {
@@ -20,18 +19,16 @@ export interface AvatarContract {
 
 
 interface AvatarProps {
+  contract: AvatarContract;
   initials?: string;
-  variant: string;
   selected?: boolean;
   loading?: boolean;
   onPress?: () => void;
   disabled?: boolean;
 }
 
-export function Avatar({ initials = "?", variant, selected = false, loading = false, onPress, disabled }: AvatarProps) {
-  const { contracts } = useUI();
-  const s = contracts.avatar?.[variant];
-  if (!s) throw new Error(`Unknown avatar variant "${variant}"`);
+export function Avatar({ contract, initials = "?", selected = false, loading = false, onPress, disabled }: AvatarProps) {
+  const s = contract;
 
   const letters = initials.slice(0, 2).toUpperCase();
   const ix = s.interaction;

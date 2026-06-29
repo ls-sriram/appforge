@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { TextInput, View } from "react-native";
-import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface TextAreaContract {
@@ -22,15 +21,13 @@ export interface TextAreaContract {
 
 
 export type TextAreaProps = Omit<React.ComponentProps<typeof TextInput>, "style" | "multiline"> & {
-  variant: string;
+  contract: TextAreaContract;
   disabled?: boolean;
 };
 
 export const TextArea = React.forwardRef<TextInput, TextAreaProps>(
-  function TextArea({ variant, onFocus, onBlur, disabled, ...props }, ref) {
-    const { contracts } = useUI();
-    const s = contracts.textArea?.[variant];
-    if (!s) throw new Error(`Unknown textArea variant "${variant}"`);
+  function TextArea({ contract, onFocus, onBlur, disabled, ...props }, ref) {
+    const s = contract;
 
     const [focused, setFocused] = useState(false);
     const ix = s.interaction;

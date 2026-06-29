@@ -1,6 +1,5 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface TagContract {
@@ -20,17 +19,15 @@ export interface TagContract {
 
 
 export interface TagProps {
+  contract: TagContract;
   label: string;
-  variant: string;
   selected?: boolean;
   onPress?: () => void;
   disabled?: boolean;
 }
 
-export function Tag({ label, variant, selected = false, onPress, disabled }: TagProps) {
-  const { contracts } = useUI();
-  const s = contracts.tag?.[variant];
-  if (!s) throw new Error(`Unknown tag variant "${variant}"`);
+export function Tag({ contract, label, selected = false, onPress, disabled }: TagProps) {
+  const s = contract;
 
   const ix = s.interaction;
   const content = (pressed?: boolean, hovered?: boolean) => {

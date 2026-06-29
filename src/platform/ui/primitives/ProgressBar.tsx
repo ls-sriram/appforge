@@ -1,6 +1,5 @@
 import React from "react";
 import { View } from "react-native";
-import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 
 export interface ProgressBarContract {
@@ -17,15 +16,13 @@ export interface ProgressBarContract {
 
 
 interface ProgressBarProps {
+  contract: ProgressBarContract;
   value: number;
   total?: number;
-  variant: string;
 }
 
-export function ProgressBar({ value, total = 100, variant }: ProgressBarProps) {
-  const { contracts } = useUI();
-  const s = contracts.progressBar?.[variant];
-  if (!s) throw new Error(`Unknown progressBar variant "${variant}"`);
+export function ProgressBar({ contract, value, total = 100 }: ProgressBarProps) {
+  const s = contract;
 
   const pct = Math.min(Math.max((value / total) * 100, 0), 100);
 

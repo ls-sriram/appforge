@@ -1,10 +1,9 @@
 import React from "react";
 import { Pressable, View } from "react-native";
-import { useUI } from "../theme/ThemeProvider";
 import { PanelScaffold } from "../scaffolds";
 import { type UiStamp, noopUi } from "../viz";
 import { Icon, type IconName } from "./Icon";
-import { Tabs } from "./Tabs";
+import { Tabs, type TabsContract } from "./Tabs";
 
 export interface TabbedPanelTab {
   id: string;
@@ -19,10 +18,11 @@ export interface TabbedPanelTab {
 export type TabbedPanelMoveDirection = "left" | "right";
 
 export interface TabbedPanelProps {
+  tabsContract: TabsContract;
+  tabbedPanelContract: TabbedPanelContract;
   tabs: TabbedPanelTab[];
   activeTabId: string | null;
   onActiveTabChange: (tabId: string) => void;
-  variant?: string;
   onCloseTab?: (tabId: string) => void;
   onMoveTab?: (tabId: string, direction: TabbedPanelMoveDirection) => void;
   actions?: React.ReactNode;
@@ -49,12 +49,12 @@ export interface TabbedPanelContract {
 
 
 interface IconActionButtonProps {
+  contract: TabbedPanelContract;
   icon: IconName;
   accessibilityLabel: string;
   disabled?: boolean;
   onPress: () => void;
   testID?: string;
-  variant: string;
 }
 
 function hasContent(node: React.ReactNode) {
@@ -62,16 +62,14 @@ function hasContent(node: React.ReactNode) {
 }
 
 function IconActionButton({
+  contract,
   icon,
   accessibilityLabel,
   disabled = false,
   onPress,
   testID,
-  variant,
 }: IconActionButtonProps) {
-  const { contracts } = useUI();
-  const s = contracts.tabbedPanel?.[variant];
-  if (!s) throw new Error(`Unknown tabbedPanel variant "${variant}"`);
+  const s = contract;
 
   return (
     <Pressable
@@ -101,10 +99,11 @@ function IconActionButton({
 }
 
 export function TabbedPanel({
+  tabsContract,
+  tabbedPanelContract,
   tabs,
   activeTabId,
   onActiveTabChange,
-  variant = "default",
   onCloseTab,
   onMoveTab,
   actions,
@@ -117,12 +116,11 @@ export function TabbedPanel({
   const canMove = !!activeTab && !!onMoveTab && activeTab.movable !== false;
   const canMoveLeft = canMove && activeIndex > 0;
   const canMoveRight = canMove && activeIndex >= 0 && activeIndex < tabs.length - 1;
-  const { contracts } = useUI();
-  const s = contracts.tabbedPanel?.[variant];
-  if (!s) throw new Error(`Unknown tabbedPanel variant "${variant}"`);
+  const s = tabbedPanelContract;
 
   const header = tabs.length > 0 ? (
     <Tabs
+      contract={tabsContract}
       onValueChange={onActiveTabChange}
       options={tabs.map((tab) => ({
         label: tab.label,
@@ -132,7 +130,6 @@ export function TabbedPanel({
       }))}
       testID={ui("tabs", "Tabbed panel tabs").__uiid}
       value={activeTabId ?? ""}
-      variant={variant}
     />
   ) : null;
 
@@ -142,6 +139,7 @@ export function TabbedPanel({
       {canMove ? (
         <>
           <IconActionButton
+            contract={tabbedPanelContract}
             accessibilityLabel="Move active tab left"
             disabled={!canMoveLeft}
             icon="chevron-left"
@@ -151,9 +149,9 @@ export function TabbedPanel({
               }
             }}
             testID={ui("move-left", "Move tab left button").__uiid}
-            variant={variant}
           />
           <IconActionButton
+            contract={tabbedPanelContract}
             accessibilityLabel="Move active tab right"
             disabled={!canMoveRight}
             icon="chevron-right"
@@ -163,17 +161,16 @@ export function TabbedPanel({
               }
             }}
             testID={ui("move-right", "Move tab right button").__uiid}
-            variant={variant}
           />
         </>
       ) : null}
       {canClose ? (
         <IconActionButton
+          contract={tabbedPanelContract}
           accessibilityLabel="Close active tab"
           icon="x"
           onPress={() => onCloseTab?.(activeTab.id)}
           testID={ui("close", "Close tab button").__uiid}
-          variant={variant}
         />
       ) : null}
     </View>

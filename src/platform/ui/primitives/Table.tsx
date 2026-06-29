@@ -2,11 +2,10 @@ import React from "react";
 import { Image, type ImageSourcePropType } from "react-native";
 import { View } from "@tamagui/core";
 import { useLayout } from "../theme/DensityProvider";
-import { useUI } from "../theme/ThemeProvider";
-import { Avatar } from "./Avatar";
-import { Badge } from "./Badge";
+import { Avatar, type AvatarContract } from "./Avatar";
+import { Badge, type BadgeContract } from "./Badge";
 import { Body, Label } from "./Text";
-import { Tag, type TagProps } from "./Tag";
+import { Tag, type TagContract } from "./Tag";
 
 export type TableWidth = "content" | "xs" | "sm" | "md" | "lg" | "xl" | "fill";
 export type TableAlign = "start" | "center" | "end";
@@ -31,19 +30,19 @@ export type TableTextCell = {
 export type TableTagCell = {
   type: "tag";
   label: string;
-  variant: TagProps["variant"];
+  contract: TagContract;
 };
 
 export type TableBadgeCell = {
   type: "badge";
   label: string;
-  variant: string;
+  contract: BadgeContract;
 };
 
 export type TableAvatarCell = {
   type: "avatar";
   initials: string;
-  variant: string;
+  contract: AvatarContract;
 };
 
 export interface ImageContract {
@@ -95,7 +94,7 @@ export type TableImageCell = {
   type: "image";
   src: ImageSourcePropType;
   alt: string;
-  variant: string;
+  contract: ImageContract;
 };
 
 export type TableCustomCell<Row> = {
@@ -121,10 +120,10 @@ export type TableColumn<Row> = {
 };
 
 export type TableProps<Row> = {
+  contract: TableContract;
   columns: TableColumn<Row>[];
   rows: Row[];
   rowKey: (row: Row, index: number) => string;
-  variant?: string;
   layout?: string;
   striped?: boolean;
   emptyLabel?: string;
@@ -157,19 +156,17 @@ function getCellAlignment(align: TableAlign = "start") {
 function renderCell<Row>(
   spec: TableCellSpec<Row>,
   row: Row,
-  imageVariants: Record<string, ImageContract> | undefined,
   tableVariant: TableContract,
 ) {
   switch (spec.type) {
     case "tag":
-      return <Tag label={spec.label} variant={spec.variant} />;
+      return <Tag contract={spec.contract} label={spec.label} />;
     case "badge":
-      return <Badge label={spec.label} variant={spec.variant} />;
+      return <Badge contract={spec.contract} label={spec.label} />;
     case "avatar":
-      return <Avatar initials={spec.initials} variant={spec.variant} />;
+      return <Avatar contract={spec.contract} initials={spec.initials} />;
     case "image": {
-      const image = imageVariants?.[spec.variant];
-      if (!image) throw new Error(`Unknown image variant "${spec.variant}"`);
+      const image = spec.contract;
       return (
         <Image
           source={spec.src}
@@ -200,18 +197,16 @@ function renderCell<Row>(
 }
 
 export function Table<Row>({
+  contract,
   columns,
   rows,
   rowKey,
-  variant = "default",
   layout,
   striped = false,
   emptyLabel = "No rows.",
 }: TableProps<Row>) {
-  const ui = useUI();
   const tableLayout = useLayout(layout);
-  const tableVariant = ui.contracts.table?.[variant];
-  if (!tableVariant) throw new Error(`Unknown table variant "${variant}"`);
+  const tableVariant = contract;
 
   if (rows.length === 0) {
     return (
@@ -295,7 +290,7 @@ export function Table<Row>({
                 ai={getCellAlignment(column.align)}
                 minWidth={0}
               >
-                {renderCell(spec, row, ui.contracts.image, tableVariant)}
+                {renderCell(spec, row, tableVariant)}
               </View>
             );
           })}

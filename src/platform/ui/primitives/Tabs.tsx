@@ -1,6 +1,5 @@
 import React from "react";
 import { Pressable, View } from "react-native";
-import { useUI } from "../theme/ThemeProvider";
 import { Icon, type IconName } from "./Icon";
 import { Body } from "./Text";
 
@@ -43,25 +42,23 @@ export interface TabOption {
 }
 
 export interface TabsProps {
+  contract: TabsContract;
   options: TabOption[];
   value: string;
   onValueChange: (value: string) => void;
-  variant?: string;
   disabled?: boolean;
   testID?: string;
 }
 
 export function Tabs({
+  contract,
   options,
   value,
   onValueChange,
-  variant = "default",
   disabled = false,
   testID,
 }: TabsProps) {
-  const { contracts } = useUI();
-  const s = contracts.tabs?.[variant];
-  if (!s) throw new Error(`Unknown tabs variant "${variant}"`);
+  const s = contract;
 
   return (
     <View

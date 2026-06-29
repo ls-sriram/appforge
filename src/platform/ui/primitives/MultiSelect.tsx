@@ -1,6 +1,5 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import { useUI } from "../theme/ThemeProvider";
 import type { InteractionContract } from "../contracts/interaction";
 import { Icon } from "./Icon";
 import type { SelectOption } from "./Select";
@@ -67,7 +66,7 @@ export interface MultiSelectContract {
 
 
 export interface MultiSelectProps {
-  variant: string;
+  contract: MultiSelectContract;
   options: SelectOption[];
   value: string[];
   onValueChange: (value: string[]) => void;
@@ -79,7 +78,7 @@ export interface MultiSelectProps {
 }
 
 export function MultiSelect({
-  variant,
+  contract,
   options,
   value,
   onValueChange,
@@ -89,9 +88,7 @@ export function MultiSelect({
   disabled = false,
   testID,
 }: MultiSelectProps) {
-  const { contracts } = useUI();
-  const s = contracts.multiSelect?.[variant];
-  if (!s) throw new Error(`Unknown multiSelect variant "${variant}"`);
+  const s = contract;
 
   const [open, setOpen] = React.useState(false);
   const selectedOptions = options.filter((o) => value.includes(o.value));
