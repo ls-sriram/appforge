@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import type { TextInput } from "react-native";
-import { Icon, Input, noopUi, type UiStamp, XStack, YStack } from "../../../../platform/ui/index";
+import { Icon, Input, noopUi, type UiStamp, useUI, XStack, YStack } from "../../../../platform/ui/index";
 import type { IconName } from "../../../../platform/ui/index";
 import type { AuthFieldStyle } from "../contracts/authContracts";
 
@@ -45,6 +45,7 @@ export function AuthDarkField({
   hasError = false,
   style,
 }: AuthDarkFieldProps) {
+  const { contracts } = useUI();
   const [showPassword, setShowPassword] = useState(false);
   const localInputRef = useRef<TextInput | undefined>(undefined);
   const effectiveInputRef = inputRef ?? localInputRef;
@@ -69,6 +70,7 @@ export function AuthDarkField({
             <YStack {...ui("input-wrap", `${placeholder} input wrapper`)} f={1}>
               <Input
                 {...ui("input", `${placeholder} input`)}
+                contract={contracts.input!["default"]}
                 ref={(instance: TextInput | null) => {
                   effectiveInputRef.current = instance ?? undefined;
                 }}

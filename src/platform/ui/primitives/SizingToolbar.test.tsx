@@ -1,7 +1,10 @@
 import React from "react";
 import TestRenderer, { act } from "react-test-renderer";
+import { defaultContracts } from "../theme";
 import { ThemeProvider } from "../theme/ThemeProvider";
 import { SizingToolbar } from "./SizingToolbar";
+
+const sizingToolbarContract = defaultContracts.sizingToolbar!["default"];
 
 jest.mock("react-native-svg", () => {
   const React = require("react");
@@ -49,7 +52,7 @@ describe("SizingToolbar", () => {
   it("renders exactly three size options", () => {
     const tree = renderToolbar(
       <Wrapper>
-        <SizingToolbar value="md" onChange={() => {}} />
+        <SizingToolbar contract={sizingToolbarContract} value="md" onChange={() => {}} />
       </Wrapper>,
     );
 
@@ -66,7 +69,7 @@ describe("SizingToolbar", () => {
   it("marks the selected option", () => {
     const tree = renderToolbar(
       <Wrapper>
-        <SizingToolbar value="lg" onChange={() => {}} />
+        <SizingToolbar contract={sizingToolbarContract} value="lg" onChange={() => {}} />
       </Wrapper>,
     );
 
@@ -81,7 +84,7 @@ describe("SizingToolbar", () => {
     const onChange = jest.fn();
     const tree = renderToolbar(
       <Wrapper>
-        <SizingToolbar value="md" onChange={onChange} />
+        <SizingToolbar contract={sizingToolbarContract} value="md" onChange={onChange} />
       </Wrapper>,
     );
 
@@ -98,7 +101,7 @@ describe("SizingToolbar", () => {
     const onChange = jest.fn();
     const tree = renderToolbar(
       <Wrapper>
-        <SizingToolbar value="md" onChange={onChange} disabled />
+        <SizingToolbar contract={sizingToolbarContract} value="md" onChange={onChange} disabled />
       </Wrapper>,
     );
 
@@ -112,6 +115,7 @@ describe("SizingToolbar", () => {
     const tree = renderToolbar(
       <Wrapper>
         <SizingToolbar
+          contract={sizingToolbarContract}
           value="sm"
           onChange={onChange}
           icons={{ sm: "minus", md: "table", lg: "plus" }}

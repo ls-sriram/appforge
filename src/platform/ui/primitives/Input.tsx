@@ -1,23 +1,7 @@
 import React, { useState } from "react";
 import { TextInput, View } from "react-native";
-import type { InteractionContract } from "../contracts/interaction";
-
-export interface InputContract {
-  field: {
-    backgroundColor: string;
-    color: string;
-    fontFamily: string;
-    borderWidth: number;
-    borderColor: string;
-    borderRadius: number;
-    paddingVertical: number;
-    paddingHorizontal: number;
-    fontSize: number;
-    minHeight: number;
-    placeholderColor?: string;
-  };
-  interaction?: InteractionContract;
-}
+import type { InputContract } from "../contracts/primitives/input";
+export type { InputContract };
 
 
 export type InputProps = Omit<React.ComponentProps<typeof TextInput>, "style"> & {

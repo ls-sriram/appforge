@@ -30,8 +30,10 @@ export {
 } from "./contracts";
 export {
   layoutContractDefinition,
-  platformLayoutDefaults,
 } from "./contracts";
+export {
+  platformLayoutDefaults,
+} from "./theme";
 export { Display, Heading, Label, Body } from "./primitives/Text";
 export { Button } from "./primitives/Button";
 export type { ButtonProps } from "./primitives/Button";

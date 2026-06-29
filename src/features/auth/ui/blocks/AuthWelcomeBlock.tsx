@@ -1,5 +1,5 @@
 import React from "react";
-import { Body, Button, Display, Label, noopUi, type UiStamp, YStack } from "../../../../platform/ui/index";
+import { Body, Button, Display, Label, noopUi, type UiStamp, useUI, YStack } from "../../../../platform/ui/index";
 import { app } from "../../../../config/app";
 import type { AuthWelcomeStyle } from "../contracts/authContracts";
 
@@ -16,6 +16,7 @@ export function AuthWelcomeBlock({
   onSignIn,
   onCreateAccount,
 }: AuthWelcomeBlockProps) {
+  const { contracts } = useUI();
   return (
     <YStack
       {...ui("root", "Auth welcome card")}
@@ -38,8 +39,8 @@ export function AuthWelcomeBlock({
       </YStack>
 
       <YStack {...ui("actions", "Auth welcome actions")} gap={style.layout.actionsGap}>
-        <Button {...ui("sign-in", "Sign in button")} variant="primary" onPress={onSignIn}>Sign In</Button>
-        <Button {...ui("create-account", "Create account button")} variant="secondary" onPress={onCreateAccount}>Create Account</Button>
+        <Button {...ui("sign-in", "Sign in button")} contract={contracts.button!["primary"]} onPress={onSignIn}>Sign In</Button>
+        <Button {...ui("create-account", "Create account button")} contract={contracts.button!["secondary"]} onPress={onCreateAccount}>Create Account</Button>
       </YStack>
     </YStack>
   );

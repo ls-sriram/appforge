@@ -3,35 +3,8 @@ import { Pressable, View } from "react-native";
 import { Icon, type IconName } from "./Icon";
 import { Body } from "./Text";
 
-export interface TabsContract {
-  list: {
-    borderWidth: number;
-    borderColor: string;
-  };
-  item: {
-    minHeight: number;
-    paddingHorizontal: number;
-    paddingVertical: number;
-    gap: number;
-    borderWidth: number;
-    selectedBorderColor: string;
-    unselectedBorderColor: string;
-    disabledOpacity: number;
-  };
-  icon: {
-    size: number;
-    selectedColor: string;
-    unselectedColor: string;
-  };
-  text: {
-    fontSize: number;
-    lineHeight: number;
-    selectedColor: string;
-    unselectedColor: string;
-    selectedFontFamily: string;
-    unselectedFontFamily: string;
-  };
-}
+import type { TabsContract } from "../contracts/primitives/tabs";
+export type { TabsContract };
 
 
 export interface TabOption {

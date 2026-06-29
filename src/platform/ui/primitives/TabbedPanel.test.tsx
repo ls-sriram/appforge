@@ -3,9 +3,13 @@ import path from "path";
 import React from "react";
 import { Text } from "react-native";
 import TestRenderer, { act } from "react-test-renderer";
+import { defaultContracts } from "../theme";
 import { ThemeProvider } from "../theme/ThemeProvider";
 import { createUi } from "../viz";
 import { TabbedPanel } from "./TabbedPanel";
+
+const tabsContract = defaultContracts.tabs!["default"];
+const tabbedPanelContract = defaultContracts.tabbedPanel!["default"];
 
 jest.mock("./Text", () => {
   const React = require("react");
@@ -77,7 +81,7 @@ describe("TabbedPanel", () => {
   it("renders the tab strip and only the active tab content", () => {
     const tree = renderTabbedPanel(
       <Wrapper>
-        <TabbedPanel activeTabId="activity" onActiveTabChange={() => {}} tabs={baseTabs} ui={createUi("panel")} />
+        <TabbedPanel tabsContract={tabsContract} tabbedPanelContract={tabbedPanelContract} activeTabId="activity" onActiveTabChange={() => {}} tabs={baseTabs} ui={createUi("panel")} />
       </Wrapper>,
     );
 
@@ -92,7 +96,7 @@ describe("TabbedPanel", () => {
     const onActiveTabChange = jest.fn();
     const tree = renderTabbedPanel(
       <Wrapper>
-        <TabbedPanel activeTabId="overview" onActiveTabChange={onActiveTabChange} tabs={baseTabs} ui={createUi("panel")} />
+        <TabbedPanel tabsContract={tabsContract} tabbedPanelContract={tabbedPanelContract} activeTabId="overview" onActiveTabChange={onActiveTabChange} tabs={baseTabs} ui={createUi("panel")} />
       </Wrapper>,
     );
 
@@ -108,6 +112,8 @@ describe("TabbedPanel", () => {
     const tree = renderTabbedPanel(
       <Wrapper>
         <TabbedPanel
+          tabsContract={tabsContract}
+          tabbedPanelContract={tabbedPanelContract}
           activeTabId="activity"
           onActiveTabChange={() => {}}
           onCloseTab={onCloseTab}
@@ -129,6 +135,8 @@ describe("TabbedPanel", () => {
     const tree = renderTabbedPanel(
       <Wrapper>
         <TabbedPanel
+          tabsContract={tabsContract}
+          tabbedPanelContract={tabbedPanelContract}
           activeTabId="activity"
           onActiveTabChange={() => {}}
           onMoveTab={onMoveTab}
@@ -151,6 +159,8 @@ describe("TabbedPanel", () => {
     const tree = renderTabbedPanel(
       <Wrapper>
         <TabbedPanel
+          tabsContract={tabsContract}
+          tabbedPanelContract={tabbedPanelContract}
           activeTabId="overview"
           onActiveTabChange={() => {}}
           onMoveTab={() => {}}
@@ -168,6 +178,8 @@ describe("TabbedPanel", () => {
     const tree = renderTabbedPanel(
       <Wrapper>
         <TabbedPanel
+          tabsContract={tabsContract}
+          tabbedPanelContract={tabbedPanelContract}
           activeTabId="overview"
           onActiveTabChange={() => {}}
           tabs={[baseTabs[0], { ...baseTabs[1], disabled: true }, baseTabs[2]]}
@@ -183,6 +195,8 @@ describe("TabbedPanel", () => {
     const tree = renderTabbedPanel(
       <Wrapper>
         <TabbedPanel
+          tabsContract={tabsContract}
+          tabbedPanelContract={tabbedPanelContract}
           actions={<Text>Pin</Text>}
           activeTabId="activity"
           onActiveTabChange={() => {}}
@@ -201,6 +215,8 @@ describe("TabbedPanel", () => {
     const tree = renderTabbedPanel(
       <Wrapper>
         <TabbedPanel
+          tabsContract={tabsContract}
+          tabbedPanelContract={tabbedPanelContract}
           activeTabId={null}
           emptyState={<Text>No panels</Text>}
           onActiveTabChange={() => {}}

@@ -1,3 +1,4 @@
 export * from "./interaction";
-export * from "./variants";
 export * from "./layouts";
+export * from "./primitives";
+export type { PrimitiveContracts } from "./runtime";

@@ -4,47 +4,10 @@ import { Pressable } from "react-native";
 import { Input } from "./Input";
 import { Icon } from "./Icon";
 import { Body, Label } from "./Text";
-import type { InputContract } from "./Input";
+import type { InputContract } from "../contracts/primitives/input";
 
-export interface ColorPalettePickerContract {
-  preview: {
-    size: number;
-    borderWidth: number;
-    borderRadius: number;
-    borderColor: string;
-    invalidBorderColor: string;
-  };
-  swatch: {
-    size: number;
-    borderWidth: number;
-    borderRadius: number;
-    borderColor: string;
-    selectedBorderColor: string;
-    disabledOpacity: number;
-    defaultColors: string[];
-  };
-  input: {
-    placeholder: string;
-  };
-  label: {
-    color: string;
-    fontSize: number;
-    fontFamily: string;
-  };
-  helper: {
-    color: string;
-    fontSize: number;
-    lineHeight: number;
-    fontFamily: string;
-  };
-  error: {
-    color: string;
-  };
-  icon: {
-    selectedColor: string;
-    selectedSize: number;
-  };
-}
+import type { ColorPalettePickerContract } from "../contracts/primitives/colorpalettepicker";
+export type { ColorPalettePickerContract };
 
 
 const PickerRoot = styled(View, {

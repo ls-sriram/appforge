@@ -1,18 +1,7 @@
 import React from "react";
 import { View } from "react-native";
-import type { InteractionContract } from "../contracts/interaction";
-
-export interface ProgressBarContract {
-  track: {
-    color: string;
-    height: number;
-    borderRadius: number;
-  };
-  fill: {
-    color: string;
-  };
-  interaction?: InteractionContract;
-}
+import type { ProgressBarContract } from "../contracts/primitives/progressbar";
+export type { ProgressBarContract };
 
 
 interface ProgressBarProps {

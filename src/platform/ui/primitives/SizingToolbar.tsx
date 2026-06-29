@@ -2,29 +2,8 @@ import React from "react";
 import { Pressable, View } from "react-native";
 import { Icon, type IconName } from "./Icon";
 
-export interface SizingToolbarContract {
-  container: {
-    borderWidth: number;
-    borderColor: string;
-    borderRadius: number;
-    disabledOpacity: number;
-  };
-  button: {
-    minWidth: number;
-    minHeight: number;
-    paddingHorizontal: number;
-    paddingVertical: number;
-    selectedBackgroundColor: string;
-    unselectedBackgroundColor: string;
-    dividerWidth: number;
-    dividerColor: string;
-  };
-  icon: {
-    selectedColor: string;
-    unselectedColor: string;
-    size: number;
-  };
-}
+import type { SizingToolbarContract } from "../contracts/primitives/sizingtoolbar";
+export type { SizingToolbarContract };
 
 
 export type SizingToolbarValue = "sm" | "md" | "lg";

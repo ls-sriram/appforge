@@ -30,22 +30,8 @@ export interface TabbedPanelProps {
   ui?: UiStamp;
 }
 
-export interface TabbedPanelContract {
-  actionButton: {
-    minWidth: number;
-    minHeight: number;
-    borderRadius: number;
-    disabledOpacity: number;
-  };
-  actionIcon: {
-    size: number;
-    color: string;
-    disabledColor: string;
-  };
-  layout: {
-    inlineActionsMarginRight: number;
-  };
-}
+import type { TabbedPanelContract } from "../contracts/primitives/tabbedpanel";
+export type { TabbedPanelContract };
 
 
 interface IconActionButtonProps {

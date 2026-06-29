@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, CenteredPageScaffold, noopUi, type UiStamp, useThemeTokens, YStack } from "../../../../platform/ui/index";
+import { Button, CenteredPageScaffold, noopUi, type UiStamp, useUI, YStack } from "../../../../platform/ui/index";
 import { ViewProps } from "../../../../platform/core/types";
 import { AuthFieldBlock } from "../blocks/AuthFieldBlock";
 import { AuthFormBlock } from "../blocks/AuthFormBlock";
@@ -15,7 +15,7 @@ type ForgotPasswordViewProps = Props & {
 };
 
 export function ForgotPasswordView({ ui = noopUi, data, dispatch }: ForgotPasswordViewProps) {
-  const theme = useThemeTokens();
+  const { theme, contracts } = useUI();
   const styles = createAuthStyles(theme);
   return (
     <CenteredPageScaffold
@@ -53,7 +53,7 @@ export function ForgotPasswordView({ ui = noopUi, data, dispatch }: ForgotPasswo
           </AuthFormBlock>
           <Button
             {...ui("back", "Back to login button")}
-            variant="secondary"
+            contract={contracts.button!["secondary"]}
             onPress={() => dispatch({ type: "go_to_login" })}
           >
             {app.copy.auth.forgotPasswordBackLabel}

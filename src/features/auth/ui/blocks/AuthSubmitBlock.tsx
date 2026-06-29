@@ -1,5 +1,5 @@
 import React from "react";
-import { Body, Button, noopUi, type UiStamp, YStack } from "../../../../platform/ui/index";
+import { Body, Button, noopUi, type UiStamp, useUI, YStack } from "../../../../platform/ui/index";
 import type { AuthSubmitStyle } from "../contracts/authContracts";
 
 interface AuthSubmitBlockProps {
@@ -23,6 +23,7 @@ export function AuthSubmitBlock({
   testID,
   style,
 }: AuthSubmitBlockProps) {
+  const { contracts } = useUI();
   return (
     <YStack {...ui("root", `${label} submit block`)} gap={style.layout.gap}>
       {generalError ? (
@@ -39,7 +40,7 @@ export function AuthSubmitBlock({
       ) : null}
       <Button
         {...ui("button", `${label} button`)}
-        variant="primary"
+        contract={contracts.button!["primary"]}
         onPress={onPress}
         disabled={disabled ?? loading}
         loading={loading}

@@ -3,7 +3,7 @@
  */
 
 import React from "react";
-import { Body, Button, Heading, Icon, XStack, YStack } from "../../../../platform/ui/index";
+import { Body, Button, Heading, Icon, useUI, XStack, YStack } from "../../../../platform/ui/index";
 import type { Plan } from "../../services/user-profile.service";
 import type { PlanBlockStyle } from "../contracts/settingsContracts";
 
@@ -37,6 +37,7 @@ function formatDate(iso?: string): string {
 }
 
 export function PlanBlock({ style, plan, onUpgrade }: PlanBlockProps) {
+  const { contracts } = useUI();
   const name = plan?.name ?? "free";
   const statusLabel = plan ? STATUS_LABELS[plan.status] ?? plan.status : "Inactive";
   const badgeBg = plan?.status === "past_due" ? style.planStatus.pastDueBackgroundColor : style.planStatus.activeBackgroundColor;
@@ -73,7 +74,7 @@ export function PlanBlock({ style, plan, onUpgrade }: PlanBlockProps) {
           </YStack>
 
           {name !== "pro" ? (
-            <Button variant="secondary" onPress={onUpgrade}>Upgrade</Button>
+            <Button contract={contracts.button!["secondary"]} onPress={onUpgrade}>Upgrade</Button>
           ) : null}
         </XStack>
 

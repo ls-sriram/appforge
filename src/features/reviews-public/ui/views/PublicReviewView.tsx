@@ -1,5 +1,5 @@
 import React from "react";
-import { Body, Button, Heading, Input, XStack, YStack } from "../../../../platform/ui/index";
+import { Body, Button, Heading, Input, useUI, XStack, YStack } from "../../../../platform/ui/index";
 import { api } from "../../../../platform/api/client";
 
 interface Props {
@@ -32,6 +32,7 @@ interface ReviewTemplateResponse {
 }
 
 export function PublicReviewView({ token }: Props) {
+  const { contracts } = useUI();
   const [loading, setLoading] = React.useState(true);
   const [saving, setSaving] = React.useState(false);
   const [error, setError] = React.useState<string>();
@@ -113,12 +114,13 @@ export function PublicReviewView({ token }: Props) {
       <YStack p="$4" gap="$4">
         <Heading>{reviewForm.name}</Heading>
         <Body fontSize="$2" color="$textMuted">{`Type: ${reviewForm.entityType}`}</Body>
-          <Input value={displayName} onChangeText={setDisplayName} placeholder="Your name (optional)" />
+          <Input contract={contracts.input!["default"]} value={displayName} onChangeText={setDisplayName} placeholder="Your name (optional)" />
           {reviewForm.fields.map((field) => (
             <YStack key={field.id} gap="$3">
               <Body fontSize="$2">{field.label}</Body>
               {field.type === "text" ? (
                 <Input
+                  contract={contracts.input!["default"]}
                   value={answers[field.id]?.textValue ?? ""}
                   onChangeText={(value) =>
                     setAnswers((prev) => ({ ...prev, [field.id]: { optionIds: [], textValue: value } }))
@@ -132,7 +134,7 @@ export function PublicReviewView({ token }: Props) {
                     return (
                       <Button
                         key={option.id}
-                        variant={selected ? "primary" : "secondary"}
+                        contract={selected ? contracts.button!["primary"] : contracts.button!["secondary"]}
                         onPress={() =>
                           setAnswers((prev) => ({
                             ...prev,
@@ -150,7 +152,7 @@ export function PublicReviewView({ token }: Props) {
           ))}
           {error ? <Body fontSize="$2" color="$error">{error}</Body> : null}
           {success ? <Body fontSize="$2" color="$textMuted">{success}</Body> : null}
-          <Button variant="primary" onPress={submit} disabled={saving || !normalizedToken}>
+          <Button contract={contracts.button!["primary"]} onPress={submit} disabled={saving || !normalizedToken}>
             {saving ? "Submitting..." : "Submit Review"}
           </Button>
       </YStack>

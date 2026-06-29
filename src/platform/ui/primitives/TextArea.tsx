@@ -1,23 +1,7 @@
 import React, { useState } from "react";
 import { TextInput, View } from "react-native";
-import type { InteractionContract } from "../contracts/interaction";
-
-export interface TextAreaContract {
-  field: {
-    backgroundColor: string;
-    color: string;
-    fontFamily: string;
-    borderWidth: number;
-    borderColor: string;
-    borderRadius: number;
-    paddingVertical: number;
-    paddingHorizontal: number;
-    fontSize: number;
-    minHeight: number;
-    placeholderColor?: string;
-  };
-  interaction?: InteractionContract;
-}
+import type { TextAreaContract } from "../contracts/primitives/textarea";
+export type { TextAreaContract };
 
 
 export type TextAreaProps = Omit<React.ComponentProps<typeof TextInput>, "style" | "multiline"> & {

@@ -1,23 +1,7 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import type { InteractionContract } from "../contracts/interaction";
-
-export interface BadgeContract {
-  container: {
-    backgroundColor: string;
-    borderRadius: number;
-    paddingVertical: number;
-    paddingHorizontal: number;
-    borderWidth?: number;
-    borderColor?: string;
-  };
-  text: {
-    color: string;
-    fontSize: number;
-    fontWeight: string | number;
-  };
-  interaction?: InteractionContract;
-}
+import type { BadgeContract } from "../contracts/primitives/badge";
+export type { BadgeContract };
 
 
 interface BadgeProps {

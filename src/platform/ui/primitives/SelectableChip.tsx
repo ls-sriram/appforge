@@ -1,26 +1,7 @@
 import React from "react";
 import { Pressable, Text } from "react-native";
-import type { InteractionContract } from "../contracts/interaction";
-
-export interface SelectableChipContract {
-  container: {
-    backgroundColor: string;
-    borderColor: string;
-    borderWidth: number;
-    paddingVertical: number;
-    paddingHorizontal: number;
-  };
-  shape: {
-    pillBorderRadius: number;
-    roundedBorderRadius: number;
-  };
-  text: {
-    color: string;
-    fontSize: number;
-    fontWeight: string | number;
-  };
-  interaction?: InteractionContract;
-}
+import type { SelectableChipContract } from "../contracts/primitives/selectablechip";
+export type { SelectableChipContract };
 
 
 export type SelectableChipShape = "pill" | "rounded";

@@ -1,6 +1,6 @@
 import React from "react";
 import { runtime } from "../../../../platform/core/runtime";
-import { Body, Button, Heading, Icon, XStack, YStack } from "../../../../platform/ui/index";
+import { Body, Button, Heading, Icon, useUI, XStack, YStack } from "../../../../platform/ui/index";
 import type { RecordingModel, RecordingUiStatus } from "../../domain/model";
 import type { RecordingShareModel as RecordingShare } from "../../domain/share-model";
 
@@ -54,6 +54,7 @@ export function RecordingView({
     [],
   );
 
+  const { contracts } = useUI();
   const isRecording = status === "recording";
   const isUploading = status === "uploading";
   const canInlineAudio = runtime.isWeb;
@@ -86,7 +87,7 @@ export function RecordingView({
                       <XStack ai="center" jc="space-between" gap="$3">
                         <Body fontSize="$2">{createdLabel}</Body>
                         <Button
-                          variant="secondary"
+                          contract={contracts.button!["secondary"]}
                           onPress={() => onPlay(recording.id)}
                         >
                           {playingId === recording.id ? "Loaded" : "Play"}
@@ -95,7 +96,7 @@ export function RecordingView({
                       <Body fontSize="$2" color="$textMuted">{`${recording.durationSeconds ?? 0}s • ${recording.contentType} • ${recording.sizeBytes} bytes`}</Body>
                       <XStack gap="$3" flexWrap="wrap">
                         <Button
-                          variant={activeShare ? "secondary" : "primary"}
+                          contract={activeShare ? contracts.button!["secondary"] : contracts.button!["primary"]}
                           onPress={() => {
                             if (activeShare) {
                               onRevokeShare(recording.id, activeShare.shareUrl);
@@ -108,7 +109,7 @@ export function RecordingView({
                           {activeShare ? "Revoke Share" : "Share"}
                         </Button>
                         <Button
-                          variant="ghost"
+                          contract={contracts.button!["ghost"]}
                           onPress={() => onLoadShares(recording.id)}
                           disabled={shareLoading}
                         >
@@ -155,7 +156,7 @@ export function RecordingView({
                 <XStack ai="center" gap="$3">
                   <Body fontSize="$2">{micStatus}</Body>
                   <Button
-                    variant="ghost"
+                    contract={contracts.button!["ghost"]}
                     onPress={onRefresh}
                     disabled={loading || isUploading}
                   >

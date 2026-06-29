@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useRef, useCallback } from "react";
-import { Button, ScrollView, YStack } from "../../../platform/ui/index";
+import { Button, ScrollView, useUI, YStack } from "../../../platform/ui/index";
 import { FeatureHighlightBlock } from "./blocks/FeatureHighlightBlock";
 import type { IconName } from "../../../platform/ui/index";
 import { useViewport } from "../../../platform/ui/index";
@@ -37,6 +37,7 @@ export function OnboardingCarousel({
 }: OnboardingCarouselProps) {
   const viewport = useViewport();
   const screenWidth = viewport.width;
+  const { contracts } = useUI();
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<React.ElementRef<typeof ScrollView>>(null);
 
@@ -95,12 +96,12 @@ export function OnboardingCarousel({
 
         <YStack gap="$3">
           {!isLast && (
-            <Button variant="ghost" onPress={() => onComplete()}>
+            <Button contract={contracts.button!["ghost"]} onPress={() => onComplete()}>
               {skipLabel}
             </Button>
           )}
           <Button
-            variant="primary"
+            contract={contracts.button!["primary"]}
             onPress={() => { if (isLast) { onComplete(); } else { scrollTo(activeIndex + 1); } }}
           >
             {isLast ? ctaLabel : "Next"}

@@ -1,7 +1,7 @@
 import React from "react";
 import type { TextInput } from "react-native";
 import { ViewProps } from "../../../../platform/core/types";
-import { Button, CenteredPageScaffold, noopUi, type UiStamp, useThemeTokens, YStack } from "../../../../platform/ui/index";
+import { Button, CenteredPageScaffold, noopUi, type UiStamp, useUI, YStack } from "../../../../platform/ui/index";
 import { AuthFieldBlock } from "../../../auth/ui/blocks/AuthFieldBlock";
 import { AuthFormBlock } from "../../../auth/ui/blocks/AuthFormBlock";
 import { AuthSubmitBlock } from "../../../auth/ui/blocks/AuthSubmitBlock";
@@ -16,7 +16,7 @@ type LoginViewProps = Props & {
 };
 
 export function LoginView({ ui = noopUi, data, dispatch }: LoginViewProps) {
-  const theme = useThemeTokens();
+  const { theme, contracts } = useUI();
   const styles = createAuthStyles(theme);
   const passwordRef = React.useRef<TextInput | undefined>(undefined);
 
@@ -66,7 +66,7 @@ export function LoginView({ ui = noopUi, data, dispatch }: LoginViewProps) {
             />
             <Button
               {...ui("forgot-link", "Forgot password link")}
-              variant="ghost"
+              contract={contracts.button!["ghost"]}
               onPress={() => dispatch({ type: "go_to_forgot_password" })}
             >
               Forgot Password?

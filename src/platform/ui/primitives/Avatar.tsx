@@ -1,21 +1,7 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import type { InteractionContract } from "../contracts/interaction";
-
-export interface AvatarContract {
-  frame: {
-    width: number;
-    height: number;
-    borderRadius: number;
-    backgroundColor: string;
-  };
-  text: {
-    fontSize: number;
-    fontWeight: string | number;
-    color: string;
-  };
-  interaction?: InteractionContract;
-}
+import type { AvatarContract } from "../contracts/primitives/avatar";
+export type { AvatarContract };
 
 
 interface AvatarProps {

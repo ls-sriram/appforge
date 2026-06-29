@@ -1,25 +1,7 @@
 import React from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
-import type { InteractionContract } from "../contracts/interaction";
-
-export interface ButtonContract {
-  container: {
-    backgroundColor: string;
-    borderRadius: number;
-    paddingVertical: number;
-    paddingHorizontal: number;
-    minHeight?: number;
-    borderWidth?: number;
-    borderColor?: string;
-    shadow?: string;
-  };
-  text: {
-    color: string;
-    fontSize: number;
-    fontWeight: string | number;
-  };
-  interaction?: InteractionContract;
-}
+import type { ButtonContract } from "../contracts/primitives/button";
+export type { ButtonContract };
 
 
 export type ButtonProps = {

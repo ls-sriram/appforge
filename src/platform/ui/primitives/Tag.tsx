@@ -1,21 +1,7 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import type { InteractionContract } from "../contracts/interaction";
-
-export interface TagContract {
-  container: {
-    backgroundColor: string;
-    borderRadius: number;
-    paddingVertical: number;
-    paddingHorizontal: number;
-  };
-  text: {
-    color: string;
-    fontSize: number;
-    fontWeight: string | number;
-  };
-  interaction?: InteractionContract;
-}
+import type { TagContract } from "../contracts/primitives/tag";
+export type { TagContract };
 
 
 export interface TagProps {

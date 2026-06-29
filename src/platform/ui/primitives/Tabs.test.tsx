@@ -1,7 +1,10 @@
 import React from "react";
 import TestRenderer, { act } from "react-test-renderer";
+import { defaultContracts } from "../theme";
 import { ThemeProvider } from "../theme/ThemeProvider";
 import { Tabs } from "./Tabs";
+
+const tabsContract = defaultContracts.tabs!["default"];
 
 jest.mock("./Text", () => {
   const React = require("react");
@@ -62,7 +65,7 @@ describe("Tabs", () => {
   it("renders all tabs", () => {
     const tree = renderTabs(
       <Wrapper>
-        <Tabs options={options} value="overview" onValueChange={() => {}} testID="tabs" />
+        <Tabs contract={tabsContract} options={options} value="overview" onValueChange={() => {}} testID="tabs" />
       </Wrapper>,
     );
 
@@ -79,7 +82,7 @@ describe("Tabs", () => {
   it("marks the selected tab", () => {
     const tree = renderTabs(
       <Wrapper>
-        <Tabs options={options} value="activity" onValueChange={() => {}} testID="tabs" />
+        <Tabs contract={tabsContract} options={options} value="activity" onValueChange={() => {}} testID="tabs" />
       </Wrapper>,
     );
 
@@ -94,7 +97,7 @@ describe("Tabs", () => {
     const onValueChange = jest.fn();
     const tree = renderTabs(
       <Wrapper>
-        <Tabs options={options} value="overview" onValueChange={onValueChange} testID="tabs" />
+        <Tabs contract={tabsContract} options={options} value="overview" onValueChange={onValueChange} testID="tabs" />
       </Wrapper>,
     );
 
@@ -116,7 +119,7 @@ describe("Tabs", () => {
     ];
     const tree = renderTabs(
       <Wrapper>
-        <Tabs options={disabledOptions} value="overview" onValueChange={onValueChange} testID="tabs" />
+        <Tabs contract={tabsContract} options={disabledOptions} value="overview" onValueChange={onValueChange} testID="tabs" />
       </Wrapper>,
     );
 
