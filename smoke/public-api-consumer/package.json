@@ -1,0 +1,10 @@
+{
+  "name": "public-api-consumer-smoke",
+  "private": true,
+  "dependencies": {
+    "@appforge/platform": "file:../.."
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}

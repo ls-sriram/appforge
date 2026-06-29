@@ -1,6 +1,6 @@
 import React from "react";
 import { ViewProps } from "../../../../platform/core/types";
-import { CenteredPageScaffold, noopUi, type UiStamp, useThemeTokens, YStack } from "../../../../platform/ui/index";
+import { CenteredPageScaffold, noopUi, type UiStamp, useUI, YStack } from "../../../../platform/ui/index";
 import { AuthFieldBlock } from "../../../auth/ui/blocks/AuthFieldBlock";
 import { AuthFormBlock } from "../../../auth/ui/blocks/AuthFormBlock";
 import { AuthSubmitBlock } from "../../../auth/ui/blocks/AuthSubmitBlock";
@@ -15,7 +15,7 @@ type RegisterViewProps = Props & {
 };
 
 export function RegisterView({ ui = noopUi, data, dispatch, submitDisabled }: RegisterViewProps) {
-  const theme = useThemeTokens();
+  const { theme } = useUI();
   const styles = createAuthStyles(theme);
   const canSubmit =
     data.fullName.trim().length >= 2 &&

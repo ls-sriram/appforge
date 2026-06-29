@@ -1,13 +1,9 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { Redirect, useRouter, type Href } from "expo-router";
 import { routes } from "../../platform/navigation/routes";
-import {
-  LoginAction,
-  LoginController,
-  LoginView,
-  LoginViewData,
-  FirebaseLoginModel,
-} from "./index";
+import { LoginController, type LoginAction, type LoginViewData } from "./LoginController";
+import { FirebaseLoginModel } from "./LoginModel";
+import { LoginView } from "./ui/views/LoginView";
 
 type Props = {
   authenticatedHref: Href;

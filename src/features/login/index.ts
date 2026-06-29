@@ -1,3 +1,4 @@
+export { LoginRouteScreen } from "./LoginRouteScreen";
 export { LoginView } from "./ui/views/LoginView";
 export { LoginController } from "./LoginController";
 export { FirebaseLoginModel } from "./LoginModel";

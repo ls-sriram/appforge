@@ -27,7 +27,7 @@ That ownership is exposed through the runtime API:
 const ui = useUI()
 
 ui.theme.palette.primary
-ui.contracts.button!["primary"]
+ui.contracts.button["primary"]
 ui.layouts.compact
 ```
 
@@ -84,7 +84,7 @@ export function EmptyState() {
     <YStack gap="$md" ai="center" p="$lg">
       <Heading fontSize="$5" lineHeight="$5">No projects yet</Heading>
       <Body color="$textSecondary">Create one to get started.</Body>
-      <Button contract={contracts.button!["primary"]}>Create project</Button>
+      <Button contract={contracts.button["primary"]}>Create project</Button>
     </YStack>
   )
 }
@@ -102,7 +102,7 @@ This is correct:
 ```tsx
 const { contracts } = useUI()
 
-<Button contract={contracts.button!["primary"]}>Save</Button>
+<Button contract={contracts.button["primary"]}>Save</Button>
 <Body color="$textMuted" fontSize="$2" lineHeight="$2">Last updated 2m ago</Body>
 ```
 
@@ -146,7 +146,7 @@ export function TableMeta() {
   const { contracts } = useUI()
   const layout = useLayout()
 
-  const table = contracts.table!["default"]
+  const table = contracts.table["default"]
 
   return {
     rowHeight: layout.rowHeight,

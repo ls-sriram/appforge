@@ -89,6 +89,10 @@ npm run typecheck
 npm run lint:arch
 ```
 
+## Package Publishing
+
+The published `@appforge/platform` package is intentionally limited to its documented public barrels and the transitive source they require. Internal app code, unrelated features, test files, smoke fixtures, and repo-only docs are excluded from the npm tarball.
+
 ## License
 
 MIT. See `LICENSE`.
