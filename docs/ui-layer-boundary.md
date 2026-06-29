@@ -138,17 +138,21 @@ const layout = useLayout("compact")
 
 ## Layer 3: Primitive Contracts
 
-Path: `src/platform/ui/contracts/variants.ts`
+Paths:
+
+- `src/platform/ui/contracts/primitives/` — one file per primitive, defines the contract interface
+- `src/platform/ui/contracts/runtime/contracts.ts` — `PrimitiveContracts` registry (aggregation only)
+- `src/platform/ui/contracts/shared/` — reusable realized render concepts (TextContract, ContainerContract, etc.)
 
 Primitive contracts own component appearance.
 
 Examples:
 
-- `button.primary`
-- `table.default`
-- `avatar.profile`
-- `badge.success`
-- `tabs.default`
+- `contracts.button!["primary"]`
+- `contracts.table!["default"]`
+- `contracts.avatar!["md"]`
+- `contracts.badge!["success"]`
+- `contracts.tabs!["default"]`
 
 Primitive contracts may define:
 
@@ -166,14 +170,16 @@ Primitive contracts do not define:
 - business behavior
 - cross-feature semantics
 
-Primitive contracts are resolved values consumed by primitives. They are derived from tokens via `createContracts(theme)` above the runtime boundary.
+Primitive contracts are resolved values consumed by primitives. They are derived from tokens via `createContracts(theme)` above the runtime boundary. Contracts contain only realized render values — no semantic names, token references, variants, or runtime resolution logic.
 
 ## Layer 4: UI Runtime
 
 Paths:
 
-- `src/platform/ui/theme/runtime.ts`
-- `src/platform/ui/theme/ThemeProvider.tsx`
+- `src/platform/ui/theme/definitions/ui-runtime.ts` — `UiRuntime` and `LayoutLibrary` type definitions
+- `src/platform/ui/theme/definitions/factory.ts` — `createContracts()`, `createLayouts()`, `createUiRuntime()`
+- `src/platform/ui/theme/definitions/defaults.ts` — default realized runtime (`uiRuntime`, `defaultContracts`, `defaultLayouts`)
+- `src/platform/ui/theme/providers/ThemeProvider.tsx` — React context and `useUI()` hook
 
 Runtime containment is not ownership.
 
@@ -251,16 +257,20 @@ Primitives do not own application appearance.
 Primitives consume the layers below them:
 
 ```text
-Theme
-    ↓
-createLayouts() / createVariants()
-    ↓
-LayoutContract + Variants
-    ↓
-UiRuntime
-    ↓
+theme/definitions
+        ↓
+createContracts() / createLayouts()
+        ↓
+UiRuntime { theme, contracts, layouts }
+        ↓
+contracts/runtime → contracts/primitives
+        ↓
 primitives
+        ↓
+features
 ```
+
+Semantics terminate at `UiRuntime`. Everything below consumes only fully realized values.
 
 The platform primitive API is intentionally split into two classes.
 
@@ -308,17 +318,20 @@ Examples:
 Allowed examples:
 
 ```tsx
-<Button variant="primary">Save</Button>
-<Table variant="default" layout="comfortable" />
+const { contracts } = useUI()
+
+<Button contract={contracts.button!["primary"]}>Save</Button>
+<Table contract={contracts.table!["default"]} layout="comfortable" />
 ```
 
 Forbidden direction:
 
 ```tsx
 <Button bg="red" px="$4" borderRadius={12}>Save</Button>
+<Button variant="primary">Save</Button>  {/* semantic string — resolved too late */}
 ```
 
-If a visual decision must vary across apps or use cases, it belongs in tokens, variants, or layouts rather than in arbitrary visual props on a closed primitive.
+If a visual decision must vary across apps or use cases, it belongs in tokens, primitive contracts, or layouts rather than in arbitrary visual props or late-resolved variant strings on a closed primitive.
 
 ## Text Semantics
 
@@ -352,12 +365,9 @@ Scaffolds may consume layout contracts, but they must not become a dumping groun
 
 ## Overrides
 
-Paths:
+Path: `src/platform/ui/theme/definitions/overrides.ts`
 
-- `src/platform/ui/theme/contracts.ts`
-- `src/platform/ui/theme/runtime.ts`
-
-The override model is intentionally split by ownership.
+Override types are split by ownership.
 
 `ThemeOverride` owns token overrides only:
 
@@ -367,19 +377,14 @@ The override model is intentionally split by ownership.
 - `radii`
 - `breakpoints`
 
-`UiRuntimeOverride` owns resolved runtime overrides only:
-
-- `layouts`
-- `variants`
-
-`UiOverride` is the provider-facing combined surface.
+There are no runtime-level overrides. Realized values (contracts, layouts) are assembled above the `UiRuntime` boundary by calling `createContracts()` and `createLayouts()` with your theme, then passing the assembled object to `ThemeProvider`.
 
 Rules:
 
 - applications may change values only within the existing schema
-- applications may extend named variants and layouts through the supported runtime surfaces
+- applications may provide their own named contract entries and layout profiles by assembling a custom `UiRuntime` above the provider
 - applications may not extend the token schema from feature code
-- primitives must not introduce new hardcoded visual defaults where an overrideable token, variant, or layout field should carry the value
+- primitives must not introduce new hardcoded visual defaults where an overridable token field or contract field should carry the value
 
 ## Feature Ownership
 
@@ -428,10 +433,13 @@ If a new kind of edit must become durable, the platform must model it explicitly
 ## Enforcement
 
 - `@ui` / `src/platform/ui/index.ts` is the only supported shared UI import surface
-- `src/platform/ui/contracts/**` defines the durable shared contract types
-- `src/platform/ui/theme/**` defines token schema, default tokens, runtime assembly, and override model
-- `src/platform/ui/primitives/**` implements the closed primitive APIs
-- `src/platform/ui/scaffolds/**` implements reusable structural helpers
+- `src/platform/ui/contracts/primitives/` — one interface per primitive; no semantic names or token refs
+- `src/platform/ui/contracts/runtime/` — `PrimitiveContracts` registry; no render logic
+- `src/platform/ui/contracts/shared/` — reusable realized render concepts
+- `src/platform/ui/theme/definitions/` — semantic construction layer (tokens → realized runtime)
+- `src/platform/ui/theme/providers/` — React runtime access layer (ThemeProvider, hooks)
+- `src/platform/ui/primitives/**` — closed primitive APIs; consume only realized contract values
+- `src/platform/ui/scaffolds/**` — reusable structural helpers
 
 Checks:
 

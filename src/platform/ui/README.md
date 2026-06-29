@@ -27,7 +27,7 @@ That ownership is exposed through the runtime API:
 const ui = useUI()
 
 ui.theme.palette.primary
-ui.contracts.button.primary
+ui.contracts.button!["primary"]
 ui.layouts.compact
 ```
 
@@ -72,17 +72,19 @@ export function SettingsPage() {
 
 ## Writing UI
 
-Use open layout primitives for composition:
+Use open layout primitives for composition. For closed primitives, get a realized contract from `useUI()`:
 
 ```tsx
-import { XStack, YStack, Body, Heading, Button } from "@ui"
+import { XStack, YStack, Body, Heading, Button, useUI } from "@ui"
 
 export function EmptyState() {
+  const { contracts } = useUI()
+
   return (
     <YStack gap="$md" ai="center" p="$lg">
       <Heading fontSize="$5" lineHeight="$5">No projects yet</Heading>
       <Body color="$textSecondary">Create one to get started.</Body>
-      <Button variant="primary">Create project</Button>
+      <Button contract={contracts.button!["primary"]}>Create project</Button>
     </YStack>
   )
 }
@@ -90,7 +92,7 @@ export function EmptyState() {
 
 Use closed primitives with realized contracts, not raw visual styling:
 
-- `Button`, `Badge`, `Tag`, `Avatar`, `Tabs`, `Table`, `SizingToolbar`, `TabbedPanel` use `variant`
+- `Button`, `Badge`, `Tag`, `Avatar`, `Tabs`, `Table`, `SizingToolbar`, `TabbedPanel`, `Input`, `TextArea`, `Select`, `MultiSelect`, `SelectableChip`, `ColorPalettePicker` require an explicit `contract` prop — a fully realized value from `useUI().contracts`
 - `Body`, `Heading`, `Label`, `Display` accept explicit text values such as `color`, `fontSize`, `lineHeight`, and `fontFamily`
 - `Icon` accepts explicit `color` and numeric `size`
 - open layout styling belongs on `XStack`, `YStack`, `ZStack`, and `ScrollView`
@@ -98,14 +100,17 @@ Use closed primitives with realized contracts, not raw visual styling:
 This is correct:
 
 ```tsx
-<Button variant="primary">Save</Button>
+const { contracts } = useUI()
+
+<Button contract={contracts.button!["primary"]}>Save</Button>
 <Body color="$textMuted" fontSize="$2" lineHeight="$2">Last updated 2m ago</Body>
 ```
 
 This is not:
 
 ```tsx
-<Button bg="red" px="$4">Save</Button>
+<Button variant="primary">Save</Button>   {/* variant= no longer exists */}
+<Button bg="red" px="$4">Save</Button>    {/* arbitrary styling */}
 ```
 
 ## Hook Usage
@@ -138,14 +143,14 @@ Read runtime lookups when you need owned appearance or layout contracts:
 import { useUI, useLayout } from "@ui"
 
 export function TableMeta() {
-  const ui = useUI()
+  const { contracts } = useUI()
   const layout = useLayout()
 
-  const table = ui.contracts.table?.default
+  const table = contracts.table!["default"]
 
   return {
     rowHeight: layout.rowHeight,
-    headerColor: table?.headerBackgroundColor,
+    headerColor: table?.header.textColor,
   }
 }
 ```
@@ -193,10 +198,12 @@ theme.elevation.xl
 
 For platform contributors extending the system:
 
-- add new token fields in `theme/factory.ts`
-- set platform defaults in `theme/defaults.ts`
-- derive resolved appearance contracts in `theme/variants.ts`
-- derive rhythm profiles in `theme/layouts.ts`
+- add new token fields in `theme/definitions/tokens.ts`
+- set platform defaults in `theme/definitions/defaults.ts`
+- derive resolved appearance contracts in `theme/definitions/factory.ts` (`createContracts`)
+- add new primitive contract interfaces in `contracts/primitives/<name>.ts`
+- add new aggregate fields to `contracts/runtime/contracts.ts` (`PrimitiveContracts`)
+- derive rhythm profiles in `theme/definitions/factory.ts` (`createLayouts`)
 - assemble the final realized runtime above `ThemeProvider`
 
 For feature callers:
@@ -204,7 +211,7 @@ For feature callers:
 - prefer existing contracts and layouts first
 - add new contract entries when a primitive needs a reusable appearance
 - add new layouts when a screen family needs a reusable rhythm profile
-- do not resolve semantics inside primitives
+- do not resolve semantics inside primitives or below `UiRuntime`
 - do not depend on raw Tamagui theme access through `@ui`
 
 ## Related Docs
