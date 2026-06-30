@@ -34,7 +34,7 @@ ui.layouts.compact
 Use the narrowest hook that matches the job:
 
 - `useTheme()` or `useThemeTokens()` when you only need tokens
-- `useUI()` when you need variant or layout lookup
+- `useUI()` when you need primitive contract or layout lookup
 - `useLayout()` when you need the active layout profile or an explicit named profile
 
 For layout contracts, the source of truth now lives in [`contracts/layouts.ts`](/Users/sriraml/Documents/GitHub/appforge/src/platform/ui/contracts/layouts.ts):
@@ -109,7 +109,7 @@ const { contracts } = useUI()
 This is not:
 
 ```tsx
-<Button variant="primary">Save</Button>   {/* variant= no longer exists */}
+<Button contract="primary">Save</Button>  {/* contract keys must be resolved before render */}
 <Button bg="red" px="$4">Save</Button>    {/* arbitrary styling */}
 ```
 

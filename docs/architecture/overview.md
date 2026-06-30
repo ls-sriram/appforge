@@ -19,7 +19,7 @@ AppForge is a shared frontend/backend platform repository centered on reusable f
 - `@ui` / `src/platform/ui/index.ts` is the only supported shared UI import surface.
 - `@appforge/platform/theme` is the supported shared theme contract surface for `ThemeOverride`, `UiRuntimeOverride`, `UiOverride`, `ThemeDefinition`, and runtime/theme builders.
 - This repository contains the shared visualizer-aware UI support under `src/platform/ui/visualizer*`; the prototype site that consumed it was moved out of this checkout.
-- Shared UI does not expose a repo-specific styling DSL. Removed APIs include `Block`, shared `panels`, shared `blocks`, and legacy text variants/tones.
+- Shared UI does not expose a repo-specific styling DSL. Removed APIs include `Block`, shared `panels`, shared `blocks`, and legacy text preset props.
 - Runtime config and secrets live in config-manager, not in committed `.env` files.
 - The backend is shared infrastructure, even when the frontend app surface is a single example app.
 

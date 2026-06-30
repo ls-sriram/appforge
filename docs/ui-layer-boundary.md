@@ -12,7 +12,7 @@ When adding or changing a visual value, ask:
 
 > Could two applications reasonably disagree on this?
 
-If yes, the value must be overridable by the application through tokens, variants, or layouts. AppForge must not hardcode it into primitive render functions as a non-overridable platform opinion.
+If yes, the value must be overridable by the application through tokens, primitive contracts, or layouts. AppForge must not hardcode it into primitive render functions as a non-overridable platform opinion.
 
 ## Ownership Model
 
@@ -20,7 +20,7 @@ If yes, the value must be overridable by the application through tokens, variant
 Application
     owns:
         token values
-        variant definitions
+        primitive contract definitions
         layout profiles
         feature composition
         business semantics
@@ -133,7 +133,9 @@ const layout = useLayout("compact")
 ```
 
 ```tsx
-<Table variant="default" layout="compact" />
+const { contracts } = useUI()
+
+<Table contract={contracts.table["default"]} layout="compact" />
 ```
 
 ## Layer 3: Primitive Contracts
@@ -170,7 +172,7 @@ Primitive contracts do not define:
 - business behavior
 - cross-feature semantics
 
-Primitive contracts are resolved values consumed by primitives. They are derived from tokens via `createContracts(theme)` above the runtime boundary. Contracts contain only realized render values — no semantic names, token references, variants, or runtime resolution logic.
+Primitive contracts are resolved values consumed by primitives. They are derived from tokens via `createContracts(theme)` above the runtime boundary. Contracts contain only realized render values — no token references or runtime resolution logic.
 
 ## Layer 4: UI Runtime
 
@@ -328,10 +330,10 @@ Forbidden direction:
 
 ```tsx
 <Button bg="red" px="$4" borderRadius={12}>Save</Button>
-<Button variant="primary">Save</Button>  {/* semantic string — resolved too late */}
+<Button contract="primary">Save</Button>  {/* contract lookup — resolved too late */}
 ```
 
-If a visual decision must vary across apps or use cases, it belongs in tokens, primitive contracts, or layouts rather than in arbitrary visual props or late-resolved variant strings on a closed primitive.
+If a visual decision must vary across apps or use cases, it belongs in tokens, primitive contracts, or layouts rather than in arbitrary visual props or late-resolved semantic contract lookups on a closed primitive.
 
 ## Text Semantics
 
@@ -361,7 +363,7 @@ Scaffolds do not own:
 - typography
 - app-specific business semantics
 
-Scaffolds may consume layout contracts, but they must not become a dumping ground for visual policy that belongs in variants or tokens.
+Scaffolds may consume layout contracts, but they must not become a dumping ground for visual policy that belongs in primitive contracts or tokens.
 
 ## Overrides
 
@@ -417,7 +419,7 @@ External tools and visualizer flows may rely on:
 
 - stable UI IDs and human-readable labels exposed through the platform visualizer helpers
 - existing primitive APIs
-- existing variant names and variant fields
+- existing contract names and contract fields
 - existing layout profiles and layout fields
 - existing token override fields
 
@@ -428,7 +430,7 @@ They may not treat the following as open-ended editable surfaces:
 - arbitrary positioning or transform props
 - new platform APIs invented outside the shared contract
 
-If a new kind of edit must become durable, the platform must model it explicitly as a token, variant field, layout field, or primitive prop.
+If a new kind of edit must become durable, the platform must model it explicitly as a token field, contract field, layout field, or primitive prop.
 
 ## Enforcement
 

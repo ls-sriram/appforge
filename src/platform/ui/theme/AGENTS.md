@@ -89,13 +89,13 @@ const primaryMuted = alpha(theme.palette.primary, 0.12)
 - import React
 - access providers, hooks, `useTheme()`, `useUI()`, `useLayout()`
 - access runtime state
-- return semantic values, token references, or variant names
+- return semantic values, token references, or contract lookup names
 
 Bad:
 ```ts
 color: "$primary"
 tone: "danger"
-variant: "primary"
+contract: "primary"
 ```
 
 Good:

@@ -63,9 +63,11 @@ Primitive APIs are closed.
 Allowed:
 
 ```tsx
-<Button variant="save" />
-<Input variant="search" />
-<Table variant="default" layout="compact" />
+const { contracts } = useUI()
+
+<Button contract={contracts.button["primary"]}>Save</Button>
+<Input contract={contracts.input["default"]} />
+<Table contract={contracts.table["default"]} layout="compact" />
 ```
 
 Forbidden:
@@ -129,7 +131,7 @@ Rules:
 - Contracts own appearance.
 - Primitives own behavior.
 
-Each variant-driven primitive exports its own resolved contract interface (e.g. `ButtonContract`, `TableContract`). `contracts/variants.ts` assembles them into the `PrimitiveContracts` map. Applications pass that resolved contract map to `ThemeProvider` via `createContracts(tokens)` (optionally extended with app-specific contract entries).
+Each closed primitive exports its own resolved contract interface (e.g. `ButtonContract`, `TableContract`). `contracts/runtime/contracts.ts` assembles them into the `PrimitiveContracts` map. Applications pass that resolved contract map to `ThemeProvider` via `createContracts(theme)` (optionally extended with app-specific contract entries).
 
 ---
 
@@ -246,23 +248,23 @@ Delete:
 | File | What it provides |
 |---|---|
 | `Text.tsx` | `Display`, `Heading`, `Label`, `Body` — typographic wrappers that accept explicit text values |
-| `Button.tsx` | `Button` — pressable with variant, loading, disabled, interaction state |
-| `Input.tsx` | `Input` — controlled text field; uses `"default"` variant internally |
-| `TextArea.tsx` | `TextArea` — multiline controlled field with required `variant` |
+| `Button.tsx` | `Button` — pressable with explicit contract, loading, disabled, interaction state |
+| `Input.tsx` | `Input` — controlled text field with required `contract` |
+| `TextArea.tsx` | `TextArea` — multiline controlled field with required `contract` |
 | `Icon.tsx` | `Icon` — icon name→component map with explicit `color` and numeric `size` |
-| `Avatar.tsx` | `Avatar` — initials avatar with required `variant` (xs/sm/md/lg/xl/2xl in defaults) |
-| `Badge.tsx` | `Badge` — small status labels with required `variant` |
-| `Tag.tsx` | `Tag` — label chip with required `variant` |
-| `SelectableChip.tsx` | `SelectableChip` — toggleable chip with required `variant` and selected state |
-| `ProgressBar.tsx` | `ProgressBar` — determinate fill bar with required `variant` |
-| `Select.tsx` | `Select` — single-value dropdown with required `variant` |
-| `MultiSelect.tsx` | `MultiSelect` — multi-value token field with required `variant` |
+| `Avatar.tsx` | `Avatar` — initials avatar with required `contract` |
+| `Badge.tsx` | `Badge` — small status labels with required `contract` |
+| `Tag.tsx` | `Tag` — label chip with required `contract` |
+| `SelectableChip.tsx` | `SelectableChip` — toggleable chip with required `contract` and selected state |
+| `ProgressBar.tsx` | `ProgressBar` — determinate fill bar with required `contract` |
+| `Select.tsx` | `Select` — single-value dropdown with required `contract` |
+| `MultiSelect.tsx` | `MultiSelect` — multi-value token field with required `contract` |
 | `ColorPalettePicker.tsx` | `ColorPalettePicker` — hex/swatch color editor |
 | `ColorSwatch.tsx` | `ColorSwatch` — read-only color preview |
 | `SizingToolbar.tsx` | `SizingToolbar` — closed sm/md/lg size selector for compact action regions |
 | `Tabs.tsx` | `Tabs` — one-of-many tab navigation |
 | `TabbedPanel.tsx` | `TabbedPanel` — controlled tabbed panel host |
-| `Table.tsx` | `Table` — data table with column/cell specs, variant, and optional layout contract |
+| `Table.tsx` | `Table` — data table with column/cell specs, explicit contract, and optional layout contract |
 | `dialog.ts` | `dialog` — imperative alert/confirm API |
 | `linking.ts` | `linking` — URL open utility |
 
@@ -282,13 +284,13 @@ Reject:
 - runtime token resolution
 - raw style props passed to closed primitives (`bg=`, `borderWidth=`, `px=`, `color=`, etc.)
 - `label=` prop on Button (use children)
-- missing `variant=` on variant-driven primitives
+- missing `contract=` on closed primitives
 
 Require:
 
 - ownership clarity
 - explicit contracts
-- variant validation (throw on unknown variants)
+- explicit contract lookup and validation before render
 - application-controlled appearance
 - no feature imports
 - no domain terminology in primitive APIs
