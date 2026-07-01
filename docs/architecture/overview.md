@@ -6,6 +6,7 @@ AppForge is a shared frontend/backend platform repository centered on reusable f
 
 - `src/features/`: shared product features and viewmodel/usecase slices
 - `src/features/serverless-entitlement/`: native-store-only entitlement flow whose authority is App Store / Google Play state on device, not backend entitlement records
+  Production wiring stays inside platform-specific runtime adapters and a runtime factory so feature/UI code never talks directly to StoreKit or Play Billing.
 - `src/platform/ui/`: shared Tamagui provider/config, the root UI barrel, layouts, visualizer helpers, and a small set of domain-neutral helpers
 - `src/platform/ui/theme/`: token schema, defaults, runtime assembly, and theme providers
 - `src/platform/*`: shared frontend platform modules such as API, navigation, providers, and core utilities

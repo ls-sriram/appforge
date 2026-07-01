@@ -8,7 +8,7 @@ export type NativeStoreEntitlementPlanKind = "lifetime" | "subscription";
 
 export type NativeStoreSubscriptionPeriodUnit = "day" | "week" | "month" | "year";
 
-export type NativeStoreOwnershipStatus = "active" | "expired" | "revoked";
+export type NativeStoreOwnershipStatus = "active" | "expired" | "revoked" | "pending";
 
 export interface NativeStoreSubscriptionPeriod {
   unit: NativeStoreSubscriptionPeriodUnit;
