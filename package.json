@@ -11,6 +11,8 @@
     "src/features/auth/**/*.tsx",
     "src/features/entitlements/**/*.ts",
     "src/features/entitlements/**/*.tsx",
+    "src/features/serverless-entitlement/**/*.ts",
+    "src/features/serverless-entitlement/**/*.tsx",
     "src/features/login/**/*.ts",
     "src/features/login/**/*.tsx",
     "src/features/register/**/*.ts",
@@ -40,6 +42,7 @@
     "./features/auth": "./src/features/auth/index.ts",
     "./features/login": "./src/features/login/index.ts",
     "./features/register": "./src/features/register/index.ts",
+    "./features/serverless-entitlement": "./src/features/serverless-entitlement/index.ts",
     "./features/settings": "./src/features/settings/index.ts"
   },
   "scripts": {
