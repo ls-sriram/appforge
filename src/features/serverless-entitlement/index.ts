@@ -1,5 +1,13 @@
 export { ServerlessEntitlementController } from "./store/controller";
 export {
+  createServerlessEntitlementController,
+  serverlessEntitlementConfig,
+} from "./bootstrap";
+export type {
+  ServerlessEntitlementBootstrapConfig,
+  ServerlessEntitlementBootstrapOptions,
+} from "./bootstrap";
+export {
   initializeEntitlement,
 } from "./usecases/initialize-entitlement";
 export { purchaseProduct } from "./usecases/purchase-product";
@@ -37,11 +45,19 @@ export type {
   AppleStoreTransactionSnapshot,
 } from "./runtime/apple-store-client";
 export type {
+  AppleStorekitBridgeImplementation,
+  AppleStorekitBridgeOptions,
+} from "./runtime/apple-storekit-bridge";
+export type {
   GooglePlayBillingBridge,
   GooglePlayPurchaseSnapshot,
   GooglePlayPurchaseState,
   GooglePlaySubscriptionState,
 } from "./runtime/google-play-client";
+export type {
+  GooglePlayBillingBridgeImplementation,
+  GooglePlayBillingBridgeOptions,
+} from "./runtime/google-play-billing-bridge";
 export type {
   ServerlessEntitlementCache,
   ServerlessEntitlementRuntime,
@@ -59,9 +75,11 @@ export {
   AppleStoreBillingClient,
   mapAppleTransactionsToPurchaseRecords,
 } from "./runtime/apple-store-client";
+export { AppleStorekitBridge } from "./runtime/apple-storekit-bridge";
 export {
   GooglePlayBillingClient,
   mapGooglePlayPurchasesToPurchaseRecords,
 } from "./runtime/google-play-client";
+export { GooglePlayStoreBridge } from "./runtime/google-play-billing-bridge";
 export { PlatformServerlessEntitlementRuntime } from "./runtime/platform-runtime";
 export { UnsupportedServerlessEntitlementRuntime } from "./runtime/unsupported-runtime";
