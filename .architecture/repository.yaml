@@ -22,6 +22,7 @@ generation:
       - assets
       - mocks
   conventions:
+    layer_contracts_dir: .architecture/layers
     standard_feature_roles:
       description: common feature shape used by most product features
       suffixes:
@@ -184,160 +185,16 @@ generation:
     "*.storage.ts":
       layer: data
       role: storage
-  content_contracts:
-    screen:
-      responsibilities:
-        - route_orchestrator
-        - binds_navigation_and_feature_entry
-        - delegates_rendering_to_view_or_blocks
-      must_not:
-        - contain_domain_persistence_logic
-        - become_reusable_visual_primitive
-    view:
-      responsibilities:
-        - pure_feature_render_composition
-        - maps_viewmodel_state_to_props
-        - coordinates_blocks_without_owning_state
-      must_not:
-        - call_datasources_or_repositories
-        - own_long_lived_business_state
-    viewmodel:
-      responsibilities:
-        - expose_view_state
-        - expose_ui_actions
-        - coordinate_usecases_for_screen_flows
-    scaffold:
-      responsibilities:
-        - own_page_or_surface_chrome
-        - provide_layout_slots_for_view_or_blocks
-      must_not:
-        - contain_business_state_transitions
-    store:
-      responsibilities:
-        - own_mutable_feature_state
-        - provide_state_transitions
-      must_not:
-        - render_ui
-    usecase:
-      responsibilities:
-        - execute_business_operation
-        - enforce_domain_rules
-    repository:
-      responsibilities:
-        - define_domain_persistence_abstraction
-      must_not:
-        - bind_transport_details
-    datasource:
-      responsibilities:
-        - perform_transport_or_storage_io
-        - adapt_external_systems
-    service:
-      responsibilities:
-        - expose_boundary_facing_operations
-        - coordinate_external_system_calls
-        - remain_optional_when_usecase_repository_datasource_is_sufficient
-      must_not:
-        - own_domain_invariants
-    runtime:
-      responsibilities:
-        - implement_feature_scoped_runtime_capabilities
-        - isolate_environment_adapters
-        - remain_optional_and_capability_scoped
-      must_not:
-        - act_as_feature_entry_view
-    renderer:
-      responsibilities:
-        - select_or_render_visual_variants
-        - remain_ui_facing_and_presentational
-        - remain_optional_for_features_without rendering_strategy_selection
-      must_not:
-        - own_feature_orchestration
-    model:
-      responsibilities:
-        - define_domain_entities_and_value_shapes
-    dto:
-      responsibilities:
-        - define_transport_shapes
-        - remain_boundary_facing
-    mapper:
-      responsibilities:
-        - translate_dto_and_domain_shapes
-    block:
-      responsibilities:
-        - reusable_visual_composition
-        - remain_presentational_and_prop_driven
-      must_not:
-        - own_feature_orchestration
-        - call_usecases_directly
-    stage:
-      responsibilities:
-        - visualizer_or_demo_surface
-        - showcase_view_or_block_states
-      must_not:
-        - serve_as_runtime_feature_entrypoint
-    client:
-      responsibilities:
-        - expose_external_api_or_sdk_calls
-        - isolate_remote_boundary_details
-        - remain optional_for_sdk_or_remote_boundaries_only
-    bridge:
-      responsibilities:
-        - adapt_platform_bridge_interfaces
-        - isolate_native_or_host_callbacks
-        - remain optional_for_platform_integration_only
-    factory:
-      responsibilities:
-        - compose_feature_scoped_dependencies
-        - create_runtime_or_service_instances
-        - remain optional_when direct_construction_is_sufficient
-      must_not:
-        - own_persistent_feature_state
-    adapter:
-      responsibilities:
-        - adapt_external_or_runtime_interfaces
-        - translate_boundary_shapes
-        - remain optional_when no_boundary_translation_is_needed
-    capability:
-      responsibilities:
-        - implement_feature_capabilities
-        - encapsulate environment_specific_behavior
-        - remain optional_when capability_split_is_not_needed
-    config:
-      responsibilities:
-        - define feature configuration values
-        - remain declarative
-    catalog:
-      responsibilities:
-        - define indexed feature configuration or lookup tables
-        - remain deterministic
-    policy:
-      responsibilities:
-        - encode domain policy decisions
-        - remain side_effect_free
-    handler:
-      responsibilities:
-        - derive feature state from domain inputs
-        - coordinate pure domain transforms
-    types:
-      responsibilities:
-        - re-export_or_group_type_shapes
-        - avoid runtime_side_effects
-    keys:
-      responsibilities:
-        - define canonical key sets
-        - remain immutable
-    contracts:
-      responsibilities:
-        - define visual_contract_shapes
-        - remain presentation_facing
-    styles:
-      responsibilities:
-        - define presentational_style_tokens
-        - remain declarative
-    storage:
-      responsibilities:
-        - persist_feature_local_state
-        - isolate_storage_backend_details
+  standard_feature_contract:
+    flow:
+      - screen -> view
+      - screen -> viewmodel
+      - view -> block|scaffold|styles|contracts
+      - viewmodel -> store|usecase|repository|runtime
+      - usecase -> domain
+      - repository -> datasource|domain
+      - datasource -> external_io
+      - model -> domain_only
   scaffolding:
     create_tests: true
     create_readme: false

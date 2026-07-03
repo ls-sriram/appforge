@@ -1,0 +1,12 @@
+schema: v1
+layer: ui
+role: styles
+suffixes:
+  - .styles.ts
+responsibilities:
+  - define_presentational_style_tokens
+  - keep_ui_values_declarative
+  - support_rendering_without_business_knowledge
+must_not:
+  - execute_business_logic
+  - perform_runtime_side_effects

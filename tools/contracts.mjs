@@ -9,6 +9,7 @@ import {
 export const ROOT = path.resolve(import.meta.dirname, "..");
 export const STRUCTURED_CONTRACT_ROOT = path.join(ROOT, ".architecture");
 export const STRUCTURED_LAYER_CONTRACT = path.join(STRUCTURED_CONTRACT_ROOT, "layers.yaml");
+export const STRUCTURED_LAYER_CONTRACTS_ROOT = path.join(STRUCTURED_CONTRACT_ROOT, "layers");
 export const STRUCTURED_REPOSITORY_CONTRACT = path.join(STRUCTURED_CONTRACT_ROOT, "repository.yaml");
 export const AGENT_BEHAVIOR_PATH = path.join(ROOT, ".agent", "agent_behavior.md");
 let cachedSystem;
@@ -27,18 +28,18 @@ function getSystem() {
 }
 
 export function getLayerContractPath(layerId) {
-  return layerId ? STRUCTURED_LAYER_CONTRACT : undefined;
+  if (!layerId) return undefined;
+  const rolePath = path.join(STRUCTURED_LAYER_CONTRACTS_ROOT, `${layerId}.yaml`);
+  return fs.existsSync(rolePath) ? rolePath : STRUCTURED_LAYER_CONTRACT;
 }
 
 export function listLayerDirectoryContracts() {
   const system = getSystem();
-  const mvvm = system.layers.architecture?.patterns?.mvvm;
-  const layerNames = mvvm?.layers ?? [];
-  return layerNames.map((layerId) => ({
-    layerId,
-    contractFile: "layers.yaml",
-    contractPath: STRUCTURED_LAYER_CONTRACT,
-    relativePath: rel(STRUCTURED_LAYER_CONTRACT),
+  return (system.layerContracts ?? []).map((contract) => ({
+    layerId: contract.role,
+    contractFile: path.basename(contract.filePath),
+    contractPath: path.join(ROOT, contract.filePath),
+    relativePath: contract.filePath,
   }));
 }
 
@@ -76,13 +77,21 @@ export function listKnownContracts() {
   if (fs.existsSync(STRUCTURED_LAYER_CONTRACT)) {
     entries.push({
       kind: "layer_contract",
-      id: "layers",
+      id: "layers_graph",
       path: STRUCTURED_LAYER_CONTRACT,
       relativePath: rel(STRUCTURED_LAYER_CONTRACT),
     });
   }
 
   const system = getSystem();
+  for (const contract of system.layerContracts ?? []) {
+    entries.push({
+      kind: "layer_contract",
+      id: contract.role,
+      path: path.join(ROOT, contract.filePath),
+      relativePath: contract.filePath,
+    });
+  }
   for (const contract of system.modules) {
     entries.push({
       kind: "module_contract",
@@ -136,6 +145,7 @@ export function getFileContractMeta(filePath) {
 
   const classification = classifyFileByConvention(getSystem(), relativePath);
   const fileType = classification?.layer;
+  const roleType = classification?.role;
   const isContractScopedSource =
     relativePath.startsWith("src/features/") &&
     /\.(ts|tsx)$/.test(relativePath) &&
@@ -147,8 +157,8 @@ export function getFileContractMeta(filePath) {
   const namingViolation = isContractScopedSource && !fileType
     ? "File does not match any repository naming convention."
     : undefined;
-  const contractFile = fileType ? "layers.yaml" : undefined;
-  const contractPath = contractFile ? STRUCTURED_LAYER_CONTRACT : undefined;
+  const contractPath = roleType ? getLayerContractPath(roleType) : undefined;
+  const contractFile = contractPath ? path.basename(contractPath) : undefined;
 
   return {
     ...meta,
@@ -228,6 +238,12 @@ export function resolveEffectiveContractChain(filePath) {
     pushChainEntry(chain, {
       kind: "layer_contract",
       path: STRUCTURED_LAYER_CONTRACT,
+    });
+  }
+  if (meta.contractPath) {
+    pushChainEntry(chain, {
+      kind: "layer_contract",
+      path: meta.contractPath,
     });
   }
   pushChainEntry(chain, {

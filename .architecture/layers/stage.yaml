@@ -1,0 +1,13 @@
+schema: v1
+layer: ui
+role: stage
+suffixes:
+  - .stage.tsx
+responsibilities:
+  - render_visualizer_or_demo_surface
+  - preview_real_view_or_block_states_with_mock_data
+  - keep_callbacks_inert_and_display_focused
+must_not:
+  - call_router_session_or_network
+  - perform_real_side_effects
+  - become_runtime_feature_entrypoint

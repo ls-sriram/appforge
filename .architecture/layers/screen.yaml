@@ -1,0 +1,15 @@
+schema: v1
+layer: ui
+role: screen
+suffixes:
+  - .screen.tsx
+responsibilities:
+  - compose_feature_entry_surface
+  - bind_navigation_and_route_context
+  - call_exactly_one_feature_viewmodel_hook
+  - delegate_rendering_to_view_or_scaffold
+must_not:
+  - contain_presentational_jsx_details
+  - own_local_business_state
+  - call_datasources_or_repositories_directly
+  - become_reusable_visual_primitive

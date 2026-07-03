@@ -1,0 +1,15 @@
+schema: v1
+layer: data
+role: runtime
+suffixes:
+  - .runtime.ts
+  - .runtime.web.ts
+  - .runtime.native.ts
+responsibilities:
+  - wrap_live_runtime_capabilities
+  - isolate_environment_specific_side_effects
+  - accept_explicit_inputs_from_callers
+must_not:
+  - own_feature_data_persistence_contracts
+  - encode_business_rules
+  - import_ui_layers

@@ -1,0 +1,12 @@
+schema: v1
+layer: ui
+role: contracts
+suffixes:
+  - .contracts.ts
+responsibilities:
+  - define_realized_visual_contract_shapes
+  - expose_presentation_facing_contract_values
+  - stay_declarative_and_ui_scoped
+must_not:
+  - contain_feature_business_logic
+  - perform_runtime_side_effects

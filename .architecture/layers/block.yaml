@@ -1,0 +1,13 @@
+schema: v1
+layer: ui
+role: block
+suffixes:
+  - .block.tsx
+responsibilities:
+  - provide_reusable_visual_composition
+  - remain_presentational_and_prop_driven
+  - isolate_repeatable_render_fragments
+must_not:
+  - own_feature_orchestration
+  - call_usecases_directly
+  - access_repositories_or_datasources

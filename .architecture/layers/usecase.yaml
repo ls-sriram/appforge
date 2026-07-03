@@ -1,0 +1,13 @@
+schema: v1
+layer: usecase
+role: usecase
+suffixes:
+  - .usecase.ts
+responsibilities:
+  - execute_one_business_action_per_file
+  - enforce_domain_rules
+  - stay_reusable_across_ui_entrypoints
+must_not:
+  - render_ui_or_use_react
+  - contain_transport_specific_logic
+  - import_view_or_viewmodel_files

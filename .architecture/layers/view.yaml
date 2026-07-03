@@ -1,0 +1,14 @@
+schema: v1
+layer: ui
+role: view
+suffixes:
+  - .view.tsx
+responsibilities:
+  - render_feature_surface_only
+  - receive_display_data_via_props
+  - emit_intents_via_typed_callback_props
+  - compose_blocks_without_owning_feature_state
+must_not:
+  - call_datasources_repositories_or_usecases
+  - own_long_lived_business_state
+  - perform_transport_or_persistence_logic

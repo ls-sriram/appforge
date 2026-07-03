@@ -71,7 +71,7 @@ success_criteria:
   writeFile(routePath);
 
   assert.equal(getFileContractMeta(domainModelPath).fileType, "domain");
-  assert.equal(getFileContractMeta(domainModelPath).contractFile, "layers.yaml");
+  assert.equal(getFileContractMeta(domainModelPath).contractFile, "model.yaml");
   assert.equal(getFileContractMeta(domainRepositoryPath).fileType, "repository");
   assert.equal(getFileContractMeta(usecasePath).fileType, "usecase");
   assert.equal(getFileContractMeta(viewmodelStorePath).fileType, "viewmodel");
@@ -85,7 +85,7 @@ success_criteria:
   assert.equal(getFileContractMeta(unknownPath).contractFile, undefined);
 
   const system = loadContractSystem(process.cwd());
-  assert.equal(listLayerDirectoryContracts().length, system.layers.architecture.patterns.mvvm.layers.length);
+  assert.equal(listLayerDirectoryContracts().length, system.layerContracts.length);
   assert(listKnownContracts().some((entry) => entry.relativePath === ".architecture/repository.yaml"));
   assert.equal(classifyFileByConvention(system, domainModelPath).layer, "domain");
 
@@ -98,6 +98,7 @@ success_criteria:
       "src/features/contracts-fixture/CLAUDE.md",
       "src/features/contracts-fixture/.contract.yaml",
       ".architecture/layers.yaml",
+      ".architecture/layers/view.yaml",
       ".architecture/repository.yaml",
     ],
   );

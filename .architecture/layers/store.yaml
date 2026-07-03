@@ -1,0 +1,13 @@
+schema: v1
+layer: viewmodel
+role: store
+suffixes:
+  - .store.ts
+responsibilities:
+  - own_mutable_feature_state
+  - provide_state_transitions
+  - support_shared_ui_workflow_state
+must_not:
+  - render_ui
+  - perform_async_logic_or_side_effects
+  - import_ui_layers

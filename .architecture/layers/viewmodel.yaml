@@ -1,0 +1,14 @@
+schema: v1
+layer: viewmodel
+role: viewmodel
+suffixes:
+  - .viewmodel.ts
+responsibilities:
+  - own_ui_state_and_derived_display_state
+  - expose_typed_ui_actions
+  - coordinate_store_usecase_repository_and_runtime_calls
+  - translate_view_intents_into_feature_operations
+must_not:
+  - render_jsx
+  - contain_transport_specific_io_details
+  - import_screen_view_or_block_files

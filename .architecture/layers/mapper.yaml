@@ -1,0 +1,13 @@
+schema: v1
+layer: data
+role: mapper
+suffixes:
+  - .mapper.ts
+responsibilities:
+  - translate_boundary_shapes_into_domain_shapes
+  - isolate_mapping_logic_from_repositories_and_datasources
+  - stay_deterministic_and_side_effect_free
+must_not:
+  - perform_transport_io
+  - import_ui_layers
+  - own_feature_state

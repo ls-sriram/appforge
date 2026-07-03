@@ -125,6 +125,33 @@ success_criteria:
         layout: "flat",
         optional_dirs: ["tests", "assets", "mocks"],
       },
+      conventions: {
+        layer_contracts_dir: ".architecture/layers",
+        standard_feature_roles: {
+          description: "common feature shape used by most product features",
+          suffixes: [
+            "screen",
+            "view",
+            "scaffold",
+            "block",
+            "stage",
+            "viewmodel",
+            "store",
+            "usecase",
+            "repository",
+            "datasource",
+            "model",
+            "mapper",
+            "styles",
+            "contracts",
+          ],
+        },
+        optional_specialized_roles: {
+          description:
+            "integration and runtime roles used only when a feature needs platform, SDK, transport, or composition-specific files",
+          suffixes: ["service", "runtime", "dto"],
+        },
+      },
       file_suffixes: {
         screen: ".screen.tsx",
         view: ".view.tsx",
@@ -161,109 +188,17 @@ success_criteria:
         "*.block.tsx": { layer: "ui", role: "block" },
         "*.stage.tsx": { layer: "ui", role: "stage" },
       },
-      content_contracts: {
-        screen: {
-          responsibilities: [
-            "route_orchestrator",
-            "binds_navigation_and_feature_entry",
-            "delegates_rendering_to_view_or_blocks",
-          ],
-          must_not: [
-            "contain_domain_persistence_logic",
-            "become_reusable_visual_primitive",
-          ],
-        },
-        view: {
-          responsibilities: [
-            "pure_feature_render_composition",
-            "maps_viewmodel_state_to_props",
-            "coordinates_blocks_without_owning_state",
-          ],
-          must_not: [
-            "call_datasources_or_repositories",
-            "own_long_lived_business_state",
-          ],
-        },
-        viewmodel: {
-          responsibilities: [
-            "expose_view_state",
-            "expose_ui_actions",
-            "coordinate_usecases_for_screen_flows",
-          ],
-        },
-        scaffold: {
-          responsibilities: [
-            "own_page_or_surface_chrome",
-            "provide_layout_slots_for_view_or_blocks",
-          ],
-          must_not: ["contain_business_state_transitions"],
-        },
-        store: {
-          responsibilities: [
-            "own_mutable_feature_state",
-            "provide_state_transitions",
-          ],
-          must_not: ["render_ui"],
-        },
-        usecase: {
-          responsibilities: [
-            "execute_business_operation",
-            "enforce_domain_rules",
-          ],
-        },
-        repository: {
-          responsibilities: ["define_domain_persistence_abstraction"],
-          must_not: ["bind_transport_details"],
-        },
-        datasource: {
-          responsibilities: [
-            "perform_transport_or_storage_io",
-            "adapt_external_systems",
-          ],
-        },
-        service: {
-          responsibilities: [
-            "expose_boundary_facing_operations",
-            "coordinate_external_system_calls",
-          ],
-          must_not: ["own_domain_invariants"],
-        },
-        runtime: {
-          responsibilities: [
-            "implement_feature_scoped_runtime_capabilities",
-            "isolate_environment_adapters",
-          ],
-          must_not: ["act_as_feature_entry_view"],
-        },
-        model: {
-          responsibilities: ["define_domain_entities_and_value_shapes"],
-        },
-        dto: {
-          responsibilities: [
-            "define_transport_shapes",
-            "remain_boundary_facing",
-          ],
-        },
-        mapper: {
-          responsibilities: ["translate_dto_and_domain_shapes"],
-        },
-        block: {
-          responsibilities: [
-            "reusable_visual_composition",
-            "remain_presentational_and_prop_driven",
-          ],
-          must_not: [
-            "own_feature_orchestration",
-            "call_usecases_directly",
-          ],
-        },
-        stage: {
-          responsibilities: [
-            "visualizer_or_demo_surface",
-            "showcase_view_or_block_states",
-          ],
-          must_not: ["serve_as_runtime_feature_entrypoint"],
-        },
+      standard_feature_contract: {
+        flow: [
+          "screen -> view",
+          "screen -> viewmodel",
+          "view -> block|scaffold|styles|contracts",
+          "viewmodel -> store|usecase|repository|runtime",
+          "usecase -> domain",
+          "repository -> datasource|domain",
+          "datasource -> external_io",
+          "model -> domain_only",
+        ],
       },
       scaffolding: {
         create_tests: true,
@@ -280,11 +215,11 @@ success_criteria:
     expect(getMvvmArchitecturePattern(system)).toEqual({
       layers: ["ui", "viewmodel", "usecase", "repository", "data", "domain"],
       allowed_dependencies: {
-        ui: ["viewmodel"],
-        viewmodel: ["usecase", "domain"],
-        usecase: ["repository", "domain"],
+        ui: ["viewmodel", "domain"],
+        viewmodel: ["usecase", "domain", "repository", "data"],
+        usecase: ["repository", "domain", "data"],
         repository: ["data", "domain"],
-        data: ["domain"],
+        data: ["repository", "data", "domain"],
         domain: [],
       },
     });
@@ -299,89 +234,113 @@ success_criteria:
       layer: "viewmodel",
       role: "viewmodel",
       responsibilities: [
-        "expose_view_state",
-        "expose_ui_actions",
-        "coordinate_usecases_for_screen_flows",
+        "own_ui_state_and_derived_display_state",
+        "expose_typed_ui_actions",
+        "coordinate_store_usecase_repository_and_runtime_calls",
+        "translate_view_intents_into_feature_operations",
       ],
-      prohibited_behaviors: [],
-      allowed_imports: ["usecase", "domain"],
+      prohibited_behaviors: [
+        "render_jsx",
+        "contain_transport_specific_io_details",
+        "import_screen_view_or_block_files",
+      ],
+      allowed_imports: ["usecase", "domain", "repository", "data"],
     });
     expect(classifyFileByConvention(system, "src/features/profile/profile.view.tsx")).toEqual({
       file: "src/features/profile/profile.view.tsx",
       layer: "ui",
       role: "view",
       responsibilities: [
-        "pure_feature_render_composition",
-        "maps_viewmodel_state_to_props",
-        "coordinates_blocks_without_owning_state",
+        "render_feature_surface_only",
+        "receive_display_data_via_props",
+        "emit_intents_via_typed_callback_props",
+        "compose_blocks_without_owning_feature_state",
       ],
       prohibited_behaviors: [
-        "call_datasources_or_repositories",
+        "call_datasources_repositories_or_usecases",
         "own_long_lived_business_state",
+        "perform_transport_or_persistence_logic",
       ],
-      allowed_imports: ["viewmodel"],
+      allowed_imports: ["viewmodel", "domain"],
     });
     expect(classifyFileByConvention(system, "src/features/profile/profile.stage.tsx")).toEqual({
       file: "src/features/profile/profile.stage.tsx",
       layer: "ui",
       role: "stage",
       responsibilities: [
-        "visualizer_or_demo_surface",
-        "showcase_view_or_block_states",
+        "render_visualizer_or_demo_surface",
+        "preview_real_view_or_block_states_with_mock_data",
+        "keep_callbacks_inert_and_display_focused",
       ],
-      prohibited_behaviors: ["serve_as_runtime_feature_entrypoint"],
-      allowed_imports: ["viewmodel"],
+      prohibited_behaviors: [
+        "call_router_session_or_network",
+        "perform_real_side_effects",
+        "become_runtime_feature_entrypoint",
+      ],
+      allowed_imports: ["viewmodel", "domain"],
     });
     expect(classifyFileByConvention(system, "src/features/profile/profile.scaffold.tsx")).toEqual({
       file: "src/features/profile/profile.scaffold.tsx",
       layer: "ui",
       role: "scaffold",
       responsibilities: [
-        "own_page_or_surface_chrome",
-        "provide_layout_slots_for_view_or_blocks",
+        "own_surface_chrome_and_slot_layout",
+        "provide_hierarchy_responsive_behavior_and_safe_areas",
+        "host_view_or_block_content_without_owning_business_state",
       ],
-      prohibited_behaviors: ["contain_business_state_transitions"],
-      allowed_imports: ["viewmodel"],
-    });
-    expect(classifyFileByConvention(system, "src/features/profile/profile.service.ts")).toEqual({
-      file: "src/features/profile/profile.service.ts",
-      layer: "data",
-      role: "service",
-      responsibilities: [
-        "expose_boundary_facing_operations",
-        "coordinate_external_system_calls",
+      prohibited_behaviors: [
+        "contain_business_state_transitions",
+        "define_primitive_appearance_policy",
+        "call_usecases_or_datasources",
       ],
-      prohibited_behaviors: ["own_domain_invariants"],
-      allowed_imports: ["domain"],
+      allowed_imports: ["viewmodel", "domain"],
     });
     expect(classifyFileByConvention(system, "src/features/profile/profile.runtime.web.ts")).toEqual({
       file: "src/features/profile/profile.runtime.web.ts",
       layer: "data",
       role: "runtime",
       responsibilities: [
-        "implement_feature_scoped_runtime_capabilities",
-        "isolate_environment_adapters",
+        "wrap_live_runtime_capabilities",
+        "isolate_environment_specific_side_effects",
+        "accept_explicit_inputs_from_callers",
       ],
-      prohibited_behaviors: ["act_as_feature_entry_view"],
-      allowed_imports: ["domain"],
+      prohibited_behaviors: [
+        "own_feature_data_persistence_contracts",
+        "encode_business_rules",
+        "import_ui_layers",
+      ],
+      allowed_imports: ["repository", "data", "domain"],
     });
     expect(classifyFileByConvention(system, "src/features/profile/profile.runtime.ts")).toEqual({
       file: "src/features/profile/profile.runtime.ts",
       layer: "data",
       role: "runtime",
       responsibilities: [
-        "implement_feature_scoped_runtime_capabilities",
-        "isolate_environment_adapters",
+        "wrap_live_runtime_capabilities",
+        "isolate_environment_specific_side_effects",
+        "accept_explicit_inputs_from_callers",
       ],
-      prohibited_behaviors: ["act_as_feature_entry_view"],
-      allowed_imports: ["domain"],
+      prohibited_behaviors: [
+        "own_feature_data_persistence_contracts",
+        "encode_business_rules",
+        "import_ui_layers",
+      ],
+      allowed_imports: ["repository", "data", "domain"],
     });
     expect(classifyFileByConvention(system, "src/features/profile/profile.model.ts")).toEqual({
       file: "src/features/profile/profile.model.ts",
       layer: "domain",
       role: "model",
-      responsibilities: ["define_domain_entities_and_value_shapes"],
-      prohibited_behaviors: [],
+      responsibilities: [
+        "define_domain_entities_and_value_shapes",
+        "remain_framework_agnostic",
+        "keep_domain_types_stable_for_feature_logic",
+      ],
+      prohibited_behaviors: [
+        "perform_io_or_side_effects",
+        "import_ui_or_data_layers",
+        "encode_transport_specific_shapes",
+      ],
       allowed_imports: [],
     });
   });
@@ -402,9 +361,6 @@ generation:
     usecase: ""
   classification:
     "usecases/*.ts": {}
-  content_contracts:
-    view:
-      responsibilities: invalid
   scaffolding:
     create_tests: yes
     create_readme: false
@@ -478,6 +434,31 @@ generation:
       - tests
       - assets
       - mocks
+  conventions:
+    layer_contracts_dir: .architecture/layers
+    standard_feature_roles:
+      description: common feature shape used by most product features
+      suffixes:
+        - screen
+        - view
+        - scaffold
+        - block
+        - stage
+        - viewmodel
+        - store
+        - usecase
+        - repository
+        - datasource
+        - model
+        - mapper
+        - styles
+        - contracts
+    optional_specialized_roles:
+      description: integration and runtime roles used only when a feature needs platform, SDK, transport, or composition-specific files
+      suffixes:
+        - service
+        - runtime
+        - dto
   file_suffixes:
     screen: ".screen.tsx"
     view: ".view.tsx"
@@ -544,88 +525,16 @@ generation:
     "*.stage.tsx":
       layer: ui
       role: stage
-  content_contracts:
-    screen:
-      responsibilities:
-        - route_orchestrator
-        - binds_navigation_and_feature_entry
-        - delegates_rendering_to_view_or_blocks
-      must_not:
-        - contain_domain_persistence_logic
-        - become_reusable_visual_primitive
-    view:
-      responsibilities:
-        - pure_feature_render_composition
-        - maps_viewmodel_state_to_props
-        - coordinates_blocks_without_owning_state
-      must_not:
-        - call_datasources_or_repositories
-        - own_long_lived_business_state
-    viewmodel:
-      responsibilities:
-        - expose_view_state
-        - expose_ui_actions
-        - coordinate_usecases_for_screen_flows
-    scaffold:
-      responsibilities:
-        - own_page_or_surface_chrome
-        - provide_layout_slots_for_view_or_blocks
-      must_not:
-        - contain_business_state_transitions
-    store:
-      responsibilities:
-        - own_mutable_feature_state
-        - provide_state_transitions
-      must_not:
-        - render_ui
-    usecase:
-      responsibilities:
-        - execute_business_operation
-        - enforce_domain_rules
-    repository:
-      responsibilities:
-        - define_domain_persistence_abstraction
-      must_not:
-        - bind_transport_details
-    datasource:
-      responsibilities:
-        - perform_transport_or_storage_io
-        - adapt_external_systems
-    service:
-      responsibilities:
-        - expose_boundary_facing_operations
-        - coordinate_external_system_calls
-      must_not:
-        - own_domain_invariants
-    runtime:
-      responsibilities:
-        - implement_feature_scoped_runtime_capabilities
-        - isolate_environment_adapters
-      must_not:
-        - act_as_feature_entry_view
-    model:
-      responsibilities:
-        - define_domain_entities_and_value_shapes
-    dto:
-      responsibilities:
-        - define_transport_shapes
-        - remain_boundary_facing
-    mapper:
-      responsibilities:
-        - translate_dto_and_domain_shapes
-    block:
-      responsibilities:
-        - reusable_visual_composition
-        - remain_presentational_and_prop_driven
-      must_not:
-        - own_feature_orchestration
-        - call_usecases_directly
-    stage:
-      responsibilities:
-        - visualizer_or_demo_surface
-        - showcase_view_or_block_states
-      must_not:
-        - serve_as_runtime_feature_entrypoint
+  standard_feature_contract:
+    flow:
+      - screen -> view
+      - screen -> viewmodel
+      - view -> block|scaffold|styles|contracts
+      - viewmodel -> store|usecase|repository|runtime
+      - usecase -> domain
+      - repository -> datasource|domain
+      - datasource -> external_io
+      - model -> domain_only
   scaffolding:
     create_tests: true
     create_readme: false
@@ -666,18 +575,122 @@ architecture:
       allowed_dependencies:
         ui:
           - viewmodel
+          - domain
         viewmodel:
           - usecase
           - domain
+          - repository
+          - data
         usecase:
           - repository
           - domain
+          - data
         repository:
           - data
           - domain
         data:
+          - repository
+          - data
           - domain
         domain: []
+`,
+  );
+  writeFile(
+    rootDir,
+    ".architecture/layers/viewmodel.yaml",
+    `schema: v1
+layer: viewmodel
+role: viewmodel
+responsibilities:
+  - own_ui_state_and_derived_display_state
+  - expose_typed_ui_actions
+  - coordinate_store_usecase_repository_and_runtime_calls
+  - translate_view_intents_into_feature_operations
+must_not:
+  - render_jsx
+  - contain_transport_specific_io_details
+  - import_screen_view_or_block_files
+`,
+  );
+  writeFile(
+    rootDir,
+    ".architecture/layers/view.yaml",
+    `schema: v1
+layer: ui
+role: view
+responsibilities:
+  - render_feature_surface_only
+  - receive_display_data_via_props
+  - emit_intents_via_typed_callback_props
+  - compose_blocks_without_owning_feature_state
+must_not:
+  - call_datasources_repositories_or_usecases
+  - own_long_lived_business_state
+  - perform_transport_or_persistence_logic
+`,
+  );
+  writeFile(
+    rootDir,
+    ".architecture/layers/stage.yaml",
+    `schema: v1
+layer: ui
+role: stage
+responsibilities:
+  - render_visualizer_or_demo_surface
+  - preview_real_view_or_block_states_with_mock_data
+  - keep_callbacks_inert_and_display_focused
+must_not:
+  - call_router_session_or_network
+  - perform_real_side_effects
+  - become_runtime_feature_entrypoint
+`,
+  );
+  writeFile(
+    rootDir,
+    ".architecture/layers/scaffold.yaml",
+    `schema: v1
+layer: ui
+role: scaffold
+responsibilities:
+  - own_surface_chrome_and_slot_layout
+  - provide_hierarchy_responsive_behavior_and_safe_areas
+  - host_view_or_block_content_without_owning_business_state
+must_not:
+  - contain_business_state_transitions
+  - define_primitive_appearance_policy
+  - call_usecases_or_datasources
+`,
+  );
+  writeFile(
+    rootDir,
+    ".architecture/layers/runtime.yaml",
+    `schema: v1
+layer: data
+role: runtime
+responsibilities:
+  - wrap_live_runtime_capabilities
+  - isolate_environment_specific_side_effects
+  - accept_explicit_inputs_from_callers
+must_not:
+  - own_feature_data_persistence_contracts
+  - encode_business_rules
+  - import_ui_layers
+`,
+  );
+  writeFile(
+    rootDir,
+    ".architecture/layers/model.yaml",
+    `schema: v1
+layer: domain
+role: model
+responsibilities:
+  - define_domain_entities_and_value_shapes
+  - remain_framework_agnostic
+  - keep_domain_types_stable_for_feature_logic
+must_not:
+  - perform_io_or_side_effects
+  - import_ui_or_data_layers
+  - encode_transport_specific_shapes
 `,
   );
   writeFile(

@@ -1,0 +1,13 @@
+schema: v1
+layer: ui
+role: scaffold
+suffixes:
+  - .scaffold.tsx
+responsibilities:
+  - own_surface_chrome_and_slot_layout
+  - provide_hierarchy_responsive_behavior_and_safe_areas
+  - host_view_or_block_content_without_owning_business_state
+must_not:
+  - contain_business_state_transitions
+  - define_primitive_appearance_policy
+  - call_usecases_or_datasources

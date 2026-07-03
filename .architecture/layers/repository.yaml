@@ -1,0 +1,13 @@
+schema: v1
+layer: repository
+role: repository
+suffixes:
+  - .repository.ts
+responsibilities:
+  - define_stable_feature_data_contracts
+  - map_boundary_results_into_domain_shapes
+  - isolate_data_access_from_viewmodels_and_usecases
+must_not:
+  - bind_transport_details_inline
+  - import_ui_or_viewmodel_layers
+  - own_domain_policy

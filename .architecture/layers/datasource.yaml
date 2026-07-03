@@ -1,0 +1,15 @@
+schema: v1
+layer: data
+role: datasource
+suffixes:
+  - .datasource.ts
+  - .datasource.web.ts
+  - .datasource.native.ts
+responsibilities:
+  - perform_transport_and_persistence_io
+  - isolate_external_system_details
+  - return_raw_or_minimally_shaped_boundary_data
+must_not:
+  - contain_domain_mapping_or_policy
+  - import_ui_or_viewmodel_layers
+  - own_runtime_only_capabilities

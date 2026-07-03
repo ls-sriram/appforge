@@ -6,6 +6,7 @@ export const CONTRACT_SCHEMA = "v1";
 export const ROOT = path.resolve(import.meta.dirname, "..");
 export const ARCHITECTURE_ROOT = path.join(ROOT, ".architecture");
 export const FEATURE_CONTRACTS_ROOT = path.join(ARCHITECTURE_ROOT, "features");
+export const LAYER_CONTRACTS_ROOT = path.join(ARCHITECTURE_ROOT, "layers");
 export const MODULE_CONTRACT_FILE = ".contract.yaml";
 
 function toPosix(value) {
@@ -97,9 +98,6 @@ function validateRepositoryGeneration(repository, errors) {
   if (generation.classification !== undefined && typeof generation.classification !== "object") {
     errors.push('Repository generation contract must define "classification" as an object when present.');
   }
-  if (generation.content_contracts !== undefined && typeof generation.content_contracts !== "object") {
-    errors.push('Repository generation contract must define "content_contracts" as an object when present.');
-  }
   if (generation.scaffolding) {
     for (const key of ["create_tests", "create_readme", "create_contract"]) {
       if (typeof generation.scaffolding[key] !== "boolean") {
@@ -131,11 +129,18 @@ function validateMvvmArchitecture(layers, errors) {
 export function loadContractSystem(rootDir = ROOT) {
   const repositoryPath = path.join(rootDir, ".architecture", "repository.yaml");
   const layersPath = path.join(rootDir, ".architecture", "layers.yaml");
+  const layerContractsRoot = path.join(rootDir, ".architecture", "layers");
   const modulesRoot = path.join(rootDir, "src");
   const featureRoot = path.join(rootDir, ".architecture", "features");
 
   const repository = parseYamlFile(repositoryPath);
   const layers = parseYamlFile(layersPath);
+  const layerContracts = walkFiles(layerContractsRoot, (entry) => entry.endsWith(".yaml"))
+    .sort()
+    .map((filePath) => ({
+      ...parseYamlFile(filePath),
+      filePath: toPosix(path.relative(rootDir, filePath)),
+    }));
   const modules = walkFiles(modulesRoot, (entry) => entry === MODULE_CONTRACT_FILE)
     .sort()
     .map((filePath) => ({
@@ -150,7 +155,7 @@ export function loadContractSystem(rootDir = ROOT) {
       filePath: toPosix(path.relative(rootDir, filePath)),
     }));
 
-  const system = { rootDir, repository, layers, modules, features, roles: [] };
+  const system = { rootDir, repository, layers, layerContracts, modules, features, roles: [] };
   validateContractSystem(system);
   return system;
 }
@@ -164,6 +169,7 @@ export function validateContractSystem(system) {
 
   const moduleNames = new Set();
   const knownLayers = new Set(Object.keys(system.layers.layers ?? {}));
+  const knownMvvmLayers = new Set(system.layers.architecture?.patterns?.mvvm?.layers ?? []);
 
   for (const [layerName, rule] of Object.entries(system.layers.layers ?? {})) {
     for (const target of rule.can_import ?? []) {
@@ -189,6 +195,25 @@ export function validateContractSystem(system) {
       if (!moduleNames.has(moduleName)) {
         errors.push(`Feature "${contract.feature}" references unknown module "${moduleName}".`);
       }
+    }
+  }
+
+  const seenLayerRoles = new Set();
+  for (const contract of system.layerContracts ?? []) {
+    validateSchema(contract.schema, contract.filePath, errors);
+    if (!contract.layer) errors.push(`${contract.filePath} is missing "layer".`);
+    if (!contract.role) errors.push(`${contract.filePath} is missing "role".`);
+    if (contract.layer && !knownLayers.has(contract.layer) && !knownMvvmLayers.has(contract.layer)) {
+      errors.push(`Layer contract "${contract.filePath}" references unknown layer "${contract.layer}".`);
+    }
+    const key = `${contract.layer}:${contract.role}`;
+    if (seenLayerRoles.has(key)) errors.push(`Duplicate layer contract for "${key}".`);
+    seenLayerRoles.add(key);
+    if (!Array.isArray(contract.responsibilities) || contract.responsibilities.length === 0) {
+      errors.push(`Layer contract "${contract.filePath}" must define non-empty responsibilities.`);
+    }
+    if (contract.must_not !== undefined && !Array.isArray(contract.must_not)) {
+      errors.push(`Layer contract "${contract.filePath}" must define "must_not" as an array.`);
     }
   }
 
@@ -219,7 +244,7 @@ export function classifyFileByConvention(system, filePath) {
   for (const [pattern, definition] of Object.entries(classification)) {
     if (globToRegExp(pattern).test(relativePath) || globToRegExp(pattern).test(fileName)) {
       const contentContract = definition.role
-        ? system.repository.generation?.content_contracts?.[definition.role]
+        ? (system.layerContracts ?? []).find((contract) => contract.role === definition.role)
         : undefined;
       return {
         file: relativePath,

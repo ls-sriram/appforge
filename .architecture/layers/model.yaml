@@ -1,0 +1,13 @@
+schema: v1
+layer: domain
+role: model
+suffixes:
+  - .model.ts
+responsibilities:
+  - define_domain_entities_and_value_shapes
+  - remain_framework_agnostic
+  - keep_domain_types_stable_for_feature_logic
+must_not:
+  - perform_io_or_side_effects
+  - import_ui_or_data_layers
+  - encode_transport_specific_shapes
