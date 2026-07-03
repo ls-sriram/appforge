@@ -1,0 +1,19 @@
+schema: v1
+role: implementer
+capabilities:
+  - edit_code
+  - add_tests
+  - update_owned_docs
+cannot:
+  - widen_task_scope
+  - override_repository_rules
+receives:
+  - task_contract
+  - module_contract
+  - feature_contract
+  - layer_contract
+  - repository_contract
+success_conditions:
+  - changes_stay_within_allowed_files
+  - repository_and_layer_rules_are_preserved
+  - checks_pass_for_touched_code

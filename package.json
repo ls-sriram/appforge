@@ -48,7 +48,12 @@
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
+    "contracts:validate": "node --import tsx scripts/contract-system.ts validate",
+    "contracts:analyze": "node --import tsx scripts/contract-system.ts analyze",
+    "contracts:task": "node --import tsx scripts/contract-system.ts task",
+    "contracts:drift": "node --import tsx scripts/contract-system.ts drift",
     "test:public-api-smoke": "cd smoke/public-api-consumer && npm install --no-fund --no-audit && ./node_modules/.bin/tsc --noEmit",
+    "test:contracts": "jest --watchman=false --runTestsByPath src/agent/contracts/__tests__/system.test.ts",
     "lint:ui": "node scripts/lint-ui-stamps.mjs",
     "test": "jest --watchman=false",
     "test:usecases": "jest --watchman=false --testPathPattern=\"src/features/.*/usecases/__tests__/.*\\.test\\.ts$\"",

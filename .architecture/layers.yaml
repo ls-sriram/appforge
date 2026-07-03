@@ -1,0 +1,39 @@
+schema: v1
+layers:
+  ui:
+    can_import:
+      - ui
+      - shared
+  feature:
+    can_import:
+      - feature
+      - ui
+      - shared
+  shared:
+    can_import:
+      - shared
+architecture:
+  patterns:
+    mvvm:
+      layers:
+        - ui
+        - viewmodel
+        - usecase
+        - repository
+        - data
+        - domain
+      allowed_dependencies:
+        ui:
+          - viewmodel
+        viewmodel:
+          - usecase
+          - domain
+        usecase:
+          - repository
+          - domain
+        repository:
+          - data
+          - domain
+        data:
+          - domain
+        domain: []

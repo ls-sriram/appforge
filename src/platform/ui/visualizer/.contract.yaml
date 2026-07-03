@@ -1,0 +1,19 @@
+schema: v1
+module: platform_ui_visualizer
+layer: ui
+owner: platform-ui
+public_api:
+  - visualizer_barrel
+  - wrapped_components
+invariants:
+  - visualizer_wrappers_are_web_only_ui_adapters
+  - wrappers_forward_or_bridge_data_attributes_without_behavior_changes
+rules:
+  - use_box_wrapper_only_when_component_root_strips_data_attrs
+  - do_not_add_business_logic_or_feature_state
+  - dom_selection_state_flows_through_visualizer_context_only
+coupled_files:
+  - pattern: "*.tsx"
+    also_pulls:
+      - "../visualizer-context.tsx"
+      - "../index.ts"

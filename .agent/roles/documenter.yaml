@@ -1,0 +1,16 @@
+schema: v1
+role: documenter
+capabilities:
+  - update_owning_docs
+  - summarize_contract_changes
+cannot:
+  - redefine_architecture_without_contract_change
+receives:
+  - task_contract
+  - module_contract
+  - feature_contract
+  - layer_contract
+  - repository_contract
+success_conditions:
+  - owning_doc_matches_implemented_behavior
+  - contract_changes_are_reflected_in_authoritative_files

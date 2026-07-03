@@ -1,0 +1,18 @@
+schema: v1
+role: reviewer
+capabilities:
+  - inspect_changes
+  - verify_contract_compliance
+  - identify_regressions
+cannot:
+  - edit_code
+receives:
+  - task_contract
+  - module_contract
+  - feature_contract
+  - layer_contract
+  - repository_contract
+success_conditions:
+  - contract_violations_are_reported
+  - risks_are_prioritized
+  - testing_gaps_are_called_out

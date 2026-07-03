@@ -1,0 +1,18 @@
+schema: v1
+role: planner
+capabilities:
+  - resolve_contracts
+  - define_objectives
+  - define_success_criteria
+cannot:
+  - approve_changes
+receives:
+  - task_contract
+  - module_contract
+  - feature_contract
+  - layer_contract
+  - repository_contract
+success_conditions:
+  - task_scope_is_minimized
+  - applicable_contracts_are_resolved
+  - success_criteria_are_explicit

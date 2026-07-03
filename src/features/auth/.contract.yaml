@@ -1,0 +1,21 @@
+schema: v1
+module: auth
+layer: feature
+owner: auth-team
+public_api:
+  - signIn
+  - signUp
+  - checkAuthState
+  - useSession
+invariants:
+  - auth_state_flows_through_repository_and_usecases
+  - session_client_is_the_single_transport_boundary
+ownership:
+  exclude:
+    - ui/AGENTS.md
+    - ui/contracts/**
+coupled_files:
+  - pattern: "usecases/*.ts"
+    also_pulls:
+      - "domain/*.ts"
+      - "data/*.ts"

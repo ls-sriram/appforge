@@ -1,0 +1,31 @@
+schema: v1
+module: platform_ui_theme
+layer: ui
+owner: platform-ui
+public_api:
+  - createContracts
+  - createLayouts
+  - createUiRuntime
+  - ThemeProvider
+  - LayoutProvider
+  - useTheme
+  - useUI
+invariants:
+  - semantic_to_realized_transition_occurs_once_in_create_contracts
+  - definitions_hold_semantic_construction_without_react
+  - providers_hold_runtime_access_without_contract_assembly
+rules:
+  - flat_theme_files_are_backward_compat_reexports_only
+  - primitives_must_not_invent_render_values_below_ui_runtime
+  - token_math_and_visual_derivation_stay_in_definitions_factory
+checks:
+  - npm_run_typecheck
+  - jest_src_platform_ui_theme_theme_test
+coupled_files:
+  - pattern: "definitions/*.ts"
+    also_pulls:
+      - "providers/*.tsx"
+      - "../contracts/**/*.ts"
+  - pattern: "providers/*.tsx"
+    also_pulls:
+      - "definitions/*.ts"

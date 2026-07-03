@@ -1,0 +1,34 @@
+schema: v1
+module: platform_ui
+layer: ui
+owner: platform-ui
+purpose:
+  - shared_domain_free_ui_foundation
+  - root_shared_ui_import_surface
+public_api:
+  - Provider
+  - useUI
+  - PrimitiveContracts
+  - LayoutContract
+invariants:
+  - shared_ui_imports_flow_through_root_barrel
+  - closed_primitives_require_explicit_contracts
+  - open_layout_primitives_use_standard_tamagui_props
+rules:
+  - consumers_import_shared_ui_through_at_ui_only
+  - do_not_add_repo_specific_styling_dsl_props
+ownership:
+  exclude:
+    - theme/**
+    - primitives/**
+    - visualizer/**
+coupled_files:
+  - pattern: "primitives/*.tsx"
+    also_pulls:
+      - "contracts/primitives/*.ts"
+      - "theme/**/*.ts"
+  - pattern: "Provider.tsx"
+    also_pulls:
+      - "index.ts"
+      - "config.ts"
+      - "contracts/**/*.ts"

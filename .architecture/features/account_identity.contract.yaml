@@ -1,0 +1,9 @@
+schema: v1
+feature: account_identity
+touches:
+  - auth
+  - settings
+success_criteria:
+  - session_identity_is_available
+  - profile_state_is_loaded
+  - sign_out_path_is_consistent

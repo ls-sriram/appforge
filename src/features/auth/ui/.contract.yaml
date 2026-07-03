@@ -1,0 +1,19 @@
+schema: v1
+module: auth_ui
+layer: ui
+owner: auth-team
+public_api:
+  - auth_ui_blocks
+  - auth_ui_views
+invariants:
+  - blocks_are_presentational_and_prop_driven
+  - scaffolds_own_layout_chrome_only
+  - auth_ui_does_not_import_repositories_controllers_or_feature_hooks
+coupled_files:
+  - pattern: "views/*.tsx"
+    also_pulls:
+      - "blocks/*.tsx"
+      - "contracts/*.ts"
+  - pattern: "blocks/*.tsx"
+    also_pulls:
+      - "contracts/*.ts"

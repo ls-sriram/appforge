@@ -1,0 +1,78 @@
+schema: v1
+repository: appforge
+invariants:
+  - smallest_correct_change_first
+  - reuse_existing_patterns_before_new_abstractions
+  - durable_architecture_is_authoritative_in_contracts
+  - generated_analysis_is_never_hand_edited
+  - retired_markdown_docs_are_not_authority
+validation:
+  require_schema_v1: true
+  require_known_layers: true
+  require_known_modules_in_features: true
+  task_contracts_may_only_narrow_scope: true
+checks:
+  nearest_targeted_first: true
+  broader_only_when_needed: true
+generation:
+  feature_structure:
+    required_dirs:
+      - domain
+      - usecases
+      - data
+      - viewmodel
+      - ui
+    optional_dirs:
+      - tests
+      - assets
+      - mocks
+  file_patterns:
+    domain_model: "domain/model.ts"
+    domain_repository: "domain/repository.ts"
+    usecase: "usecases/*.ts"
+    viewmodel_store: "viewmodel/store.ts"
+    viewmodel_hook: "viewmodel/use-*.ts"
+    ui_view: "ui/views/*View.tsx"
+    ui_block: "ui/blocks/*Block.tsx"
+    data_repository_impl: "data/*.repository.ts"
+  classification:
+    "domain/model.ts":
+      layer: domain
+    "domain/repository.ts":
+      layer: repository
+    "usecases/*.ts":
+      layer: usecase
+    "viewmodel/store.ts":
+      layer: viewmodel
+    "viewmodel/use-*.ts":
+      layer: viewmodel
+    "ui/views/*View.tsx":
+      layer: ui
+    "ui/blocks/*Block.tsx":
+      layer: ui
+    "data/*.repository.ts":
+      layer: data
+  scaffolding:
+    create_tests: true
+    create_readme: false
+    create_contract: true
+documentation:
+  markdown_authority_enabled: false
+  owner_update_policy: nearest_owner_by_default
+  cross_cutting_requires_explicit_reason: true
+path_map:
+  src/platform/ui: platform_ui
+  src/platform/ui/theme: platform_ui_theme
+  src/platform/ui/primitives: platform_ui_primitives
+  src/platform/ui/visualizer: platform_ui_visualizer
+  src/features/auth: auth
+  src/features/auth/ui: auth_ui
+  src/features/settings: settings
+contract_resolution:
+  order:
+    - task
+    - module
+    - feature
+    - layer
+    - repository
+  override_policy: narrower_only

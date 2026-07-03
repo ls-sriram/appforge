@@ -1,0 +1,16 @@
+schema: v1
+module: settings
+layer: feature
+owner: settings-team
+public_api:
+  - useSettingsViewmodel
+  - loadSettingsIdentity
+  - saveProfileName
+invariants:
+  - settings_identity_reads_are_repository_backed
+  - profile_edits_flow_through_usecases
+coupled_files:
+  - pattern: "viewmodel/*.ts"
+    also_pulls:
+      - "usecases/*.ts"
+      - "domain/*.ts"
