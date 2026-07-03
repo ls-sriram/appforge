@@ -21,6 +21,43 @@ generation:
       - tests
       - assets
       - mocks
+  conventions:
+    standard_feature_roles:
+      description: common feature shape used by most product features
+      suffixes:
+        - screen
+        - view
+        - scaffold
+        - block
+        - stage
+        - viewmodel
+        - store
+        - usecase
+        - repository
+        - datasource
+        - model
+        - mapper
+        - styles
+        - contracts
+    optional_specialized_roles:
+      description: integration and runtime roles used only when a feature needs platform, SDK, transport, or composition-specific files
+      suffixes:
+        - service
+        - runtime
+        - dto
+        - renderer
+        - client
+        - bridge
+        - factory
+        - adapter
+        - capability
+        - config
+        - catalog
+        - policy
+        - handler
+        - types
+        - keys
+        - storage
   file_suffixes:
     screen: ".screen.tsx"
     view: ".view.tsx"
@@ -198,18 +235,21 @@ generation:
       responsibilities:
         - expose_boundary_facing_operations
         - coordinate_external_system_calls
+        - remain_optional_when_usecase_repository_datasource_is_sufficient
       must_not:
         - own_domain_invariants
     runtime:
       responsibilities:
         - implement_feature_scoped_runtime_capabilities
         - isolate_environment_adapters
+        - remain_optional_and_capability_scoped
       must_not:
         - act_as_feature_entry_view
     renderer:
       responsibilities:
         - select_or_render_visual_variants
         - remain_ui_facing_and_presentational
+        - remain_optional_for_features_without rendering_strategy_selection
       must_not:
         - own_feature_orchestration
     model:
@@ -239,24 +279,29 @@ generation:
       responsibilities:
         - expose_external_api_or_sdk_calls
         - isolate_remote_boundary_details
+        - remain optional_for_sdk_or_remote_boundaries_only
     bridge:
       responsibilities:
         - adapt_platform_bridge_interfaces
         - isolate_native_or_host_callbacks
+        - remain optional_for_platform_integration_only
     factory:
       responsibilities:
         - compose_feature_scoped_dependencies
         - create_runtime_or_service_instances
+        - remain optional_when direct_construction_is_sufficient
       must_not:
         - own_persistent_feature_state
     adapter:
       responsibilities:
         - adapt_external_or_runtime_interfaces
         - translate_boundary_shapes
+        - remain optional_when no_boundary_translation_is_needed
     capability:
       responsibilities:
         - implement_feature_capabilities
         - encapsulate environment_specific_behavior
+        - remain optional_when capability_split_is_not_needed
     config:
       responsibilities:
         - define feature configuration values
