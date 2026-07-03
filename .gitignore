@@ -23,6 +23,7 @@ android/
 .logs/
 test-results/
 tools/db-dashboard/out/
+appforge-platform-*.tgz
 
 # Generated API artifacts
 src/generated/proto/**/*.ts
