@@ -37,6 +37,7 @@
     "./ui": "./src/platform/ui/index.ts",
     "./theme": "./src/platform/ui/theme/index.ts",
     "./providers": "./src/platform/providers/index.ts",
+    "./workspace": "./src/platform/workspace/index.ts",
     "./navigation": "./src/platform/navigation/index.ts",
     "./api": "./src/platform/api/index.ts",
     "./features/auth": "./src/features/auth/index.ts",
