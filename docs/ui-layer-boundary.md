@@ -62,6 +62,7 @@ Platform callers may not rely on:
 - raw Tamagui theme access through `@ui`
 - alternative shared UI import paths
 - repo-specific styling DSLs layered on top of the shared primitives
+- mutable workspace/tab session state exported through `@ui`
 
 Tamagui is an implementation dependency of the platform, not the primary caller-facing API.
 
@@ -238,6 +239,8 @@ ui/
   scaffolds/
   contracts/
 ```
+
+Stateful tab/workspace orchestration is not part of the UI runtime. `Tabs` and `TabbedPanel` are controlled primitives only. Shared workspace state, controllers, and providers must live outside `src/platform/ui` in non-UI platform modules or feature state/viewmodel layers, then bind into the primitives through explicit props.
 
 Use `*View.tsx`, `*Block.tsx`, and `*Scaffold.tsx` as the naming contract. Avoid `Surface`, `Panel`, and `Card` as architectural layer names.
 

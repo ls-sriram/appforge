@@ -4,3 +4,10 @@ export {
   ServerlessEntitlementProvider,
   useServerlessEntitlementContext,
 } from "./ServerlessEntitlementProvider";
+export {
+  WorkspaceProvider,
+  useWorkspaceActions,
+  useWorkspaceContext,
+  useWorkspaceState,
+  type WorkspaceProviderProps,
+} from "./WorkspaceProvider";
