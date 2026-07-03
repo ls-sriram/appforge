@@ -1,4 +1,4 @@
-import { NativeAudioRecordingCapability } from "../native-audio-recording.capability";
+import { NativeAudioRecordingCapability } from "../../native-audio-recording.capability";
 
 const mockRequestPermissionsAsync = jest.fn();
 const mockSetAudioModeAsync = jest.fn();

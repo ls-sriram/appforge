@@ -3,7 +3,7 @@ import {
   __resetSessionClientForTests,
   getSessionMe,
   isSessionAuthenticated,
-} from "./session.client";
+} from "../session.client";
 
 jest.mock("@api/client", () => ({
   api: {

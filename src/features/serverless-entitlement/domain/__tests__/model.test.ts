@@ -4,7 +4,7 @@ import {
   isSubscriptionProduct,
   supportsNativeStoreProduct,
   type NativeStoreProduct,
-} from "../model";
+} from "../../serverless-entitlement.model";
 
 describe("serverless-entitlement/domain/model", () => {
   it("supports a lifetime unlock as a non-consumable product", () => {

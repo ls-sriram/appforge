@@ -27,13 +27,13 @@ export {
   type PrimitiveContracts,
   type LayoutContract,
   type LayoutProfileName,
-} from "./contracts";
+} from "./contracts/index";
 export {
   layoutContractDefinition,
-} from "./contracts";
+} from "./contracts/index";
 export {
   platformLayoutDefaults,
-} from "./theme";
+} from "./theme/index";
 export { Display, Heading, Label, Body } from "./primitives/Text";
 export { Button } from "./primitives/Button";
 export type { ButtonProps } from "./primitives/Button";
@@ -96,8 +96,8 @@ export {
   createLayouts,
   uiRuntime,
   type UiRuntime,
-} from "./theme";
-export type { ElevationPreset, ThemeElevationOverride } from "./theme";
+} from "./theme/index";
+export type { ElevationPreset, ThemeElevationOverride } from "./theme/index";
 export { LayoutProvider, DensityProvider, useLayout } from "./theme/DensityProvider";
 export {
   CenteredPageScaffold,
@@ -106,7 +106,7 @@ export {
   PanelScaffold,
   PanelCollectionScaffold,
   PageScaffold,
-} from "./scaffolds";
+} from "./scaffolds/index";
 export type {
   CenteredPageScaffoldProps,
   CenteredPageScaffoldWidth,
@@ -115,7 +115,7 @@ export type {
   PanelScaffoldProps,
   PanelCollectionScaffoldProps,
   PageScaffoldProps,
-} from "./scaffolds";
+} from "./scaffolds/index";
 
 // Semantic spacing constants — use instead of raw $1/$2/$3 etc.
 // Maps to theme factory space scale: xxs=4 xs=6 sm=10 md=16 lg=22 xl=30 2xl=44 3xl=64

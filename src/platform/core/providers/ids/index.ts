@@ -1,4 +1,4 @@
-import { dateOwner } from "../timestamp";
+import { dateOwner } from "../timestamp/index";
 
 export type IdStrategy = "uuid7" | "random" | "timeOrdered";
 

@@ -7,54 +7,23 @@ import {
 } from "./system.mjs";
 
 export const ROOT = path.resolve(import.meta.dirname, "..");
-export const CONTRACTS_ROOT = path.join(ROOT, "docs", "contracts");
-export const CONTRACT_APP_ROOT = path.join(CONTRACTS_ROOT, "app");
-export const CONTRACT_ARCHITECTURE_ROOT = path.join(CONTRACTS_ROOT, "architecture");
-export const CONTRACT_LAYER_ROOT = path.join(CONTRACTS_ROOT, "layers");
 export const STRUCTURED_CONTRACT_ROOT = path.join(ROOT, ".architecture");
 export const STRUCTURED_LAYER_CONTRACT = path.join(STRUCTURED_CONTRACT_ROOT, "layers.yaml");
 export const STRUCTURED_REPOSITORY_CONTRACT = path.join(STRUCTURED_CONTRACT_ROOT, "repository.yaml");
+export const AGENT_BEHAVIOR_PATH = path.join(ROOT, ".agent", "agent_behavior.md");
 let cachedSystem;
 
 function rel(file) {
   return path.relative(ROOT, file).replaceAll(path.sep, "/");
 }
 
-export const CONTRACT_ROOT = CONTRACT_LAYER_ROOT;
+export const CONTRACT_ROOT = STRUCTURED_CONTRACT_ROOT;
 
 function getSystem() {
   if (!cachedSystem) {
     cachedSystem = loadContractSystem(ROOT);
   }
   return cachedSystem;
-}
-
-function detectExpectedLayer(meta) {
-  if (meta.fileName === "model.ts") return "domain";
-  if (meta.fileName === "repository.ts") return "repository";
-  if (meta.effectiveLayerDir === "usecases") return "usecase";
-  if (meta.effectiveLayerDir === "viewmodel") return "viewmodel";
-  if (meta.effectiveLayerDir === "data") return "data";
-  if (meta.featureUiKind === "views" || meta.featureUiKind === "blocks") return "ui";
-  return undefined;
-}
-
-function detectNamingExpectation(meta) {
-  if (meta.featureUiKind === "views") return "*View.tsx";
-  if (meta.featureUiKind === "blocks") return "*Block.tsx";
-  if (meta.effectiveLayerDir === "domain") return "model.ts or repository.ts";
-  if (meta.effectiveLayerDir === "viewmodel") return "store.ts or use-*.ts";
-  if (meta.effectiveLayerDir === "usecases") return "*.ts";
-  if (meta.effectiveLayerDir === "data") return "*.repository.ts";
-  return undefined;
-}
-
-function listMarkdownFiles(dir) {
-  if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir)
-    .filter((name) => name.endsWith(".md"))
-    .sort()
-    .map((name) => path.join(dir, name));
 }
 
 export function getLayerContractPath(layerId) {
@@ -77,11 +46,21 @@ export function listKnownContracts() {
   const entries = [];
   const rootGuide = path.join(ROOT, "CLAUDE.md");
   const appGuide = path.join(ROOT, "app", "AGENTS.md");
-  const contractGuide = path.join(CONTRACTS_ROOT, "README.md");
-  const appContract = path.join(CONTRACT_APP_ROOT, "README.md");
+  const agentsGuide = path.join(ROOT, "AGENTS.md");
 
   if (fs.existsSync(rootGuide)) {
     entries.push({ kind: "root_guide", id: "root", path: rootGuide, relativePath: rel(rootGuide) });
+  }
+  if (fs.existsSync(agentsGuide)) {
+    entries.push({ kind: "root_guide", id: "agents", path: agentsGuide, relativePath: rel(agentsGuide) });
+  }
+  if (fs.existsSync(AGENT_BEHAVIOR_PATH)) {
+    entries.push({
+      kind: "agent_behavior",
+      id: "agent_behavior",
+      path: AGENT_BEHAVIOR_PATH,
+      relativePath: rel(AGENT_BEHAVIOR_PATH),
+    });
   }
   if (fs.existsSync(appGuide)) {
     entries.push({ kind: "folder_guidance", id: "app", path: appGuide, relativePath: rel(appGuide) });
@@ -120,12 +99,6 @@ export function listKnownContracts() {
       relativePath: contract.filePath,
     });
   }
-  if (fs.existsSync(contractGuide)) {
-    entries.push({ kind: "reference_doc", id: "contracts", path: contractGuide, relativePath: rel(contractGuide) });
-  }
-  if (fs.existsSync(appContract)) {
-    entries.push({ kind: "reference_doc", id: "app", path: appContract, relativePath: rel(appContract) });
-  }
 
   return entries;
 }
@@ -161,11 +134,18 @@ export function getFileContractMeta(filePath) {
     featureUiKind,
   };
 
-  const fileType = classifyFileByConvention(getSystem(), relativePath)?.layer;
-  const expectedLayer = detectExpectedLayer(meta);
-  const namingExpectation = detectNamingExpectation(meta);
-  const namingViolation = Boolean(expectedLayer && !fileType && namingExpectation)
-    ? `Expected ${namingExpectation} for ${relativePath}`
+  const classification = classifyFileByConvention(getSystem(), relativePath);
+  const fileType = classification?.layer;
+  const isContractScopedSource =
+    relativePath.startsWith("src/features/") &&
+    /\.(ts|tsx)$/.test(relativePath) &&
+    !relativePath.includes("/__tests__/") &&
+    !relativePath.endsWith(".test.ts") &&
+    !relativePath.endsWith(".test.tsx") &&
+    !relativePath.endsWith("/index.ts") &&
+    !relativePath.endsWith(".d.ts");
+  const namingViolation = isContractScopedSource && !fileType
+    ? "File does not match any repository naming convention."
     : undefined;
   const contractFile = fileType ? "layers.yaml" : undefined;
   const contractPath = contractFile ? STRUCTURED_LAYER_CONTRACT : undefined;
@@ -173,8 +153,6 @@ export function getFileContractMeta(filePath) {
   return {
     ...meta,
     fileType,
-    expectedLayer,
-    namingExpectation,
     namingViolation,
     contractFile,
     contractPath,

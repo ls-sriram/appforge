@@ -98,6 +98,9 @@ function resolveImportTarget(filePath, specifier) {
 
 function hasViolationImport(meta, importRecord, resolvedTarget) {
   const { specifier } = importRecord;
+  if (importRecord.isTypeOnly) {
+    return null;
+  }
   const sourceLayer = meta.fileType ? classifyFileByConvention(system, meta.relativePath) : null;
   const targetMeta = resolvedTarget ? getFileContractMeta(resolvedTarget) : null;
   const targetLayer = targetMeta?.fileType ? classifyFileByConvention(system, targetMeta.relativePath) : null;

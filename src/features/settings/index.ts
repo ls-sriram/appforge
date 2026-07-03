@@ -1,1 +1,1 @@
-export { useProfileEditViewModel } from "./viewmodel/use-profile-edit-viewmodel";
+export { useProfileEditViewModel } from "./profile-edit.viewmodel";

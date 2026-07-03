@@ -1,4 +1,4 @@
-import { LoginController } from "../LoginController";
+import { LoginViewModel } from "../login.viewmodel";
 
 describe("login/controller integration", () => {
   it("authenticates on successful submit", async () => {
@@ -8,7 +8,7 @@ describe("login/controller integration", () => {
       checkAuthState: jest.fn().mockResolvedValue({ ok: true, data: { isAuthenticated: false, userId: null } }),
     };
 
-    const controller = new LoginController(model as any);
+    const controller = new LoginViewModel(model as any);
 
     await controller.dispatch({ type: "email_changed", value: "user@example.com" });
     await controller.dispatch({ type: "password_changed", value: "secret" });

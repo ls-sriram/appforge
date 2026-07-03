@@ -1,1 +1,1 @@
-export * from "../providers/timestamp";
+export * from "../providers/timestamp/index";

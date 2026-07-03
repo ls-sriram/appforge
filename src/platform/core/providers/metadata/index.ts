@@ -1,5 +1,5 @@
-import { dateOwner } from "../timestamp";
-import { idOwner, type IdStrategy } from "../ids";
+import { dateOwner } from "../timestamp/index";
+import { idOwner, type IdStrategy } from "../ids/index";
 
 export interface EntityMetadata {
   createdAt: string;

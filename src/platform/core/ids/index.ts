@@ -1,1 +1,1 @@
-export * from "../providers/ids";
+export * from "../providers/ids/index";

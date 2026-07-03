@@ -1,5 +1,5 @@
 import React from "react";
-import { getSessionMe, isSessionAuthenticated, type SessionMePayload } from "../../features/auth/services/session.client";
+import { getSessionMe, isSessionAuthenticated, type SessionMePayload } from "../../features/auth/session.client";
 
 type SessionContextValue = {
   loading: boolean;

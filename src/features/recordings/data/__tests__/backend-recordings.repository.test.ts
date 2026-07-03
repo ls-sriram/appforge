@@ -1,4 +1,4 @@
-import { BackendRecordingsRepository } from "../backend-recordings.repository";
+import { BackendRecordingsRepository } from "../../backend-recordings.datasource";
 
 jest.mock("@api/client", () => ({
   api: {

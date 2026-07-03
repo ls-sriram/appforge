@@ -1,4 +1,4 @@
-import { loadRecordingContent } from "../recording-actions";
+import { loadRecordingContent } from "../../recording-actions.usecase";
 
 jest.mock("../../data/backend-recordings.repository", () => ({
   BackendRecordingsRepository: jest.fn().mockImplementation(() => ({

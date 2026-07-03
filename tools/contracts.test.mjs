@@ -31,14 +31,14 @@ fs.rmSync(routeFixtureDir, { recursive: true, force: true });
 fs.rmSync(fixtureFeatureContractPath, { force: true });
 
 try {
-  const domainModelPath = path.join(fixtureRoot, "domain", "model.ts");
-  const domainRepositoryPath = path.join(fixtureRoot, "domain", "repository.ts");
-  const usecasePath = path.join(fixtureRoot, "usecases", "load-fixture.ts");
-  const viewmodelStorePath = path.join(fixtureRoot, "viewmodel", "store.ts");
-  const viewmodelHookPath = path.join(fixtureRoot, "viewmodel", "use-fixture.ts");
-  const featureViewPath = path.join(fixtureRoot, "ui", "views", "ContractsFixtureView.tsx");
-  const featureBlockPath = path.join(fixtureRoot, "ui", "blocks", "ContractsFixtureBlock.tsx");
-  const invalidViewmodelPath = path.join(fixtureRoot, "viewmodel", "session.ts");
+  const domainModelPath = path.join(fixtureRoot, "contracts-fixture.model.ts");
+  const domainRepositoryPath = path.join(fixtureRoot, "contracts-fixture.repository.ts");
+  const usecasePath = path.join(fixtureRoot, "load-fixture.usecase.ts");
+  const viewmodelStorePath = path.join(fixtureRoot, "contracts-fixture.store.ts");
+  const viewmodelHookPath = path.join(fixtureRoot, "fixture.viewmodel.ts");
+  const featureViewPath = path.join(fixtureRoot, "contracts-fixture.view.tsx");
+  const featureBlockPath = path.join(fixtureRoot, "contracts-fixture.block.tsx");
+  const invalidViewmodelPath = path.join(fixtureRoot, "session.ts");
   const unknownPath = path.join(fixtureRoot, "misc", "notes.ts");
   const featureGuidePath = path.join(fixtureRoot, "CLAUDE.md");
 
@@ -80,7 +80,7 @@ success_criteria:
   assert.equal(getFileContractMeta(featureBlockPath).fileType, "ui");
   assert.equal(
     getFileContractMeta(invalidViewmodelPath).namingViolation,
-    "Expected store.ts or use-*.ts for src/features/contracts-fixture/viewmodel/session.ts",
+    "File does not match any repository naming convention.",
   );
   assert.equal(getFileContractMeta(unknownPath).contractFile, undefined);
 
@@ -97,7 +97,6 @@ success_criteria:
       ...rootGuidanceChain,
       "src/features/contracts-fixture/CLAUDE.md",
       "src/features/contracts-fixture/.contract.yaml",
-      ".architecture/features/contracts_fixture.contract.yaml",
       ".architecture/layers.yaml",
       ".architecture/repository.yaml",
     ],
@@ -121,7 +120,6 @@ success_criteria:
       ...rootGuidanceChain,
       "src/features/contracts-fixture/CLAUDE.md",
       "src/features/contracts-fixture/.contract.yaml",
-      ".architecture/features/contracts_fixture.contract.yaml",
       ".architecture/repository.yaml",
     ],
   );

@@ -1,7 +1,7 @@
 import React from "react";
-import { BackendEntitlementService } from "../../features/entitlements/services/entitlement.service";
-import type { EntitlementSnapshot } from "../../features/entitlements/domain/model";
-import { setEntitlementSnapshot, clearEntitlementSnapshot } from "../../features/entitlements/viewmodel/store";
+import { BackendEntitlementService } from "../../features/entitlements/entitlement.service";
+import type { EntitlementSnapshot } from "../../features/entitlements/entitlements.model";
+import { setEntitlementSnapshot, clearEntitlementSnapshot } from "../../features/entitlements/entitlements.store";
 import { useSessionContext } from "./SessionProvider";
 
 type EntitlementContextValue = {

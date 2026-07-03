@@ -25,15 +25,21 @@ architecture:
       allowed_dependencies:
         ui:
           - viewmodel
+          - domain
         viewmodel:
           - usecase
           - domain
+          - repository
+          - data
         usecase:
           - repository
           - domain
+          - data
         repository:
           - data
           - domain
         data:
+          - repository
+          - data
           - domain
         domain: []

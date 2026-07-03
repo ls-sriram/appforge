@@ -52,6 +52,7 @@
     "contracts:analyze": "node --import tsx scripts/contract-system.ts analyze",
     "contracts:task": "node --import tsx scripts/contract-system.ts task",
     "contracts:drift": "node --import tsx scripts/contract-system.ts drift",
+    "contracts:migrate": "node --import tsx scripts/migrate-feature-contracts.ts",
     "test:public-api-smoke": "cd smoke/public-api-consumer && npm install --no-fund --no-audit && ./node_modules/.bin/tsc --noEmit",
     "test:contracts": "jest --watchman=false --runTestsByPath src/agent/contracts/__tests__/system.test.ts",
     "lint:ui": "node scripts/lint-ui-stamps.mjs",

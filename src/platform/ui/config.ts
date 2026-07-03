@@ -1,6 +1,6 @@
 import { createTamagui, createFont, createTokens } from '@tamagui/core'
 import { createAnimations } from '@tamagui/animations-react-native'
-import type { Theme as PlatformTheme } from './theme'
+import type { Theme as PlatformTheme } from './theme/index'
 
 const animations = createAnimations({
   fast:   { type: 'spring', damping: 20, mass: 1.2, stiffness: 250 },

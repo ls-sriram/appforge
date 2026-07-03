@@ -4,7 +4,7 @@ import { createConfigForTheme } from './config'
 import {
   uiRuntime as defaultUiRuntime,
   UiRuntime,
-} from './theme'
+} from './theme/index'
 import { ThemeProvider } from './theme/ThemeProvider'
 
 // Initialises Tamagui — must wrap the entire app tree before any styled()

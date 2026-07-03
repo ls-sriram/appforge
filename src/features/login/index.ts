@@ -1,6 +1,4 @@
-export { LoginRouteScreen } from "./LoginRouteScreen";
-export { LoginView } from "./ui/views/LoginView";
-export { LoginController } from "./LoginController";
-export { FirebaseLoginModel } from "./LoginModel";
-export type { LoginModel } from "./LoginModel";
-export type { LoginViewData, LoginAction } from "./LoginController";
+export { LoginScreen } from "./login.screen";
+export { LoginView } from "./login.view";
+export { AuthLoginGateway, LoginViewModel } from "./login.viewmodel";
+export type { LoginGateway, LoginViewData, LoginAction } from "./login.viewmodel";

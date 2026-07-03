@@ -1,4 +1,4 @@
-import { signIn } from "../sign-in";
+import { signIn } from "../../sign-in.usecase";
 
 describe("auth/usecases/signIn", () => {
   it("delegates to repository signIn", async () => {

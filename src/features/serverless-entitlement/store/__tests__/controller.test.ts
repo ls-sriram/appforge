@@ -1,13 +1,13 @@
-import { ServerlessEntitlementController } from "../controller";
+import { ServerlessEntitlementController } from "../../serverless-entitlement.service";
 import type { Result } from "../../../../platform/core/types";
 import type {
   PurchaseProductInput,
   ServerlessEntitlementSnapshot,
-} from "../../domain/model";
+} from "../../serverless-entitlement.model";
 import type {
   ServerlessEntitlementCache,
   ServerlessEntitlementRuntime,
-} from "../../runtime/runtime";
+} from "../../serverless-entitlement.runtime";
 
 describe("serverless-entitlement/store/controller", () => {
   it("hydrates cache first, then refreshes live purchases on initialize", async () => {

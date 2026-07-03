@@ -1,6 +1,6 @@
-import { PlatformServerlessEntitlementRuntime } from "../platform-runtime";
-import type { ServerlessEntitlementCatalog } from "../catalog";
-import type { NativeStoreBillingClient } from "../native-store-client";
+import { PlatformServerlessEntitlementRuntime } from "../../platform.runtime";
+import type { ServerlessEntitlementCatalog } from "../../runtime.catalog";
+import type { NativeStoreBillingClient } from "../../native-store.client";
 
 describe("serverless-entitlement/runtime/platform-runtime", () => {
   it("maps owned store records into a derived entitlement snapshot", async () => {

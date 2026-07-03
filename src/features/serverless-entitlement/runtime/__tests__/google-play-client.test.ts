@@ -2,7 +2,7 @@ import {
   GooglePlayBillingClient,
   mapGooglePlayPurchasesToPurchaseRecords,
   type GooglePlayBillingBridge,
-} from "../google-play-client";
+} from "../../google-play.client";
 
 describe("serverless-entitlement/runtime/google-play-client", () => {
   it("maps Google Play purchases into native store purchase records", () => {

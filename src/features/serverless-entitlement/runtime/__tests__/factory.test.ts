@@ -1,6 +1,6 @@
-import { createServerlessEntitlementRuntime } from "../factory";
-import type { ServerlessEntitlementCatalog } from "../catalog";
-import type { NativeStoreBillingClient } from "../native-store-client";
+import { createServerlessEntitlementRuntime } from "../../runtime.factory";
+import type { ServerlessEntitlementCatalog } from "../../runtime.catalog";
+import type { NativeStoreBillingClient } from "../../native-store.client";
 
 describe("serverless-entitlement/runtime/factory", () => {
   it("creates an iOS runtime when the catalog and client are configured", async () => {

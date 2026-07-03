@@ -21,11 +21,19 @@ export interface RepositoryContract {
 
 export interface RepositoryGenerationContract {
   feature_structure: {
-    required_dirs: string[];
+    layout: string;
+    required_dirs?: string[];
     optional_dirs?: string[];
   };
-  file_patterns: Record<string, string>;
-  classification?: Record<string, { layer: string }>;
+  file_suffixes: Record<string, string>;
+  classification?: Record<string, { layer: string; role?: string }>;
+  content_contracts?: Record<
+    string,
+    {
+      responsibilities: string[];
+      must_not?: string[];
+    }
+  >;
   scaffolding?: {
     create_tests: boolean;
     create_readme: boolean;
@@ -132,6 +140,9 @@ export interface ResolvedContracts {
 export interface ClassifiedFile {
   file: string;
   layer: string;
+  role?: string;
+  responsibilities?: string[];
+  prohibited_behaviors?: string[];
   allowed_imports: string[];
 }
 
@@ -325,8 +336,8 @@ export function classifyFileByConvention(
   filePath: string,
 ): ClassifiedFile | null {
   const generation = getRepositoryGenerationContract(system);
-  const pattern = getMvvmArchitecturePattern(system);
-  if (!generation?.classification || !pattern) {
+  const architecturePattern = getMvvmArchitecturePattern(system);
+  if (!generation?.classification || !architecturePattern) {
     return null;
   }
 
@@ -334,10 +345,16 @@ export function classifyFileByConvention(
   const fileName = normalizedFile.split("/").pop() ?? normalizedFile;
   for (const [globPattern, classification] of Object.entries(generation.classification)) {
     if (matchesPathGlob(normalizedFile, fileName, globPattern)) {
+      const contentContract = classification.role
+        ? generation.content_contracts?.[classification.role]
+        : undefined;
       return {
         file: normalizedFile,
         layer: classification.layer,
-        allowed_imports: pattern.allowed_dependencies[classification.layer] ?? [],
+        role: classification.role,
+        responsibilities: contentContract?.responsibilities ?? [],
+        prohibited_behaviors: contentContract?.must_not ?? [],
+        allowed_imports: architecturePattern.allowed_dependencies[classification.layer] ?? [],
       };
     }
   }
@@ -686,22 +703,34 @@ function validateRepositoryGeneration(
     return;
   }
 
-  const requiredDirs = generation.feature_structure?.required_dirs;
-  if (!Array.isArray(requiredDirs) || requiredDirs.length === 0) {
-    errors.push('Repository generation contract must define "feature_structure.required_dirs".');
-  }
-  const optionalDirs = generation.feature_structure?.optional_dirs;
-  if (optionalDirs !== undefined && !Array.isArray(optionalDirs)) {
-    errors.push('Repository generation contract "feature_structure.optional_dirs" must be an array.');
+  const featureStructure = generation.feature_structure;
+  if (!featureStructure || typeof featureStructure !== "object") {
+    errors.push('Repository generation contract must define "feature_structure".');
+  } else {
+    if (typeof featureStructure.layout !== "string" || featureStructure.layout.length === 0) {
+      errors.push('Repository generation contract must define "feature_structure.layout".');
+    }
+    const requiredDirs = featureStructure.required_dirs;
+    if (requiredDirs !== undefined && !Array.isArray(requiredDirs)) {
+      errors.push(
+        'Repository generation contract "feature_structure.required_dirs" must be an array.',
+      );
+    }
+    const optionalDirs = featureStructure.optional_dirs;
+    if (optionalDirs !== undefined && !Array.isArray(optionalDirs)) {
+      errors.push(
+        'Repository generation contract "feature_structure.optional_dirs" must be an array.',
+      );
+    }
   }
 
-  const filePatterns = generation.file_patterns;
-  if (!filePatterns || typeof filePatterns !== "object") {
-    errors.push('Repository generation contract must define "file_patterns".');
+  const fileSuffixes = generation.file_suffixes;
+  if (!fileSuffixes || typeof fileSuffixes !== "object") {
+    errors.push('Repository generation contract must define "file_suffixes".');
   } else {
-    for (const [key, value] of Object.entries(filePatterns)) {
+    for (const [key, value] of Object.entries(fileSuffixes)) {
       if (typeof value !== "string" || value.length === 0) {
-        errors.push(`Repository generation pattern "${key}" must be a non-empty string.`);
+        errors.push(`Repository generation suffix "${key}" must be a non-empty string.`);
       }
     }
   }
@@ -713,6 +742,24 @@ function validateRepositoryGeneration(
     for (const [pattern, value] of Object.entries(classification)) {
       if (typeof value?.layer !== "string" || value.layer.length === 0) {
         errors.push(`Repository classification "${pattern}" must define a non-empty layer.`);
+      }
+    }
+  }
+
+  const contentContracts = generation.content_contracts;
+  if (contentContracts !== undefined) {
+    if (!contentContracts || typeof contentContracts !== "object") {
+      errors.push('Repository generation "content_contracts" must be an object.');
+    } else {
+      for (const [role, contract] of Object.entries(contentContracts)) {
+        if (!Array.isArray(contract?.responsibilities) || contract.responsibilities.length === 0) {
+          errors.push(
+            `Repository content contract "${role}" must define non-empty responsibilities.`,
+          );
+        }
+        if (contract?.must_not !== undefined && !Array.isArray(contract.must_not)) {
+          errors.push(`Repository content contract "${role}" must define "must_not" as an array.`);
+        }
       }
     }
   }

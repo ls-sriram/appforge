@@ -1,4 +1,4 @@
-import { AppleStorekitBridge } from "../apple-storekit-bridge";
+import { AppleStorekitBridge } from "../../apple-storekit.bridge";
 
 describe("serverless-entitlement/runtime/apple-storekit-bridge", () => {
   it("returns a clear error when no StoreKit implementation is configured", async () => {

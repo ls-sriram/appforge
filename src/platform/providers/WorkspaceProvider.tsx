@@ -10,13 +10,13 @@ import {
   openWorkspaceTab,
   replaceWorkspaceTab,
   updateWorkspaceTab,
-} from "../workspace";
+} from "../workspace/index";
 import type {
   WorkspaceController,
   WorkspaceState,
   WorkspaceTabPatch,
   WorkspaceTabState,
-} from "../workspace";
+} from "../workspace/index";
 
 interface WorkspaceContextValue<TPayload = unknown, TKind extends string = string> {
   state: WorkspaceState<TPayload, TKind>;

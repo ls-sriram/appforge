@@ -16,42 +16,283 @@ checks:
   broader_only_when_needed: true
 generation:
   feature_structure:
-    required_dirs:
-      - domain
-      - usecases
-      - data
-      - viewmodel
-      - ui
+    layout: flat
     optional_dirs:
       - tests
       - assets
       - mocks
-  file_patterns:
-    domain_model: "domain/model.ts"
-    domain_repository: "domain/repository.ts"
-    usecase: "usecases/*.ts"
-    viewmodel_store: "viewmodel/store.ts"
-    viewmodel_hook: "viewmodel/use-*.ts"
-    ui_view: "ui/views/*View.tsx"
-    ui_block: "ui/blocks/*Block.tsx"
-    data_repository_impl: "data/*.repository.ts"
+  file_suffixes:
+    screen: ".screen.tsx"
+    view: ".view.tsx"
+    scaffold: ".scaffold.tsx"
+    viewmodel: ".viewmodel.ts"
+    store: ".store.ts"
+    usecase: ".usecase.ts"
+    repository: ".repository.ts"
+    datasource: ".datasource.ts"
+    service: ".service.ts"
+    runtime: ".runtime.ts"
+    runtime_variant: ".runtime.<variant>.ts"
+    model: ".model.ts"
+    dto: ".dto.ts"
+    mapper: ".mapper.ts"
+    block: ".block.tsx"
+    stage: ".stage.tsx"
+    renderer: ".renderer.tsx"
+    client: ".client.ts"
+    bridge: ".bridge.ts"
+    factory: ".factory.ts"
+    adapter: ".adapter.ts"
+    capability: ".capability.ts"
+    config: ".config.ts"
+    catalog: ".catalog.ts"
+    policy: ".policy.ts"
+    handler: ".handler.ts"
+    types: ".types.ts"
+    keys: ".keys.ts"
+    contracts: ".contracts.ts"
+    styles: ".styles.ts"
+    storage: ".storage.ts"
   classification:
-    "domain/model.ts":
-      layer: domain
-    "domain/repository.ts":
-      layer: repository
-    "usecases/*.ts":
+    "*.screen.tsx":
+      layer: ui
+      role: screen
+    "*.view.tsx":
+      layer: ui
+      role: view
+    "*.scaffold.tsx":
+      layer: ui
+      role: scaffold
+    "*.viewmodel.ts":
+      layer: viewmodel
+      role: viewmodel
+    "*.store.ts":
+      layer: viewmodel
+      role: store
+    "*.usecase.ts":
       layer: usecase
-    "viewmodel/store.ts":
-      layer: viewmodel
-    "viewmodel/use-*.ts":
-      layer: viewmodel
-    "ui/views/*View.tsx":
-      layer: ui
-    "ui/blocks/*Block.tsx":
-      layer: ui
-    "data/*.repository.ts":
+      role: usecase
+    "*.repository.ts":
+      layer: repository
+      role: repository
+    "*.datasource.ts":
       layer: data
+      role: datasource
+    "*.service.ts":
+      layer: data
+      role: service
+    "*.runtime.ts":
+      layer: data
+      role: runtime
+    "*.runtime.*.ts":
+      layer: data
+      role: runtime
+    "*.model.ts":
+      layer: domain
+      role: model
+    "*.dto.ts":
+      layer: data
+      role: dto
+    "*.mapper.ts":
+      layer: data
+      role: mapper
+    "*.block.tsx":
+      layer: ui
+      role: block
+    "*.stage.tsx":
+      layer: ui
+      role: stage
+    "*.renderer.tsx":
+      layer: ui
+      role: renderer
+    "*.client.ts":
+      layer: data
+      role: client
+    "*.bridge.ts":
+      layer: data
+      role: bridge
+    "*.factory.ts":
+      layer: data
+      role: factory
+    "*.adapter.ts":
+      layer: data
+      role: adapter
+    "*.capability.ts":
+      layer: data
+      role: capability
+    "*.config.ts":
+      layer: domain
+      role: config
+    "*.catalog.ts":
+      layer: domain
+      role: catalog
+    "*.policy.ts":
+      layer: domain
+      role: policy
+    "*.handler.ts":
+      layer: domain
+      role: handler
+    "*.types.ts":
+      layer: domain
+      role: types
+    "*.keys.ts":
+      layer: domain
+      role: keys
+    "*.contracts.ts":
+      layer: ui
+      role: contracts
+    "*.styles.ts":
+      layer: ui
+      role: styles
+    "*.storage.ts":
+      layer: data
+      role: storage
+  content_contracts:
+    screen:
+      responsibilities:
+        - route_orchestrator
+        - binds_navigation_and_feature_entry
+        - delegates_rendering_to_view_or_blocks
+      must_not:
+        - contain_domain_persistence_logic
+        - become_reusable_visual_primitive
+    view:
+      responsibilities:
+        - pure_feature_render_composition
+        - maps_viewmodel_state_to_props
+        - coordinates_blocks_without_owning_state
+      must_not:
+        - call_datasources_or_repositories
+        - own_long_lived_business_state
+    viewmodel:
+      responsibilities:
+        - expose_view_state
+        - expose_ui_actions
+        - coordinate_usecases_for_screen_flows
+    scaffold:
+      responsibilities:
+        - own_page_or_surface_chrome
+        - provide_layout_slots_for_view_or_blocks
+      must_not:
+        - contain_business_state_transitions
+    store:
+      responsibilities:
+        - own_mutable_feature_state
+        - provide_state_transitions
+      must_not:
+        - render_ui
+    usecase:
+      responsibilities:
+        - execute_business_operation
+        - enforce_domain_rules
+    repository:
+      responsibilities:
+        - define_domain_persistence_abstraction
+      must_not:
+        - bind_transport_details
+    datasource:
+      responsibilities:
+        - perform_transport_or_storage_io
+        - adapt_external_systems
+    service:
+      responsibilities:
+        - expose_boundary_facing_operations
+        - coordinate_external_system_calls
+      must_not:
+        - own_domain_invariants
+    runtime:
+      responsibilities:
+        - implement_feature_scoped_runtime_capabilities
+        - isolate_environment_adapters
+      must_not:
+        - act_as_feature_entry_view
+    renderer:
+      responsibilities:
+        - select_or_render_visual_variants
+        - remain_ui_facing_and_presentational
+      must_not:
+        - own_feature_orchestration
+    model:
+      responsibilities:
+        - define_domain_entities_and_value_shapes
+    dto:
+      responsibilities:
+        - define_transport_shapes
+        - remain_boundary_facing
+    mapper:
+      responsibilities:
+        - translate_dto_and_domain_shapes
+    block:
+      responsibilities:
+        - reusable_visual_composition
+        - remain_presentational_and_prop_driven
+      must_not:
+        - own_feature_orchestration
+        - call_usecases_directly
+    stage:
+      responsibilities:
+        - visualizer_or_demo_surface
+        - showcase_view_or_block_states
+      must_not:
+        - serve_as_runtime_feature_entrypoint
+    client:
+      responsibilities:
+        - expose_external_api_or_sdk_calls
+        - isolate_remote_boundary_details
+    bridge:
+      responsibilities:
+        - adapt_platform_bridge_interfaces
+        - isolate_native_or_host_callbacks
+    factory:
+      responsibilities:
+        - compose_feature_scoped_dependencies
+        - create_runtime_or_service_instances
+      must_not:
+        - own_persistent_feature_state
+    adapter:
+      responsibilities:
+        - adapt_external_or_runtime_interfaces
+        - translate_boundary_shapes
+    capability:
+      responsibilities:
+        - implement_feature_capabilities
+        - encapsulate environment_specific_behavior
+    config:
+      responsibilities:
+        - define feature configuration values
+        - remain declarative
+    catalog:
+      responsibilities:
+        - define indexed feature configuration or lookup tables
+        - remain deterministic
+    policy:
+      responsibilities:
+        - encode domain policy decisions
+        - remain side_effect_free
+    handler:
+      responsibilities:
+        - derive feature state from domain inputs
+        - coordinate pure domain transforms
+    types:
+      responsibilities:
+        - re-export_or_group_type_shapes
+        - avoid runtime_side_effects
+    keys:
+      responsibilities:
+        - define canonical key sets
+        - remain immutable
+    contracts:
+      responsibilities:
+        - define visual_contract_shapes
+        - remain presentation_facing
+    styles:
+      responsibilities:
+        - define presentational_style_tokens
+        - remain declarative
+    storage:
+      responsibilities:
+        - persist_feature_local_state
+        - isolate_storage_backend_details
   scaffolding:
     create_tests: true
     create_readme: false

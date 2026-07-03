@@ -2,12 +2,12 @@ import React from "react";
 import type {
   PurchaseProductInput,
   ServerlessEntitlementState,
-} from "../../features/serverless-entitlement";
+} from "../../features/serverless-entitlement/index";
 import {
   createServerlessEntitlementController,
   serverlessEntitlementConfig,
   type ServerlessEntitlementBootstrapOptions,
-} from "../../features/serverless-entitlement/bootstrap";
+} from "../../features/serverless-entitlement/serverless-entitlement.factory";
 
 type ServerlessEntitlementContextValue = {
   state: ServerlessEntitlementState;

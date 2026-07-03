@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, View } from "react-native";
-import { PanelScaffold } from "../scaffolds";
+import { PanelScaffold } from "../scaffolds/index";
 import { type UiStamp, noopUi } from "../viz";
 import { Icon, type IconName } from "./Icon";
 import { Tabs, type TabsContract } from "./Tabs";

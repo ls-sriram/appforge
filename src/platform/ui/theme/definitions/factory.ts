@@ -1,7 +1,7 @@
 import type { Theme, ElevationPreset } from "./tokens";
 import type { ThemeOptions } from "./options";
 import type { UiRuntime, LayoutLibrary } from "./ui-runtime";
-import type { PrimitiveContracts } from "../../contracts/runtime";
+import type { PrimitiveContracts } from "../../contracts/runtime/index";
 import type {
   LayoutContract,
   LayoutProfileName,
@@ -21,7 +21,7 @@ import type {
   SizingToolbarContract,
   TabbedPanelContract,
   ColorPalettePickerContract,
-} from "../../contracts";
+} from "../../contracts/index";
 
 // ─── createTheme ─────────────────────────────────────────────────────────────
 

@@ -4,7 +4,7 @@ import {
   ServerlessEntitlementProvider,
   useServerlessEntitlementContext,
 } from "../ServerlessEntitlementProvider";
-import type { AppleStoreBillingBridge } from "../../../features/serverless-entitlement";
+import type { AppleStoreBillingBridge } from "../../../features/serverless-entitlement/index";
 
 describe("ServerlessEntitlementProvider", () => {
   it("initializes serverless entitlement state and exposes actions", async () => {

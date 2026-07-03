@@ -1,5 +1,5 @@
 import { act, renderHook } from "@testing-library/react-native";
-import { useTextEditorViewModel } from "../use-text-editor-viewmodel";
+import { useTextEditorViewModel } from "../../text-editor.viewmodel";
 
 jest.mock("../../usecases/text-editor-actions", () => ({
   listDocuments: jest.fn().mockResolvedValue({ ok: true, data: [] }),

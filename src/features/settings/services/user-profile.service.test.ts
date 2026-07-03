@@ -2,7 +2,7 @@
  * UserProfileService tests — verifies API integration contract.
  */
 
-import { BackendUserProfileService } from "./user-profile.service";
+import { BackendUserProfileService } from "../user-profile.service";
 
 // Mock the API client
 jest.mock("@api/client", () => ({

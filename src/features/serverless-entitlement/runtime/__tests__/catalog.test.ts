@@ -2,8 +2,8 @@ import {
   findProductForPlatform,
   listProductsForPlatform,
   validateServerlessEntitlementCatalog,
-} from "../catalog";
-import type { ServerlessEntitlementCatalog } from "../catalog";
+} from "../../runtime.catalog";
+import type { ServerlessEntitlementCatalog } from "../../runtime.catalog";
 
 describe("serverless-entitlement/runtime/catalog", () => {
   it("filters catalog products by native platform", () => {

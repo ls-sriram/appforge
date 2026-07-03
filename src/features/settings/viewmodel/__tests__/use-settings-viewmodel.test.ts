@@ -1,5 +1,5 @@
 import { act, renderHook } from "@testing-library/react-native";
-import { useSettingsViewModel } from "../use-settings-viewmodel";
+import { useSettingsViewModel } from "../../settings.viewmodel";
 
 jest.mock("../../usecases/load-settings-identity", () => ({
   loadSettingsIdentity: jest.fn().mockResolvedValue({

@@ -1,1 +1,1 @@
-export * from "../providers/metadata";
+export * from "../providers/metadata/index";

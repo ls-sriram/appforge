@@ -2,7 +2,7 @@ import {
   AppleStoreBillingClient,
   mapAppleTransactionsToPurchaseRecords,
   type AppleStoreBillingBridge,
-} from "../apple-store-client";
+} from "../../apple-store.client";
 
 describe("serverless-entitlement/runtime/apple-store-client", () => {
   it("maps StoreKit-style transactions into native store purchase records", () => {

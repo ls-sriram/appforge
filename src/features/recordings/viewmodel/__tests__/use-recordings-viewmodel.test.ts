@@ -1,5 +1,5 @@
 import { act, renderHook } from "@testing-library/react-native";
-import { useRecordingsViewModel } from "../use-recordings-viewmodel";
+import { useRecordingsViewModel } from "../../recordings.viewmodel";
 
 jest.mock("expo-av", () => ({
   Audio: {

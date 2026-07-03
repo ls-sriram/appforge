@@ -1,6 +1,6 @@
-export { ForgotPasswordRouteScreen } from "./ForgotPasswordRouteScreen";
-export { ForgotPasswordController } from "./ForgotPasswordController";
+export { ForgotPasswordRouteScreen } from "./forgot-password.screen";
+export { ForgotPasswordController } from "./forgot-password.viewmodel";
 export type {
   ForgotPasswordAction,
   ForgotPasswordViewData,
-} from "./ForgotPasswordController";
+} from "./forgot-password.viewmodel";

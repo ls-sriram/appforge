@@ -1,18 +1,18 @@
-export { ServerlessEntitlementController } from "./store/controller";
+export { ServerlessEntitlementController } from "./serverless-entitlement.service";
 export {
   createServerlessEntitlementController,
   serverlessEntitlementConfig,
-} from "./bootstrap";
+} from "./serverless-entitlement.factory";
 export type {
   ServerlessEntitlementBootstrapConfig,
   ServerlessEntitlementBootstrapOptions,
-} from "./bootstrap";
+} from "./serverless-entitlement.factory";
 export {
   initializeEntitlement,
-} from "./usecases/initialize-entitlement";
-export { purchaseProduct } from "./usecases/purchase-product";
-export { refreshPurchases } from "./usecases/refresh-purchases";
-export { restorePurchases } from "./usecases/restore-purchases";
+} from "./initialize-entitlement.usecase";
+export { purchaseProduct } from "./purchase-product.usecase";
+export { refreshPurchases } from "./refresh-purchases.usecase";
+export { restorePurchases } from "./restore-purchases.usecase";
 export type {
   NativeStoreEntitlementPlanKind,
   NativeStoreOwnershipStatus,
@@ -28,58 +28,58 @@ export type {
   ServerlessEntitlementCacheState,
   ServerlessEntitlementSnapshot,
   ServerlessEntitlementState,
-} from "./domain/model";
+} from "./serverless-entitlement.model";
 export {
   getNativeStorePlanLabel,
   isLifetimeProduct,
   isSubscriptionProduct,
   supportsNativeStoreProduct,
-} from "./domain/model";
+} from "./serverless-entitlement.model";
 export type {
   NativeStoreBillingClient,
   NativeStorePurchaseRecord,
-} from "./runtime/native-store-client";
+} from "./native-store.client";
 export type {
   AppleStoreBillingBridge,
   AppleStoreEntitlementState,
   AppleStoreTransactionSnapshot,
-} from "./runtime/apple-store-client";
+} from "./apple-store.client";
 export type {
   AppleStorekitBridgeImplementation,
   AppleStorekitBridgeOptions,
-} from "./runtime/apple-storekit-bridge";
+} from "./apple-storekit.bridge";
 export type {
   GooglePlayBillingBridge,
   GooglePlayPurchaseSnapshot,
   GooglePlayPurchaseState,
   GooglePlaySubscriptionState,
-} from "./runtime/google-play-client";
+} from "./google-play.client";
 export type {
   GooglePlayBillingBridgeImplementation,
   GooglePlayBillingBridgeOptions,
-} from "./runtime/google-play-billing-bridge";
+} from "./google-play-billing.bridge";
 export type {
   ServerlessEntitlementCache,
   ServerlessEntitlementRuntime,
-} from "./runtime/runtime";
-export type { ServerlessEntitlementCatalog } from "./runtime/catalog";
+} from "./serverless-entitlement.runtime";
+export type { ServerlessEntitlementCatalog } from "./runtime.catalog";
 export {
   createServerlessEntitlementRuntime,
-} from "./runtime/factory";
+} from "./runtime.factory";
 export {
   findProductForPlatform,
   listProductsForPlatform,
   validateServerlessEntitlementCatalog,
-} from "./runtime/catalog";
+} from "./runtime.catalog";
 export {
   AppleStoreBillingClient,
   mapAppleTransactionsToPurchaseRecords,
-} from "./runtime/apple-store-client";
-export { AppleStorekitBridge } from "./runtime/apple-storekit-bridge";
+} from "./apple-store.client";
+export { AppleStorekitBridge } from "./apple-storekit.bridge";
 export {
   GooglePlayBillingClient,
   mapGooglePlayPurchasesToPurchaseRecords,
-} from "./runtime/google-play-client";
-export { GooglePlayStoreBridge } from "./runtime/google-play-billing-bridge";
-export { PlatformServerlessEntitlementRuntime } from "./runtime/platform-runtime";
-export { UnsupportedServerlessEntitlementRuntime } from "./runtime/unsupported-runtime";
+} from "./google-play.client";
+export { GooglePlayStoreBridge } from "./google-play-billing.bridge";
+export { PlatformServerlessEntitlementRuntime } from "./platform.runtime";
+export { UnsupportedServerlessEntitlementRuntime } from "./unsupported.runtime";

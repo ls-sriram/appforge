@@ -10,30 +10,27 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { SafeAreaView } from "react-native";
-import { LoginController, LoginViewData, LoginAction, FirebaseLoginModel } from "./features/login";
+import { LoginViewModel, LoginViewData, LoginAction } from "./features/login/index";
 
 export default function App() {
-  const controller = useMemo(() => {
-    const model = new FirebaseLoginModel();
-    return new LoginController(model);
-  }, []);
+  const viewmodel = useMemo(() => new LoginViewModel(), []);
 
-  const [data, setData] = useState<LoginViewData>(() => controller.getInitialData());
+  const [data, setData] = useState<LoginViewData>(() => viewmodel.getInitialData());
 
   useEffect(() => {
-    setData(controller.getInitialData());
-  }, [controller]);
+    setData(viewmodel.getInitialData());
+  }, [viewmodel]);
 
   const dispatch = useCallback(
     async (action: LoginAction) => {
-      const next = await controller.dispatch(action);
+      const next = await viewmodel.dispatch(action);
       setData(next);
     },
-    [controller],
+    [viewmodel],
   );
 
   // Lazy import the view surface to keep feature boundaries
-  const { LoginView } = require("./features/login/ui/views/LoginView");
+  const { LoginView } = require("./features/login/login.view");
 
   return (
     <SafeAreaView>

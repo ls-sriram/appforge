@@ -1,4 +1,4 @@
-import { GooglePlayStoreBridge } from "../google-play-billing-bridge";
+import { GooglePlayStoreBridge } from "../../google-play-billing.bridge";
 
 describe("serverless-entitlement/runtime/google-play-billing-bridge", () => {
   it("returns a clear error when no Google Play implementation is configured", async () => {

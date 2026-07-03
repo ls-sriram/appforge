@@ -1,4 +1,4 @@
-import { parsePlanModel } from "../plan";
+import { parsePlanModel } from "../../plan.model";
 
 describe("parsePlanModel", () => {
   it("parses valid backend plan payload", () => {

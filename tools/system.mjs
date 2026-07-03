@@ -79,11 +79,26 @@ function validateSchema(schema, filePath, errors) {
 function validateRepositoryGeneration(repository, errors) {
   const generation = repository.generation;
   if (!generation) return;
-  if (!Array.isArray(generation.feature_structure?.required_dirs) || generation.feature_structure.required_dirs.length === 0) {
-    errors.push('Repository generation contract must define "feature_structure.required_dirs".');
+  if (!generation.feature_structure || typeof generation.feature_structure !== "object") {
+    errors.push('Repository generation contract must define "feature_structure".');
   }
-  if (!generation.file_patterns || typeof generation.file_patterns !== "object") {
-    errors.push('Repository generation contract must define "file_patterns".');
+  if (typeof generation.feature_structure?.layout !== "string" || generation.feature_structure.layout.length === 0) {
+    errors.push('Repository generation contract must define "feature_structure.layout".');
+  }
+  for (const key of ["required_dirs", "optional_dirs"]) {
+    const value = generation.feature_structure?.[key];
+    if (value !== undefined && !Array.isArray(value)) {
+      errors.push(`Repository generation contract must define feature_structure.${key} as an array when present.`);
+    }
+  }
+  if (!generation.file_suffixes || typeof generation.file_suffixes !== "object") {
+    errors.push('Repository generation contract must define "file_suffixes".');
+  }
+  if (generation.classification !== undefined && typeof generation.classification !== "object") {
+    errors.push('Repository generation contract must define "classification" as an object when present.');
+  }
+  if (generation.content_contracts !== undefined && typeof generation.content_contracts !== "object") {
+    errors.push('Repository generation contract must define "content_contracts" as an object when present.');
   }
   if (generation.scaffolding) {
     for (const key of ["create_tests", "create_readme", "create_contract"]) {
@@ -199,16 +214,19 @@ export function getMvvmArchitecturePattern(system) {
 
 export function classifyFileByConvention(system, filePath) {
   const relativePath = toPosix(path.isAbsolute(filePath) ? path.relative(system.rootDir, filePath) : filePath);
-  const moduleContract = findNearestModule(system, relativePath);
-  if (!moduleContract) return null;
-
-  const moduleRelativePath = relativePath.slice(moduleContract.directory.length + 1);
   const classification = system.repository.generation?.classification ?? {};
+  const fileName = relativePath.split("/").pop() ?? relativePath;
   for (const [pattern, definition] of Object.entries(classification)) {
-    if (globToRegExp(pattern).test(moduleRelativePath)) {
+    if (globToRegExp(pattern).test(relativePath) || globToRegExp(pattern).test(fileName)) {
+      const contentContract = definition.role
+        ? system.repository.generation?.content_contracts?.[definition.role]
+        : undefined;
       return {
         file: relativePath,
         layer: definition.layer,
+        role: definition.role,
+        responsibilities: contentContract?.responsibilities ?? [],
+        prohibited_behaviors: contentContract?.must_not ?? [],
         allowed_imports: getMvvmArchitecturePattern(system)?.allowed_dependencies?.[definition.layer] ?? [],
       };
     }
@@ -229,9 +247,10 @@ export function resolveContractsForPaths(system, filePaths) {
     if (classification?.layer) layers.add(classification.layer);
   }
 
-  const features = system.features.filter((featureContract) =>
-    featureContract.touches.some((moduleName) => modules.has(moduleName)),
-  );
+  const features = system.features.filter((featureContract) => {
+    const overlap = featureContract.touches.filter((moduleName) => modules.has(moduleName)).length;
+    return overlap >= 2;
+  });
 
   return {
     modules: [...modules.values()],
