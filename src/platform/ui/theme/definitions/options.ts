@@ -1,5 +1,7 @@
 export interface BrandColors {
   primary: string;
+  /** Secondary brand color; defaults to primary when omitted. */
+  accent?: string;
   success?: string;
   warning?: string;
   error?: string;

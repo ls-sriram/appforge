@@ -14,14 +14,26 @@ export interface ElevationPreset {
 export interface Theme {
   palette: {
     primary: string;
+    /** Soft tint of primary for selected/hover fills. */
+    primaryMuted: string;
+    /** Secondary brand color for highlights that shouldn't read as actionable. */
+    accent: string;
     success: string;
+    successMuted: string;
     warning: string;
+    warningMuted: string;
     error: string;
+    errorMuted: string;
     info: string;
+    infoMuted: string;
     background: string;
     surface: string;
+    /** Raised surface between surface and surfaceAlt in contrast. */
+    surfaceStrong: string;
     surfaceAlt: string;
     border: string;
+    /** Hairline for low-emphasis separators. */
+    borderSubtle: string;
     borderFocus: string;
     textPrimary: string;
     textSecondary: string;

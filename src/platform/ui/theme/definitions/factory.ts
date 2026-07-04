@@ -34,6 +34,7 @@ export function createTheme(options: ThemeOptions): Theme {
   } = options;
 
   const primary = brand.primary;
+  const accent = brand.accent ?? brand.primary;
   const success = brand.success ?? "#10B981";
   const warning = brand.warning ?? "#F59E0B";
   const error = brand.error ?? "#F43F5E";
@@ -43,8 +44,10 @@ export function createTheme(options: ThemeOptions): Theme {
     ? {
         background: "#F5F8FF" as const,
         surface: "#FFFFFF" as const,
+        surfaceStrong: "#E9F0FF" as const,
         surfaceAlt: "#F3F7FF" as const,
         border: "rgba(37,99,235,0.12)" as const,
+        borderSubtle: "rgba(37,99,235,0.07)" as const,
         textPrimary: "#0F172A" as const,
         textSecondary: "#334155" as const,
         textMuted: "#64748B" as const,
@@ -53,8 +56,10 @@ export function createTheme(options: ThemeOptions): Theme {
     : {
         background: "#FAFAFA" as const,
         surface: "#FFFFFF" as const,
+        surfaceStrong: "#EDEDED" as const,
         surfaceAlt: "#F5F5F5" as const,
         border: "#E5E5E5" as const,
+        borderSubtle: "#F0F0F0" as const,
         textPrimary: "#171717" as const,
         textSecondary: "#525252" as const,
         textMuted: "#A3A3A3" as const,
@@ -64,10 +69,16 @@ export function createTheme(options: ThemeOptions): Theme {
   return {
     palette: {
       primary,
+      primaryMuted: alpha(primary, 0.12),
+      accent,
       success,
+      successMuted: alpha(success, 0.12),
       warning,
+      warningMuted: alpha(warning, 0.12),
       error,
+      errorMuted: alpha(error, 0.12),
       info,
+      infoMuted: alpha(info, 0.12),
       ...base,
       borderFocus: primary,
     },
@@ -199,6 +210,7 @@ const TRACK_H = 4;
 const GAP = { tight: 4, xs: 8 } as const;
 
 function alpha(hex: string, a: number): string {
+  if (!/^#[0-9a-fA-F]{6}$/.test(hex)) return hex;
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
@@ -210,11 +222,11 @@ export function createContracts(t: Theme): PrimitiveContracts {
   const { pill } = radii;
   const p = t.palette;
 
-  const primaryMuted = alpha(p.primary, 0.12);
-  const errorMuted = alpha(p.error, 0.12);
-  const successMuted = alpha(p.success, 0.12);
-  const warningMuted = alpha(p.warning, 0.12);
-  const infoMuted = alpha(p.info, 0.12);
+  const primaryMuted = p.primaryMuted;
+  const errorMuted = p.errorMuted;
+  const successMuted = p.successMuted;
+  const warningMuted = p.warningMuted;
+  const infoMuted = p.infoMuted;
 
   const badgeBase = {
     container: {

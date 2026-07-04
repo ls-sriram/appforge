@@ -11,6 +11,8 @@ export interface SelectOption {
   value: string;
   description?: string;
   disabled?: boolean;
+  /** Optional color swatch rendered before the label (design-token pickers). */
+  swatch?: string;
 }
 
 export interface SelectProps {
@@ -47,8 +49,24 @@ export function Select({
     [onValueChange],
   );
 
+  const swatchSize = Math.max(12, s.icon.size - 2);
+
+  const renderSwatch = (color: string | undefined) =>
+    color ? (
+      <View
+        style={{
+          width: swatchSize,
+          height: swatchSize,
+          borderRadius: swatchSize / 2,
+          backgroundColor: color,
+          borderWidth: 1,
+          borderColor: s.menu.borderColor,
+        }}
+      />
+    ) : null;
+
   return (
-    <View style={{ gap: s.layout.fieldGap }} testID={testID}>
+    <View style={{ gap: s.layout.fieldGap, position: "relative", zIndex: open ? 100 : undefined }} testID={testID}>
       {label ? (
         <Text style={{ color: s.label.color, fontSize: s.label.fontSize, fontFamily: s.text.fontFamily }}>{label}</Text>
       ) : null}
@@ -81,6 +99,7 @@ export function Select({
                 opacity,
               }}
             >
+              {renderSwatch(selected?.swatch)}
               <View style={{ flex: 1 }}>
                 <Text style={{ color: selected ? s.text.color : s.text.placeholderColor, fontSize: s.option.fontSize, fontFamily: s.text.fontFamily }}>
                   {selected?.label ?? placeholder}
@@ -95,11 +114,22 @@ export function Select({
       {open ? (
         <View
           style={{
+            position: "absolute",
+            top: "100%",
+            left: 0,
+            right: 0,
+            marginTop: 4,
+            zIndex: 1000,
             backgroundColor: s.menu.backgroundColor,
             borderWidth: s.trigger.borderWidth,
             borderColor: s.menu.borderColor,
             borderRadius: s.menu.borderRadius,
             overflow: "hidden",
+            shadowColor: "#000000",
+            shadowOffset: { width: 0, height: 8 },
+            shadowOpacity: 0.28,
+            shadowRadius: 24,
+            elevation: 8,
           }}
           testID={testID ? `${testID}-menu` : undefined}
         >
@@ -125,6 +155,7 @@ export function Select({
                   opacity: option.disabled ? (ix?.disabledOpacity ?? 0.5) : 1,
                 }}
               >
+                {renderSwatch(option.swatch)}
                 <View style={{ flex: 1, gap: s.option.rowGap }}>
                   <Text
                     style={{
