@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import { PanelScaffold } from "../scaffolds/index";
 import { type UiStamp, noopUi } from "../viz";
 import { Icon, type IconName } from "./Icon";
@@ -105,7 +105,12 @@ export function TabbedPanel({
   const s = tabbedPanelContract;
 
   const header = tabs.length > 0 ? (
-    <Tabs
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      style={styles.tabsScroll}
+    >
+      <Tabs
       contract={tabsContract}
       onValueChange={onActiveTabChange}
       options={tabs.map((tab) => ({
@@ -116,7 +121,8 @@ export function TabbedPanel({
       }))}
       testID={ui("tabs", "Tabbed panel tabs").__uiid}
       value={activeTabId ?? ""}
-    />
+      />
+    </ScrollView>
   ) : null;
 
   const builtInActions = activeTab ? (
@@ -177,6 +183,9 @@ export function TabbedPanel({
 }
 
 const styles = {
+  tabsScroll: {
+    flexGrow: 0,
+  },
   actionsRow: {
     flexDirection: "row",
     alignItems: "center",
