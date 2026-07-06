@@ -104,6 +104,7 @@ export type {
   DockPanelMoveDirection,
   DockPanelProps,
   DockPanelItem,
+  DockSplitterDragEvent,
   DockSplitterOrientation,
   DockSplitterProps,
   TagProps,

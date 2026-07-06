@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import { type UiStamp, noopUi } from "../viz";
 
 import type { DockSplitterContract } from "../contracts/primitives/docksplitter";
@@ -7,14 +7,45 @@ export type { DockSplitterContract };
 
 export type DockSplitterOrientation = "vertical" | "horizontal";
 
+export interface DockSplitterDragEvent {
+  clientX?: number;
+  clientY?: number;
+  nativeEvent?: {
+    clientX?: number;
+    clientY?: number;
+    pageX?: number;
+    pageY?: number;
+    locationX?: number;
+    locationY?: number;
+  };
+}
+
 export interface DockSplitterProps {
   contract: DockSplitterContract;
   orientation?: DockSplitterOrientation;
   disabled?: boolean;
-  onDragStart?: () => void;
-  onDrag?: () => void;
-  onDragEnd?: () => void;
+  onDragStart?: (event: DockSplitterDragEvent) => void;
+  onDrag?: (delta: number, event: DockSplitterDragEvent) => void;
+  onDragEnd?: (event: DockSplitterDragEvent) => void;
   ui?: UiStamp;
+}
+
+function getEventCoordinate(event: DockSplitterDragEvent, orientation: DockSplitterOrientation) {
+  const nativeEvent = event.nativeEvent;
+
+  if (orientation === "vertical") {
+    return event.clientX
+      ?? nativeEvent?.clientX
+      ?? nativeEvent?.pageX
+      ?? nativeEvent?.locationX
+      ?? null;
+  }
+
+  return event.clientY
+    ?? nativeEvent?.clientY
+    ?? nativeEvent?.pageY
+    ?? nativeEvent?.locationY
+    ?? null;
 }
 
 export function DockSplitter({
@@ -27,23 +58,67 @@ export function DockSplitter({
   ui = noopUi,
 }: DockSplitterProps) {
   const vertical = orientation === "vertical";
+  const draggingRef = React.useRef(false);
+  const lastCoordinateRef = React.useRef<number | null>(null);
+
+  const beginDrag = React.useCallback((event: DockSplitterDragEvent) => {
+    if (disabled) {
+      return;
+    }
+
+    draggingRef.current = true;
+    lastCoordinateRef.current = getEventCoordinate(event, orientation);
+    onDragStart?.(event);
+  }, [disabled, onDragStart, orientation]);
+
+  const continueDrag = React.useCallback((event: DockSplitterDragEvent) => {
+    if (disabled || !draggingRef.current) {
+      return;
+    }
+
+    const nextCoordinate = getEventCoordinate(event, orientation);
+    if (nextCoordinate === null) {
+      return;
+    }
+
+    if (lastCoordinateRef.current === null) {
+      lastCoordinateRef.current = nextCoordinate;
+      return;
+    }
+
+    const delta = nextCoordinate - lastCoordinateRef.current;
+    lastCoordinateRef.current = nextCoordinate;
+
+    if (delta !== 0) {
+      onDrag?.(delta, event);
+    }
+  }, [disabled, onDrag, orientation]);
+
+  const endDrag = React.useCallback((event: DockSplitterDragEvent) => {
+    if (disabled || !draggingRef.current) {
+      return;
+    }
+
+    draggingRef.current = false;
+    lastCoordinateRef.current = null;
+    onDragEnd?.(event);
+  }, [disabled, onDragEnd]);
+
+  const interactionProps = {
+    onMouseDown: beginDrag,
+    onMouseMove: continueDrag,
+    onMouseUp: endDrag,
+    onPointerDown: beginDrag,
+    onPointerMove: continueDrag,
+    onPointerUp: endDrag,
+  } as const;
 
   return (
-    <Pressable
+    <View
       accessibilityRole="button"
       accessibilityLabel={`Resize panels ${orientation}`}
       accessibilityState={{ disabled }}
-      disabled={disabled}
       nativeID={ui("root", "Dock splitter root").__uiid}
-      onPress={() => {
-        if (disabled) {
-          return;
-        }
-
-        onDragStart?.();
-        onDrag?.();
-        onDragEnd?.();
-      }}
       style={{
         alignItems: "center",
         justifyContent: "center",
@@ -58,6 +133,7 @@ export function DockSplitter({
         opacity: disabled ? contract.container.disabledOpacity : 1,
       }}
       testID={ui("root", "Dock splitter root").__uiid}
+      {...(interactionProps as unknown as Record<string, unknown>)}
     >
       <View
         nativeID={ui("grip", "Dock splitter grip").__uiid}
@@ -69,6 +145,6 @@ export function DockSplitter({
         }}
         testID={ui("grip", "Dock splitter grip").__uiid}
       />
-    </Pressable>
+    </View>
   );
 }

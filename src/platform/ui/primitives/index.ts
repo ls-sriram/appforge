@@ -34,7 +34,7 @@ export type {
   DockPanelItem,
 } from './DockPanel'
 export { DockSplitter } from './DockSplitter'
-export type { DockSplitterOrientation, DockSplitterProps } from './DockSplitter'
+export type { DockSplitterDragEvent, DockSplitterOrientation, DockSplitterProps } from './DockSplitter'
 export { ProgressBar } from './ProgressBar'
 export { Table } from './Table'
 export type {

@@ -17,7 +17,6 @@ jest.mock("react-native", () => {
   return {
     View: makeComponent("View"),
     Text: makeComponent("Text"),
-    Pressable: makeComponent("Pressable"),
     useWindowDimensions: () => ({ width: 1280, height: 800 }),
   };
 });
@@ -38,7 +37,7 @@ function renderDockSplitter(element: React.ReactElement) {
 
 function findInteractiveByTestId(tree: any, testID: string) {
   return tree.root.findAll(
-    (node: any) => node.type === "Pressable" && node.props.testID === testID && typeof node.props.onPress === "function",
+    (node: any) => node.type === "View" && node.props.testID === testID && typeof node.props.onMouseDown === "function",
   );
 }
 
@@ -50,7 +49,7 @@ describe("DockSplitter", () => {
     expect(barrelSource).toContain("DockSplitterProps");
   });
 
-  it("emits drag lifecycle callbacks in order", () => {
+  it("emits drag lifecycle callbacks and signed deltas in order", () => {
     const onDragStart = jest.fn();
     const onDrag = jest.fn();
     const onDragEnd = jest.fn();
@@ -67,11 +66,16 @@ describe("DockSplitter", () => {
     );
 
     act(() => {
-      findInteractiveByTestId(tree, "splitter.root")[0].props.onPress();
+      const splitter = findInteractiveByTestId(tree, "splitter.root")[0].props;
+      splitter.onMouseDown({ clientX: 100 });
+      splitter.onMouseMove({ clientX: 112 });
+      splitter.onMouseMove({ clientX: 107 });
+      splitter.onMouseUp({ clientX: 107 });
     });
 
     expect(onDragStart).toHaveBeenCalledTimes(1);
-    expect(onDrag).toHaveBeenCalledTimes(1);
+    expect(onDrag).toHaveBeenNthCalledWith(1, 12, { clientX: 112 });
+    expect(onDrag).toHaveBeenNthCalledWith(2, -5, { clientX: 107 });
     expect(onDragEnd).toHaveBeenCalledTimes(1);
     expect(onDragStart.mock.invocationCallOrder[0]).toBeLessThan(onDrag.mock.invocationCallOrder[0]);
     expect(onDrag.mock.invocationCallOrder[0]).toBeLessThan(onDragEnd.mock.invocationCallOrder[0]);
@@ -95,11 +99,40 @@ describe("DockSplitter", () => {
     );
 
     act(() => {
-      findInteractiveByTestId(tree, "splitter.root")[0].props.onPress();
+      const splitter = findInteractiveByTestId(tree, "splitter.root")[0].props;
+      splitter.onMouseDown({ clientX: 100 });
+      splitter.onMouseMove({ clientX: 120 });
+      splitter.onMouseUp({ clientX: 120 });
     });
 
     expect(onDragStart).not.toHaveBeenCalled();
     expect(onDrag).not.toHaveBeenCalled();
     expect(onDragEnd).not.toHaveBeenCalled();
+  });
+
+  it("supports horizontal dragging through pointer events", () => {
+    const onDrag = jest.fn();
+    const onDragEnd = jest.fn();
+    const tree = renderDockSplitter(
+      <Wrapper>
+        <DockSplitter
+          contract={dockSplitterContract}
+          onDrag={onDrag}
+          onDragEnd={onDragEnd}
+          orientation="horizontal"
+          ui={createUi("splitter")}
+        />
+      </Wrapper>,
+    );
+
+    act(() => {
+      const splitter = findInteractiveByTestId(tree, "splitter.root")[0].props;
+      splitter.onPointerDown({ clientY: 80 });
+      splitter.onPointerMove({ clientY: 92 });
+      splitter.onPointerUp({ clientY: 92 });
+    });
+
+    expect(onDrag).toHaveBeenCalledWith(12, { clientY: 92 });
+    expect(onDragEnd).toHaveBeenCalledWith({ clientY: 92 });
   });
 });

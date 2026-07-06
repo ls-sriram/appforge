@@ -319,6 +319,32 @@ describe("DockPanel", () => {
     expect(findInteractiveByTestId(tree, "dock.expand")).toHaveLength(1);
   });
 
+  it("renders a compact collapsed rail for plain pane mode", () => {
+    const tree = renderDockPanel(
+      <Wrapper>
+        <DockPanel
+          canClose
+          canCollapse
+          canIconCollapse
+          collapsed
+          dockPanelContract={dockPanelContract}
+          icon="settings"
+          onClose={() => {}}
+          onVisibleChange={() => {}}
+          title="Inspector"
+          ui={createUi("dock")}
+        >
+          <Text>Inspector body</Text>
+        </DockPanel>
+      </Wrapper>,
+    );
+
+    expect(findInteractiveByTestId(tree, "dock.expand")).toHaveLength(1);
+    expect(findInteractiveByTestId(tree, "dock.header-close")).toHaveLength(1);
+    expect(findHostText(tree, "Inspector body")).toHaveLength(0);
+    expect(tree.root.findAll((node: any) => node.props.testID === "dock.content-frame")).toHaveLength(0);
+  });
+
   it("does not icon-collapse when canIconCollapse is false", () => {
     const tree = renderDockPanel(
       <Wrapper>

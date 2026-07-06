@@ -24,7 +24,7 @@ export interface DockPanelItem {
 }
 
 export interface DockPanelProps {
-  tabsContract: TabsContract;
+  tabsContract?: TabsContract;
   dockPanelContract: DockPanelContract;
   items?: DockPanelItem[];
   activeItemId?: string | null;
@@ -302,9 +302,70 @@ export function DockPanel({
       ? children
       : emptyState;
   const hasItems = items.length > 0;
+  const isCollapsedPaneRail = collapsed && canIconCollapse && !hasItems;
   const showSelector = hasItems && resolvedDisplayMode !== "expanded" ? true : hasItems;
   const showPanelHeader = showHeader && (hasContent(title) || !!icon || hasContent(headerActions) || canCollapse || canClose);
   const canCloseActiveItem = !!activeItem && !!onCloseItem && activeItem.closeable !== false;
+
+  if (isCollapsedPaneRail) {
+    return (
+      <View
+        nativeID={ui("root", "Dock panel root").__uiid}
+        style={[
+          getCollapsedRailStyle(s, vertical),
+          getContainerStyle(s),
+          getSizeStyle(collapsedSize ?? s.rail.collapsedWidth, effectiveMinSize, maxSize, vertical),
+        ]}
+        testID={ui("root", "Dock panel root").__uiid}
+      >
+        <View
+          nativeID={ui("collapsed-rail", "Dock panel collapsed rail").__uiid}
+          style={getSelectorContainerStyle(s, vertical, false)}
+          testID={ui("collapsed-rail", "Dock panel collapsed rail").__uiid}
+        >
+          {icon ? (
+            <Icon
+              color={s.itemIcon.selectedColor}
+              name={icon}
+              size={s.itemIcon.size}
+            />
+          ) : null}
+          {title ? (
+            <View
+              nativeID={ui("collapsed-title", "Dock panel collapsed title").__uiid}
+              testID={ui("collapsed-title", "Dock panel collapsed title").__uiid}
+            >
+              <Body color={s.title.color}>{title}</Body>
+            </View>
+          ) : null}
+          {canCollapse ? (
+            <IconActionButton
+              contract={dockPanelContract}
+              accessibilityLabel="Expand dock panel"
+              icon="plus"
+              onPress={() => {
+                onCollapsedChange?.(false);
+                onDisplayModeChange?.("expanded");
+              }}
+              testID={ui("expand", "Expand dock panel button").__uiid}
+            />
+          ) : null}
+          {canClose ? (
+            <IconActionButton
+              contract={dockPanelContract}
+              accessibilityLabel="Close dock panel"
+              icon="x"
+              onPress={() => {
+                onClose?.();
+                onVisibleChange?.(false);
+              }}
+              testID={ui("header-close", "Dock panel header close button").__uiid}
+            />
+          ) : null}
+        </View>
+      </View>
+    );
+  }
 
   const selector = showMenuTrigger ? (
     <Pressable
@@ -550,6 +611,15 @@ function getRootStyle(vertical: boolean) {
     flexDirection: vertical ? "row" : "column",
     alignItems: "stretch",
     flex: 1,
+  } as const;
+}
+
+function getCollapsedRailStyle(contract: DockPanelContract, vertical: boolean) {
+  return {
+    flexDirection: vertical ? "column" : "row",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: contract.rail.padding,
   } as const;
 }
 

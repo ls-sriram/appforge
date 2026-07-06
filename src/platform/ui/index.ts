@@ -35,6 +35,7 @@ export {
 } from "./contracts/index";
 export {
   platformLayoutDefaults,
+  defaultContracts,
 } from "./theme/index";
 export { Display, Heading, Label, Body } from "./primitives/Text";
 export { Button } from "./primitives/Button";
@@ -75,6 +76,7 @@ export type {
 } from "./primitives/DockPanel";
 export { DockSplitter } from "./primitives/DockSplitter";
 export type {
+  DockSplitterDragEvent,
   DockSplitterOrientation,
   DockSplitterProps,
 } from "./primitives/DockSplitter";
