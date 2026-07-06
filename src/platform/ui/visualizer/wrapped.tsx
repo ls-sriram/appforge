@@ -33,6 +33,8 @@ import {
   SelectableChip as RealSelectableChip,
   SizingToolbar as RealSizingToolbar,
   TabbedPanel as RealTabbedPanel,
+  DockPanel as RealDockPanel,
+  DockSplitter as RealDockSplitter,
   Tabs as RealTabs,
   TextArea as RealTextArea,
 } from "../index";
@@ -210,5 +212,7 @@ export const SelectableChip = makeWrappedInBox(
 );
 export const SizingToolbar = makeWrappedInBox(RealSizingToolbar, "SizingToolbar");
 export const TabbedPanel = makeWrappedInBox(RealTabbedPanel, "TabbedPanel");
+export const DockPanel = makeWrappedInBox(RealDockPanel, "DockPanel");
+export const DockSplitter = makeWrappedInBox(RealDockSplitter, "DockSplitter");
 export const Tabs = makeWrappedInBox(RealTabs, "Tabs");
 export const TextArea = makeWrappedInBox(RealTextArea, "TextArea");

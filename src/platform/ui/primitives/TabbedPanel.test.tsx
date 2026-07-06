@@ -11,6 +11,20 @@ import { TabbedPanel } from "./TabbedPanel";
 const tabsContract = defaultContracts.tabs!["default"];
 const tabbedPanelContract = defaultContracts.tabbedPanel!["default"];
 
+jest.mock("react-native", () => {
+  const React = require("react");
+  const makeComponent = (name: string) => ({ children, ...props }: { children?: React.ReactNode }) =>
+    React.createElement(name, props, children);
+
+  return {
+    View: makeComponent("View"),
+    Text: makeComponent("Text"),
+    Pressable: makeComponent("Pressable"),
+    ScrollView: makeComponent("ScrollView"),
+    useWindowDimensions: () => ({ width: 1280, height: 800 }),
+  };
+});
+
 jest.mock("./Text", () => {
   const React = require("react");
   const { Text } = require("react-native");
@@ -47,7 +61,7 @@ function renderTabbedPanel(element: React.ReactElement) {
 
 function findInteractiveByTestId(tree: any, testID: string) {
   return tree.root.findAll(
-    (node: any) => node.props.testID === testID && typeof node.props.onPress === "function",
+    (node: any) => node.type === "Pressable" && node.props.testID === testID && typeof node.props.onPress === "function",
   );
 }
 

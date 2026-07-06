@@ -12,4 +12,6 @@ export type { MultiSelectContract } from "./multiselect";
 export type { TabsContract } from "./tabs";
 export type { SizingToolbarContract } from "./sizingtoolbar";
 export type { TabbedPanelContract } from "./tabbedpanel";
+export type { DockPanelContract } from "./dockpanel";
+export type { DockSplitterContract } from "./docksplitter";
 export type { ColorPalettePickerContract } from "./colorpalettepicker";

@@ -12,6 +12,8 @@ import type { MultiSelectContract } from "../primitives/multiselect";
 import type { TabsContract } from "../primitives/tabs";
 import type { SizingToolbarContract } from "../primitives/sizingtoolbar";
 import type { TabbedPanelContract } from "../primitives/tabbedpanel";
+import type { DockPanelContract } from "../primitives/dockpanel";
+import type { DockSplitterContract } from "../primitives/docksplitter";
 import type { ColorPalettePickerContract } from "../primitives/colorpalettepicker";
 
 export interface PrimitiveContracts {
@@ -30,5 +32,7 @@ export interface PrimitiveContracts {
   tabs?: Record<string, TabsContract>;
   sizingToolbar?: Record<string, SizingToolbarContract>;
   tabbedPanel?: Record<string, TabbedPanelContract>;
+  dockPanel?: Record<string, DockPanelContract>;
+  dockSplitter?: Record<string, DockSplitterContract>;
   colorPalettePicker?: Record<string, ColorPalettePickerContract>;
 }

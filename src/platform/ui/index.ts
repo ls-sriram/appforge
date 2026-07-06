@@ -23,6 +23,8 @@ export {
   type TabsContract,
   type SizingToolbarContract,
   type TabbedPanelContract,
+  type DockPanelContract,
+  type DockSplitterContract,
   type ColorPalettePickerContract,
   type PrimitiveContracts,
   type LayoutContract,
@@ -63,6 +65,19 @@ export type {
   TabbedPanelProps,
   TabbedPanelTab,
 } from "./primitives/TabbedPanel";
+export { DockPanel } from "./primitives/DockPanel";
+export type {
+  DockPanelDisplayMode,
+  DockPanelPlacement,
+  DockPanelMoveDirection,
+  DockPanelProps,
+  DockPanelItem,
+} from "./primitives/DockPanel";
+export { DockSplitter } from "./primitives/DockSplitter";
+export type {
+  DockSplitterOrientation,
+  DockSplitterProps,
+} from "./primitives/DockSplitter";
 export { Tag } from "./primitives/Tag";
 export type { TagProps } from "./primitives/Tag";
 export { Avatar } from "./primitives/Avatar";

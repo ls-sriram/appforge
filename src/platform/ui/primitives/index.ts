@@ -25,6 +25,16 @@ export { Tabs } from './Tabs'
 export type { TabsProps, TabOption } from './Tabs'
 export { TabbedPanel } from './TabbedPanel'
 export type { TabbedPanelMoveDirection, TabbedPanelProps, TabbedPanelTab } from './TabbedPanel'
+export { DockPanel } from './DockPanel'
+export type {
+  DockPanelDisplayMode,
+  DockPanelPlacement,
+  DockPanelMoveDirection,
+  DockPanelProps,
+  DockPanelItem,
+} from './DockPanel'
+export { DockSplitter } from './DockSplitter'
+export type { DockSplitterOrientation, DockSplitterProps } from './DockSplitter'
 export { ProgressBar } from './ProgressBar'
 export { Table } from './Table'
 export type {

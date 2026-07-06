@@ -10,6 +10,8 @@ public_api:
   - useUI
   - PrimitiveContracts
   - LayoutContract
+  - DockPanel
+  - DockSplitter
 invariants:
   - shared_ui_imports_flow_through_root_barrel
   - closed_primitives_require_explicit_contracts

@@ -10,6 +10,8 @@ public_api:
   - MultiSelect
   - Tabs
   - TabbedPanel
+  - DockPanel
+  - DockSplitter
   - Table
   - Icon
   - Avatar
