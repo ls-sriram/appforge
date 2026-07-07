@@ -6,12 +6,25 @@
  * completely unaffected — no shorthand expansion leaks to DOM elements, and
  * we don't need to maintain a shorthand-to-CSS translation table.
  *
+ * __uiid is stamped once per JSX call site at compile time, so a component
+ * rendered more than once (e.g. a Block used 3x on a screen) has every
+ * runtime instance sharing the same __uiid. Two different ids come out of
+ * that:
+ *   - rawId: the explicit __uiid prop as authored — stays the key for prop
+ *     overrides, since a Design-tab edit changes the source call site and
+ *     should apply to every instance rendered from it.
+ *   - instanceId: rawId plus a React useId() suffix, unique per mounted
+ *     instance — used for the node-snapshot registry, data-uiid, selection,
+ *     and highlighting, so the Layers panel and canvas can tell instances
+ *     apart.
+ *
  * Each wrapper:
- *   1. Reads an explicit __uiid from props when provided.
+ *   1. Reads an explicit __uiid (rawId) from props when provided.
  *   2. Reads an explicit __uilabel from props when provided.
- *   3. Looks up propOverrides[__uiid] from VisualizerContext.
+ *   3. Looks up propOverrides[rawId] from VisualizerContext.
  *   4. Merges overrides into the component's props (inspector → live update).
- *   5. Passes data-viz-selected and onClick — CSS handles the outline.
+ *   5. Passes data-viz-selected and onClick, keyed by instanceId — CSS
+ *      handles the outline.
  */
 import React from "react";
 import { useVisualizerContext } from "../visualizer-context";
@@ -101,31 +114,33 @@ function makeWrapped<P extends AnyProps>(
     ...rest
   }: P & { __uiid?: string; __uilabel?: string }) {
     const ctx = useVisualizerContext();
+    const reactId = React.useId();
 
     if (!ctx.active || !explicitId) {
       return <RealComp {...(rest as P)} />;
     }
 
-    const __uiid = explicitId;
-    const rawOverrides = ctx.propOverrides[__uiid] ?? {};
+    const rawId = explicitId;
+    const instanceId = `${rawId}::${reactId}`;
+    const rawOverrides = ctx.propOverrides[rawId] ?? {};
     const overrides = applyTextOverride(rawOverrides, textProp);
     const merged = { ...rest, ...overrides } as P;
 
     React.useLayoutEffect(() => {
-      setNodeSnapshot(__uiid, {
+      setNodeSnapshot(instanceId, {
         type: displayName,
         label: explicitLabel ?? displayName,
         props: snapshotProps(displayName, merged, textProp),
       });
-      return () => clearNodeSnapshot(__uiid);
-    }, [__uiid, explicitLabel, merged]);
+      return () => clearNodeSnapshot(instanceId);
+    }, [instanceId, explicitLabel, merged]);
 
     const vizProps: AnyProps = {
       "data-viz-type": displayName,
       "data-viz-label": explicitLabel,
-      "data-viz-selected": __uiid === ctx.selectedNodeId ? "true" : undefined,
-      "data-uiid": __uiid,
-      onClick: (e: React.MouseEvent) => { e.stopPropagation(); ctx.onSelect(__uiid); },
+      "data-viz-selected": instanceId === ctx.selectedNodeId ? "true" : undefined,
+      "data-uiid": instanceId,
+      onClick: (e: React.MouseEvent) => { e.stopPropagation(); ctx.onSelect(instanceId); },
     };
 
     return <RealComp {...merged} {...(vizProps as Partial<P>)} />;
@@ -151,34 +166,36 @@ function makeWrappedInBox<P extends AnyProps>(
     ...rest
   }: P & { __uiid?: string; __uilabel?: string }) {
     const ctx = useVisualizerContext();
+    const reactId = React.useId();
 
     if (!ctx.active || !explicitId) {
       return <RealComp {...(rest as P)} />;
     }
 
-    const __uiid = explicitId;
-    const rawOverrides = ctx.propOverrides[__uiid] ?? {};
+    const rawId = explicitId;
+    const instanceId = `${rawId}::${reactId}`;
+    const rawOverrides = ctx.propOverrides[rawId] ?? {};
     const overrides = applyTextOverride(rawOverrides, textProp);
     const merged = { ...rest, ...overrides } as P;
-    const isSelected = __uiid === ctx.selectedNodeId;
+    const isSelected = instanceId === ctx.selectedNodeId;
 
     React.useLayoutEffect(() => {
-      setNodeSnapshot(__uiid, {
+      setNodeSnapshot(instanceId, {
         type: displayName,
         label: explicitLabel ?? displayName,
         props: snapshotProps(displayName, merged, textProp),
       });
-      return () => clearNodeSnapshot(__uiid);
-    }, [__uiid, explicitLabel, merged]);
+      return () => clearNodeSnapshot(instanceId);
+    }, [instanceId, explicitLabel, merged]);
 
     return (
       // @ts-ignore — div is web-only; this barrel only runs on web
       <div
-        data-uiid={__uiid}
+        data-uiid={instanceId}
         data-viz-type={displayName}
         data-viz-label={explicitLabel}
         data-viz-selected={isSelected ? "true" : undefined}
-        onClick={(e: React.MouseEvent) => { e.stopPropagation(); ctx.onSelect(__uiid); }}
+        onClick={(e: React.MouseEvent) => { e.stopPropagation(); ctx.onSelect(instanceId); }}
         style={{ display: "contents" }}
       >
         <RealComp {...(merged as P)} />
