@@ -1,7 +1,7 @@
 import React from "react";
 import TestRenderer, { act } from "react-test-renderer";
-import { defaultContracts } from "../theme/index";
-import { ThemeProvider } from "../theme/ThemeProvider";
+import { defaultContracts } from "../../theme/index";
+import { ThemeProvider } from "../../theme/ThemeProvider";
 import { SizingToolbar } from "./SizingToolbar";
 
 const sizingToolbarContract = defaultContracts.sizingToolbar!["default"];

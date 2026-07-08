@@ -1,16 +1,1 @@
-export interface TabbedPanelContract {
-  actionButton: {
-    minWidth: number;
-    minHeight: number;
-    borderRadius: number;
-    disabledOpacity: number;
-  };
-  actionIcon: {
-    size: number;
-    color: string;
-    disabledColor: string;
-  };
-  layout: {
-    inlineActionsMarginRight: number;
-  };
-}
+export type { TabbedPanelContract } from "../../components/tabbed-panel/tabbed-panel.styles";

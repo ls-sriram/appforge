@@ -1,12 +1,12 @@
 import React from "react";
 import TestRenderer, { act } from "react-test-renderer";
-import { defaultContracts } from "../theme/index";
-import { ThemeProvider } from "../theme/ThemeProvider";
+import { defaultContracts } from "../../theme/index";
+import { ThemeProvider } from "../../theme/ThemeProvider";
 import { Tabs } from "./Tabs";
 
 const tabsContract = defaultContracts.tabs!["default"];
 
-jest.mock("./Text", () => {
+jest.mock("../../primitives/Text", () => {
   const React = require("react");
   const { Text } = require("react-native");
   return {

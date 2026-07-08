@@ -2,9 +2,9 @@ import fs from "fs";
 import path from "path";
 import React from "react";
 import TestRenderer, { act } from "react-test-renderer";
-import { ThemeProvider } from "../theme/ThemeProvider";
-import { defaultContracts } from "../theme/index";
-import { createUi } from "../viz";
+import { ThemeProvider } from "../../theme/ThemeProvider";
+import { defaultContracts } from "../../theme/index";
+import { createUi } from "../../viz";
 import { DockSplitter } from "./DockSplitter";
 
 const dockSplitterContract = defaultContracts.dockSplitter!["default"];

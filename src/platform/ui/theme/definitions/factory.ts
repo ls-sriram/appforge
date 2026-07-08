@@ -5,14 +5,9 @@ import type { PrimitiveContracts } from "../../contracts/runtime/index";
 import type {
   LayoutContract,
   LayoutProfileName,
-  TabsContract,
-  SizingToolbarContract,
-  TabbedPanelContract,
-  DockPanelContract,
-  DockSplitterContract,
   ColorPalettePickerContract,
 } from "../../contracts/index";
-import { CONTROL_H, GAP, alpha } from "./style-tokens";
+import { alpha } from "./style-tokens";
 import { type ButtonContract, defaultButtonStyles } from "../../components/button/button.styles";
 import { defaultBadgeStyles } from "../../components/badge/badge.styles";
 import { defaultTagStyles } from "../../components/tag/tag.styles";
@@ -23,6 +18,11 @@ import { defaultProgressBarStyles } from "../../components/progress-bar/progress
 import { defaultSelectableChipStyles } from "../../components/selectable-chip/selectable-chip.styles";
 import { defaultTextAreaStyles } from "../../components/text-area/text-area.styles";
 import { defaultSelectStyles } from "../../components/select/select.styles";
+import { defaultTabsStyles } from "../../components/tabs/tabs.styles";
+import { defaultSizingToolbarStyles } from "../../components/sizing-toolbar/sizing-toolbar.styles";
+import { defaultTabbedPanelStyles } from "../../components/tabbed-panel/tabbed-panel.styles";
+import { defaultDockPanelStyles } from "../../components/dock-panel/dock-panel.styles";
+import { defaultDockSplitterStyles } from "../../components/dock-splitter/dock-splitter.styles";
 import { defaultMultiSelectStyles } from "../../components/multi-select/multi-select.styles";
 
 // ─── createTheme ─────────────────────────────────────────────────────────────
@@ -212,8 +212,6 @@ export function createContracts(t: Theme): PrimitiveContracts {
   const { pill } = radii;
   const p = t.palette;
 
-  const primaryMuted = p.primaryMuted;
-
   return {
     button: defaultButtonStyles(t) satisfies Record<string, ButtonContract>,
 
@@ -239,173 +237,15 @@ export function createContracts(t: Theme): PrimitiveContracts {
 
     multiSelect: defaultMultiSelectStyles(t),
 
-    tabs: {
-      default: {
-        list: {
-          borderWidth: 1,
-          borderColor: p.border,
-        },
-        item: {
-          minHeight: CONTROL_H.sm + 8,
-          paddingHorizontal: spacing.md - 4,
-          paddingVertical: spacing.sm,
-          gap: GAP.xs - 2,
-          borderWidth: 2,
-          selectedBorderColor: p.primary,
-          unselectedBorderColor: "transparent",
-          disabledOpacity: 0.5,
-        },
-        icon: {
-          size: 14,
-          selectedColor: p.primary,
-          unselectedColor: p.textMuted,
-        },
-        text: {
-          fontSize: typography.size.sm,
-          lineHeight: typography.size.sm,
-          selectedColor: p.primary,
-          unselectedColor: p.textSecondary,
-          selectedFontFamily: typography.family,
-          unselectedFontFamily: typography.family,
-        },
-      },
-    } satisfies Record<string, TabsContract>,
+    tabs: defaultTabsStyles(t),
 
-    sizingToolbar: {
-      default: {
-        container: {
-          borderWidth: 1,
-          borderColor: p.border,
-          borderRadius: pill,
-          disabledOpacity: 0.5,
-        },
-        button: {
-          minWidth: CONTROL_H.sm,
-          minHeight: CONTROL_H.sm,
-          paddingHorizontal: spacing.sm - 1,
-          paddingVertical: spacing.xs + 2,
-          selectedBackgroundColor: primaryMuted,
-          unselectedBackgroundColor: p.surface,
-          dividerWidth: 1,
-          dividerColor: p.border,
-        },
-        icon: {
-          selectedColor: p.primary,
-          unselectedColor: p.textMuted,
-          size: 16,
-        },
-      },
-    } satisfies Record<string, SizingToolbarContract>,
+    sizingToolbar: defaultSizingToolbarStyles(t),
 
-    tabbedPanel: {
-      default: {
-        actionButton: {
-          minWidth: 28,
-          minHeight: 28,
-          borderRadius: pill,
-          disabledOpacity: 0.4,
-        },
-        actionIcon: {
-          size: 14,
-          color: p.textSecondary,
-          disabledColor: p.textMuted,
-        },
-        layout: {
-          inlineActionsMarginRight: GAP.tight,
-        },
-      },
-    } satisfies Record<string, TabbedPanelContract>,
+    tabbedPanel: defaultTabbedPanelStyles(t),
 
-    dockPanel: {
-      default: {
-        container: {
-          backgroundColor: p.surface,
-          borderColor: p.border,
-          borderWidth: 1,
-        },
-        header: {
-          minHeight: CONTROL_H.sm,
-          paddingHorizontal: spacing.sm,
-          paddingVertical: spacing.xs,
-          backgroundColor: p.surfaceAlt,
-          borderColor: p.border,
-          borderWidth: 1,
-        },
-        title: {
-          color: p.textPrimary,
-        },
-        content: {
-          backgroundColor: p.surface,
-        },
-        actionButton: {
-          minWidth: 28,
-          minHeight: 28,
-          borderRadius: pill,
-          disabledOpacity: 0.4,
-        },
-        actionIcon: {
-          size: 14,
-          color: p.textSecondary,
-          disabledColor: p.textMuted,
-        },
-        itemButton: {
-          minWidth: CONTROL_H.sm,
-          minHeight: CONTROL_H.sm,
-          borderRadius: radii.md,
-          paddingHorizontal: spacing.sm,
-          paddingVertical: spacing.xs,
-          gap: GAP.tight,
-          activeBackgroundColor: primaryMuted,
-          inactiveBackgroundColor: p.surface,
-          disabledOpacity: 0.4,
-        },
-        itemIcon: {
-          size: 16,
-          selectedColor: p.primary,
-          unselectedColor: p.textSecondary,
-          disabledColor: p.textMuted,
-        },
-        rail: {
-          backgroundColor: p.surfaceAlt,
-          borderColor: p.border,
-          borderWidth: 1,
-          gap: GAP.tight,
-          padding: spacing.xs,
-          collapsedWidth: 64,
-        },
-        menuButton: {
-          width: CONTROL_H.md,
-          height: CONTROL_H.md,
-        },
-        splitterGrip: {
-          size: CONTROL_H.sm,
-          thickness: 4,
-          color: p.border,
-        },
-        layout: {
-          inlineActionsMarginRight: GAP.tight,
-          contentGap: GAP.tight,
-        },
-      },
-    } satisfies Record<string, DockPanelContract>,
+    dockPanel: defaultDockPanelStyles(t),
 
-    dockSplitter: {
-      default: {
-        container: {
-          thickness: 4,
-          minHitSize: CONTROL_H.sm,
-          backgroundColor: p.surfaceAlt,
-          activeBackgroundColor: p.surfaceStrong,
-          disabledOpacity: 0.4,
-        },
-        grip: {
-          length: 24,
-          thickness: 4,
-          borderRadius: pill,
-          color: p.border,
-        },
-      },
-    } satisfies Record<string, DockSplitterContract>,
+    dockSplitter: defaultDockSplitterStyles(t),
 
     colorPalettePicker: {
       default: {
