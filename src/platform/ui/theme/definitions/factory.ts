@@ -5,13 +5,7 @@ import type { PrimitiveContracts } from "../../contracts/runtime/index";
 import type {
   LayoutContract,
   LayoutProfileName,
-  BadgeContract,
-  TagContract,
-  InputContract,
-  AvatarContract,
   ProgressBarContract,
-  ImageContract,
-  TableContract,
   SelectableChipContract,
   TextAreaContract,
   SelectContract,
@@ -25,6 +19,11 @@ import type {
 } from "../../contracts/index";
 import { CONTROL_H, TRACK_H, GAP, alpha } from "./style-tokens";
 import { type ButtonContract, defaultButtonStyles } from "../../components/button/button.styles";
+import { defaultBadgeStyles } from "../../components/badge/badge.styles";
+import { defaultTagStyles } from "../../components/tag/tag.styles";
+import { defaultInputStyles } from "../../components/input/input.styles";
+import { defaultAvatarStyles } from "../../components/avatar/avatar.styles";
+import { defaultTableStyles, defaultImageStyles } from "../../components/table/table.styles";
 
 // ─── createTheme ─────────────────────────────────────────────────────────────
 
@@ -214,40 +213,6 @@ export function createContracts(t: Theme): PrimitiveContracts {
   const p = t.palette;
 
   const primaryMuted = p.primaryMuted;
-  const errorMuted = p.errorMuted;
-  const successMuted = p.successMuted;
-  const warningMuted = p.warningMuted;
-  const infoMuted = p.infoMuted;
-
-  const badgeBase = {
-    container: {
-      backgroundColor: p.surfaceAlt,
-      borderRadius: pill,
-      paddingVertical: spacing.xs,
-      paddingHorizontal: spacing.sm,
-      borderWidth: 1,
-      borderColor: p.border,
-    },
-    text: {
-      fontSize: typography.size.xs,
-      fontWeight: typography.weight.semibold,
-      color: p.textMuted,
-    },
-  } satisfies Partial<BadgeContract>;
-
-  const tagBase = {
-    container: {
-      borderRadius: pill,
-      paddingVertical: spacing.xs,
-      paddingHorizontal: spacing.sm,
-      backgroundColor: p.surfaceAlt,
-    },
-    text: {
-      fontSize: typography.size.xs,
-      fontWeight: typography.weight.semibold,
-      color: p.textMuted,
-    },
-  } satisfies Partial<TagContract>;
 
   const progressBarBase = {
     track: {
@@ -257,119 +222,20 @@ export function createContracts(t: Theme): PrimitiveContracts {
     },
   } satisfies Partial<ProgressBarContract>;
 
-  const avatarBase = {
-    frame: {
-      borderRadius: pill,
-      backgroundColor: primaryMuted,
-      width: 0,
-      height: 0,
-    },
-    text: {
-      color: p.primary,
-      fontWeight: typography.weight.semibold,
-      fontSize: typography.size.sm,
-    },
-  } satisfies Partial<AvatarContract>;
-
   return {
     button: defaultButtonStyles(t) satisfies Record<string, ButtonContract>,
 
-    badge: {
-      muted: { ...badgeBase, container: { ...badgeBase.container!, backgroundColor: p.surfaceAlt, borderColor: p.border }, text: { ...badgeBase.text!, color: p.textMuted }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
-      success: { ...badgeBase, container: { ...badgeBase.container!, backgroundColor: successMuted, borderColor: p.success }, text: { ...badgeBase.text!, color: p.success }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
-      warning: { ...badgeBase, container: { ...badgeBase.container!, backgroundColor: warningMuted, borderColor: p.warning }, text: { ...badgeBase.text!, color: p.warning }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
-      danger: { ...badgeBase, container: { ...badgeBase.container!, backgroundColor: errorMuted, borderColor: p.error }, text: { ...badgeBase.text!, color: p.error }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
-      info: { ...badgeBase, container: { ...badgeBase.container!, backgroundColor: infoMuted, borderColor: p.info }, text: { ...badgeBase.text!, color: p.info }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },
-    } satisfies Record<string, BadgeContract>,
+    badge: defaultBadgeStyles(t),
 
-    tag: {
-      muted: { ...tagBase, container: { ...tagBase.container!, backgroundColor: p.surfaceAlt }, text: { ...tagBase.text!, color: p.textMuted }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: p.surfaceAlt, color: p.textPrimary } } },
-      secondary: { ...tagBase, container: { ...tagBase.container!, backgroundColor: p.surfaceAlt }, text: { ...tagBase.text!, color: p.textSecondary }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: p.surfaceAlt, color: p.textPrimary } } },
-      accent: { ...tagBase, container: { ...tagBase.container!, backgroundColor: primaryMuted }, text: { ...tagBase.text!, color: p.primary }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: p.primary, color: p.textInverse } } },
-      success: { ...tagBase, container: { ...tagBase.container!, backgroundColor: successMuted }, text: { ...tagBase.text!, color: p.success }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: p.success, color: p.textInverse } } },
-      warning: { ...tagBase, container: { ...tagBase.container!, backgroundColor: warningMuted }, text: { ...tagBase.text!, color: p.warning }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: p.warning, color: p.textInverse } } },
-      danger: { ...tagBase, container: { ...tagBase.container!, backgroundColor: errorMuted }, text: { ...tagBase.text!, color: p.error }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: p.error, color: p.textInverse } } },
-      info: { ...tagBase, container: { ...tagBase.container!, backgroundColor: infoMuted }, text: { ...tagBase.text!, color: p.info }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.75 }, selected: { backgroundColor: p.info, color: p.textInverse } } },
-    } satisfies Record<string, TagContract>,
+    tag: defaultTagStyles(t),
 
-    input: {
-      default: {
-        field: {
-          backgroundColor: p.surfaceAlt,
-          color: p.textPrimary,
-          fontFamily: typography.family,
-          borderWidth: 1,
-          borderColor: p.border,
-          borderRadius: pill,
-          paddingVertical: spacing.md,
-          paddingHorizontal: spacing.md,
-          fontSize: typography.size.md,
-          placeholderColor: p.textMuted,
-          minHeight: CONTROL_H.md,
-        },
-        interaction: {
-          disabledOpacity: 0.5,
-          focused: { borderColor: p.borderFocus, borderWidth: 2 },
-          hover: { borderColor: p.border },
-        },
-      },
-    } satisfies Record<string, InputContract>,
+    input: defaultInputStyles(t),
 
-    avatar: {
-      sm: { ...avatarBase, frame: { ...avatarBase.frame!, width: 32, height: 32 }, text: { ...avatarBase.text!, fontSize: typography.size.xs }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.93 } } },
-      md: { ...avatarBase, frame: { ...avatarBase.frame!, width: 40, height: 40 }, text: { ...avatarBase.text!, fontSize: typography.size.sm }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.93 } } },
-      lg: { ...avatarBase, frame: { ...avatarBase.frame!, width: 56, height: 56 }, text: { ...avatarBase.text!, fontSize: typography.size.lg }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.95 } } },
-      xl: { ...avatarBase, frame: { ...avatarBase.frame!, width: 80, height: 80 }, text: { ...avatarBase.text!, fontSize: typography.size.xl }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7, scale: 0.96 } } },
-    } satisfies Record<string, AvatarContract>,
+    avatar: defaultAvatarStyles(t),
 
-    image: {
-      thumbnail: { frame: { width: 32, height: 32, borderRadius: radii.sm } },
-      card: { frame: { width: 40, height: 40, borderRadius: radii.md } },
-      hero: { frame: { width: 56, height: 56, borderRadius: radii.md } },
-    } satisfies Record<string, ImageContract>,
+    image: defaultImageStyles(t),
 
-    table: {
-      default: {
-        container: {
-          backgroundColor: p.surface,
-          borderColor: p.border,
-          borderWidth: 1,
-          borderRadius: radii.md,
-        },
-        header: {
-          backgroundColor: p.surface,
-          paddingVertical: spacing.sm,
-          gap: spacing.sm,
-          textColor: p.textMuted,
-          textFontFamily: typography.family,
-          textFontSize: typography.size.sm,
-          textLineHeight: typography.size.sm,
-        },
-        row: {
-          contentPaddingHorizontal: spacing.md,
-          dividerWidth: 1,
-          stripedBackgroundColor: p.surfaceAlt,
-        },
-        cell: {
-          color: p.textPrimary,
-          fontFamily: typography.family,
-          fontSize: typography.size.sm,
-          lineHeight: typography.size.sm,
-        },
-        empty: {
-          padding: spacing.md,
-          textColor: p.textMuted,
-          textFontFamily: typography.family,
-          textFontSize: typography.size.md,
-          textLineHeight: typography.size.md,
-        },
-        interaction: {
-          rowHoverBackgroundColor: p.surfaceAlt,
-          rowPressedOpacity: 0.85,
-          disabledOpacity: 0.5,
-        },
-      },
-    } satisfies Record<string, TableContract>,
+    table: defaultTableStyles(t),
 
     progressBar: {
       primary: { ...progressBarBase, fill: { color: p.primary } },
