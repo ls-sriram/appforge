@@ -5,11 +5,6 @@ import type { PrimitiveContracts } from "../../contracts/runtime/index";
 import type {
   LayoutContract,
   LayoutProfileName,
-  ProgressBarContract,
-  SelectableChipContract,
-  TextAreaContract,
-  SelectContract,
-  MultiSelectContract,
   TabsContract,
   SizingToolbarContract,
   TabbedPanelContract,
@@ -17,13 +12,18 @@ import type {
   DockSplitterContract,
   ColorPalettePickerContract,
 } from "../../contracts/index";
-import { CONTROL_H, TRACK_H, GAP, alpha } from "./style-tokens";
+import { CONTROL_H, GAP, alpha } from "./style-tokens";
 import { type ButtonContract, defaultButtonStyles } from "../../components/button/button.styles";
 import { defaultBadgeStyles } from "../../components/badge/badge.styles";
 import { defaultTagStyles } from "../../components/tag/tag.styles";
 import { defaultInputStyles } from "../../components/input/input.styles";
 import { defaultAvatarStyles } from "../../components/avatar/avatar.styles";
 import { defaultTableStyles, defaultImageStyles } from "../../components/table/table.styles";
+import { defaultProgressBarStyles } from "../../components/progress-bar/progress-bar.styles";
+import { defaultSelectableChipStyles } from "../../components/selectable-chip/selectable-chip.styles";
+import { defaultTextAreaStyles } from "../../components/text-area/text-area.styles";
+import { defaultSelectStyles } from "../../components/select/select.styles";
+import { defaultMultiSelectStyles } from "../../components/multi-select/multi-select.styles";
 
 // ─── createTheme ─────────────────────────────────────────────────────────────
 
@@ -214,14 +214,6 @@ export function createContracts(t: Theme): PrimitiveContracts {
 
   const primaryMuted = p.primaryMuted;
 
-  const progressBarBase = {
-    track: {
-      color: p.surfaceAlt,
-      height: TRACK_H,
-      borderRadius: pill,
-    },
-  } satisfies Partial<ProgressBarContract>;
-
   return {
     button: defaultButtonStyles(t) satisfies Record<string, ButtonContract>,
 
@@ -237,199 +229,15 @@ export function createContracts(t: Theme): PrimitiveContracts {
 
     table: defaultTableStyles(t),
 
-    progressBar: {
-      primary: { ...progressBarBase, fill: { color: p.primary } },
-      success: { ...progressBarBase, fill: { color: p.success } },
-      warning: { ...progressBarBase, fill: { color: p.warning } },
-      danger: { ...progressBarBase, fill: { color: p.error } },
-    } satisfies Record<string, ProgressBarContract>,
+    progressBar: defaultProgressBarStyles(t),
 
-    selectableChip: {
-      sm: {
-        container: {
-          backgroundColor: p.surfaceAlt,
-          borderColor: p.border,
-          borderWidth: 1,
-          paddingVertical: spacing.xs,
-          paddingHorizontal: spacing.sm + 2,
-        },
-        shape: {
-          pillBorderRadius: pill,
-          roundedBorderRadius: radii.sm,
-        },
-        text: {
-          color: p.textSecondary,
-          fontSize: typography.size.xs,
-          fontWeight: typography.weight.regular,
-        },
-        interaction: {
-          disabledOpacity: 0.5,
-          pressed: { opacity: 0.75 },
-          selected: { backgroundColor: p.textPrimary, borderColor: p.textPrimary, color: p.textInverse, fontWeight: typography.weight.semibold },
-        },
-      },
-      md: {
-        container: {
-          backgroundColor: p.surfaceAlt,
-          borderColor: p.border,
-          borderWidth: 1,
-          paddingVertical: spacing.xs + 1,
-          paddingHorizontal: spacing.md - 2,
-        },
-        shape: {
-          pillBorderRadius: pill,
-          roundedBorderRadius: radii.sm,
-        },
-        text: {
-          color: p.textSecondary,
-          fontSize: typography.size.sm,
-          fontWeight: typography.weight.regular,
-        },
-        interaction: {
-          disabledOpacity: 0.5,
-          pressed: { opacity: 0.75 },
-          selected: { backgroundColor: p.textPrimary, borderColor: p.textPrimary, color: p.textInverse, fontWeight: typography.weight.semibold },
-        },
-      },
-    } satisfies Record<string, SelectableChipContract>,
+    selectableChip: defaultSelectableChipStyles(t),
 
-    textArea: {
-      default: {
-        field: {
-          backgroundColor: p.surfaceAlt,
-          color: p.textPrimary,
-          fontFamily: typography.family,
-          borderWidth: 1,
-          borderColor: p.border,
-          borderRadius: radii.md,
-          paddingVertical: spacing.md,
-          paddingHorizontal: spacing.md,
-          fontSize: typography.size.md,
-          minHeight: 120,
-          placeholderColor: p.textMuted,
-        },
-        interaction: {
-          disabledOpacity: 0.5,
-          focused: { borderColor: p.borderFocus, borderWidth: 2 },
-        },
-      },
-    } satisfies Record<string, TextAreaContract>,
+    textArea: defaultTextAreaStyles(t),
 
-    select: {
-      default: {
-        label: { color: p.textSecondary, fontSize: typography.size.md },
-        trigger: {
-          backgroundColor: p.surfaceAlt,
-          borderColor: p.border,
-          borderWidth: 1,
-          borderRadius: pill,
-          minHeight: CONTROL_H.md,
-          paddingVertical: spacing.md,
-          paddingHorizontal: spacing.md,
-          gap: spacing.sm + 2,
-        },
-        text: {
-          color: p.textPrimary,
-          fontFamily: typography.family,
-          placeholderColor: p.textMuted,
-        },
-        icon: {
-          color: p.textMuted,
-          size: 16,
-          selectedColor: p.primary,
-        },
-        menu: {
-          backgroundColor: p.surface,
-          borderColor: p.border,
-          borderRadius: radii.md,
-        },
-        option: {
-          selectedBackgroundColor: primaryMuted,
-          selectedColor: p.primary,
-          color: p.textPrimary,
-          fontSize: typography.size.md,
-          fontWeight: typography.weight.regular,
-          selectedFontWeight: typography.weight.medium,
-          descriptionFontSize: typography.size.sm,
-          descriptionColor: p.textMuted,
-          rowGap: GAP.tight,
-        },
-        helper: {
-          color: p.textMuted,
-          fontSize: typography.size.sm,
-        },
-        layout: {
-          fieldGap: GAP.xs,
-        },
-        interaction: {
-          disabledOpacity: 0.5,
-          hover: { borderColor: p.border },
-          focused: { borderColor: p.borderFocus, borderWidth: 2 },
-        },
-      },
-    } satisfies Record<string, SelectContract>,
+    select: defaultSelectStyles(t),
 
-    multiSelect: {
-      default: {
-        label: { color: p.textSecondary, fontSize: typography.size.md },
-        trigger: {
-          backgroundColor: p.surfaceAlt,
-          borderColor: p.border,
-          borderWidth: 1,
-          borderRadius: radii.md,
-          minHeight: CONTROL_H.md,
-          paddingVertical: spacing.md,
-          paddingHorizontal: spacing.md,
-          gap: spacing.sm + 2,
-        },
-        text: {
-          color: p.textPrimary,
-          fontFamily: typography.family,
-          placeholderColor: p.textMuted,
-        },
-        icon: {
-          color: p.textMuted,
-          size: 16,
-          selectedColor: p.primary,
-        },
-        menu: {
-          backgroundColor: p.surface,
-          borderColor: p.border,
-          borderRadius: radii.md,
-        },
-        option: {
-          selectedBackgroundColor: primaryMuted,
-          selectedColor: p.primary,
-          color: p.textPrimary,
-          fontSize: typography.size.md,
-          fontWeight: typography.weight.regular,
-          selectedFontWeight: typography.weight.medium,
-          descriptionFontSize: typography.size.sm,
-          descriptionColor: p.textMuted,
-          rowGap: GAP.tight,
-        },
-        token: {
-          backgroundColor: primaryMuted,
-          color: p.primary,
-          borderRadius: pill,
-          paddingVertical: spacing.xs,
-          paddingHorizontal: spacing.sm,
-          fontWeight: typography.weight.medium,
-          fontSize: typography.size.sm,
-        },
-        helper: {
-          color: p.textMuted,
-          fontSize: typography.size.sm,
-        },
-        layout: {
-          fieldGap: GAP.xs,
-        },
-        interaction: {
-          disabledOpacity: 0.5,
-          hover: { borderColor: p.border },
-        },
-      },
-    } satisfies Record<string, MultiSelectContract>,
+    multiSelect: defaultMultiSelectStyles(t),
 
     tabs: {
       default: {
