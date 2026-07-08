@@ -5,7 +5,6 @@ import type { PrimitiveContracts } from "../../contracts/runtime/index";
 import type {
   LayoutContract,
   LayoutProfileName,
-  ColorPalettePickerContract,
 } from "../../contracts/index";
 import { alpha } from "./style-tokens";
 import { type ButtonContract, defaultButtonStyles } from "../../components/button/button.styles";
@@ -23,6 +22,7 @@ import { defaultSizingToolbarStyles } from "../../components/sizing-toolbar/sizi
 import { defaultTabbedPanelStyles } from "../../components/tabbed-panel/tabbed-panel.styles";
 import { defaultDockPanelStyles } from "../../components/dock-panel/dock-panel.styles";
 import { defaultDockSplitterStyles } from "../../components/dock-splitter/dock-splitter.styles";
+import { defaultColorPalettePickerStyles } from "../../components/color-palette-picker/color-palette-picker.styles";
 import { defaultMultiSelectStyles } from "../../components/multi-select/multi-select.styles";
 
 // ─── createTheme ─────────────────────────────────────────────────────────────
@@ -208,10 +208,6 @@ export function createLayouts(t: Theme): Record<LayoutProfileName, LayoutContrac
 // ─── createContracts ─────────────────────────────────────────────────────────
 
 export function createContracts(t: Theme): PrimitiveContracts {
-  const { spacing, typography, radii } = t;
-  const { pill } = radii;
-  const p = t.palette;
-
   return {
     button: defaultButtonStyles(t) satisfies Record<string, ButtonContract>,
 
@@ -247,58 +243,7 @@ export function createContracts(t: Theme): PrimitiveContracts {
 
     dockSplitter: defaultDockSplitterStyles(t),
 
-    colorPalettePicker: {
-      default: {
-        preview: {
-          size: 56,
-          borderWidth: 2,
-          borderRadius: pill,
-          borderColor: p.border,
-          invalidBorderColor: p.error,
-        },
-        swatch: {
-          size: 32,
-          borderWidth: 2,
-          borderRadius: pill,
-          borderColor: p.border,
-          selectedBorderColor: p.primary,
-          disabledOpacity: 0.5,
-          defaultColors: [
-            p.textPrimary,
-            p.textSecondary,
-            p.textMuted,
-            p.error,
-            p.warning,
-            p.success,
-            p.info,
-            p.primary,
-            p.borderFocus,
-            p.surfaceAlt,
-          ],
-        },
-        input: {
-          placeholder: p.primary,
-        },
-        label: {
-          color: p.textSecondary,
-          fontSize: typography.size.md,
-          fontFamily: typography.family,
-        },
-        helper: {
-          color: p.textMuted,
-          fontSize: typography.size.sm,
-          lineHeight: typography.size.sm,
-          fontFamily: typography.family,
-        },
-        error: {
-          color: p.error,
-        },
-        icon: {
-          selectedColor: p.textInverse,
-          selectedSize: 14,
-        },
-      },
-    } satisfies Record<string, ColorPalettePickerContract>,
+    colorPalettePicker: defaultColorPalettePickerStyles(t),
   };
 }
 
