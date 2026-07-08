@@ -7,6 +7,8 @@ responsibilities:
   - define_presentational_style_tokens
   - keep_ui_values_declarative
   - support_rendering_without_business_knowledge
+  - co_locate_with_owning_component_folder
 must_not:
   - execute_business_logic
   - perform_runtime_side_effects
+  - define_style_values_outside_component_folders

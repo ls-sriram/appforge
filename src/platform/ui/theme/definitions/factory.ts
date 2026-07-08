@@ -5,7 +5,6 @@ import type { PrimitiveContracts } from "../../contracts/runtime/index";
 import type {
   LayoutContract,
   LayoutProfileName,
-  ButtonContract,
   BadgeContract,
   TagContract,
   InputContract,
@@ -24,6 +23,8 @@ import type {
   DockSplitterContract,
   ColorPalettePickerContract,
 } from "../../contracts/index";
+import { CONTROL_H, TRACK_H, GAP, alpha } from "./style-tokens";
+import { type ButtonContract, defaultButtonStyles } from "../../components/button/button.styles";
 
 // ─── createTheme ─────────────────────────────────────────────────────────────
 
@@ -207,18 +208,6 @@ export function createLayouts(t: Theme): Record<LayoutProfileName, LayoutContrac
 
 // ─── createContracts ─────────────────────────────────────────────────────────
 
-const CONTROL_H = { sm: 36, md: 54, lg: 64 } as const;
-const TRACK_H = 4;
-const GAP = { tight: 4, xs: 8 } as const;
-
-function alpha(hex: string, a: number): string {
-  if (!/^#[0-9a-fA-F]{6}$/.test(hex)) return hex;
-  const r = parseInt(hex.slice(1, 3), 16);
-  const g = parseInt(hex.slice(3, 5), 16);
-  const b = parseInt(hex.slice(5, 7), 16);
-  return `rgba(${r}, ${g}, ${b}, ${a})`;
-}
-
 export function createContracts(t: Theme): PrimitiveContracts {
   const { spacing, typography, radii } = t;
   const { pill } = radii;
@@ -283,92 +272,7 @@ export function createContracts(t: Theme): PrimitiveContracts {
   } satisfies Partial<AvatarContract>;
 
   return {
-    button: {
-      primary: {
-        frame: {
-          backgroundColor: p.primary,
-          borderRadius: pill,
-          paddingVertical: spacing.sm,
-          paddingHorizontal: spacing.lg,
-          minHeight: CONTROL_H.md,
-        },
-        text: {
-          color: p.textInverse,
-          fontSize: typography.size.md,
-          fontWeight: typography.weight.semibold,
-        },
-        interaction: {
-          disabledOpacity: 0.4,
-          loading: { opacity: 0.7 },
-          pressed: { opacity: 0.8, scale: 0.97 },
-          hover: { opacity: 0.92 },
-        },
-      },
-      secondary: {
-        frame: {
-          backgroundColor: p.surfaceAlt,
-          borderWidth: 1,
-          borderColor: p.border,
-          borderRadius: pill,
-          paddingVertical: spacing.sm,
-          paddingHorizontal: spacing.md,
-          minHeight: CONTROL_H.sm,
-        },
-        text: {
-          color: p.textPrimary,
-          fontSize: typography.size.sm,
-          fontWeight: typography.weight.medium,
-        },
-        interaction: {
-          disabledOpacity: 0.4,
-          loading: { opacity: 0.7 },
-          pressed: { opacity: 0.7 },
-          hover: { borderColor: p.border },
-        },
-      },
-      ghost: {
-        frame: {
-          backgroundColor: "transparent",
-          borderRadius: pill,
-          paddingVertical: spacing.sm,
-          paddingHorizontal: spacing.sm,
-          minHeight: CONTROL_H.sm,
-        },
-        text: {
-          color: p.textMuted,
-          fontSize: typography.size.sm,
-          fontWeight: typography.weight.medium,
-        },
-        interaction: {
-          disabledOpacity: 0.35,
-          loading: { opacity: 0.6 },
-          pressed: { opacity: 0.6 },
-          hover: { color: p.textSecondary },
-        },
-      },
-      danger: {
-        frame: {
-          backgroundColor: errorMuted,
-          borderWidth: 1,
-          borderColor: p.error,
-          borderRadius: radii.md,
-          paddingVertical: spacing.md,
-          paddingHorizontal: spacing.xl,
-          minHeight: CONTROL_H.md,
-        },
-        text: {
-          color: p.error,
-          fontSize: typography.size.md,
-          fontWeight: typography.weight.semibold,
-        },
-        interaction: {
-          disabledOpacity: 0.4,
-          loading: { opacity: 0.7 },
-          pressed: { opacity: 0.75, scale: 0.98 },
-          hover: { opacity: 0.9 },
-        },
-      },
-    } satisfies Record<string, ButtonContract>,
+    button: defaultButtonStyles(t) satisfies Record<string, ButtonContract>,
 
     badge: {
       muted: { ...badgeBase, container: { ...badgeBase.container!, backgroundColor: p.surfaceAlt, borderColor: p.border }, text: { ...badgeBase.text!, color: p.textMuted }, interaction: { disabledOpacity: 0.4, pressed: { opacity: 0.7 } } },

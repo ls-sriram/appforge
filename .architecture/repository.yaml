@@ -207,6 +207,7 @@ path_map:
   src/platform/ui: platform_ui
   src/platform/ui/theme: platform_ui_theme
   src/platform/ui/primitives: platform_ui_primitives
+  src/platform/ui/components: platform_ui_components
   src/platform/ui/visualizer: platform_ui_visualizer
   src/features/auth: auth
   src/features/auth/ui: auth_ui
