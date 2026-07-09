@@ -223,6 +223,62 @@ function findComponentFolderPresenceViolations() {
   return violations;
 }
 
+// Every *.contract.ts must export at least one Zod schema, and every
+// companion implementation file next to it must re-export that schema —
+// that re-export line is the literal thing the visualizer's
+// schema-callsite-instrumentation pairs a schema to its component by
+// (mirrors appforge-site's A4 rule). Companion lookup handles two
+// conventions: feature blocks (`<stem>.block.tsx` / `<stem>.scaffold.tsx`,
+// exact stem match) and platform primitives (`<stem>.contract.ts` next to
+// a PascalCase `<Stem>.tsx`, matched by normalizing away case and
+// separators). A handful of contracts (e.g. stack.contract.ts, wired from
+// platform/ui/index.ts rather than a same-named component file) fall back
+// to checking index.ts in the same directory.
+const CONTRACT_FILE_PATTERN = /\.contract\.ts$/;
+const SCHEMA_EXPORT_PATTERN = /export\s+const\s+\w+Schema\s*=/;
+const CONTRACT_COMPANION_EXACT_SUFFIXES = [".block.tsx", ".block.web.tsx", ".block.native.tsx", ".scaffold.tsx"];
+
+function findContractSchemaExportViolation(relativePath, source) {
+  if (!CONTRACT_FILE_PATTERN.test(relativePath)) return null;
+  if (SCHEMA_EXPORT_PATTERN.test(source)) return null;
+  return `${relativePath}: *.contract.ts files must export at least one "export const <Name>Schema = ..."`;
+}
+
+function normalizeForMatch(name) {
+  return name.toLowerCase().replace(/[^a-z0-9]/g, "");
+}
+
+function findContractWiringViolations(absolutePath, relativePath) {
+  if (!CONTRACT_FILE_PATTERN.test(relativePath)) return [];
+
+  const dir = path.dirname(absolutePath);
+  const dirRelative = path.dirname(relativePath);
+  const stem = path.basename(relativePath, ".contract.ts");
+  const normalizedStem = normalizeForMatch(stem);
+
+  const dirEntries = fs.readdirSync(dir);
+  const wiringPattern = new RegExp(`export\\s*\\{[^}]*\\}\\s*from\\s*["']\\./${stem}\\.contract["']`);
+
+  const companions = dirEntries.filter((name) => {
+    if (!/\.tsx?$/.test(name) || name.endsWith(".test.tsx") || name.endsWith(".test.ts")) return false;
+    if (CONTRACT_COMPANION_EXACT_SUFFIXES.some((suffix) => name === `${stem}${suffix}`)) return true;
+    const bareName = name.replace(/\.tsx?$/, "");
+    return normalizeForMatch(bareName) === normalizedStem;
+  });
+
+  if (companions.length > 0) {
+    return companions
+      .filter((companion) => !wiringPattern.test(readFile(path.join(dir, companion))))
+      .map((companion) => `${dirRelative}/${companion}: must re-export its schema from "./${stem}.contract" (e.g. export { ...Schema } from "./${stem}.contract")`);
+  }
+
+  if (dirEntries.includes("index.ts") && wiringPattern.test(readFile(path.join(dir, "index.ts")))) {
+    return [];
+  }
+
+  return [`${relativePath}: no matching component/block/scaffold file (or index.ts) found to wire this contract's schema into`];
+}
+
 const files = SEARCH_ROOTS.flatMap((dir) => walk(dir)).sort();
 const violations = [...findComponentFolderPresenceViolations()];
 
@@ -247,6 +303,15 @@ for (const absolutePath of files) {
   const featureStylesLocationViolation = findFeatureStylesLocationViolation(relativePath);
   if (featureStylesLocationViolation) {
     violations.push(featureStylesLocationViolation);
+  }
+
+  const contractSchemaViolation = findContractSchemaExportViolation(relativePath, source);
+  if (contractSchemaViolation) {
+    violations.push(contractSchemaViolation);
+  }
+
+  for (const wiringViolation of findContractWiringViolations(absolutePath, relativePath)) {
+    violations.push(wiringViolation);
   }
 
   for (const importRecord of collectImports(source)) {
