@@ -1,6 +1,6 @@
 import React from "react";
 import { Body, Heading, noopUi, type UiStamp, YStack } from "../../platform/ui/index";
-import type { OnboardingHeroStyle } from "./onboarding.contracts";
+import type { OnboardingHeroStyle } from "./onboarding-hero.styles";
 
 export function OnboardingHeroBlock({
   ui = noopUi,

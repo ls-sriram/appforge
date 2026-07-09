@@ -11,7 +11,7 @@ import { Button, ScrollView, useUI, YStack } from "../../platform/ui/index";
 import { FeatureHighlightBlock } from "./feature-highlight.block";
 import type { IconName } from "../../platform/ui/index";
 import { useViewport } from "../../platform/ui/index";
-import type { FeatureHighlightStyle } from "./onboarding.contracts";
+import type { FeatureHighlightStyle } from "./feature-highlight.styles";
 
 export interface OnboardingStep {
   icon: IconName;

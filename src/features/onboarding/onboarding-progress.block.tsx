@@ -1,6 +1,6 @@
 import React from "react";
 import { Body, Icon, XStack, YStack } from "../../platform/ui/index";
-import type { OnboardingProgressStyle } from "./onboarding.contracts";
+import type { OnboardingProgressStyle } from "./onboarding-progress.styles";
 
 export function OnboardingProgressBlock({
   style,

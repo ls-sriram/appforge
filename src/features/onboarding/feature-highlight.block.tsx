@@ -8,7 +8,7 @@
 
 import React from "react";
 import { Body, Heading, Icon, YStack, type IconName } from "../../platform/ui/index";
-import type { FeatureHighlightStyle } from "./onboarding.contracts";
+import type { FeatureHighlightStyle } from "./feature-highlight.styles";
 
 export interface FeatureHighlightBlockProps {
   style: FeatureHighlightStyle;

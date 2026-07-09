@@ -1,6 +1,6 @@
 import React from "react";
 import { Body, noopUi, type UiStamp, XStack } from "../../platform/ui/index";
-import type { OnboardingStepperStyle } from "./onboarding.contracts";
+import type { OnboardingStepperStyle } from "./onboarding-stepper.styles";
 
 export function OnboardingStepperBlock({
   ui = noopUi,

@@ -1,58 +1,24 @@
 import type { ThemeDefinition } from "../../platform/ui/theme/index";
-import type { OnboardingUiStyles } from "./onboarding.contracts";
+import { defaultFeatureHighlightStyle, type FeatureHighlightStyle } from "./feature-highlight.styles";
+import { defaultOnboardingHeroStyle, type OnboardingHeroStyle } from "./onboarding-hero.styles";
+import { defaultOnboardingProgressStyle, type OnboardingProgressStyle } from "./onboarding-progress.styles";
+import { defaultOnboardingPromptStyle, type OnboardingPromptStyle } from "./onboarding-prompt.styles";
+import { defaultOnboardingStepperStyle, type OnboardingStepperStyle } from "./onboarding-stepper.styles";
+
+export interface OnboardingUiStyles {
+  featureHighlight: FeatureHighlightStyle;
+  hero: OnboardingHeroStyle;
+  progress: OnboardingProgressStyle;
+  prompt: OnboardingPromptStyle;
+  stepper: OnboardingStepperStyle;
+}
 
 export function createOnboardingStyles(theme: ThemeDefinition): OnboardingUiStyles {
   return {
-    featureHighlight: {
-      layout: {
-        rootGap: theme.spacing.md,
-        copyGap: theme.spacing.xs,
-      },
-      frame: {
-        backgroundColor: theme.palette.surfaceAlt,
-        borderColor: theme.palette.border,
-        borderWidth: 1,
-        borderRadius: theme.radii.md,
-        padding: theme.spacing.md,
-      },
-      icon: {
-        color: theme.palette.textPrimary,
-        size: 48,
-      },
-      description: {
-        color: theme.palette.textSecondary,
-      },
-    },
-    hero: {
-      layout: {
-        gap: theme.spacing.xs,
-      },
-      subtitle: {
-        color: theme.palette.textMuted,
-      },
-    },
-    progress: {
-      layout: {
-        gap: theme.spacing.sm,
-      },
-      backIcon: {
-        color: theme.palette.textSecondary,
-        size: 16,
-      },
-      label: {
-        fontSize: theme.typography.size.sm,
-      },
-    },
-    prompt: {
-      text: {
-        fontWeight: String(theme.typography.weight.bold),
-      },
-    },
-    stepper: {
-      label: {
-        color: theme.palette.textMuted,
-        fontSize: theme.typography.size.sm,
-      },
-    },
+    featureHighlight: defaultFeatureHighlightStyle(theme),
+    hero: defaultOnboardingHeroStyle(theme),
+    progress: defaultOnboardingProgressStyle(theme),
+    prompt: defaultOnboardingPromptStyle(theme),
+    stepper: defaultOnboardingStepperStyle(theme),
   };
 }

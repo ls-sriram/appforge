@@ -1,6 +1,6 @@
 import React from "react";
 import { Body, noopUi, type UiStamp } from "../../platform/ui/index";
-import type { OnboardingPromptStyle } from "./onboarding.contracts";
+import type { OnboardingPromptStyle } from "./onboarding-prompt.styles";
 
 export function OnboardingPromptBlock({
   ui = noopUi,
