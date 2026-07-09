@@ -146,8 +146,54 @@ function validateRouteFile(relativePath, source) {
   return violations;
 }
 
+// Every primitive's style values must live in its own
+// src/platform/ui/components/<name>/ folder (see .architecture/layers/styles.yaml)
+// — nothing may define style values in a shared monolith again. The theme
+// assembler (theme/definitions/factory.ts) is the one place allowed to
+// import and combine them.
+const COMPONENTS_DIR = path.join(ROOT, "src/platform/ui/components");
+const STYLES_LOCATION_PATTERN = /^src\/platform\/ui\/components\/[^/]+\/[^/]+\.styles\.ts$/;
+
+function findStylesLocationViolation(relativePath) {
+  // Scoped to the platform UI surface only — feature-level *.styles.ts files
+  // (e.g. src/features/auth/auth.styles.ts) are an unrelated, pre-existing
+  // convention for screen layout, not primitive theme contracts.
+  if (!relativePath.startsWith("src/platform/ui/")) return null;
+  if (!relativePath.endsWith(".styles.ts")) return null;
+  if (STYLES_LOCATION_PATTERN.test(relativePath)) return null;
+  return `${relativePath}: style files must live under src/platform/ui/components/<name>/ — do not define style values outside a component folder`;
+}
+
+// Every component folder must carry both an implementation and its styles
+// side by side — a folder with one but not the other means the co-location
+// migration was left half-done for that component.
+function findComponentFolderPresenceViolations() {
+  if (!fs.existsSync(COMPONENTS_DIR)) return [];
+
+  const violations = [];
+  for (const entry of fs.readdirSync(COMPONENTS_DIR, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const folderPath = path.join(COMPONENTS_DIR, entry.name);
+    const files = fs.readdirSync(folderPath);
+    const relativeFolder = `src/platform/ui/components/${entry.name}`;
+
+    const hasImplementation = files.some(
+      (name) => /\.tsx?$/.test(name) && !name.endsWith(".styles.ts") && !name.endsWith(".test.tsx") && !name.endsWith(".test.ts") && name !== "index.ts",
+    );
+    const hasStyles = files.some((name) => name.endsWith(".styles.ts"));
+
+    if (!hasImplementation) {
+      violations.push(`${relativeFolder}: component folder has no implementation file`);
+    }
+    if (!hasStyles) {
+      violations.push(`${relativeFolder}: component folder has no *.styles.ts file`);
+    }
+  }
+  return violations;
+}
+
 const files = SEARCH_ROOTS.flatMap((dir) => walk(dir)).sort();
-const violations = [];
+const violations = [...findComponentFolderPresenceViolations()];
 
 for (const absolutePath of files) {
   const relativePath = toRelative(absolutePath);
@@ -160,6 +206,11 @@ for (const absolutePath of files) {
 
   for (const routeViolation of validateRouteFile(relativePath, source)) {
     violations.push(routeViolation);
+  }
+
+  const stylesLocationViolation = findStylesLocationViolation(relativePath);
+  if (stylesLocationViolation) {
+    violations.push(stylesLocationViolation);
   }
 
   for (const importRecord of collectImports(source)) {
