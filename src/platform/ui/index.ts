@@ -40,6 +40,7 @@ export {
 export { Display, Heading, Label, Body } from "./primitives/Text";
 export { Button } from "./primitives/Button";
 export type { ButtonProps } from "./primitives/Button";
+export { ButtonSchema } from "./primitives/Button";
 export { Input } from "./primitives/Input";
 export { TextArea } from "./primitives/TextArea";
 export { ColorPalettePicker } from "./primitives/ColorPalettePicker";

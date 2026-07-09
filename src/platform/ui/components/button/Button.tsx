@@ -1,17 +1,10 @@
 import React from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import type { ButtonContract } from "./button.styles";
+import type { ButtonProps } from "./button.contract";
 export type { ButtonContract };
-
-
-export type ButtonProps = {
-  contract: ButtonContract;
-  selected?: boolean;
-  disabled?: boolean;
-  loading?: boolean;
-  onPress?: () => void;
-  children?: React.ReactNode;
-};
+export type { ButtonProps };
+export { ButtonSchema } from "./button.contract";
 
 export function Button({ contract, selected = false, loading = false, disabled, onPress, children }: ButtonProps) {
   const s = contract;
