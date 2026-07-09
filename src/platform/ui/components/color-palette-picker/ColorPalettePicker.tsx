@@ -4,11 +4,12 @@ import { Pressable } from "react-native";
 import { Input } from "../input/Input";
 import { Icon } from "../../primitives/Icon";
 import { Body, Label } from "../../primitives/Text";
-import type { InputContract } from "../input/input.styles";
 
 import type { ColorPalettePickerContract } from "./color-palette-picker.styles";
+import type { ColorPalettePickerProps } from "./color-palette-picker.contract";
 export type { ColorPalettePickerContract };
-
+export type { ColorPalettePickerProps };
+export { ColorPalettePickerSchema } from "./color-palette-picker.contract";
 
 const PickerRoot = styled(View, {
   name: "ColorPalettePickerRoot",
@@ -21,19 +22,6 @@ const PaletteGrid = styled(View, {
   flexWrap: "wrap",
   gap: "$2",
 });
-
-export interface ColorPalettePickerProps {
-  contract: ColorPalettePickerContract;
-  inputContract: InputContract;
-  value: string;
-  onValueChange: (value: string) => void;
-  palette?: string[];
-  label?: string;
-  helperText?: string;
-  disabled?: boolean;
-  placeholder?: string;
-  testID?: string;
-}
 
 function normalizeHex(value: string): string {
   const trimmed = value.trim().replace(/[^#0-9a-fA-F]/g, "");

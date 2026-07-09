@@ -3,32 +3,10 @@ import { View } from "react-native";
 import { type UiStamp, noopUi } from "../../viz";
 
 import type { DockSplitterContract } from "./dock-splitter.styles";
+import type { DockSplitterDragEvent, DockSplitterOrientation, DockSplitterProps } from "./dock-splitter.contract";
 export type { DockSplitterContract };
-
-export type DockSplitterOrientation = "vertical" | "horizontal";
-
-export interface DockSplitterDragEvent {
-  clientX?: number;
-  clientY?: number;
-  nativeEvent?: {
-    clientX?: number;
-    clientY?: number;
-    pageX?: number;
-    pageY?: number;
-    locationX?: number;
-    locationY?: number;
-  };
-}
-
-export interface DockSplitterProps {
-  contract: DockSplitterContract;
-  orientation?: DockSplitterOrientation;
-  disabled?: boolean;
-  onDragStart?: (event: DockSplitterDragEvent) => void;
-  onDrag?: (delta: number, event: DockSplitterDragEvent) => void;
-  onDragEnd?: (event: DockSplitterDragEvent) => void;
-  ui?: UiStamp;
-}
+export type { DockSplitterDragEvent, DockSplitterOrientation, DockSplitterProps };
+export { DockSplitterSchema, DockSplitterDragEventSchema } from "./dock-splitter.contract";
 
 function getEventCoordinate(event: DockSplitterDragEvent, orientation: DockSplitterOrientation) {
   const nativeEvent = event.nativeEvent;

@@ -3,29 +3,10 @@ import { Pressable, Text, View } from "react-native";
 import { Icon } from "../../primitives/Icon";
 
 import type { SelectContract } from "./select.styles";
+import type { SelectOption, SelectProps } from "./select.contract";
 export type { SelectContract };
-
-
-export interface SelectOption {
-  label: string;
-  value: string;
-  description?: string;
-  disabled?: boolean;
-  /** Optional color swatch rendered before the label (design-token pickers). */
-  swatch?: string;
-}
-
-export interface SelectProps {
-  contract: SelectContract;
-  options: SelectOption[];
-  value?: string | null;
-  onValueChange: (value: string) => void;
-  placeholder?: string;
-  label?: string;
-  helperText?: string;
-  disabled?: boolean;
-  testID?: string;
-}
+export type { SelectOption, SelectProps };
+export { SelectSchema, SelectOptionSchema } from "./select.contract";
 
 export function Select({
   contract,

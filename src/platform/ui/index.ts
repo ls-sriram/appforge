@@ -47,12 +47,15 @@ export { TextArea } from "./primitives/TextArea";
 export { TextAreaSchema } from "./primitives/TextArea";
 export { ColorPalettePicker } from "./primitives/ColorPalettePicker";
 export type { ColorPalettePickerProps } from "./primitives/ColorPalettePicker";
+export { ColorPalettePickerSchema } from "./primitives/ColorPalettePicker";
 export { ColorSwatch } from "./primitives/ColorSwatch";
 export type { ColorSwatchProps } from "./primitives/ColorSwatch";
 export { Select } from "./primitives/Select";
 export type { SelectOption, SelectProps } from "./primitives/Select";
+export { SelectSchema, SelectOptionSchema } from "./primitives/Select";
 export { MultiSelect } from "./primitives/MultiSelect";
 export type { MultiSelectProps } from "./primitives/MultiSelect";
+export { MultiSelectSchema } from "./primitives/MultiSelect";
 export { Icon, type IconName } from "./primitives/Icon";
 export { SelectableChip } from "./primitives/SelectableChip";
 export type {
@@ -87,6 +90,7 @@ export type {
   DockSplitterOrientation,
   DockSplitterProps,
 } from "./primitives/DockSplitter";
+export { DockSplitterSchema, DockSplitterDragEventSchema } from "./primitives/DockSplitter";
 export { Tag } from "./primitives/Tag";
 export type { TagProps } from "./primitives/Tag";
 export { TagSchema } from "./primitives/Tag";

@@ -2,22 +2,11 @@ import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { Icon } from "../../primitives/Icon";
 import type { SelectOption } from "../select/Select";
-
 import type { MultiSelectContract } from "./multi-select.styles";
+import type { MultiSelectProps } from "./multi-select.contract";
 export type { MultiSelectContract };
-
-
-export interface MultiSelectProps {
-  contract: MultiSelectContract;
-  options: SelectOption[];
-  value: string[];
-  onValueChange: (value: string[]) => void;
-  placeholder?: string;
-  label?: string;
-  helperText?: string;
-  disabled?: boolean;
-  testID?: string;
-}
+export type { MultiSelectProps };
+export { MultiSelectSchema } from "./multi-select.contract";
 
 export function MultiSelect({
   contract,
