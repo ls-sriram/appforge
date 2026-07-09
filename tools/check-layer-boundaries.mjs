@@ -164,6 +164,28 @@ function findStylesLocationViolation(relativePath) {
   return `${relativePath}: style files must live under src/platform/ui/components/<name>/ — do not define style values outside a component folder`;
 }
 
+// Mirror of the platform-primitives styles rule above, scoped to
+// src/features/ instead: a feature's *.styles.ts must either be the
+// feature's own named assembler (<feature>/<feature>.styles.ts, e.g.
+// auth/auth.styles.ts) or a per-block sibling (<name>.styles.ts next to
+// <name>.block.tsx / <name>.scaffold.tsx in the same folder) — never a
+// shared monolith holding every block's style values again.
+const FEATURE_STYLES_PATTERN = /^src\/features\/([^/]+)\/([^/]+)\.styles\.ts$/;
+const STYLES_COMPANION_SUFFIXES = [".block.tsx", ".block.web.tsx", ".block.native.tsx", ".scaffold.tsx"];
+
+function findFeatureStylesLocationViolation(relativePath) {
+  const match = relativePath.match(FEATURE_STYLES_PATTERN);
+  if (!match) return null;
+  const [, feature, stem] = match;
+  if (stem === feature) return null;
+
+  const dir = path.dirname(path.join(ROOT, relativePath));
+  const hasCompanion = STYLES_COMPANION_SUFFIXES.some((suffix) => fs.existsSync(path.join(dir, `${stem}${suffix}`)));
+  if (hasCompanion) return null;
+
+  return `${relativePath}: feature style files must either be the feature's own assembler (<feature>.styles.ts) or a sibling of ${stem}.block.tsx / ${stem}.scaffold.tsx`;
+}
+
 // Every component folder must carry both an implementation and its styles
 // side by side — a folder with one but not the other means the co-location
 // migration was left half-done for that component.
@@ -211,6 +233,11 @@ for (const absolutePath of files) {
   const stylesLocationViolation = findStylesLocationViolation(relativePath);
   if (stylesLocationViolation) {
     violations.push(stylesLocationViolation);
+  }
+
+  const featureStylesLocationViolation = findFeatureStylesLocationViolation(relativePath);
+  if (featureStylesLocationViolation) {
+    violations.push(featureStylesLocationViolation);
   }
 
   for (const importRecord of collectImports(source)) {
