@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { TextInput, View } from "react-native";
 import type { InputContract } from "./input.styles";
 export type { InputContract };
-
+export { InputSchema } from "./input.contract";
 
 export type InputProps = Omit<React.ComponentProps<typeof TextInput>, "style"> & {
   contract: InputContract;

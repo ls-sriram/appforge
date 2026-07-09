@@ -1,17 +1,10 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 import type { AvatarContract } from "./avatar.styles";
+import type { AvatarProps } from "./avatar.contract";
 export type { AvatarContract };
-
-
-interface AvatarProps {
-  contract: AvatarContract;
-  initials?: string;
-  selected?: boolean;
-  loading?: boolean;
-  onPress?: () => void;
-  disabled?: boolean;
-}
+export type { AvatarProps };
+export { AvatarSchema } from "./avatar.contract";
 
 export function Avatar({ contract, initials = "?", selected = false, loading = false, onPress, disabled }: AvatarProps) {
   const s = contract;

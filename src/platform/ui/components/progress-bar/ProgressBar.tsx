@@ -1,14 +1,10 @@
 import React from "react";
 import { View } from "react-native";
 import type { ProgressBarContract } from "./progress-bar.styles";
+import type { ProgressBarProps } from "./progress-bar.contract";
 export type { ProgressBarContract };
-
-
-interface ProgressBarProps {
-  contract: ProgressBarContract;
-  value: number;
-  total?: number;
-}
+export type { ProgressBarProps };
+export { ProgressBarSchema } from "./progress-bar.contract";
 
 export function ProgressBar({ contract, value, total = 100 }: ProgressBarProps) {
   const s = contract;

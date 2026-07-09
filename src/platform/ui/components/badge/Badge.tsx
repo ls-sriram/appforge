@@ -1,15 +1,10 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 import type { BadgeContract } from "./badge.styles";
+import type { BadgeProps } from "./badge.contract";
 export type { BadgeContract };
-
-
-interface BadgeProps {
-  contract: BadgeContract;
-  label: string;
-  onPress?: () => void;
-  disabled?: boolean;
-}
+export type { BadgeProps };
+export { BadgeSchema } from "./badge.contract";
 
 export function Badge({ contract, label, onPress, disabled }: BadgeProps) {
   const s = contract;

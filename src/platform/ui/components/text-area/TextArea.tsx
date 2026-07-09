@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TextInput, View } from "react-native";
 import type { TextAreaContract } from "./text-area.styles";
 export type { TextAreaContract };
+export { TextAreaSchema } from "./text-area.contract";
 
 
 export type TextAreaProps = Omit<React.ComponentProps<typeof TextInput>, "style" | "multiline"> & {

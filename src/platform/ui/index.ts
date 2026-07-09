@@ -42,7 +42,9 @@ export { Button } from "./primitives/Button";
 export type { ButtonProps } from "./primitives/Button";
 export { ButtonSchema } from "./primitives/Button";
 export { Input } from "./primitives/Input";
+export { InputSchema } from "./primitives/Input";
 export { TextArea } from "./primitives/TextArea";
+export { TextAreaSchema } from "./primitives/TextArea";
 export { ColorPalettePicker } from "./primitives/ColorPalettePicker";
 export type { ColorPalettePickerProps } from "./primitives/ColorPalettePicker";
 export { ColorSwatch } from "./primitives/ColorSwatch";
@@ -84,8 +86,14 @@ export type {
 export { Tag } from "./primitives/Tag";
 export type { TagProps } from "./primitives/Tag";
 export { Avatar } from "./primitives/Avatar";
+export type { AvatarProps } from "./primitives/Avatar";
+export { AvatarSchema } from "./primitives/Avatar";
 export { Badge } from "./primitives/Badge";
+export type { BadgeProps } from "./primitives/Badge";
+export { BadgeSchema } from "./primitives/Badge";
 export { ProgressBar } from "./primitives/ProgressBar";
+export type { ProgressBarProps } from "./primitives/ProgressBar";
+export { ProgressBarSchema } from "./primitives/ProgressBar";
 export { Table } from "./primitives/Table";
 export type {
   TableAlign,
