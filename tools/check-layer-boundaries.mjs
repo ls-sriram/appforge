@@ -189,6 +189,15 @@ function findFeatureStylesLocationViolation(relativePath) {
 // Every component folder must carry both an implementation and its styles
 // side by side — a folder with one but not the other means the co-location
 // migration was left half-done for that component.
+//
+// A small number of components genuinely have no themed style-values
+// contract to extract: they take raw, non-themed props directly (a color
+// string, a size number, free-form text styling) rather than a resolved
+// `XContract` object from the theme. Requiring a `.styles.ts` for these
+// would mean inventing a themed contract that doesn't otherwise exist,
+// which is the opposite of what the rule is protecting against.
+const NO_STYLES_CONTRACT_COMPONENTS = new Set(["icon", "color-swatch", "text"]);
+
 function findComponentFolderPresenceViolations() {
   if (!fs.existsSync(COMPONENTS_DIR)) return [];
 
@@ -207,7 +216,7 @@ function findComponentFolderPresenceViolations() {
     if (!hasImplementation) {
       violations.push(`${relativeFolder}: component folder has no implementation file`);
     }
-    if (!hasStyles) {
+    if (!hasStyles && !NO_STYLES_CONTRACT_COMPONENTS.has(entry.name)) {
       violations.push(`${relativeFolder}: component folder has no *.styles.ts file`);
     }
   }

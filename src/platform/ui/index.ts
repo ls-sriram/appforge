@@ -38,6 +38,7 @@ export {
   defaultContracts,
 } from "./theme/index";
 export { Display, Heading, Label, Body } from "./primitives/Text";
+export { DisplaySchema, HeadingSchema, LabelSchema, BodySchema } from "./primitives/Text";
 export { Button } from "./primitives/Button";
 export type { ButtonProps } from "./primitives/Button";
 export { ButtonSchema } from "./primitives/Button";
@@ -50,6 +51,7 @@ export type { ColorPalettePickerProps } from "./primitives/ColorPalettePicker";
 export { ColorPalettePickerSchema } from "./primitives/ColorPalettePicker";
 export { ColorSwatch } from "./primitives/ColorSwatch";
 export type { ColorSwatchProps } from "./primitives/ColorSwatch";
+export { ColorSwatchSchema } from "./primitives/ColorSwatch";
 export { Select } from "./primitives/Select";
 export type { SelectOption, SelectProps } from "./primitives/Select";
 export { SelectSchema, SelectOptionSchema } from "./primitives/Select";
@@ -57,6 +59,7 @@ export { MultiSelect } from "./primitives/MultiSelect";
 export type { MultiSelectProps } from "./primitives/MultiSelect";
 export { MultiSelectSchema } from "./primitives/MultiSelect";
 export { Icon, type IconName } from "./primitives/Icon";
+export { IconSchema } from "./primitives/Icon";
 export { SelectableChip } from "./primitives/SelectableChip";
 export type {
   SelectableChipShape,
