@@ -9,3 +9,4 @@ export type {
 } from "./Table";
 export type { ImageContract, TableContract } from "./table.styles";
 export { defaultTableStyles, defaultImageStyles } from "./table.styles";
+export { TableSchema } from "./table.contract";

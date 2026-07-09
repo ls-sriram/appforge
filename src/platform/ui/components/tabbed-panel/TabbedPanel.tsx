@@ -1,38 +1,22 @@
 import React from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import { PanelScaffold } from "../../scaffolds/index";
-import { type UiStamp, noopUi } from "../../viz";
+import { noopUi } from "../../viz";
 import { Icon, type IconName } from "../../primitives/Icon";
-import { Tabs, type TabsContract } from "../tabs/Tabs";
-
-export interface TabbedPanelTab {
-  id: string;
-  label: string;
-  icon?: IconName;
-  disabled?: boolean;
-  closeable?: boolean;
-  movable?: boolean;
-  content: React.ReactNode;
-}
-
-export type TabbedPanelMoveDirection = "left" | "right";
-
-export interface TabbedPanelProps {
-  tabsContract: TabsContract;
-  tabbedPanelContract: TabbedPanelContract;
-  tabs: TabbedPanelTab[];
-  activeTabId: string | null;
-  onActiveTabChange: (tabId: string) => void;
-  onCloseTab?: (tabId: string) => void;
-  onMoveTab?: (tabId: string, direction: TabbedPanelMoveDirection) => void;
-  actions?: React.ReactNode;
-  emptyState?: React.ReactNode;
-  ui?: UiStamp;
-}
-
+import { Tabs } from "../tabs/Tabs";
 import type { TabbedPanelContract } from "./tabbed-panel.styles";
+import type {
+  TabbedPanelMoveDirection,
+  TabbedPanelProps,
+  TabbedPanelTab,
+} from "./tabbed-panel.contract";
 export type { TabbedPanelContract };
-
+export type { TabbedPanelMoveDirection, TabbedPanelProps, TabbedPanelTab };
+export {
+  TabbedPanelSchema,
+  TabbedPanelTabSchema,
+  TabbedPanelMoveDirectionSchema,
+} from "./tabbed-panel.contract";
 
 interface IconActionButtonProps {
   contract: TabbedPanelContract;

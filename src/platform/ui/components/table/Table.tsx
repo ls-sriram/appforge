@@ -47,6 +47,7 @@ export type TableAvatarCell = {
 
 import type { ImageContract, TableContract } from "./table.styles";
 export type { ImageContract, TableContract };
+export { TableSchema } from "./table.contract";
 
 
 export type TableImageCell = {

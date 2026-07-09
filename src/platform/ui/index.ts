@@ -76,6 +76,11 @@ export type {
   TabbedPanelProps,
   TabbedPanelTab,
 } from "./primitives/TabbedPanel";
+export {
+  TabbedPanelSchema,
+  TabbedPanelTabSchema,
+  TabbedPanelMoveDirectionSchema,
+} from "./primitives/TabbedPanel";
 export { DockPanel } from "./primitives/DockPanel";
 export type {
   DockPanelDisplayMode,
@@ -113,6 +118,7 @@ export type {
   TableProps,
   TableWidth,
 } from "./primitives/Table";
+export { TableSchema } from "./primitives/Table";
 export { dialog } from "./primitives/dialog";
 export type { DialogButton } from "./primitives/dialog";
 export { linking } from "./primitives/linking";

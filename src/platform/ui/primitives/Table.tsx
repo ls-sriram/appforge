@@ -9,3 +9,4 @@ export type {
   TableProps,
   TableWidth,
 } from "../components/table/Table";
+export { TableSchema } from "../components/table/table.contract";
