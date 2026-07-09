@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable, ScrollView, View } from "react-native";
-import { Body } from "../../primitives/Text";
-import { Icon, type IconName } from "../../primitives/Icon";
+import { Body } from "../text/Text";
+import { Icon, type IconName } from "../icon/Icon";
 import { type UiStamp, noopUi } from "../../viz";
 
 import type { DockPanelContract } from "./dock-panel.styles";

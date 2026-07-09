@@ -2,36 +2,12 @@ schema: v1
 module: platform_ui_primitives
 layer: ui
 owner: platform-ui
+purpose:
+  - non_visual_platform_utilities
 public_api:
-  - Button
-  - Input
-  - TextArea
-  - Select
-  - MultiSelect
-  - Tabs
-  - TabbedPanel
-  - DockPanel
-  - DockSplitter
-  - Table
-  - Icon
-  - Avatar
-  - Badge
-  - Tag
-  - ProgressBar
-  - SelectableChip
-  - SizingToolbar
+  - dialog
+  - linking
 invariants:
-  - appforge_primitives_own_behavior_accessibility_and_interaction
-  - applications_own_visual_appearance_via_resolved_contracts
-  - missing_contracts_are_programming_errors
-rules:
-  - closed_primitives_do_not_accept_raw_visual_style_props
   - primitives_do_not_import_feature_or_domain_code
-  - runtime_token_resolution_is_forbidden
-  - domain_terms_do_not_enter_primitive_public_apis
-coupled_files:
-  - pattern: "*.tsx"
-    also_pulls:
-      - "../contracts/primitives/*.ts"
-      - "../contracts/runtime/*.ts"
-      - "../theme/**/*.ts"
+rules:
+  - no_react_components_in_this_folder

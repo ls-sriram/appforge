@@ -1,6 +1,6 @@
 import { z } from "zod";
 import type { ReactNode } from "react";
-import type { IconName } from "../../primitives/Icon";
+import type { IconName } from "../icon/Icon";
 import type { TabsContract } from "../tabs/Tabs";
 import type { UiStamp } from "../../viz";
 import type { TabbedPanelContract } from "./tabbed-panel.styles";

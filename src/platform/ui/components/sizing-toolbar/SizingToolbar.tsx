@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, View } from "react-native";
-import { Icon, type IconName } from "../../primitives/Icon";
+import { Icon, type IconName } from "../icon/Icon";
 import type { SizingToolbarContract } from "./sizing-toolbar.styles";
 import type { SizingToolbarProps } from "./sizing-toolbar.contract";
 export type { SizingToolbarContract };

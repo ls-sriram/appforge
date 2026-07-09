@@ -6,7 +6,7 @@ import { Tabs } from "./Tabs";
 
 const tabsContract = defaultContracts.tabs!["default"];
 
-jest.mock("../../primitives/Text", () => {
+jest.mock("../text/Text", () => {
   const React = require("react");
   const { Text } = require("react-native");
   return {

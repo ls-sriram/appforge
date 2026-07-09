@@ -25,7 +25,7 @@ jest.mock("react-native", () => {
   };
 });
 
-jest.mock("../../primitives/Text", () => {
+jest.mock("../text/Text", () => {
   const React = require("react");
   const { Text } = require("react-native");
   return {

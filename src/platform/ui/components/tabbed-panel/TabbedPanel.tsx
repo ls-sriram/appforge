@@ -2,7 +2,7 @@ import React from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import { PanelScaffold } from "../../scaffolds/index";
 import { noopUi } from "../../viz";
-import { Icon, type IconName } from "../../primitives/Icon";
+import { Icon, type IconName } from "../icon/Icon";
 import { Tabs } from "../tabs/Tabs";
 import type { TabbedPanelContract } from "./tabbed-panel.styles";
 import type {

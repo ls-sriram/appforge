@@ -1,0 +1,44 @@
+schema: v1
+module: platform_ui_components
+layer: ui
+owner: platform-ui
+purpose:
+  - own_every_closed_primitives_implementation_styles_and_contract
+  - one_folder_per_component_co_locating_impl_styles_and_schema
+public_api:
+  - avatar
+  - badge
+  - button
+  - color-palette-picker
+  - color-swatch
+  - dock-panel
+  - dock-splitter
+  - icon
+  - input
+  - multi-select
+  - progress-bar
+  - select
+  - selectable-chip
+  - sizing-toolbar
+  - tabbed-panel
+  - table
+  - tabs
+  - tag
+  - text
+  - text-area
+invariants:
+  - appforge_primitives_own_behavior_accessibility_and_interaction
+  - applications_own_visual_appearance_via_resolved_contracts
+  - missing_contracts_are_programming_errors
+  - each_component_folder_carries_implementation_styles_and_optional_schema_together
+rules:
+  - closed_primitives_do_not_accept_raw_visual_style_props
+  - primitives_do_not_import_feature_or_domain_code
+  - runtime_token_resolution_is_forbidden
+  - domain_terms_do_not_enter_primitive_public_apis
+coupled_files:
+  - pattern: "*/[A-Z]*.tsx"
+    also_pulls:
+      - "*/[a-z]*.styles.ts"
+      - "*/[a-z]*.contract.ts"
+      - "*/index.ts"

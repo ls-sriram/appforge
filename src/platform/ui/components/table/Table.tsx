@@ -4,7 +4,7 @@ import { View } from "@tamagui/core";
 import { useLayout } from "../../theme/DensityProvider";
 import { Avatar, type AvatarContract } from "../avatar/Avatar";
 import { Badge, type BadgeContract } from "../badge/Badge";
-import { Body, Label } from "../../primitives/Text";
+import { Body, Label } from "../text/Text";
 import { Tag, type TagContract } from "../tag/Tag";
 
 export type TableWidth = "content" | "xs" | "sm" | "md" | "lg" | "xl" | "fill";

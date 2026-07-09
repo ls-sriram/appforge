@@ -2,8 +2,8 @@ import { styled, View } from "@tamagui/core";
 import React from "react";
 import { Pressable } from "react-native";
 import { Input } from "../input/Input";
-import { Icon } from "../../primitives/Icon";
-import { Body, Label } from "../../primitives/Text";
+import { Icon } from "../icon/Icon";
+import { Body, Label } from "../text/Text";
 
 import type { ColorPalettePickerContract } from "./color-palette-picker.styles";
 import type { ColorPalettePickerProps } from "./color-palette-picker.contract";

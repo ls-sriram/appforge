@@ -23,12 +23,14 @@ ownership:
   exclude:
     - theme/**
     - primitives/**
+    - components/**
     - visualizer/**
 coupled_files:
-  - pattern: "primitives/*.tsx"
+  - pattern: "index.ts"
     also_pulls:
-      - "contracts/primitives/*.ts"
-      - "theme/**/*.ts"
+      - "components/**/*.ts"
+      - "components/**/*.tsx"
+      - "contracts/**/*.ts"
   - pattern: "Provider.tsx"
     also_pulls:
       - "index.ts"

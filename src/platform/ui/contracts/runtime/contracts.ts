@@ -1,20 +1,20 @@
-import type { ButtonContract } from "../primitives/button";
-import type { BadgeContract } from "../primitives/badge";
-import type { TagContract } from "../primitives/tag";
-import type { InputContract } from "../primitives/input";
-import type { AvatarContract } from "../primitives/avatar";
-import type { ProgressBarContract } from "../primitives/progressbar";
-import type { ImageContract, TableContract } from "../primitives/table";
-import type { SelectableChipContract } from "../primitives/selectablechip";
-import type { TextAreaContract } from "../primitives/textarea";
-import type { SelectContract } from "../primitives/select";
-import type { MultiSelectContract } from "../primitives/multiselect";
-import type { TabsContract } from "../primitives/tabs";
-import type { SizingToolbarContract } from "../primitives/sizingtoolbar";
-import type { TabbedPanelContract } from "../primitives/tabbedpanel";
-import type { DockPanelContract } from "../primitives/dockpanel";
-import type { DockSplitterContract } from "../primitives/docksplitter";
-import type { ColorPalettePickerContract } from "../primitives/colorpalettepicker";
+import type { ButtonContract } from "../../components/button/button.styles";
+import type { BadgeContract } from "../../components/badge/badge.styles";
+import type { TagContract } from "../../components/tag/tag.styles";
+import type { InputContract } from "../../components/input/input.styles";
+import type { AvatarContract } from "../../components/avatar/avatar.styles";
+import type { ProgressBarContract } from "../../components/progress-bar/progress-bar.styles";
+import type { ImageContract, TableContract } from "../../components/table/table.styles";
+import type { SelectableChipContract } from "../../components/selectable-chip/selectable-chip.styles";
+import type { TextAreaContract } from "../../components/text-area/text-area.styles";
+import type { SelectContract } from "../../components/select/select.styles";
+import type { MultiSelectContract } from "../../components/multi-select/multi-select.styles";
+import type { TabsContract } from "../../components/tabs/tabs.styles";
+import type { SizingToolbarContract } from "../../components/sizing-toolbar/sizing-toolbar.styles";
+import type { TabbedPanelContract } from "../../components/tabbed-panel/tabbed-panel.styles";
+import type { DockPanelContract } from "../../components/dock-panel/dock-panel.styles";
+import type { DockSplitterContract } from "../../components/dock-splitter/dock-splitter.styles";
+import type { ColorPalettePickerContract } from "../../components/color-palette-picker/color-palette-picker.styles";
 
 export interface PrimitiveContracts {
   button?: Record<string, ButtonContract>;

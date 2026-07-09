@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable, View } from "react-native";
-import { Icon } from "../../primitives/Icon";
-import { Body } from "../../primitives/Text";
+import { Icon } from "../icon/Icon";
+import { Body } from "../text/Text";
 
 import type { TabsContract } from "./tabs.styles";
 import type { TabOption, TabsProps } from "./tabs.contract";

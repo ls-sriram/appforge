@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import { Icon } from "../../primitives/Icon";
+import { Icon } from "../icon/Icon";
 import type { SelectOption } from "../select/Select";
 import type { MultiSelectContract } from "./multi-select.styles";
 import type { MultiSelectProps } from "./multi-select.contract";

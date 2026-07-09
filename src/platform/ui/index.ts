@@ -37,88 +37,88 @@ export {
   platformLayoutDefaults,
   defaultContracts,
 } from "./theme/index";
-export { Display, Heading, Label, Body } from "./primitives/Text";
-export { DisplaySchema, HeadingSchema, LabelSchema, BodySchema } from "./primitives/Text";
-export { Button } from "./primitives/Button";
-export type { ButtonProps } from "./primitives/Button";
-export { ButtonSchema } from "./primitives/Button";
-export { Input } from "./primitives/Input";
-export { InputSchema } from "./primitives/Input";
-export { TextArea } from "./primitives/TextArea";
-export { TextAreaSchema } from "./primitives/TextArea";
-export { ColorPalettePicker } from "./primitives/ColorPalettePicker";
-export type { ColorPalettePickerProps } from "./primitives/ColorPalettePicker";
-export { ColorPalettePickerSchema } from "./primitives/ColorPalettePicker";
-export { ColorSwatch } from "./primitives/ColorSwatch";
-export type { ColorSwatchProps } from "./primitives/ColorSwatch";
-export { ColorSwatchSchema } from "./primitives/ColorSwatch";
-export { Select } from "./primitives/Select";
-export type { SelectOption, SelectProps } from "./primitives/Select";
-export { SelectSchema, SelectOptionSchema } from "./primitives/Select";
-export { MultiSelect } from "./primitives/MultiSelect";
-export type { MultiSelectProps } from "./primitives/MultiSelect";
-export { MultiSelectSchema } from "./primitives/MultiSelect";
-export { Icon, type IconName } from "./primitives/Icon";
-export { IconSchema } from "./primitives/Icon";
-export { SelectableChip } from "./primitives/SelectableChip";
+export { Display, Heading, Label, Body } from "./components/text/Text";
+export { DisplaySchema, HeadingSchema, LabelSchema, BodySchema } from "./components/text/text.contract";
+export { Button } from "./components/button/Button";
+export type { ButtonProps } from "./components/button/Button";
+export { ButtonSchema } from "./components/button/button.contract";
+export { Input } from "./components/input/Input";
+export { InputSchema } from "./components/input/input.contract";
+export { TextArea } from "./components/text-area/TextArea";
+export { TextAreaSchema } from "./components/text-area/text-area.contract";
+export { ColorPalettePicker } from "./components/color-palette-picker/ColorPalettePicker";
+export type { ColorPalettePickerProps } from "./components/color-palette-picker/ColorPalettePicker";
+export { ColorPalettePickerSchema } from "./components/color-palette-picker/color-palette-picker.contract";
+export { ColorSwatch } from "./components/color-swatch/ColorSwatch";
+export type { ColorSwatchProps } from "./components/color-swatch/ColorSwatch";
+export { ColorSwatchSchema } from "./components/color-swatch/color-swatch.contract";
+export { Select } from "./components/select/Select";
+export type { SelectOption, SelectProps } from "./components/select/Select";
+export { SelectSchema, SelectOptionSchema } from "./components/select/select.contract";
+export { MultiSelect } from "./components/multi-select/MultiSelect";
+export type { MultiSelectProps } from "./components/multi-select/MultiSelect";
+export { MultiSelectSchema } from "./components/multi-select/multi-select.contract";
+export { Icon, type IconName } from "./components/icon/Icon";
+export { IconSchema } from "./components/icon/icon.contract";
+export { SelectableChip } from "./components/selectable-chip/SelectableChip";
 export type {
   SelectableChipShape,
   SelectableChipFrame,
   SelectableChipProps,
-} from "./primitives/SelectableChip";
-export { SelectableChipSchema } from "./primitives/SelectableChip";
-export { SizingToolbar } from "./primitives/SizingToolbar";
-export type { SizingToolbarProps, SizingToolbarValue } from "./primitives/SizingToolbar";
-export { SizingToolbarSchema } from "./primitives/SizingToolbar";
-export { Tabs } from "./primitives/Tabs";
-export type { TabsProps, TabOption } from "./primitives/Tabs";
-export { TabsSchema, TabOptionSchema } from "./primitives/Tabs";
-export { TabbedPanel } from "./primitives/TabbedPanel";
+} from "./components/selectable-chip/SelectableChip";
+export { SelectableChipSchema } from "./components/selectable-chip/selectable-chip.contract";
+export { SizingToolbar } from "./components/sizing-toolbar/SizingToolbar";
+export type { SizingToolbarProps, SizingToolbarValue } from "./components/sizing-toolbar/SizingToolbar";
+export { SizingToolbarSchema } from "./components/sizing-toolbar/sizing-toolbar.contract";
+export { Tabs } from "./components/tabs/Tabs";
+export type { TabsProps, TabOption } from "./components/tabs/Tabs";
+export { TabsSchema, TabOptionSchema } from "./components/tabs/tabs.contract";
+export { TabbedPanel } from "./components/tabbed-panel/TabbedPanel";
 export type {
   TabbedPanelMoveDirection,
   TabbedPanelProps,
   TabbedPanelTab,
-} from "./primitives/TabbedPanel";
+} from "./components/tabbed-panel/TabbedPanel";
 export {
   TabbedPanelSchema,
   TabbedPanelTabSchema,
   TabbedPanelMoveDirectionSchema,
-} from "./primitives/TabbedPanel";
-export { DockPanel } from "./primitives/DockPanel";
+} from "./components/tabbed-panel/tabbed-panel.contract";
+export { DockPanel } from "./components/dock-panel/DockPanel";
 export type {
   DockPanelDisplayMode,
   DockPanelPlacement,
   DockPanelMoveDirection,
   DockPanelProps,
   DockPanelItem,
-} from "./primitives/DockPanel";
+} from "./components/dock-panel/DockPanel";
 export {
   DockPanelSchema,
   DockPanelItemSchema,
   DockPanelDisplayModeSchema,
   DockPanelPlacementSchema,
   DockPanelMoveDirectionSchema,
-} from "./primitives/DockPanel";
-export { DockSplitter } from "./primitives/DockSplitter";
+} from "./components/dock-panel/dock-panel.contract";
+export { DockSplitter } from "./components/dock-splitter/DockSplitter";
 export type {
   DockSplitterDragEvent,
   DockSplitterOrientation,
   DockSplitterProps,
-} from "./primitives/DockSplitter";
-export { DockSplitterSchema, DockSplitterDragEventSchema } from "./primitives/DockSplitter";
-export { Tag } from "./primitives/Tag";
-export type { TagProps } from "./primitives/Tag";
-export { TagSchema } from "./primitives/Tag";
-export { Avatar } from "./primitives/Avatar";
-export type { AvatarProps } from "./primitives/Avatar";
-export { AvatarSchema } from "./primitives/Avatar";
-export { Badge } from "./primitives/Badge";
-export type { BadgeProps } from "./primitives/Badge";
-export { BadgeSchema } from "./primitives/Badge";
-export { ProgressBar } from "./primitives/ProgressBar";
-export type { ProgressBarProps } from "./primitives/ProgressBar";
-export { ProgressBarSchema } from "./primitives/ProgressBar";
-export { Table } from "./primitives/Table";
+} from "./components/dock-splitter/DockSplitter";
+export { DockSplitterSchema, DockSplitterDragEventSchema } from "./components/dock-splitter/dock-splitter.contract";
+export { Tag } from "./components/tag/Tag";
+export type { TagProps } from "./components/tag/Tag";
+export { TagSchema } from "./components/tag/tag.contract";
+export { Avatar } from "./components/avatar/Avatar";
+export type { AvatarProps } from "./components/avatar/Avatar";
+export { AvatarSchema } from "./components/avatar/avatar.contract";
+export { Badge } from "./components/badge/Badge";
+export type { BadgeProps } from "./components/badge/Badge";
+export { BadgeSchema } from "./components/badge/badge.contract";
+export { ProgressBar } from "./components/progress-bar/ProgressBar";
+export type { ProgressBarProps } from "./components/progress-bar/ProgressBar";
+export { ProgressBarSchema } from "./components/progress-bar/progress-bar.contract";
+export { Table } from "./components/table/Table";
 export type {
   TableAlign,
   TableCellSpec,
@@ -127,8 +127,8 @@ export type {
   ImageContract as TableImageContract,
   TableProps,
   TableWidth,
-} from "./primitives/Table";
-export { TableSchema } from "./primitives/Table";
+} from "./components/table/Table";
+export { TableSchema } from "./components/table/table.contract";
 export { dialog } from "./primitives/dialog";
 export type { DialogButton } from "./primitives/dialog";
 export { linking } from "./primitives/linking";

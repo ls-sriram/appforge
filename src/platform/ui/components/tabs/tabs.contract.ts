@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { IconName } from "../../primitives/Icon";
+import type { IconName } from "../icon/Icon";
 import type { TabsContract } from "./tabs.styles";
 
 export const TabOptionSchema = z.object({
