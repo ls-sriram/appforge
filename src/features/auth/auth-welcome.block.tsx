@@ -1,14 +1,9 @@
 import React from "react";
-import { Body, Button, Display, Label, noopUi, type UiStamp, useUI, YStack } from "../../platform/ui/index";
+import { Body, Button, Display, Label, noopUi, useUI, YStack } from "../../platform/ui/index";
 import { app } from "../../config/app";
-import type { AuthWelcomeStyle } from "./auth-welcome.styles";
-
-export interface AuthWelcomeBlockProps {
-  ui?: UiStamp;
-  style: AuthWelcomeStyle;
-  onSignIn: () => void;
-  onCreateAccount: () => void;
-}
+import type { AuthWelcomeBlockProps } from "./auth-welcome.contract";
+export type { AuthWelcomeBlockProps };
+export { AuthWelcomeBlockSchema } from "./auth-welcome.contract";
 
 export function AuthWelcomeBlock({
   ui = noopUi,

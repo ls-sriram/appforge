@@ -1,22 +1,9 @@
 import React from "react";
-import { Body, Heading, Icon, Label, noopUi, type UiStamp, XStack, YStack } from "../../platform/ui/index";
+import { Body, Heading, Icon, Label, noopUi, XStack, YStack } from "../../platform/ui/index";
 import { app } from "../../config/app";
-import type { AuthFormStyle } from "./auth-form.styles";
-
-type AuthFormFooter = {
-  prompt: string;
-  linkLabel: string;
-  onPress: () => void;
-};
-
-export interface AuthFormBlockProps {
-  ui?: UiStamp;
-  style: AuthFormStyle;
-  subtitle: string;
-  children: React.ReactNode;
-  showTerms?: boolean;
-  footer?: AuthFormFooter;
-}
+import type { AuthFormBlockProps } from "./auth-form.contract";
+export type { AuthFormBlockProps };
+export { AuthFormBlockSchema } from "./auth-form.contract";
 
 export function AuthFormBlock({
   ui = noopUi,

@@ -4,13 +4,9 @@
 import React from "react";
 import { Body, Icon, XStack, YStack } from "../../platform/ui/index";
 import { dateOwner } from "../../platform/core/dates/index";
-import type { AccountBlockStyle } from "./account.styles";
-
-export interface AccountBlockProps {
-  style: AccountBlockStyle;
-  createdAt?: string;
-  lastLoginAt?: string;
-}
+import type { AccountBlockProps } from "./account.contract";
+export type { AccountBlockProps };
+export { AccountBlockSchema } from "./account.contract";
 
 function formatDate(iso?: string): string {
   if (!iso) return "Unknown";

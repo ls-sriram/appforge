@@ -1,30 +1,12 @@
 import React, { useRef, useState } from "react";
 import type { TextInput } from "react-native";
-import { Icon, Input, noopUi, type UiStamp, useUI, XStack, YStack } from "../../platform/ui/index";
-import type { IconName } from "../../platform/ui/index";
-import type { AuthFieldStyle } from "./auth-field.styles";
+import { Icon, Input, noopUi, useUI, XStack, YStack } from "../../platform/ui/index";
+import type { AuthDarkFieldProps } from "./auth-dark-field.contract";
+export type { AuthDarkFieldProps };
+export { AuthDarkFieldSchema } from "./auth-dark-field.contract";
 
 export interface InputHandle {
   current?: TextInput;
-}
-
-interface AuthDarkFieldProps {
-  ui?: UiStamp;
-  style: AuthFieldStyle;
-  icon: IconName;
-  placeholder: string;
-  value: string;
-  onChangeText: (value: string) => void;
-  secureTextEntry?: boolean;
-  keyboardType?: "default" | "email-address";
-  autoCapitalize?: "none" | "sentences" | "words" | "characters";
-  autoComplete?: React.ComponentProps<typeof Input>["autoComplete"];
-  returnKeyType?: React.ComponentProps<typeof Input>["returnKeyType"];
-  onSubmitEditing?: React.ComponentProps<typeof Input>["onSubmitEditing"];
-  blurOnSubmit?: boolean;
-  inputRef?: InputHandle;
-  testID?: string;
-  hasError?: boolean;
 }
 
 export function AuthDarkField({

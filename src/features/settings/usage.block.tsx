@@ -4,12 +4,9 @@
 import React from "react";
 import { Body, XStack, YStack } from "../../platform/ui/index";
 import type { Usage } from "./user-profile.service";
-import type { UsageBlockStyle } from "./usage.styles";
-
-export interface UsageBlockProps {
-  style: UsageBlockStyle;
-  usage?: Usage;
-}
+import type { UsageBlockProps } from "./usage.contract";
+export type { UsageBlockProps };
+export { UsageBlockSchema } from "./usage.contract";
 
 function formatBytes(bytes: number): string {
   if (bytes >= 1073741824) return `${(bytes / 1073741824).toFixed(1)} GB`;

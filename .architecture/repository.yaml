@@ -88,7 +88,7 @@ generation:
     handler: ".handler.ts"
     types: ".types.ts"
     keys: ".keys.ts"
-    contracts: ".contracts.ts"
+    contracts: ".contract.ts"
     styles: ".styles.ts"
     storage: ".storage.ts"
   classification:
@@ -176,7 +176,7 @@ generation:
     "*.keys.ts":
       layer: domain
       role: keys
-    "*.contracts.ts":
+    "*.contract.ts":
       layer: ui
       role: contracts
     "*.styles.ts":

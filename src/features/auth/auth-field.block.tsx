@@ -1,28 +1,9 @@
 import React from "react";
-import type { TextInput } from "react-native";
-import { Label, noopUi, type UiStamp, YStack } from "../../platform/ui/index";
-import { AuthDarkField, type InputHandle } from "./auth-dark-field.block";
-import type { IconName } from "../../platform/ui/index";
-import type { AuthFieldStyle } from "./auth-field.styles";
-
-interface AuthFieldBlockProps {
-  ui?: UiStamp;
-  style: AuthFieldStyle;
-  icon: IconName;
-  placeholder: string;
-  value: string;
-  onChangeText: (value: string) => void;
-  error?: string;
-  secureTextEntry?: boolean;
-  keyboardType?: "default" | "email-address";
-  autoCapitalize?: "none" | "sentences" | "words" | "characters";
-  autoComplete?: React.ComponentProps<typeof TextInput>["autoComplete"];
-  returnKeyType?: React.ComponentProps<typeof TextInput>["returnKeyType"];
-  onSubmitEditing?: React.ComponentProps<typeof TextInput>["onSubmitEditing"];
-  blurOnSubmit?: boolean;
-  inputRef?: InputHandle;
-  testID?: string;
-}
+import { noopUi, Label, YStack } from "../../platform/ui/index";
+import { AuthDarkField } from "./auth-dark-field.block";
+import type { AuthFieldBlockProps } from "./auth-field.contract";
+export type { AuthFieldBlockProps };
+export { AuthFieldBlockSchema } from "./auth-field.contract";
 
 export function AuthFieldBlock({
   ui = noopUi,

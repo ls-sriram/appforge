@@ -2,11 +2,12 @@ schema: v1
 layer: ui
 role: contracts
 suffixes:
-  - .contracts.ts
+  - .contract.ts
 responsibilities:
-  - define_realized_visual_contract_shapes
-  - expose_presentation_facing_contract_values
+  - declare_zod_prop_schemas_for_blocks_and_scaffolds
+  - drive_visualizer_design_panel_api_discovery
   - stay_declarative_and_ui_scoped
 must_not:
   - contain_feature_business_logic
   - perform_runtime_side_effects
+  - replace_or_duplicate_a_component_own_style_values_contract

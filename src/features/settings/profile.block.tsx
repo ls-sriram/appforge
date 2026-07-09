@@ -10,21 +10,9 @@
 
 import React from "react";
 import { Body, Heading, Icon, XStack, YStack } from "../../platform/ui/index";
-import type { ProfileBlockStyle } from "./profile.styles";
-
-export interface ProfileBlockProps {
-  style: ProfileBlockStyle;
-  name?: string;
-  email?: string;
-  uid?: string;
-  identity?: {
-    uid: string;
-    email: string;
-    name?: string;
-  };
-  onPress?: () => void;
-  size?: "sm" | "md" | "lg";
-}
+import type { ProfileBlockProps } from "./profile.contract";
+export type { ProfileBlockProps };
+export { ProfileBlockSchema } from "./profile.contract";
 
 export function ProfileBlock({
   style,

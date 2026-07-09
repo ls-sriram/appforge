@@ -1,17 +1,8 @@
 import React from "react";
-import { Body, Button, noopUi, type UiStamp, useUI, YStack } from "../../platform/ui/index";
-import type { AuthSubmitStyle } from "./auth-submit.styles";
-
-interface AuthSubmitBlockProps {
-  ui?: UiStamp;
-  style: AuthSubmitStyle;
-  label: string;
-  loading: boolean;
-  disabled?: boolean;
-  generalError?: string;
-  onPress: () => void;
-  testID?: string;
-}
+import { Body, Button, noopUi, useUI, YStack } from "../../platform/ui/index";
+import type { AuthSubmitBlockProps } from "./auth-submit.contract";
+export type { AuthSubmitBlockProps };
+export { AuthSubmitBlockSchema } from "./auth-submit.contract";
 
 export function AuthSubmitBlock({
   ui = noopUi,
