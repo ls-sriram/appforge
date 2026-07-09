@@ -7,3 +7,10 @@ export type {
   DockPanelItem,
 } from "../components/dock-panel/DockPanel";
 export type { DockPanelContract } from "../components/dock-panel/dock-panel.styles";
+export {
+  DockPanelSchema,
+  DockPanelItemSchema,
+  DockPanelDisplayModeSchema,
+  DockPanelPlacementSchema,
+  DockPanelMoveDirectionSchema,
+} from "../components/dock-panel/dock-panel.contract";

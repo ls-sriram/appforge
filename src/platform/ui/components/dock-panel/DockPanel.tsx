@@ -4,64 +4,23 @@ import { Body } from "../../primitives/Text";
 import { Icon, type IconName } from "../../primitives/Icon";
 import { type UiStamp, noopUi } from "../../viz";
 
-import type { TabsContract } from "../tabs/Tabs";
 import type { DockPanelContract } from "./dock-panel.styles";
+import type {
+  DockPanelDisplayMode,
+  DockPanelItem,
+  DockPanelMoveDirection,
+  DockPanelPlacement,
+  DockPanelProps,
+} from "./dock-panel.contract";
 export type { DockPanelContract };
-
-export type DockPanelDisplayMode = "expanded" | "icon-rail" | "menu-trigger";
-export type DockPanelPlacement = "left" | "right" | "top" | "bottom";
-export type DockPanelMoveDirection = "backward" | "forward";
-
-export interface DockPanelItem {
-  id: string;
-  label: string;
-  icon: IconName;
-  disabled?: boolean;
-  closeable?: boolean;
-  movable?: boolean;
-  badge?: string | number;
-  content: React.ReactNode;
-}
-
-export interface DockPanelProps {
-  tabsContract?: TabsContract;
-  dockPanelContract: DockPanelContract;
-  items?: DockPanelItem[];
-  activeItemId?: string | null;
-  onActiveItemChange?: (itemId: string) => void;
-  title?: string;
-  icon?: IconName;
-  children?: React.ReactNode;
-  displayMode?: DockPanelDisplayMode;
-  placement?: DockPanelPlacement;
-  visible?: boolean;
-  collapsed?: boolean;
-  size?: number | string;
-  minSize?: number;
-  maxSize?: number;
-  collapsedSize?: number;
-  collapseThreshold?: number;
-  canClose?: boolean;
-  canCollapse?: boolean;
-  canIconCollapse?: boolean;
-  canResize?: boolean;
-  onDisplayModeChange?: (mode: DockPanelDisplayMode) => void;
-  onCollapsedChange?: (collapsed: boolean) => void;
-  onVisibleChange?: (visible: boolean) => void;
-  onClose?: () => void;
-  onResizeStart?: () => void;
-  onResize?: (nextSize: number) => void;
-  onResizeEnd?: (nextSize: number) => void;
-  onCloseItem?: (itemId: string) => void;
-  onMoveItem?: (itemId: string, direction: DockPanelMoveDirection) => void;
-  headerActions?: React.ReactNode;
-  actions?: React.ReactNode;
-  emptyState?: React.ReactNode;
-  menuLabel?: string;
-  onMenuPress?: () => void;
-  showHeader?: boolean;
-  ui?: UiStamp;
-}
+export type { DockPanelDisplayMode, DockPanelItem, DockPanelMoveDirection, DockPanelPlacement, DockPanelProps };
+export {
+  DockPanelSchema,
+  DockPanelItemSchema,
+  DockPanelDisplayModeSchema,
+  DockPanelPlacementSchema,
+  DockPanelMoveDirectionSchema,
+} from "./dock-panel.contract";
 
 interface IconActionButtonProps {
   contract: DockPanelContract;

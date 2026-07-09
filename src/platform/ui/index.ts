@@ -89,6 +89,13 @@ export type {
   DockPanelProps,
   DockPanelItem,
 } from "./primitives/DockPanel";
+export {
+  DockPanelSchema,
+  DockPanelItemSchema,
+  DockPanelDisplayModeSchema,
+  DockPanelPlacementSchema,
+  DockPanelMoveDirectionSchema,
+} from "./primitives/DockPanel";
 export { DockSplitter } from "./primitives/DockSplitter";
 export type {
   DockSplitterDragEvent,
