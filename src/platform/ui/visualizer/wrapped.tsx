@@ -50,7 +50,54 @@ import {
   DockSplitter as RealDockSplitter,
   Tabs as RealTabs,
   TextArea as RealTextArea,
+  BodySchema,
+  HeadingSchema,
+  LabelSchema,
+  DisplaySchema,
+  ButtonSchema,
+  YStackSchema,
+  XStackSchema,
+  TagSchema,
+  IconSchema,
+  AvatarSchema,
+  BadgeSchema,
+  InputSchema,
+  ProgressBarSchema,
+  SelectableChipSchema,
+  SizingToolbarSchema,
+  TabbedPanelSchema,
+  DockPanelSchema,
+  DockSplitterSchema,
+  TabsSchema,
+  TextAreaSchema,
 } from "../index";
+
+// Curated (YStack/XStack/Body/Heading/Label/Display) or full (everything
+// else) schema for each wrapped export — re-exported under the same name
+// the wrapper itself uses, so a schema always sits beside its component in
+// this module's export table.
+export {
+  BodySchema,
+  HeadingSchema,
+  LabelSchema,
+  DisplaySchema,
+  ButtonSchema,
+  YStackSchema,
+  XStackSchema,
+  TagSchema,
+  IconSchema,
+  AvatarSchema,
+  BadgeSchema,
+  InputSchema,
+  ProgressBarSchema,
+  SelectableChipSchema,
+  SizingToolbarSchema,
+  TabbedPanelSchema,
+  DockPanelSchema,
+  DockSplitterSchema,
+  TabsSchema,
+  TextAreaSchema,
+};
 
 type AnyProps = Record<string, unknown>;
 

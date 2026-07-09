@@ -192,6 +192,8 @@ export const radii = {
   pill: '$pill',
 } as const
 
+export { YStackSchema, XStackSchema } from "./stack.contract";
+
 export const YStack = styled(View, {
   name: "YStack",
   flexDirection: "column",
