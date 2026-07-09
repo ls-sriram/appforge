@@ -1,16 +1,15 @@
 import React from "react";
 import { OnboardingCardBlock } from "./onboarding-card.block";
 import { OnboardingScaffold } from "./onboarding.scaffold";
+import type { OnboardingQuestionBlockProps } from "./onboarding-question.contract";
+export type { OnboardingQuestionBlockProps };
+export { OnboardingQuestionBlockSchema } from "./onboarding-question.contract";
 
 export function OnboardingQuestionBlock({
   hero,
   question,
   answerRegion,
-}: {
-  hero: React.ReactNode;
-  question?: React.ReactNode;
-  answerRegion?: React.ReactNode;
-}) {
+}: OnboardingQuestionBlockProps) {
   return (
     <OnboardingCardBlock size="tall">
       <OnboardingScaffold

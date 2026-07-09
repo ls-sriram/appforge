@@ -1,5 +1,8 @@
 import React from "react";
-import { noopUi, type UiStamp, useLayout, YStack } from "../../platform/ui/index";
+import { noopUi, useLayout, YStack } from "../../platform/ui/index";
+import type { OnboardingScaffoldProps } from "./onboarding.contract";
+export type { OnboardingScaffoldProps };
+export { OnboardingScaffoldSchema } from "./onboarding.contract";
 
 export function OnboardingScaffold({
   ui = noopUi,
@@ -7,13 +10,7 @@ export function OnboardingScaffold({
   hero,
   question,
   answerRegion,
-}: {
-  ui?: UiStamp;
-  stepper: React.ReactNode;
-  hero: React.ReactNode;
-  question?: React.ReactNode;
-  answerRegion?: React.ReactNode;
-}) {
+}: OnboardingScaffoldProps) {
   const layout = useLayout();
   return (
     <YStack {...ui("root", "Onboarding scaffold")} gap={layout.sectionGap}>

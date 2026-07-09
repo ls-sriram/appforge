@@ -1,14 +1,10 @@
 import React from "react";
-import { noopUi, SelectableChip, type UiStamp, useUI, XStack } from "../../platform/ui/index";
+import { noopUi, SelectableChip, useUI, XStack } from "../../platform/ui/index";
+import type { OnboardingChipsBlockProps } from "./onboarding-chips.contract";
+export type { OnboardingChipsBlockProps };
+export { OnboardingChipsBlockSchema } from "./onboarding-chips.contract";
 
-interface Props {
-  ui?: UiStamp;
-  options: string[];
-  selected?: string;
-  onSelect?: (value: string) => void;
-}
-
-export function OnboardingChipsBlock({ ui = noopUi, options, selected, onSelect }: Props) {
+export function OnboardingChipsBlock({ ui = noopUi, options, selected, onSelect }: OnboardingChipsBlockProps) {
   const { contracts } = useUI();
   return (
     <XStack {...ui("root", "Onboarding chip list")} gap="$3" flexWrap="wrap">

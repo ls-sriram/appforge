@@ -1,18 +1,15 @@
 import React from "react";
-import { Body, Heading, noopUi, type UiStamp, YStack } from "../../platform/ui/index";
-import type { OnboardingHeroStyle } from "./onboarding-hero.styles";
+import { Body, Heading, noopUi, YStack } from "../../platform/ui/index";
+import type { OnboardingHeroBlockProps } from "./onboarding-hero.contract";
+export type { OnboardingHeroBlockProps };
+export { OnboardingHeroBlockSchema } from "./onboarding-hero.contract";
 
 export function OnboardingHeroBlock({
   ui = noopUi,
   style,
   title,
   subtitle,
-}: {
-  ui?: UiStamp;
-  style: OnboardingHeroStyle;
-  title: string;
-  subtitle?: string;
-}) {
+}: OnboardingHeroBlockProps) {
   return (
     <YStack {...ui("root", "Onboarding hero")} gap={style.layout.gap}>
       <Heading {...ui("title", "Onboarding hero title")}>{title}</Heading>

@@ -7,15 +7,10 @@
  */
 
 import React from "react";
-import { Body, Heading, Icon, YStack, type IconName } from "../../platform/ui/index";
-import type { FeatureHighlightStyle } from "./feature-highlight.styles";
-
-export interface FeatureHighlightBlockProps {
-  style: FeatureHighlightStyle;
-  icon: IconName;
-  title: string;
-  description: string;
-}
+import { Body, Heading, Icon, YStack } from "../../platform/ui/index";
+import type { FeatureHighlightBlockProps } from "./feature-highlight.contract";
+export type { FeatureHighlightBlockProps };
+export { FeatureHighlightBlockSchema } from "./feature-highlight.contract";
 
 export function FeatureHighlightBlock({
   style,

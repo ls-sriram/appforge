@@ -1,18 +1,15 @@
 import React from "react";
 import { Body, Icon, XStack, YStack } from "../../platform/ui/index";
-import type { OnboardingProgressStyle } from "./onboarding-progress.styles";
+import type { OnboardingProgressBlockProps } from "./onboarding-progress.contract";
+export type { OnboardingProgressBlockProps };
+export { OnboardingProgressBlockSchema } from "./onboarding-progress.contract";
 
 export function OnboardingProgressBlock({
   style,
   step,
   total,
   onBack,
-}: {
-  style: OnboardingProgressStyle;
-  step: number;
-  total: number;
-  onBack?: () => void;
-}) {
+}: OnboardingProgressBlockProps) {
   return (
     <YStack>
       <XStack ai="center" gap={style.layout.gap}>

@@ -1,15 +1,14 @@
 import React from "react";
 import { YStack } from "../../platform/ui/index";
+import type { OnboardingFrameProps } from "./onboarding-frame.contract";
+export type { OnboardingFrameProps };
+export { OnboardingFrameSchema } from "./onboarding-frame.contract";
 
 export function OnboardingFrame({
   header,
   panel,
   footer,
-}: {
-  header: React.ReactNode;
-  panel: React.ReactNode;
-  footer: React.ReactNode;
-}) {
+}: OnboardingFrameProps) {
   return (
     <YStack>
       <YStack>

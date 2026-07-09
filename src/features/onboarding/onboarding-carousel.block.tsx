@@ -9,24 +9,10 @@
 import React, { useState, useRef, useCallback } from "react";
 import { Button, ScrollView, useUI, YStack } from "../../platform/ui/index";
 import { FeatureHighlightBlock } from "./feature-highlight.block";
-import type { IconName } from "../../platform/ui/index";
 import { useViewport } from "../../platform/ui/index";
-import type { FeatureHighlightStyle } from "./feature-highlight.styles";
-
-export interface OnboardingStep {
-  icon: IconName;
-  title: string;
-  description: string;
-  accent?: string;
-}
-
-export interface OnboardingCarouselProps {
-  featureStyle: FeatureHighlightStyle;
-  steps: OnboardingStep[];
-  onComplete: () => void;
-  ctaLabel?: string;
-  skipLabel?: string;
-}
+import type { OnboardingCarouselProps, OnboardingStep } from "./onboarding-carousel.contract";
+export type { OnboardingCarouselProps, OnboardingStep };
+export { OnboardingCarouselSchema, OnboardingStepSchema } from "./onboarding-carousel.contract";
 
 export function OnboardingCarousel({
   featureStyle,
