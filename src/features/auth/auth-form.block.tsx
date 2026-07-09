@@ -1,7 +1,7 @@
 import React from "react";
 import { Body, Heading, Icon, Label, noopUi, type UiStamp, XStack, YStack } from "../../platform/ui/index";
 import { app } from "../../config/app";
-import type { AuthFormStyle } from "./auth.contracts";
+import type { AuthFormStyle } from "./auth-form.styles";
 
 type AuthFormFooter = {
   prompt: string;

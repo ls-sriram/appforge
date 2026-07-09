@@ -1,7 +1,7 @@
 import React from "react";
 import { Body, Button, Display, Label, noopUi, type UiStamp, useUI, YStack } from "../../platform/ui/index";
 import { app } from "../../config/app";
-import type { AuthWelcomeStyle } from "./auth.contracts";
+import type { AuthWelcomeStyle } from "./auth-welcome.styles";
 
 export interface AuthWelcomeBlockProps {
   ui?: UiStamp;

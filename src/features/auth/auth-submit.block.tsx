@@ -1,6 +1,6 @@
 import React from "react";
 import { Body, Button, noopUi, type UiStamp, useUI, YStack } from "../../platform/ui/index";
-import type { AuthSubmitStyle } from "./auth.contracts";
+import type { AuthSubmitStyle } from "./auth-submit.styles";
 
 interface AuthSubmitBlockProps {
   ui?: UiStamp;

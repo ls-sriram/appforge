@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import type { TextInput } from "react-native";
 import { Icon, Input, noopUi, type UiStamp, useUI, XStack, YStack } from "../../platform/ui/index";
 import type { IconName } from "../../platform/ui/index";
-import type { AuthFieldStyle } from "./auth.contracts";
+import type { AuthFieldStyle } from "./auth-field.styles";
 
 export interface InputHandle {
   current?: TextInput;

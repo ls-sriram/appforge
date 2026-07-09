@@ -3,7 +3,7 @@ import type { TextInput } from "react-native";
 import { Label, noopUi, type UiStamp, YStack } from "../../platform/ui/index";
 import { AuthDarkField, type InputHandle } from "./auth-dark-field.block";
 import type { IconName } from "../../platform/ui/index";
-import type { AuthFieldStyle } from "./auth.contracts";
+import type { AuthFieldStyle } from "./auth-field.styles";
 
 interface AuthFieldBlockProps {
   ui?: UiStamp;
