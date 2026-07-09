@@ -1,21 +1,13 @@
 import React from "react";
 import { Pressable, Text } from "react-native";
 import type { SelectableChipContract } from "./selectable-chip.styles";
+import type { SelectableChipProps } from "./selectable-chip.contract";
 export type { SelectableChipContract };
-
+export type { SelectableChipProps };
+export { SelectableChipSchema } from "./selectable-chip.contract";
 
 export type SelectableChipShape = "pill" | "rounded";
 export type SelectableChipFrame = "content" | "fill";
-
-interface SelectableChipProps {
-  contract: SelectableChipContract;
-  label: string;
-  selected: boolean;
-  onPress: () => void;
-  shape?: SelectableChipShape;
-  frame?: SelectableChipFrame;
-  disabled?: boolean;
-}
 
 export function SelectableChip({
   contract,

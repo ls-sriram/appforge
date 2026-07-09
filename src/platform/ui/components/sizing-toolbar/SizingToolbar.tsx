@@ -1,20 +1,13 @@
 import React from "react";
 import { Pressable, View } from "react-native";
 import { Icon, type IconName } from "../../primitives/Icon";
-
 import type { SizingToolbarContract } from "./sizing-toolbar.styles";
+import type { SizingToolbarProps } from "./sizing-toolbar.contract";
 export type { SizingToolbarContract };
-
+export type { SizingToolbarProps };
+export { SizingToolbarSchema } from "./sizing-toolbar.contract";
 
 export type SizingToolbarValue = "sm" | "md" | "lg";
-
-export interface SizingToolbarProps {
-  contract: SizingToolbarContract;
-  value: SizingToolbarValue;
-  onChange: (value: SizingToolbarValue) => void;
-  disabled?: boolean;
-  icons?: Partial<Record<SizingToolbarValue, IconName>>;
-}
 
 const ORDER: readonly SizingToolbarValue[] = ["sm", "md", "lg"] as const;
 

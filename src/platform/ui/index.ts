@@ -58,11 +58,15 @@ export { SelectableChip } from "./primitives/SelectableChip";
 export type {
   SelectableChipShape,
   SelectableChipFrame,
+  SelectableChipProps,
 } from "./primitives/SelectableChip";
+export { SelectableChipSchema } from "./primitives/SelectableChip";
 export { SizingToolbar } from "./primitives/SizingToolbar";
 export type { SizingToolbarProps, SizingToolbarValue } from "./primitives/SizingToolbar";
+export { SizingToolbarSchema } from "./primitives/SizingToolbar";
 export { Tabs } from "./primitives/Tabs";
 export type { TabsProps, TabOption } from "./primitives/Tabs";
+export { TabsSchema, TabOptionSchema } from "./primitives/Tabs";
 export { TabbedPanel } from "./primitives/TabbedPanel";
 export type {
   TabbedPanelMoveDirection,
@@ -85,6 +89,7 @@ export type {
 } from "./primitives/DockSplitter";
 export { Tag } from "./primitives/Tag";
 export type { TagProps } from "./primitives/Tag";
+export { TagSchema } from "./primitives/Tag";
 export { Avatar } from "./primitives/Avatar";
 export type { AvatarProps } from "./primitives/Avatar";
 export { AvatarSchema } from "./primitives/Avatar";

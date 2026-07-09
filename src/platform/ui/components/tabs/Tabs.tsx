@@ -1,27 +1,13 @@
 import React from "react";
 import { Pressable, View } from "react-native";
-import { Icon, type IconName } from "../../primitives/Icon";
+import { Icon } from "../../primitives/Icon";
 import { Body } from "../../primitives/Text";
 
 import type { TabsContract } from "./tabs.styles";
+import type { TabOption, TabsProps } from "./tabs.contract";
 export type { TabsContract };
-
-
-export interface TabOption {
-  label: string;
-  value: string;
-  icon?: IconName;
-  disabled?: boolean;
-}
-
-export interface TabsProps {
-  contract: TabsContract;
-  options: TabOption[];
-  value: string;
-  onValueChange: (value: string) => void;
-  disabled?: boolean;
-  testID?: string;
-}
+export type { TabOption, TabsProps };
+export { TabOptionSchema, TabsSchema } from "./tabs.contract";
 
 export function Tabs({
   contract,

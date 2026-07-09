@@ -1,16 +1,10 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
 import type { TagContract } from "./tag.styles";
+import type { TagProps } from "./tag.contract";
 export type { TagContract };
-
-
-export interface TagProps {
-  contract: TagContract;
-  label: string;
-  selected?: boolean;
-  onPress?: () => void;
-  disabled?: boolean;
-}
+export type { TagProps };
+export { TagSchema } from "./tag.contract";
 
 export function Tag({ contract, label, selected = false, onPress, disabled }: TagProps) {
   const s = contract;
