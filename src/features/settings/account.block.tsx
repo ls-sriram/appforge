@@ -4,7 +4,7 @@
 import React from "react";
 import { Body, Icon, XStack, YStack } from "../../platform/ui/index";
 import { dateOwner } from "../../platform/core/dates/index";
-import type { AccountBlockStyle } from "./settings.contracts";
+import type { AccountBlockStyle } from "./account.styles";
 
 export interface AccountBlockProps {
   style: AccountBlockStyle;

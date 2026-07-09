@@ -10,7 +10,7 @@
 
 import React from "react";
 import { Body, Heading, Icon, XStack, YStack } from "../../platform/ui/index";
-import type { ProfileBlockStyle } from "./settings.contracts";
+import type { ProfileBlockStyle } from "./profile.styles";
 
 export interface ProfileBlockProps {
   style: ProfileBlockStyle;

@@ -5,7 +5,7 @@
 import React from "react";
 import { Body, Button, Heading, Icon, useUI, XStack, YStack } from "../../platform/ui/index";
 import type { Plan } from "./user-profile.service";
-import type { PlanBlockStyle } from "./settings.contracts";
+import type { PlanBlockStyle } from "./plan.styles";
 
 export interface PlanBlockProps {
   style: PlanBlockStyle;

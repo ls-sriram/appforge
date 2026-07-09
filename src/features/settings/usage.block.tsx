@@ -4,7 +4,7 @@
 import React from "react";
 import { Body, XStack, YStack } from "../../platform/ui/index";
 import type { Usage } from "./user-profile.service";
-import type { UsageBlockStyle } from "./settings.contracts";
+import type { UsageBlockStyle } from "./usage.styles";
 
 export interface UsageBlockProps {
   style: UsageBlockStyle;
