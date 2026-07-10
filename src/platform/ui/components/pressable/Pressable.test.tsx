@@ -164,6 +164,52 @@ describe("Pressable", () => {
     expect(onPress).not.toHaveBeenCalled();
   });
 
+  it("omits checked from accessibilityState when not provided", () => {
+    const tree = renderPressable(
+      <Wrapper>
+        <Pressable contract={pressableContract} accessibilityLabel="Do the thing" onPress={() => {}} testID="px" />
+      </Wrapper>,
+    );
+
+    expect(findProbe(tree).props.accessibilityState).toEqual({ disabled: false, selected: false });
+  });
+
+  it("exposes checked in accessibilityState for menuitemcheckbox-style roles, separate from selected", () => {
+    const tree = renderPressable(
+      <Wrapper>
+        <Pressable
+          contract={pressableContract}
+          role="menuitemcheckbox"
+          accessibilityLabel="Show hidden layers"
+          onPress={() => {}}
+          checked
+          testID="px"
+        />
+      </Wrapper>,
+    );
+
+    expect(findProbe(tree).props.accessibilityState).toEqual({ disabled: false, selected: false, checked: true });
+  });
+
+  it("resolves fixed width/height/flex from the frame contract onto the rendered surface", () => {
+    const { View } = require("react-native");
+    const tree = renderPressable(
+      <Wrapper>
+        <Pressable
+          contract={{ ...pressableContract, frame: { ...pressableContract.frame, width: 32, height: 32, flex: 1 } }}
+          accessibilityLabel="Do the thing"
+          onPress={() => {}}
+          testID="px"
+        />
+      </Wrapper>,
+    );
+
+    const styledView = tree.root.find((n: any) => n.type === View && n.props.style && n.props.style.width === 32);
+
+    expect(styledView.props.style.height).toBe(32);
+    expect(styledView.props.style.flex).toBe(1);
+  });
+
   it("threads selected into interaction styling instead of press/hover/focus", () => {
     const tree = renderPressable(
       <Wrapper>

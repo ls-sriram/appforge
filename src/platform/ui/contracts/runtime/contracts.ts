@@ -1,5 +1,11 @@
 import type { ButtonContract } from "../../components/button/button.styles";
 import type { PressableContract } from "../../components/pressable/pressable.styles";
+import type { ListItemContract } from "../../components/list-item/list-item.styles";
+import type { ChipContract } from "../../components/chip/chip.styles";
+import type { TabContract } from "../../components/tab/tab.styles";
+import type { IconButtonContract } from "../../components/icon-button/icon-button.styles";
+import type { CardContract } from "../../components/card/card.styles";
+import type { MenuItemContract } from "../../components/menu-item/menu-item.styles";
 import type { BadgeContract } from "../../components/badge/badge.styles";
 import type { TagContract } from "../../components/tag/tag.styles";
 import type { InputContract } from "../../components/input/input.styles";
@@ -20,6 +26,12 @@ import type { ColorPalettePickerContract } from "../../components/color-palette-
 export interface PrimitiveContracts {
   button?: Record<string, ButtonContract>;
   pressable?: Record<string, PressableContract>;
+  listItem?: Record<string, ListItemContract>;
+  chip?: Record<string, ChipContract>;
+  tab?: Record<string, TabContract>;
+  iconButton?: Record<string, IconButtonContract>;
+  card?: Record<string, CardContract>;
+  menuItem?: Record<string, MenuItemContract>;
   badge?: Record<string, BadgeContract>;
   tag?: Record<string, TagContract>;
   input?: Record<string, InputContract>;

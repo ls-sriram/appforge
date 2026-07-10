@@ -14,6 +14,12 @@ export { config } from "./config";
 export {
   type ButtonContract,
   type PressableContract,
+  type ListItemContract,
+  type ChipContract,
+  type SegmentedTabContract,
+  type IconButtonContract,
+  type CardContract,
+  type MenuItemContract,
   type BadgeContract,
   type TagContract,
   type InputContract,
@@ -46,6 +52,28 @@ export { ButtonSchema } from "./components/button/button.contract";
 export { Pressable } from "./components/pressable/Pressable";
 export type { PressableProps } from "./components/pressable/Pressable";
 export { PressableSchema, PressableRoleSchema } from "./components/pressable/pressable.contract";
+export { ListItem } from "./components/list-item/ListItem";
+export type { ListItemProps } from "./components/list-item/ListItem";
+export { ListItemSchema, ListItemVariantSchema } from "./components/list-item/list-item.contract";
+export { Chip } from "./components/chip/Chip";
+export type { ChipShape, ChipFrame, ChipProps } from "./components/chip/Chip";
+export { ChipSchema, ChipShapeSchema, ChipFrameSchema } from "./components/chip/chip.contract";
+// Named Tab (not AppTab) at the file/component level, matching this
+// module's unprefixed convention; re-exported as SegmentedTab here since
+// "Tab" and the existing "Tabs" (tab strip) read as near-duplicates at the
+// platform's flat public surface.
+export { Tab as SegmentedTab } from "./components/tab/Tab";
+export type { TabProps as SegmentedTabProps, TabSegmentOption } from "./components/tab/Tab";
+export { TabSchema as SegmentedTabSchema, TabOptionSchema as SegmentedTabOptionSchema } from "./components/tab/tab.contract";
+export { IconButton, ToolbarButton } from "./components/icon-button/IconButton";
+export type { IconButtonProps } from "./components/icon-button/IconButton";
+export { IconButtonSchema } from "./components/icon-button/icon-button.contract";
+export { Card } from "./components/card/Card";
+export type { CardProps } from "./components/card/Card";
+export { CardSchema } from "./components/card/card.contract";
+export { MenuItem } from "./components/menu-item/MenuItem";
+export type { MenuItemProps } from "./components/menu-item/MenuItem";
+export { MenuItemSchema } from "./components/menu-item/menu-item.contract";
 export { Input } from "./components/input/Input";
 export { InputSchema } from "./components/input/input.contract";
 export { TextArea } from "./components/text-area/TextArea";

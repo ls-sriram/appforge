@@ -10,6 +10,9 @@ export interface PressableContract {
     paddingVertical?: number;
     paddingHorizontal?: number;
     minHeight?: number;
+    flex?: number;
+    width?: number;
+    height?: number;
   };
   interaction?: InteractionContract;
 }

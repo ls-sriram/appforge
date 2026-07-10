@@ -14,6 +14,11 @@ export const PressableSchema = z.object({
   // programming error, not a valid-but-unlabeled state.
   accessibilityLabel: z.string(),
   selected: z.boolean().default(false),
+  // Separate from `selected`: aria-checked (menuitemcheckbox, checkbox,
+  // switch) is a different accessibility semantic from aria-selected
+  // (tab, option). Left undefined, no `checked` key is added to
+  // accessibilityState at all — most variants never need it.
+  checked: z.boolean().optional(),
   disabled: z.boolean().optional(),
   onPress: z.custom<() => void>(),
   children: z.custom<ReactNode>().optional(),

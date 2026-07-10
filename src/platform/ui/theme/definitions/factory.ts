@@ -9,6 +9,12 @@ import type {
 import { alpha } from "./style-tokens";
 import { type ButtonContract, defaultButtonStyles } from "../../components/button/button.styles";
 import { defaultPressableStyles } from "../../components/pressable/pressable.styles";
+import { defaultListItemStyles } from "../../components/list-item/list-item.styles";
+import { defaultChipStyles } from "../../components/chip/chip.styles";
+import { defaultTabStyles } from "../../components/tab/tab.styles";
+import { defaultIconButtonStyles } from "../../components/icon-button/icon-button.styles";
+import { defaultCardStyles } from "../../components/card/card.styles";
+import { defaultMenuItemStyles } from "../../components/menu-item/menu-item.styles";
 import { defaultBadgeStyles } from "../../components/badge/badge.styles";
 import { defaultTagStyles } from "../../components/tag/tag.styles";
 import { defaultInputStyles } from "../../components/input/input.styles";
@@ -213,6 +219,18 @@ export function createContracts(t: Theme): PrimitiveContracts {
     button: defaultButtonStyles(t) satisfies Record<string, ButtonContract>,
 
     pressable: defaultPressableStyles(t),
+
+    listItem: defaultListItemStyles(t),
+
+    chip: defaultChipStyles(t),
+
+    tab: defaultTabStyles(t),
+
+    iconButton: defaultIconButtonStyles(t),
+
+    card: defaultCardStyles(t),
+
+    menuItem: defaultMenuItemStyles(t),
 
     badge: defaultBadgeStyles(t),
 

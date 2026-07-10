@@ -44,6 +44,7 @@ export function Pressable({
   role = "button",
   accessibilityLabel,
   selected = false,
+  checked,
   disabled = false,
   onPress,
   children,
@@ -56,7 +57,7 @@ export function Pressable({
     <WebAwarePressable
       accessibilityRole={role as never}
       accessibilityLabel={accessibilityLabel}
-      accessibilityState={{ disabled, selected }}
+      accessibilityState={checked === undefined ? { disabled, selected } : { disabled, selected, checked }}
       tabIndex={disabled ? -1 : 0}
       disabled={disabled}
       onPress={onPress}
@@ -87,6 +88,9 @@ export function Pressable({
               paddingVertical: s.frame.paddingVertical,
               paddingHorizontal: s.frame.paddingHorizontal,
               minHeight: s.frame.minHeight,
+              flex: s.frame.flex,
+              width: s.frame.width,
+              height: s.frame.height,
               opacity,
             }}
           >

@@ -9,18 +9,24 @@ public_api:
   - avatar
   - badge
   - button
+  - card
+  - chip
   - color-palette-picker
   - color-swatch
   - dock-panel
   - dock-splitter
   - icon
+  - icon-button
   - input
+  - list-item
+  - menu-item
   - multi-select
   - pressable
   - progress-bar
   - select
   - selectable-chip
   - sizing-toolbar
+  - tab
   - tabbed-panel
   - table
   - tabs

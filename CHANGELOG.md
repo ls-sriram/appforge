@@ -7,6 +7,19 @@ Format: `## [version] — YYYY-MM-DD` / `### Added | Changed | Removed`
 
 ---
 
+## [0.3.0] — 2026-07-10
+
+### `@appforge/platform/ui`
+
+**Controls**
+- `ListItem` — row primitive for tree/table/nav rows. `variant: "button" | "option"`, `selected`, leading/trailing content slots, arbitrary `children` for multi-column rows. `trailingAction` renders as a sibling of the row's own Pressable rather than nesting a second interactive element inside it — fixes the button-inside-a-button pattern.
+- `Chip` — themeable alternative to `SelectableChip`: selected-state fill is a full contract variant (`neutral`/`accent` tones ship by default) instead of one hardcoded inversion, and renders through the platform's own text system instead of raw `Text`.
+- `SegmentedTab` — segmented-control shape (Figma-style Hug/Fixed/Fill), distinct from the existing tab-strip `Tabs`.
+- `IconButton` (also exported as `ToolbarButton`, same component) — fixed-square icon-only control; `accessibilityLabel` required at the type level, since there's no visible-text fallback.
+- `Card` — larger clickable surface with title/subtitle/leading-slot/body-children.
+- `MenuItem` — checkbox-style dropdown row, `accessibilityRole="menuitemcheckbox"` (not `"button"`) with its own `checked` state, separate from `selected`.
+- `Pressable` gained a `checked` accessibility state (separate from `selected`, for menuitemcheckbox/checkbox-style roles) and `frame.flex`/`width`/`height` sizing, needed by the variants above.
+
 ## [0.2.0] — 2026-07-10
 
 ### `@appforge/platform/ui`
