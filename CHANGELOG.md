@@ -7,6 +7,15 @@ Format: `## [version] — YYYY-MM-DD` / `### Added | Changed | Removed`
 
 ---
 
+## [0.2.0] — 2026-07-10
+
+### `@appforge/platform/ui`
+
+**Controls**
+- `Pressable` — base closed primitive for keyboard-operable custom controls: built-in `tabIndex`, Enter/Space activation (including roles react-native-web's own Pressable doesn't cover out of the box), a themed focus ring via `theme.palette.borderFocus`, required `accessibilityLabel`, and `disabled`/`selected` state. First of the `Pressable` family — variants (list item, chip, tab, toolbar/icon button, card, menu item) land as follow-ups composing this primitive.
+
+---
+
 ## [0.1.0] — 2026-06-20
 
 Initial public surface.

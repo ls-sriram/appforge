@@ -1,6 +1,7 @@
 export * from "./interaction";
 export * from "./layouts";
 export type { ButtonContract } from "../components/button/button.styles";
+export type { PressableContract } from "../components/pressable/pressable.styles";
 export type { BadgeContract } from "../components/badge/badge.styles";
 export type { TagContract } from "../components/tag/tag.styles";
 export type { InputContract } from "../components/input/input.styles";

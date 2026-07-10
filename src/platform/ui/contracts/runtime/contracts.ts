@@ -1,4 +1,5 @@
 import type { ButtonContract } from "../../components/button/button.styles";
+import type { PressableContract } from "../../components/pressable/pressable.styles";
 import type { BadgeContract } from "../../components/badge/badge.styles";
 import type { TagContract } from "../../components/tag/tag.styles";
 import type { InputContract } from "../../components/input/input.styles";
@@ -18,6 +19,7 @@ import type { ColorPalettePickerContract } from "../../components/color-palette-
 
 export interface PrimitiveContracts {
   button?: Record<string, ButtonContract>;
+  pressable?: Record<string, PressableContract>;
   badge?: Record<string, BadgeContract>;
   tag?: Record<string, TagContract>;
   input?: Record<string, InputContract>;

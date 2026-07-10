@@ -8,6 +8,7 @@ import type {
 } from "../../contracts/index";
 import { alpha } from "./style-tokens";
 import { type ButtonContract, defaultButtonStyles } from "../../components/button/button.styles";
+import { defaultPressableStyles } from "../../components/pressable/pressable.styles";
 import { defaultBadgeStyles } from "../../components/badge/badge.styles";
 import { defaultTagStyles } from "../../components/tag/tag.styles";
 import { defaultInputStyles } from "../../components/input/input.styles";
@@ -210,6 +211,8 @@ export function createLayouts(t: Theme): Record<LayoutProfileName, LayoutContrac
 export function createContracts(t: Theme): PrimitiveContracts {
   return {
     button: defaultButtonStyles(t) satisfies Record<string, ButtonContract>,
+
+    pressable: defaultPressableStyles(t),
 
     badge: defaultBadgeStyles(t),
 

@@ -13,6 +13,7 @@ export { UIProvider } from "./Provider";
 export { config } from "./config";
 export {
   type ButtonContract,
+  type PressableContract,
   type BadgeContract,
   type TagContract,
   type InputContract,
@@ -42,6 +43,9 @@ export { DisplaySchema, HeadingSchema, LabelSchema, BodySchema } from "./compone
 export { Button } from "./components/button/Button";
 export type { ButtonProps } from "./components/button/Button";
 export { ButtonSchema } from "./components/button/button.contract";
+export { Pressable } from "./components/pressable/Pressable";
+export type { PressableProps } from "./components/pressable/Pressable";
+export { PressableSchema, PressableRoleSchema } from "./components/pressable/pressable.contract";
 export { Input } from "./components/input/Input";
 export { InputSchema } from "./components/input/input.contract";
 export { TextArea } from "./components/text-area/TextArea";
