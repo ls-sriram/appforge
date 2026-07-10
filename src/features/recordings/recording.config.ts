@@ -1,6 +1,7 @@
 export const recordingConfig = {
   maxSeconds: 60,
   timerTickMs: 100,
+  streamIdleTimeoutMs: 30_000,
   audioBitsPerSecond: 128000,
   preferredMimeTypes: [
     "audio/webm;codecs=opus",

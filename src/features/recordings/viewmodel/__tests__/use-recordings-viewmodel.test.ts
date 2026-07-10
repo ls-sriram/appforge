@@ -23,7 +23,7 @@ jest.mock("expo-av", () => ({
   InterruptionModeAndroid: { DoNotMix: 1 },
 }));
 
-jest.mock("../../usecases/recording-actions", () => ({
+jest.mock("../../recording-actions.usecase", () => ({
   listRecordings: jest.fn().mockResolvedValue({ ok: true, data: [] }),
   createRecording: jest.fn().mockResolvedValue({
     ok: true,

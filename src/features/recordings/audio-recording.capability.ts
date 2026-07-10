@@ -15,7 +15,9 @@ export class AudioRecordingCapability {
   private chunks: Blob[] = [];
   private startedAtMs = 0;
   private timerHandle: ReturnType<typeof setInterval> | null = null;
+  private streamReleaseHandle: ReturnType<typeof setTimeout> | null = null;
   private preparationPromise: Promise<MediaStream> | null = null;
+  private startPromise: Promise<void> | null = null;
   private currentGeneration = 0;
 
   private snapshot: AudioRecordingSnapshot = {
@@ -28,6 +30,14 @@ export class AudioRecordingCapability {
   };
 
   async prepare(): Promise<MediaStream> {
+    this.cancelStreamRelease();
+    if (this.stream) {
+      if (this.stream.getAudioTracks().some((track) => track.readyState === "live")) {
+        return this.stream;
+      }
+      this.stream = null;
+      this.preparationPromise = null;
+    }
     if (this.preparationPromise) return this.preparationPromise;
 
     this.snapshot = { ...this.snapshot, isPreparing: true, error: null };
@@ -53,7 +63,22 @@ export class AudioRecordingCapability {
   }
 
   async start(): Promise<void> {
-    if (this.snapshot.isRecording) return;
+    if (this.snapshot.isRecording || this.mediaRecorder?.state === "recording") {
+      throw new Error("A recording is already active.");
+    }
+    if (this.startPromise) {
+      throw new Error("A recording is already starting.");
+    }
+
+    this.startPromise = this.startInternal();
+    try {
+      await this.startPromise;
+    } finally {
+      this.startPromise = null;
+    }
+  }
+
+  private async startInternal(): Promise<void> {
 
     this.currentGeneration += 1;
     const generation = this.currentGeneration;
@@ -100,6 +125,7 @@ export class AudioRecordingCapability {
     return new Promise<Blob>((resolve, reject) => {
       recorder.onerror = () => {
         this.cleanupRecorderOnly();
+        this.scheduleStreamRelease();
         reject(new Error("Microphone recording failed."));
       };
 
@@ -111,6 +137,7 @@ export class AudioRecordingCapability {
           isRecording: false,
           audioBlob: blob,
         };
+        this.scheduleStreamRelease();
         resolve(blob);
       };
 
@@ -134,6 +161,7 @@ export class AudioRecordingCapability {
       this.mediaRecorder.stop();
     }
     this.cleanupRecorderOnly();
+    this.scheduleStreamRelease();
     this.snapshot = {
       ...this.snapshot,
       isRecording: false,
@@ -145,6 +173,7 @@ export class AudioRecordingCapability {
 
   shutdown(): void {
     this.reset();
+    this.cancelStreamRelease();
     if (this.stream) {
       this.stream.getTracks().forEach((track) => track.stop());
       this.stream = null;
@@ -178,6 +207,23 @@ export class AudioRecordingCapability {
     this.mediaRecorder = null;
     this.chunks = [];
     this.startedAtMs = 0;
+  }
+
+  private scheduleStreamRelease(): void {
+    this.cancelStreamRelease();
+    this.streamReleaseHandle = setTimeout(() => {
+      this.stream?.getTracks().forEach((track) => track.stop());
+      this.stream = null;
+      this.preparationPromise = null;
+      this.streamReleaseHandle = null;
+    }, recordingConfig.streamIdleTimeoutMs);
+  }
+
+  private cancelStreamRelease(): void {
+    if (this.streamReleaseHandle) {
+      clearTimeout(this.streamReleaseHandle);
+      this.streamReleaseHandle = null;
+    }
   }
 
   private resolveRecorderOptions(): MediaRecorderOptions | undefined {

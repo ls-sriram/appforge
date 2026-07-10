@@ -28,6 +28,9 @@ export class NativeAudioRecordingCapability {
   }
 
   async start(): Promise<void> {
+    if (this.recording) {
+      throw new Error("A recording is already active.");
+    }
     await this.prepare();
 
     const recording = new Audio.Recording();

@@ -2,13 +2,13 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createRecording, listRecordings, loadRecordingContent } from "./recording-actions.usecase";
 import { RecordingModel, RecordingUiStatus } from "./recordings.model";
 import { recordingConfig } from "./recording.config";
-import { DefaultRecordingRuntimeAdapter } from "./default-recording.adapter";
+import { getDefaultRecordingRuntimeAdapter } from "./default-recording.adapter";
 import { RecordingRuntimeAdapter } from "./recordings.adapter";
 
 const MAX_SECONDS = recordingConfig.maxSeconds;
 
-export function useRecordingsViewModel(adapter: RecordingRuntimeAdapter = new DefaultRecordingRuntimeAdapter()) {
-  const adapterRef = useRef<RecordingRuntimeAdapter>(adapter);
+export function useRecordingsViewModel(adapter?: RecordingRuntimeAdapter) {
+  const adapterRef = useRef<RecordingRuntimeAdapter>(adapter ?? getDefaultRecordingRuntimeAdapter());
   const [status, setStatus] = useState<RecordingUiStatus>("idle");
   const [error, setError] = useState<string | undefined>(undefined);
   const [recordings, setRecordings] = useState<RecordingModel[]>([]);
@@ -17,6 +17,7 @@ export function useRecordingsViewModel(adapter: RecordingRuntimeAdapter = new De
   const [secondsElapsed, setSecondsElapsed] = useState(0);
   const [playingId, setPlayingId] = useState<string | undefined>(undefined);
   const recordingSinceRef = useRef<number | undefined>(undefined);
+  const stopRef = useRef<() => Promise<void>>(async () => undefined);
 
   const refresh = useCallback(async () => {
     const result = await listRecordings(20);
@@ -30,13 +31,11 @@ export function useRecordingsViewModel(adapter: RecordingRuntimeAdapter = new De
   useEffect(() => {
     let mounted = true;
     (async () => {
-      await adapterRef.current.prepare?.();
       await refresh();
       if (mounted) setLoading(false);
     })();
     return () => {
       mounted = false;
-      void adapterRef.current.shutdown?.();
     };
   }, [refresh]);
 
@@ -48,7 +47,7 @@ export function useRecordingsViewModel(adapter: RecordingRuntimeAdapter = new De
       const next = Math.min(MAX_SECONDS, Math.floor((Date.now() - since) / 1000));
       setSecondsElapsed(next);
       if (next >= MAX_SECONDS) {
-        void stop();
+        void stopRef.current();
       }
     }, 1000);
     return () => clearInterval(timer);
@@ -71,7 +70,10 @@ export function useRecordingsViewModel(adapter: RecordingRuntimeAdapter = new De
   const stop = useCallback(async () => {
     if (status !== "recording") return;
     setStatus("uploading");
-    const durationSeconds = secondsElapsed;
+    const since = recordingSinceRef.current;
+    const durationSeconds = since
+      ? Math.min(MAX_SECONDS, Math.max(0, Math.floor((Date.now() - since) / 1000)))
+      : secondsElapsed;
     const captured = await adapterRef.current.stop();
     if (!captured.ok) {
       setStatus("error");
@@ -93,6 +95,8 @@ export function useRecordingsViewModel(adapter: RecordingRuntimeAdapter = new De
     recordingSinceRef.current = undefined;
     setSecondsElapsed(0);
   }, [refresh, secondsElapsed, status]);
+
+  stopRef.current = stop;
 
   const play = useCallback(async (recordingId: string) => {
     const existing = playbackUrlById[recordingId];

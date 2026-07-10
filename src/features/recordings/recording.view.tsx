@@ -22,6 +22,7 @@ interface RecordingViewProps {
   onCreateShare: (id: string) => void;
   onRevokeShare: (id: string, shareUrl: string) => void;
   onLoadShares: (id: string) => void;
+  renderTranscriptControl?: (recording: RecordingModel) => React.ReactNode;
 }
 
 export function RecordingView({
@@ -42,6 +43,7 @@ export function RecordingView({
   onCreateShare,
   onRevokeShare,
   onLoadShares,
+  renderTranscriptControl,
 }: RecordingViewProps) {
   const dateTimeFormatter = React.useMemo(
     () =>
@@ -116,6 +118,7 @@ export function RecordingView({
                           {shareLoading ? "Loading..." : "Shares"}
                         </Button>
                       </XStack>
+                      {renderTranscriptControl?.(recording)}
                       {activeShare ? (
                         <XStack>
                           <Body fontSize="$2" color="$textMuted" numberOfLines={1}>
@@ -163,11 +166,7 @@ export function RecordingView({
                     {loading ? "Refreshing..." : "Refresh"}
                   </Button>
                 </XStack>
-                {(isRecording || status === "ready") ? (
-                  <Body fontSize="$2">{timerLabel}</Body>
-                ) : (
-                  <Body fontSize="$2" color="$textMuted">Max {maxSeconds}s per recording</Body>
-                )}
+                <Body fontSize="$2" color={isRecording ? undefined : "$textMuted"}>{timerLabel}</Body>
                 {error ? <Body fontSize="$2" color="$error">{error}</Body> : null}
               </YStack>
             </YStack>

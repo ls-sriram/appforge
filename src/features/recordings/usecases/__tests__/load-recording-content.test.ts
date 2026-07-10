@@ -1,6 +1,6 @@
 import { loadRecordingContent } from "../../recording-actions.usecase";
 
-jest.mock("../../data/backend-recordings.repository", () => ({
+jest.mock("../../backend-recordings.datasource", () => ({
   BackendRecordingsRepository: jest.fn().mockImplementation(() => ({
     getRecordingContent: jest.fn().mockResolvedValue({ ok: true, data: { playbackUrl: "https://example.com/audio" } }),
   })),

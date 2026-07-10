@@ -41,9 +41,9 @@ class BrowserRecordingRuntimeAdapter implements RecordingRuntimeAdapter {
 
   async stop(): Promise<Result<RuntimeRecordingResult>> {
     try {
+      const durationSeconds = this.capability.getElapsedSeconds();
       const blob = await this.capability.stop();
       const audioBase64 = await blobToBase64(blob);
-      const durationSeconds = this.capability.getElapsedSeconds();
       return {
         ok: true,
         data: {
@@ -116,6 +116,14 @@ export class DefaultRecordingRuntimeAdapter implements RecordingRuntimeAdapter {
   shutdown(): Promise<void> | void {
     return this.delegate.shutdown?.();
   }
+}
+
+let defaultRecordingRuntimeAdapter: DefaultRecordingRuntimeAdapter | undefined;
+
+/** Returns the single lazily-created recorder runtime owned by this app process. */
+export function getDefaultRecordingRuntimeAdapter(): RecordingRuntimeAdapter {
+  defaultRecordingRuntimeAdapter ??= new DefaultRecordingRuntimeAdapter();
+  return defaultRecordingRuntimeAdapter;
 }
 
 class NativeRecordingRuntimeAdapter implements RecordingRuntimeAdapter {

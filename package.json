@@ -19,6 +19,10 @@
     "src/features/register/**/*.tsx",
     "src/features/settings/**/*.ts",
     "src/features/settings/**/*.tsx",
+    "src/features/recordings/**/*.ts",
+    "src/features/recordings/**/*.tsx",
+    "src/features/transcription/**/*.ts",
+    "src/features/transcription/**/*.tsx",
     "src/types/**/*.d.ts",
     "!**/AGENTS.md",
     "!**/README.md",
@@ -45,7 +49,9 @@
     "./features/login": "./src/features/login/index.ts",
     "./features/register": "./src/features/register/index.ts",
     "./features/serverless-entitlement": "./src/features/serverless-entitlement/index.ts",
-    "./features/settings": "./src/features/settings/index.ts"
+    "./features/settings": "./src/features/settings/index.ts",
+    "./features/recordings": "./src/features/recordings/index.ts",
+    "./features/transcription": "./src/features/transcription/index.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit",
