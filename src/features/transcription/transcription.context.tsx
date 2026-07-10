@@ -1,22 +1,39 @@
 import React, { createContext, useContext, useRef, useSyncExternalStore } from "react";
 import type { TranscriptResult, Transcript, TranscriptState } from "./transcription.model";
-import type { TranscriptionContentResolver, TranscriptionHandler } from "./transcription.provider";
+import type { StreamingTranscriptionHandler, TranscriptionContentResolver, TranscriptionHandler } from "./transcription.provider";
 import { TranscriptionService } from "./transcription.service";
 
-const TranscriptionContext = createContext<TranscriptionService | undefined>(undefined);
+interface TranscriptionContextValue {
+  service: TranscriptionService;
+  streamingHandler?: StreamingTranscriptionHandler;
+}
+
+const TranscriptionContext = createContext<TranscriptionContextValue | undefined>(undefined);
 
 export function TranscriptionProvider({
   children,
   resolver,
   handler,
+  streamingHandler,
 }: {
   children: React.ReactNode;
   resolver: TranscriptionContentResolver;
   handler: TranscriptionHandler;
+  streamingHandler?: StreamingTranscriptionHandler;
 }) {
   const serviceRef = useRef<TranscriptionService | undefined>(undefined);
   serviceRef.current ??= new TranscriptionService(resolver, handler);
-  return <TranscriptionContext.Provider value={serviceRef.current}>{children}</TranscriptionContext.Provider>;
+  return (
+    <TranscriptionContext.Provider value={{ service: serviceRef.current, streamingHandler }}>
+      {children}
+    </TranscriptionContext.Provider>
+  );
+}
+
+export function useTranscriptionContext(): TranscriptionContextValue {
+  const value = useContext(TranscriptionContext);
+  if (!value) throw new Error("Transcription hooks must be used inside TranscriptionProvider.");
+  return value;
 }
 
 export function useTranscript(recordingId: string): {
@@ -24,8 +41,7 @@ export function useTranscript(recordingId: string): {
   request: () => Promise<TranscriptResult<Transcript>>;
   clear: () => void;
 } {
-  const service = useContext(TranscriptionContext);
-  if (!service) throw new Error("useTranscript() must be used inside TranscriptionProvider.");
+  const { service } = useTranscriptionContext();
 
   const state = useSyncExternalStore(
     (listener) => service.subscribe(listener),
@@ -39,4 +55,3 @@ export function useTranscript(recordingId: string): {
     clear: () => service.clear(recordingId),
   };
 }
-

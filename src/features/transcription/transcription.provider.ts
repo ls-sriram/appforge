@@ -1,4 +1,5 @@
 import type { Transcript, TranscriptResult } from "./transcription.model";
+import type { StreamingTranscriptUpdate } from "./transcription.model";
 
 export interface TranscriptionContent {
   recordingId: string;
@@ -16,3 +17,21 @@ export interface TranscriptionHandler {
   transcribe(content: TranscriptionContent): Promise<TranscriptResult<Transcript>>;
 }
 
+export interface StreamingTranscriptionStartOptions {
+  recordingId: string;
+  contentType: string;
+  language?: string;
+}
+
+export interface StreamingTranscriptionSession {
+  append(chunk: Uint8Array): Promise<TranscriptResult<void>>;
+  finish(): Promise<TranscriptResult<Transcript>>;
+  cancel(): Promise<void>;
+  subscribe(listener: (update: StreamingTranscriptUpdate) => void): () => void;
+}
+
+export interface StreamingTranscriptionHandler {
+  start(
+    options: StreamingTranscriptionStartOptions,
+  ): Promise<TranscriptResult<StreamingTranscriptionSession>>;
+}

@@ -19,6 +19,47 @@ export interface TranscriptState {
   error?: TranscriptError;
 }
 
+export type StreamingTranscriptStatus = "idle" | "starting" | "streaming" | "ready" | "error";
+
+export interface StreamingTranscriptState {
+  status: StreamingTranscriptStatus;
+  partialText: string;
+  transcript?: Transcript;
+  error?: TranscriptError;
+}
+
+export interface StreamingTranscriptUpdate {
+  text: string;
+  isFinal: boolean;
+  segment?: TranscriptSegment;
+}
+
+export interface LiveTranscriptionOptions {
+  language?: string;
+  interimResults?: boolean;
+  continuous?: boolean;
+  contextualStrings?: string[];
+}
+
+export interface LiveTranscriptEvent {
+  transcript: string;
+  isFinal: boolean;
+}
+
+export interface LiveTranscriptionState {
+  isSupported: boolean;
+  isStarting: boolean;
+  isRecording: boolean;
+  transcript: string;
+  error: string;
+}
+
+export interface LiveTranscriptionRuntime extends LiveTranscriptionState {
+  start(): void;
+  stop(): void;
+  subscribe(listener: (event: LiveTranscriptEvent) => void): () => void;
+}
+
 export type TranscriptErrorCode =
   | "recording_unavailable"
   | "provider_unavailable"
@@ -33,4 +74,3 @@ export interface TranscriptError {
 export type TranscriptResult<T> =
   | { ok: true; data: T }
   | { ok: false; error: TranscriptError };
-
