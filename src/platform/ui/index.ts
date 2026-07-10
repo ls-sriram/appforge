@@ -12,6 +12,7 @@ export { SafeAreaView } from "react-native-safe-area-context";
 export { UIProvider } from "./Provider";
 export { config } from "./config";
 export {
+  type InteractionContract,
   type ButtonContract,
   type PressableContract,
   type ListItemContract,
@@ -44,8 +45,8 @@ export {
   platformLayoutDefaults,
   defaultContracts,
 } from "./theme/index";
-export { Display, Heading, Label, Body } from "./components/text/Text";
-export { DisplaySchema, HeadingSchema, LabelSchema, BodySchema } from "./components/text/text.contract";
+export { Display, Heading, Label, Body, Logo } from "./components/text/Text";
+export { DisplaySchema, HeadingSchema, LabelSchema, BodySchema, LogoSchema } from "./components/text/text.contract";
 export { Button } from "./components/button/Button";
 export type { ButtonProps } from "./components/button/Button";
 export { ButtonSchema } from "./components/button/button.contract";
@@ -199,6 +200,7 @@ export type {
   PanelCollectionScaffoldProps,
   PageScaffoldProps,
 } from "./scaffolds/index";
+export { centeredPageWidths, pageShell } from "./scaffolds/defaults";
 
 // Semantic spacing constants — use instead of raw $1/$2/$3 etc.
 // Maps to theme factory space scale: xxs=4 xs=6 sm=10 md=16 lg=22 xl=30 2xl=44 3xl=64

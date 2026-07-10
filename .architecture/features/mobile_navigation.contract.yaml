@@ -1,0 +1,8 @@
+schema: v1
+feature: mobile_navigation
+touches: [platform_ui, platform_navigation]
+success_criteria:
+  - logo_renders_as_themed_wordmark
+  - nav_item_highlights_when_route_matches_current_pathname
+  - nav_bar_scaffold_has_no_fixed_screen_placement
+  - nav_bar_scaffold_switches_bar_and_sidebar_layout_by_viewport_tier

@@ -1,0 +1,23 @@
+schema: v1
+module: platform_navigation
+layer: ui
+owner: platform-ui
+purpose:
+  - own_route_constants_and_nav_chrome
+public_api:
+  - routes
+  - isRoute
+  - AppRoute
+  - NavItem
+  - NavBarScaffold
+invariants:
+  - nav_items_derive_active_state_from_router_not_props
+  - nav_bar_scaffold_owns_no_fixed_screen_placement
+coupled_files:
+  - pattern: "*.scaffold.tsx"
+    also_pulls:
+      - "*.contract.ts"
+  - pattern: "*.block.tsx"
+    also_pulls:
+      - "*.contract.ts"
+      - "*.styles.ts"

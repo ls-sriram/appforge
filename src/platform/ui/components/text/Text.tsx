@@ -1,5 +1,5 @@
 import { styled, Text as TamaguiText } from "@tamagui/core";
-export { BodySchema, HeadingSchema, LabelSchema, DisplaySchema } from "./text.contract";
+export { BodySchema, HeadingSchema, LabelSchema, DisplaySchema, LogoSchema } from "./text.contract";
 
 export const Text = TamaguiText;
 
@@ -33,4 +33,12 @@ export const Display = styled(TamaguiText, {
   color: "$textPrimary",
   fontSize: "$7",
   lineHeight: "$7",
+});
+
+export const Logo = styled(TamaguiText, {
+  name: "Logo",
+  fontFamily: "$bold",
+  color: "$textPrimary",
+  fontSize: "$5",
+  lineHeight: "$5",
 });

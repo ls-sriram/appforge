@@ -22,3 +22,4 @@ export const BodySchema = z.object(textEditableShape);
 export const HeadingSchema = z.object(textEditableShape);
 export const LabelSchema = z.object(textEditableShape);
 export const DisplaySchema = z.object(textEditableShape);
+export const LogoSchema = z.object(textEditableShape);
