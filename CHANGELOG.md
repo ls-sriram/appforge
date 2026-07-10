@@ -7,6 +7,21 @@ Format: `## [version] — YYYY-MM-DD` / `### Added | Changed | Removed`
 
 ---
 
+## [0.4.0] — 2026-07-10
+
+### `@appforge/platform/ui`
+
+**Changed**
+- `Button`, `Tabs`, `SizingToolbar`, `Select`, `MultiSelect`, `ColorPalettePicker`, and `DockPanel` now compose `Pressable` internally instead of hand-rolling RN `Pressable` usage — every interactive control in these components is now keyboard-operable (tabIndex, Enter/Space) and shows a themed focus ring, matching the guarantee the rest of the `Pressable` family already provided. No visual changes beyond the new focus ring; existing props are unchanged except:
+  - `Button` gained an optional `accessibilityLabel` prop. Unset, it falls back to `children` when that's a plain string (true for every existing call site in this repo) — this is a strict improvement, not a behavior change, for current usage.
+  - `Select`'s and `MultiSelect`'s trigger now expose `aria-expanded` correctly (`Pressable`'s new `expanded` state).
+- `Pressable` gained `checked`/`expanded` accessibility states (separate from `selected`), a `nativeID` passthrough, and a function-`children` escape hatch (`({ pressed, hovered, focused }) => ReactNode`) for callers whose visual logic doesn't fit the built-in frame/interaction auto-styling (`Button`'s loading/scale/spinner swap being the motivating case).
+
+**Not migrated**
+- `DockSplitter`'s resize handle is a continuous drag surface (`onPointerMove`/`onMouseMove`, no discrete `onPress`), not a `Pressable`-shaped control — left as-is. Keyboard-driven resize (arrow keys, `role="separator"`) is a real, separate accessibility gap worth tracking, not addressed here.
+
+---
+
 ## [0.3.0] — 2026-07-10
 
 ### `@appforge/platform/ui`

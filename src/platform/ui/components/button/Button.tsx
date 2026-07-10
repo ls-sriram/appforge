@@ -1,16 +1,37 @@
 import React from "react";
-import { ActivityIndicator, Pressable, Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
+import { Pressable } from "../pressable/Pressable";
 import type { ButtonContract } from "./button.styles";
 import type { ButtonProps } from "./button.contract";
 export type { ButtonContract };
 export type { ButtonProps };
 export { ButtonSchema } from "./button.contract";
 
-export function Button({ contract, selected = false, loading = false, disabled, onPress, children }: ButtonProps) {
+export function Button({
+  contract,
+  selected = false,
+  loading = false,
+  disabled,
+  onPress,
+  children,
+  accessibilityLabel,
+}: ButtonProps) {
   const s = contract;
+  const resolvedLabel = accessibilityLabel ?? (typeof children === "string" ? children : undefined);
+
+  if (!resolvedLabel && process.env.NODE_ENV !== "production") {
+    // eslint-disable-next-line no-console
+    console.warn(
+      "Button: no accessibilityLabel and children isn't plain text — this button has no accessible name. Pass accessibilityLabel explicitly.",
+    );
+  }
 
   return (
-    <Pressable onPress={onPress} disabled={disabled || loading}>
+    <Pressable
+      accessibilityLabel={resolvedLabel ?? ""}
+      onPress={onPress ?? (() => {})}
+      disabled={disabled || loading}
+    >
       {({ pressed, hovered, focused }: { pressed: boolean; hovered?: boolean; focused?: boolean }) => {
         const ix = s.interaction;
 

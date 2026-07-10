@@ -16,6 +16,8 @@ export interface ColorPalettePickerContract {
     selectedBorderColor: string;
     disabledOpacity: number;
     defaultColors: string[];
+    focusBorderWidth: number;
+    focusBorderColor: string;
   };
   input: {
     placeholder: string;
@@ -61,6 +63,8 @@ export function defaultColorPalettePickerStyles(t: Theme): Record<string, ColorP
         borderColor: p.border,
         selectedBorderColor: p.primary,
         disabledOpacity: 0.5,
+        focusBorderWidth: 2,
+        focusBorderColor: p.borderFocus,
         defaultColors: [
           p.textPrimary,
           p.textSecondary,

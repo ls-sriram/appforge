@@ -70,6 +70,13 @@ export interface DockPanelContract {
     inlineActionsMarginRight: number;
     contentGap: number;
   };
+  // Shared across every Pressable-composing control in this panel
+  // (action buttons, item buttons, menu trigger, resize handle) rather
+  // than duplicated per-bucket — same token value everywhere.
+  focus: {
+    borderWidth: number;
+    borderColor: string;
+  };
 }
 
 export function defaultDockPanelStyles(t: Theme): Record<string, DockPanelContract> {
@@ -145,6 +152,10 @@ export function defaultDockPanelStyles(t: Theme): Record<string, DockPanelContra
       layout: {
         inlineActionsMarginRight: GAP.tight,
         contentGap: GAP.tight,
+      },
+      focus: {
+        borderWidth: 2,
+        borderColor: p.borderFocus,
       },
     },
   };

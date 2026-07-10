@@ -15,11 +15,22 @@ jest.mock("react-native", () => {
   const React = require("react");
   const makeComponent = (name: string) => ({ children, ...props }: { children?: React.ReactNode }) =>
     React.createElement(name, props, children);
+  // Real RN/RN-Web Pressable invokes a function `children` with press
+  // state instead of rendering it as a node — Tabs (composing the
+  // platform Pressable) relies on that to read `focused` for its focus
+  // ring, so this stub needs to match or React warns about a function
+  // showing up as a literal child.
+  const makePressable = () => ({ children, ...props }: { children?: React.ReactNode | ((state: { pressed: boolean; hovered?: boolean; focused?: boolean }) => React.ReactNode) }) =>
+    React.createElement(
+      "Pressable",
+      props,
+      typeof children === "function" ? children({ pressed: false, hovered: false, focused: false }) : children,
+    );
 
   return {
     View: makeComponent("View"),
     Text: makeComponent("Text"),
-    Pressable: makeComponent("Pressable"),
+    Pressable: makePressable(),
     ScrollView: makeComponent("ScrollView"),
     useWindowDimensions: () => ({ width: 1280, height: 800 }),
   };

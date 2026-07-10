@@ -1,5 +1,6 @@
 import React from "react";
-import { Pressable, ScrollView, View } from "react-native";
+import { ScrollView, View } from "react-native";
+import { Pressable } from "../pressable/Pressable";
 import { Body } from "../text/Text";
 import { Icon, type IconName } from "../icon/Icon";
 import { type UiStamp, noopUi } from "../../viz";
@@ -99,28 +100,27 @@ function IconActionButton({
   const s = contract;
 
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel}
-      accessibilityState={{ disabled }}
-      disabled={disabled}
-      nativeID={testID}
-      onPress={onPress}
-      style={{
-        minWidth: s.actionButton.minWidth,
-        minHeight: s.actionButton.minHeight,
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: s.actionButton.borderRadius,
-        opacity: disabled ? s.actionButton.disabledOpacity : 1,
-      }}
-      testID={testID}
-    >
-      <Icon
-        color={disabled ? s.actionIcon.disabledColor : s.actionIcon.color}
-        name={icon}
-        size={s.actionIcon.size}
-      />
+    <Pressable accessibilityLabel={accessibilityLabel} disabled={disabled} onPress={onPress} testID={testID} nativeID={testID}>
+      {({ focused }) => (
+        <View
+          style={{
+            minWidth: s.actionButton.minWidth,
+            minHeight: s.actionButton.minHeight,
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: s.actionButton.borderRadius,
+            borderWidth: focused ? s.focus.borderWidth : 0,
+            borderColor: focused ? s.focus.borderColor : undefined,
+            opacity: disabled ? s.actionButton.disabledOpacity : 1,
+          }}
+        >
+          <Icon
+            color={disabled ? s.actionIcon.disabledColor : s.actionIcon.color}
+            name={icon}
+            size={s.actionIcon.size}
+          />
+        </View>
+      )}
     </Pressable>
   );
 }
@@ -152,42 +152,48 @@ function DockItemButton({
 
   return (
     <Pressable
-      accessibilityRole="button"
       accessibilityLabel={item.label}
-      accessibilityState={{ disabled: isDisabled, selected }}
+      selected={selected}
       disabled={isDisabled}
-      nativeID={testID}
       onPress={onPress}
-      style={{
-        minWidth: s.itemButton.minWidth,
-        minHeight: s.itemButton.minHeight,
-        paddingHorizontal: s.itemButton.paddingHorizontal,
-        paddingVertical: s.itemButton.paddingVertical,
-        borderRadius: s.itemButton.borderRadius,
-        backgroundColor: selected
-          ? s.itemButton.activeBackgroundColor
-          : s.itemButton.inactiveBackgroundColor,
-        alignItems: "center",
-        justifyContent: "center",
-        opacity: isDisabled ? s.itemButton.disabledOpacity : 1,
-      }}
       testID={testID}
+      nativeID={testID}
     >
-      <View
-        style={{
-          flexDirection: iconOnly ? "column" : "row",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: s.itemButton.gap,
-        }}
-      >
-        <Icon color={iconColor} name={item.icon} size={s.itemIcon.size} />
-        {!iconOnly ? (
-          <Body color={iconColor}>
-            {item.label}
-          </Body>
-        ) : null}
-      </View>
+      {({ focused }) => (
+        <View
+          style={{
+            minWidth: s.itemButton.minWidth,
+            minHeight: s.itemButton.minHeight,
+            paddingHorizontal: s.itemButton.paddingHorizontal,
+            paddingVertical: s.itemButton.paddingVertical,
+            borderRadius: s.itemButton.borderRadius,
+            backgroundColor: selected
+              ? s.itemButton.activeBackgroundColor
+              : s.itemButton.inactiveBackgroundColor,
+            borderWidth: focused ? s.focus.borderWidth : 0,
+            borderColor: focused ? s.focus.borderColor : undefined,
+            alignItems: "center",
+            justifyContent: "center",
+            opacity: isDisabled ? s.itemButton.disabledOpacity : 1,
+          }}
+        >
+          <View
+            style={{
+              flexDirection: iconOnly ? "column" : "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: s.itemButton.gap,
+            }}
+          >
+            <Icon color={iconColor} name={item.icon} size={s.itemIcon.size} />
+            {!iconOnly ? (
+              <Body color={iconColor}>
+                {item.label}
+              </Body>
+            ) : null}
+          </View>
+        </View>
+      )}
     </Pressable>
   );
 }
@@ -328,21 +334,32 @@ export function DockPanel({
 
   const selector = showMenuTrigger ? (
     <Pressable
-      accessibilityRole="button"
       accessibilityLabel={menuLabel}
-      nativeID={ui("menu", "Dock panel menu trigger").__uiid}
-      onPress={onMenuPress}
-      style={{
-        width: s.menuButton.width,
-        height: s.menuButton.height,
-        alignItems: "center",
-        justifyContent: "center",
-        borderRadius: s.actionButton.borderRadius,
-        backgroundColor: s.itemButton.inactiveBackgroundColor,
-      }}
+      // onMenuPress is optional on DockPanelProps, but this trigger only
+      // renders in menu-trigger display mode regardless of whether a
+      // handler was actually passed — matches the original raw-Pressable
+      // behavior of tolerating a no-op press rather than requiring every
+      // caller in this mode to supply one.
+      onPress={onMenuPress ?? (() => {})}
       testID={ui("menu", "Dock panel menu trigger").__uiid}
+      nativeID={ui("menu", "Dock panel menu trigger").__uiid}
     >
-      <Icon color={s.actionIcon.color} name="menu" size={s.actionIcon.size} />
+      {({ focused }) => (
+        <View
+          style={{
+            width: s.menuButton.width,
+            height: s.menuButton.height,
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: s.actionButton.borderRadius,
+            backgroundColor: s.itemButton.inactiveBackgroundColor,
+            borderWidth: focused ? s.focus.borderWidth : 0,
+            borderColor: focused ? s.focus.borderColor : undefined,
+          }}
+        >
+          <Icon color={s.actionIcon.color} name="menu" size={s.actionIcon.size} />
+        </View>
+      )}
     </Pressable>
   ) : showSelector ? (
     <ScrollView
@@ -530,9 +547,7 @@ export function DockPanel({
         </View>
         {canResize ? (
           <Pressable
-            accessibilityRole="button"
             accessibilityLabel="Resize dock panel"
-            nativeID={ui("resize", "Dock panel resize handle").__uiid}
             onPress={() => {
               const baseSize = typeof effectiveSize === "number" ? effectiveSize : minSize ?? collapsedSize ?? 0;
               const nextSize = collapseThreshold !== undefined
@@ -542,9 +557,19 @@ export function DockPanel({
               onResize?.(nextSize);
               onResizeEnd?.(nextSize);
             }}
-            style={getResizeHandleStyle(s, vertical)}
             testID={ui("resize", "Dock panel resize handle").__uiid}
-          />
+            nativeID={ui("resize", "Dock panel resize handle").__uiid}
+          >
+            {({ focused }) => (
+              <View
+                style={{
+                  ...getResizeHandleStyle(s, vertical),
+                  borderWidth: focused ? s.focus.borderWidth : 0,
+                  borderColor: focused ? s.focus.borderColor : undefined,
+                }}
+              />
+            )}
+          </Pressable>
         ) : null}
       </View>
       {placement === "right" || placement === "bottom" ? selectorRail : null}

@@ -17,6 +17,8 @@ export interface SizingToolbarContract {
     unselectedBackgroundColor: string;
     dividerWidth: number;
     dividerColor: string;
+    focusBorderWidth: number;
+    focusBorderColor: string;
   };
   icon: {
     selectedColor: string;
@@ -47,6 +49,8 @@ export function defaultSizingToolbarStyles(t: Theme): Record<string, SizingToolb
         unselectedBackgroundColor: p.surface,
         dividerWidth: 1,
         dividerColor: p.border,
+        focusBorderWidth: 2,
+        focusBorderColor: p.borderFocus,
       },
       icon: {
         selectedColor: p.primary,

@@ -1,5 +1,6 @@
 import React from "react";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import { Pressable } from "../pressable/Pressable";
 import { Icon } from "../icon/Icon";
 
 import type { SelectContract } from "./select.styles";
@@ -53,23 +54,24 @@ export function Select({
       ) : null}
 
       <Pressable
-        accessibilityRole="button"
-        accessibilityState={{ disabled, expanded: open }}
+        accessibilityLabel={label ?? placeholder}
+        expanded={open}
         disabled={disabled}
         onPress={() => setOpen((v) => !v)}
         testID={testID ? `${testID}-trigger` : undefined}
       >
-        {({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) => {
-          const activeStyle = pressed ? ix?.pressed : hovered ? ix?.hover : undefined;
+        {({ pressed, hovered, focused }) => {
+          const activeStyle = focused ? ix?.focused : pressed ? ix?.pressed : hovered ? ix?.hover : undefined;
           const opacity = disabled ? (ix?.disabledOpacity ?? 0.5)
             : (activeStyle as { opacity?: number } | undefined)?.opacity ?? 1;
+          const activeBorderWidth = (activeStyle as { borderWidth?: number } | undefined)?.borderWidth;
 
           return (
             <View
               style={{
                 backgroundColor: activeStyle?.backgroundColor ?? s.trigger.backgroundColor,
                 borderColor: activeStyle?.borderColor ?? s.trigger.borderColor,
-                borderWidth: s.trigger.borderWidth,
+                borderWidth: activeBorderWidth ?? s.trigger.borderWidth,
                 borderRadius: s.trigger.borderRadius,
                 minHeight: s.trigger.minHeight,
                 paddingVertical: s.trigger.paddingVertical,
@@ -119,42 +121,51 @@ export function Select({
             return (
               <Pressable
                 key={option.value}
-                accessibilityRole="button"
-                accessibilityState={{ disabled: option.disabled, selected: isSelected }}
+                accessibilityLabel={option.label}
+                selected={isSelected}
                 disabled={option.disabled}
                 onPress={() => handleSelect(option.value)}
                 testID={testID ? `${testID}-option-${option.value}` : undefined}
-                style={{
-                  backgroundColor: isSelected ? s.option.selectedBackgroundColor : "transparent",
-                  paddingVertical: s.trigger.paddingVertical,
-                  paddingHorizontal: s.trigger.paddingHorizontal,
-                  borderBottomWidth: index === options.length - 1 ? 0 : 1,
-                  borderBottomColor: s.menu.borderColor,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: s.trigger.gap,
-                  opacity: option.disabled ? (ix?.disabledOpacity ?? 0.5) : 1,
-                }}
               >
-                {renderSwatch(option.swatch)}
-                <View style={{ flex: 1, gap: s.option.rowGap }}>
-                  <Text
+                {({ focused }) => (
+                  <View
                     style={{
-                      color: isSelected ? s.option.selectedColor : s.option.color,
-                      fontSize: s.option.fontSize,
-                      fontWeight: (isSelected ? s.option.selectedFontWeight : s.option.fontWeight) as any,
-                      fontFamily: s.text.fontFamily,
+                      backgroundColor: focused
+                        ? (ix?.focused?.backgroundColor ?? s.option.selectedBackgroundColor)
+                        : isSelected
+                          ? s.option.selectedBackgroundColor
+                          : "transparent",
+                      paddingVertical: s.trigger.paddingVertical,
+                      paddingHorizontal: s.trigger.paddingHorizontal,
+                      borderBottomWidth: index === options.length - 1 ? 0 : 1,
+                      borderBottomColor: s.menu.borderColor,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: s.trigger.gap,
+                      opacity: option.disabled ? (ix?.disabledOpacity ?? 0.5) : 1,
                     }}
                   >
-                    {option.label}
-                  </Text>
-                  {option.description ? (
-                    <Text style={{ color: s.option.descriptionColor, fontSize: s.option.descriptionFontSize, fontFamily: s.text.fontFamily }}>
-                      {option.description}
-                    </Text>
-                  ) : null}
-                </View>
-                {isSelected ? <Icon color={s.icon.selectedColor} name="check" size={s.icon.size} /> : null}
+                    {renderSwatch(option.swatch)}
+                    <View style={{ flex: 1, gap: s.option.rowGap }}>
+                      <Text
+                        style={{
+                          color: isSelected ? s.option.selectedColor : s.option.color,
+                          fontSize: s.option.fontSize,
+                          fontWeight: (isSelected ? s.option.selectedFontWeight : s.option.fontWeight) as any,
+                          fontFamily: s.text.fontFamily,
+                        }}
+                      >
+                        {option.label}
+                      </Text>
+                      {option.description ? (
+                        <Text style={{ color: s.option.descriptionColor, fontSize: s.option.descriptionFontSize, fontFamily: s.text.fontFamily }}>
+                          {option.description}
+                        </Text>
+                      ) : null}
+                    </View>
+                    {isSelected ? <Icon color={s.icon.selectedColor} name="check" size={s.icon.size} /> : null}
+                  </View>
+                )}
               </Pressable>
             );
           })}

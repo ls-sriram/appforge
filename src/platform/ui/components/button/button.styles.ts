@@ -45,6 +45,7 @@ export function defaultButtonStyles(t: Theme): Record<string, ButtonContract> {
         loading: { opacity: 0.7 },
         pressed: { opacity: 0.8, scale: 0.97 },
         hover: { opacity: 0.92 },
+        focused: { borderColor: p.borderFocus, borderWidth: 2 },
       },
     },
     secondary: {
@@ -67,6 +68,7 @@ export function defaultButtonStyles(t: Theme): Record<string, ButtonContract> {
         loading: { opacity: 0.7 },
         pressed: { opacity: 0.7 },
         hover: { borderColor: p.border },
+        focused: { borderColor: p.borderFocus, borderWidth: 2 },
       },
     },
     ghost: {
@@ -87,6 +89,7 @@ export function defaultButtonStyles(t: Theme): Record<string, ButtonContract> {
         loading: { opacity: 0.6 },
         pressed: { opacity: 0.6 },
         hover: { color: p.textSecondary },
+        focused: { borderColor: p.borderFocus, borderWidth: 2 },
       },
     },
     danger: {
@@ -109,6 +112,7 @@ export function defaultButtonStyles(t: Theme): Record<string, ButtonContract> {
         loading: { opacity: 0.7 },
         pressed: { opacity: 0.75, scale: 0.98 },
         hover: { opacity: 0.9 },
+        focused: { borderColor: p.borderFocus, borderWidth: 2 },
       },
     },
   };

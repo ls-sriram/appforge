@@ -15,6 +15,8 @@ export interface TabsContract {
     selectedBorderColor: string;
     unselectedBorderColor: string;
     disabledOpacity: number;
+    focusBorderWidth: number;
+    focusBorderColor: string;
   };
   icon: {
     size: number;
@@ -50,6 +52,8 @@ export function defaultTabsStyles(t: Theme): Record<string, TabsContract> {
         selectedBorderColor: p.primary,
         unselectedBorderColor: "transparent",
         disabledOpacity: 0.5,
+        focusBorderWidth: 2,
+        focusBorderColor: p.borderFocus,
       },
       icon: {
         size: 14,

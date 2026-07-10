@@ -45,26 +45,44 @@ export function Pressable({
   accessibilityLabel,
   selected = false,
   checked,
+  expanded,
   disabled = false,
   onPress,
   children,
   testID,
+  nativeID,
 }: PressableProps) {
-  const s = contract;
-  const ix = s.interaction;
+  const accessibilityState = {
+    disabled,
+    selected,
+    ...(checked !== undefined ? { checked } : null),
+    ...(expanded !== undefined ? { expanded } : null),
+  };
 
   return (
     <WebAwarePressable
       accessibilityRole={role as never}
       accessibilityLabel={accessibilityLabel}
-      accessibilityState={checked === undefined ? { disabled, selected } : { disabled, selected, checked }}
+      accessibilityState={accessibilityState}
       tabIndex={disabled ? -1 : 0}
       disabled={disabled}
       onPress={onPress}
       onKeyDown={(e) => handleSupplementalSpaceKey(e, role, disabled, onPress)}
       testID={testID}
+      nativeID={nativeID}
     >
-      {({ pressed, hovered, focused }: RenderState) => {
+      {(state: RenderState) => {
+        if (typeof children === "function") {
+          return children(state);
+        }
+
+        if (!contract) {
+          throw new Error("Pressable: `contract` is required when `children` is not a render function.");
+        }
+
+        const s = contract;
+        const ix = s.interaction;
+        const { pressed, hovered, focused } = state;
         const activeStyle = selected ? ix?.selected
           : disabled ? undefined
           : pressed ? ix?.pressed

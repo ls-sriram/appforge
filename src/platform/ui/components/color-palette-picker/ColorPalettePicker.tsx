@@ -1,6 +1,6 @@
 import { styled, View } from "@tamagui/core";
 import React from "react";
-import { Pressable } from "react-native";
+import { Pressable } from "../pressable/Pressable";
 import { Input } from "../input/Input";
 import { Icon } from "../icon/Icon";
 import { Body, Label } from "../text/Text";
@@ -132,24 +132,27 @@ export function ColorPalettePicker({
           return (
             <Pressable
               key={normalized}
-              accessibilityRole="button"
-              accessibilityState={{ disabled, selected }}
+              accessibilityLabel={`Color ${normalized}`}
+              selected={selected}
               disabled={disabled}
               onPress={() => handlePalettePick(normalized)}
-              style={{
-                width: s.swatch.size,
-                height: s.swatch.size,
-                borderRadius: s.swatch.borderRadius,
-                borderWidth: s.swatch.borderWidth,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: normalized,
-                borderColor: selected ? s.swatch.selectedBorderColor : s.swatch.borderColor,
-                opacity: disabled ? s.swatch.disabledOpacity : 1,
-              }}
               testID={testID ? `${testID}-swatch-${normalized.slice(1)}` : undefined}
             >
-              {selected ? <Icon color={s.icon.selectedColor} name="check" size={s.icon.selectedSize} /> : null}
+              {({ focused }) => (
+                <View
+                  width={s.swatch.size}
+                  height={s.swatch.size}
+                  borderRadius={s.swatch.borderRadius}
+                  borderWidth={focused ? s.swatch.focusBorderWidth : s.swatch.borderWidth}
+                  ai="center"
+                  jc="center"
+                  bg={normalized}
+                  borderColor={focused ? s.swatch.focusBorderColor : selected ? s.swatch.selectedBorderColor : s.swatch.borderColor}
+                  opacity={disabled ? s.swatch.disabledOpacity : 1}
+                >
+                  {selected ? <Icon color={s.icon.selectedColor} name="check" size={s.icon.selectedSize} /> : null}
+                </View>
+              )}
             </Pressable>
           );
         })}

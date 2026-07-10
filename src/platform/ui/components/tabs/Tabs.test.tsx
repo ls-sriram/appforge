@@ -40,12 +40,18 @@ function renderTabs(element: React.ReactElement) {
   return tree as any;
 }
 
+// Tabs now composes the platform Pressable, which itself wraps RN's own
+// Pressable — both happen to be named "Pressable" and both forward
+// testID/onPress, so a plain testID match is ambiguous across the tree.
+// accessibilityRole="tab" is set by the inner RN-level Pressable only (the
+// platform Pressable's own JSX prop is `role`, a different key), so it
+// uniquely identifies the real interactive node.
 function findTabNodes(tree: any) {
   return tree.root.findAll(
     (node: any) =>
       typeof node.props.testID === "string" &&
       node.props.testID.startsWith("tabs-tab-") &&
-      typeof node.props.onPress === "function",
+      node.props.accessibilityRole === "tab",
   );
 }
 
@@ -69,14 +75,9 @@ describe("Tabs", () => {
       </Wrapper>,
     );
 
-    const tabs = findTabNodes(tree);
+    const testIDs = [...new Set(findTabNodes(tree).map((tab: any) => tab.props.testID))];
 
-    expect(tabs).toHaveLength(3);
-    expect(tabs.map((tab: any) => tab.props.testID)).toEqual([
-      "tabs-tab-overview",
-      "tabs-tab-activity",
-      "tabs-tab-settings",
-    ]);
+    expect(testIDs).toEqual(["tabs-tab-overview", "tabs-tab-activity", "tabs-tab-settings"]);
   });
 
   it("marks the selected tab", () => {
@@ -108,6 +109,31 @@ describe("Tabs", () => {
     });
 
     expect(onValueChange).toHaveBeenCalledWith("settings");
+  });
+
+  it("is keyboard-focusable now that it composes Pressable, not a raw accessibilityRole View", () => {
+    const tree = renderTabs(
+      <Wrapper>
+        <Tabs contract={tabsContract} options={options} value="overview" onValueChange={() => {}} testID="tabs" />
+      </Wrapper>,
+    );
+
+    const overview = findTabNodes(tree).find((node: any) => node.props.testID === "tabs-tab-overview");
+
+    expect(overview?.props.tabIndex).toBe(0);
+  });
+
+  it("removes disabled tabs from the tab order", () => {
+    const disabledOptions = [options[0], { ...options[1], disabled: true }, options[2]];
+    const tree = renderTabs(
+      <Wrapper>
+        <Tabs contract={tabsContract} options={disabledOptions} value="overview" onValueChange={() => {}} testID="tabs" />
+      </Wrapper>,
+    );
+
+    const activity = findTabNodes(tree).find((node: any) => node.props.testID === "tabs-tab-activity");
+
+    expect(activity?.props.tabIndex).toBe(-1);
   });
 
   it("blocks disabled tabs", () => {

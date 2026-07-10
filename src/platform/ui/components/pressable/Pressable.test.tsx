@@ -1,5 +1,6 @@
 import React from "react";
 import TestRenderer, { act } from "react-test-renderer";
+import { Text } from "react-native";
 import { defaultContracts } from "../../theme/index";
 import { ThemeProvider } from "../../theme/ThemeProvider";
 import { Pressable } from "./Pressable";
@@ -208,6 +209,46 @@ describe("Pressable", () => {
 
     expect(styledView.props.style.height).toBe(32);
     expect(styledView.props.style.flex).toBe(1);
+  });
+
+  it("hands raw pressed/hovered/focused state to a function child instead of auto-styling", () => {
+    const renderArgs: any[] = [];
+    const tree = renderPressable(
+      <Wrapper>
+        <Pressable contract={pressableContract} accessibilityLabel="Do the thing" onPress={() => {}} testID="px">
+          {(state) => {
+            renderArgs.push(state);
+            return <Text>custom</Text>;
+          }}
+        </Pressable>
+      </Wrapper>,
+    );
+
+    expect(renderArgs[0]).toEqual({ pressed: false, hovered: false, focused: false });
+    expect(tree.root.findAllByType(Text).some((n: any) => n.props.children === "custom")).toBe(true);
+  });
+
+  it("throws loudly rather than silently rendering nothing when contract is missing for a plain-node child", () => {
+    const tree = () =>
+      renderPressable(
+        <Wrapper>
+          <Pressable accessibilityLabel="Do the thing" onPress={() => {}} testID="px">
+            <Text>oops</Text>
+          </Pressable>
+        </Wrapper>,
+      );
+
+    expect(tree).toThrow(/contract.*required/i);
+  });
+
+  it("exposes expanded in accessibilityState for disclosure triggers, separate from selected/checked", () => {
+    const tree = renderPressable(
+      <Wrapper>
+        <Pressable contract={pressableContract} accessibilityLabel="Country" onPress={() => {}} expanded testID="px" />
+      </Wrapper>,
+    );
+
+    expect(findProbe(tree).props.accessibilityState).toEqual({ disabled: false, selected: false, expanded: true });
   });
 
   it("threads selected into interaction styling instead of press/hover/focus", () => {

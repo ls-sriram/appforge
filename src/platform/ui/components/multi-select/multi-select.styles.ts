@@ -125,6 +125,7 @@ export function defaultMultiSelectStyles(t: Theme): Record<string, MultiSelectCo
       interaction: {
         disabledOpacity: 0.5,
         hover: { borderColor: p.border },
+        focused: { borderColor: p.borderFocus, borderWidth: 2 },
       },
     },
   };

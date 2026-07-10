@@ -1,5 +1,6 @@
 import React from "react";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
+import { Pressable } from "../pressable/Pressable";
 import { Icon, type IconName } from "../icon/Icon";
 import type { SizingToolbarContract } from "./sizing-toolbar.styles";
 import type { SizingToolbarProps } from "./sizing-toolbar.contract";
@@ -51,30 +52,40 @@ export function SizingToolbar({
 
         return (
           <Pressable
-              key={option}
-            accessibilityRole="button"
+            key={option}
             accessibilityLabel={LABELS[option]}
-            accessibilityState={{ selected, disabled }}
+            selected={selected}
             disabled={disabled}
             onPress={() => onChange(option)}
             testID={`sizing-toolbar-${option}`}
-            style={{
-              minWidth: s.button.minWidth,
-              minHeight: s.button.minHeight,
-              paddingHorizontal: s.button.paddingHorizontal,
-              paddingVertical: s.button.paddingVertical,
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: selected ? s.button.selectedBackgroundColor : s.button.unselectedBackgroundColor,
-              borderLeftWidth: index === 0 ? 0 : s.button.dividerWidth,
-              borderLeftColor: s.button.dividerColor,
-            }}
           >
-            <Icon
-              color={selected ? s.icon.selectedColor : s.icon.unselectedColor}
-              name={iconName}
-              size={s.icon.size}
-            />
+            {({ focused }) => (
+              <View
+                style={{
+                  minWidth: s.button.minWidth,
+                  minHeight: s.button.minHeight,
+                  paddingHorizontal: s.button.paddingHorizontal,
+                  paddingVertical: s.button.paddingVertical,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: selected ? s.button.selectedBackgroundColor : s.button.unselectedBackgroundColor,
+                  // borderLeftWidth/Color (the inter-segment divider) is
+                  // more specific than borderWidth/Color and would win on
+                  // the left edge regardless of declaration order, so the
+                  // focus ring needs the divider unset on that edge rather
+                  // than layered underneath it.
+                  ...(focused
+                    ? { borderWidth: s.button.focusBorderWidth, borderColor: s.button.focusBorderColor }
+                    : { borderLeftWidth: index === 0 ? 0 : s.button.dividerWidth, borderLeftColor: s.button.dividerColor }),
+                }}
+              >
+                <Icon
+                  color={selected ? s.icon.selectedColor : s.icon.unselectedColor}
+                  name={iconName}
+                  size={s.icon.size}
+                />
+              </View>
+            )}
           </Pressable>
         );
       })}

@@ -22,13 +22,29 @@ function Wrapper({ children }: { children: React.ReactNode }) {
   return <ThemeProvider>{children}</ThemeProvider>;
 }
 
+// SizingToolbar now composes the platform Pressable, which wraps RN's own
+// Pressable — both are named "Pressable" and both forward testID/onPress,
+// so a plain testID match is ambiguous. accessibilityRole="button" is set
+// by the inner RN-level Pressable only (the platform Pressable's own JSX
+// prop is `role`, a different key), so it uniquely identifies the real
+// interactive node; dedupe by testID for length-based assertions since RN
+// also mirrors props onto nested host Views.
 function findButtons(tree: any) {
   return tree.root.findAll(
     (node: any) =>
       typeof node.props.testID === "string" &&
       node.props.testID.startsWith("sizing-toolbar-") &&
-      typeof node.props.onPress === "function",
+      node.props.accessibilityRole === "button",
   );
+}
+
+function uniqueButtons(tree: any) {
+  const seen = new Set<string>();
+  return findButtons(tree).filter((node: any) => {
+    if (seen.has(node.props.testID)) return false;
+    seen.add(node.props.testID);
+    return true;
+  });
 }
 
 function renderToolbar(element: React.ReactElement) {
@@ -56,7 +72,7 @@ describe("SizingToolbar", () => {
       </Wrapper>,
     );
 
-    const buttons = findButtons(tree);
+    const buttons = uniqueButtons(tree);
 
     expect(buttons).toHaveLength(3);
     expect(buttons.map((button: any) => button.props.testID)).toEqual([
@@ -95,6 +111,30 @@ describe("SizingToolbar", () => {
     });
 
     expect(onChange).toHaveBeenCalledWith("sm");
+  });
+
+  it("is keyboard-focusable now that it composes Pressable, not a raw accessibilityRole Pressable", () => {
+    const tree = renderToolbar(
+      <Wrapper>
+        <SizingToolbar contract={sizingToolbarContract} value="md" onChange={() => {}} />
+      </Wrapper>,
+    );
+
+    const sm = findButtons(tree).find((node: any) => node.props.testID === "sizing-toolbar-sm");
+
+    expect(sm?.props.tabIndex).toBe(0);
+  });
+
+  it("removes every option from the tab order when disabled", () => {
+    const tree = renderToolbar(
+      <Wrapper>
+        <SizingToolbar contract={sizingToolbarContract} value="md" onChange={() => {}} disabled />
+      </Wrapper>,
+    );
+
+    const sm = findButtons(tree).find((node: any) => node.props.testID === "sizing-toolbar-sm");
+
+    expect(sm?.props.tabIndex).toBe(-1);
   });
 
   it("blocks interaction when disabled", () => {

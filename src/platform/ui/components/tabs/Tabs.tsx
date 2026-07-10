@@ -1,5 +1,6 @@
 import React from "react";
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
+import { Pressable } from "../pressable/Pressable";
 import { Icon } from "../icon/Icon";
 import { Body } from "../text/Text";
 
@@ -37,46 +38,55 @@ export function Tabs({
         return (
           <Pressable
             key={option.value}
-            accessibilityRole="tab"
+            role="tab"
             accessibilityLabel={option.label}
-            accessibilityState={{ selected, disabled: isDisabled }}
+            selected={selected}
             disabled={isDisabled}
             onPress={() => onValueChange(option.value)}
             testID={testID ? `${testID}-tab-${option.value}` : undefined}
-            style={{
-              minHeight: s.item.minHeight,
-              paddingHorizontal: s.item.paddingHorizontal,
-              paddingVertical: s.item.paddingVertical,
-              alignItems: "center",
-              justifyContent: "center",
-              borderBottomWidth: s.item.borderWidth,
-              borderBottomColor: selected ? s.item.selectedBorderColor : s.item.unselectedBorderColor,
-              opacity: isDisabled ? s.item.disabledOpacity : 1,
-            }}
           >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                gap: s.item.gap,
-              }}
-            >
-              {option.icon ? (
-                <Icon
-                  color={selected ? s.icon.selectedColor : s.icon.unselectedColor}
-                  name={option.icon}
-                  size={s.icon.size}
-                />
-              ) : null}
-              <Body
-                color={selected ? s.text.selectedColor : s.text.unselectedColor}
-                fontFamily={selected ? s.text.selectedFontFamily : s.text.unselectedFontFamily}
-                fontSize={s.text.fontSize}
-                lineHeight={s.text.lineHeight}
+            {({ focused }) => (
+              <View
+                style={{
+                  minHeight: s.item.minHeight,
+                  paddingHorizontal: s.item.paddingHorizontal,
+                  paddingVertical: s.item.paddingVertical,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderBottomWidth: focused ? s.item.focusBorderWidth : s.item.borderWidth,
+                  borderBottomColor: focused
+                    ? s.item.focusBorderColor
+                    : selected
+                      ? s.item.selectedBorderColor
+                      : s.item.unselectedBorderColor,
+                  opacity: isDisabled ? s.item.disabledOpacity : 1,
+                }}
               >
-                {option.label}
-              </Body>
-            </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: s.item.gap,
+                  }}
+                >
+                  {option.icon ? (
+                    <Icon
+                      color={selected ? s.icon.selectedColor : s.icon.unselectedColor}
+                      name={option.icon}
+                      size={s.icon.size}
+                    />
+                  ) : null}
+                  <Body
+                    color={selected ? s.text.selectedColor : s.text.unselectedColor}
+                    fontFamily={selected ? s.text.selectedFontFamily : s.text.unselectedFontFamily}
+                    fontSize={s.text.fontSize}
+                    lineHeight={s.text.lineHeight}
+                  >
+                    {option.label}
+                  </Body>
+                </View>
+              </View>
+            )}
           </Pressable>
         );
       })}
