@@ -71,7 +71,9 @@
     "api:generate": "tsx scripts/generate-api.ts",
     "api:proto:lint": "npx -y @bufbuild/buf lint api",
     "api:proto:gen": "npx -y @bufbuild/buf generate api --template api/buf.gen.yaml && node scripts/generate-proto-route-manifest.mjs",
-    "api:proto:check": "npm run api:proto:lint && npm run api:proto:gen"
+    "api:proto:check": "npm run api:proto:lint && npm run api:proto:gen",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@bufbuild/protobuf": "^2.12.0",
@@ -79,7 +81,10 @@
     "@tamagui/config": "^2.3.0",
     "@tamagui/core": "^2.3.0",
     "firebase": "^10.14.1",
-    "zod": "^4.4.3"
+    "zod": "^4.4.3",
+    "expo": "~54.0.33",
+    "react": "19.1.0",
+    "react-native": "0.81.5"
   },
   "peerDependencies": {
     "@react-native-async-storage/async-storage": "*",
