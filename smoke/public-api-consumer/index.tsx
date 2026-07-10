@@ -42,6 +42,15 @@ import {
   type Theme,
   type UiRuntime,
 } from "@appforge/platform/theme";
+import {
+  formatCurrencyWholeDollars,
+  formatDisplayName,
+  formatFallback,
+  formatYesNo,
+  resolveRuntimePlatform,
+  runtime as platformRuntime,
+  type RuntimePlatform,
+} from "@appforge/platform/core";
 import { EntitlementProvider, SessionProvider, useSessionContext } from "@appforge/platform/providers";
 import { api, apiRoutes, callProto, type ApiRouteDefinition } from "@appforge/platform/api";
 import { isRoute, routes, type AppRoute } from "@appforge/platform/navigation";
@@ -91,6 +100,15 @@ void isRoute;
 void routes;
 void defaultContracts;
 void platformDefaultTheme;
+void formatCurrencyWholeDollars;
+void formatDisplayName;
+void formatFallback;
+void formatYesNo;
+void resolveRuntimePlatform;
+void platformRuntime;
+
+const runtimePlatform: RuntimePlatform = resolveRuntimePlatform();
+void runtimePlatform;
 
 const badgeContract: BadgeContract | undefined = undefined;
 void badgeContract;

@@ -34,6 +34,7 @@
     "LICENSE"
   ],
   "exports": {
+    "./core": "./src/platform/core/index.ts",
     "./ui": "./src/platform/ui/index.ts",
     "./theme": "./src/platform/ui/theme/index.ts",
     "./providers": "./src/platform/providers/index.ts",
