@@ -194,6 +194,7 @@ export {
   PanelScaffold,
   PanelCollectionScaffold,
   PageScaffold,
+  ScreenScaffold,
 } from "./scaffolds/index";
 export type {
   CenteredPageScaffoldProps,
@@ -203,6 +204,7 @@ export type {
   PanelScaffoldProps,
   PanelCollectionScaffoldProps,
   PageScaffoldProps,
+  ScreenScaffoldProps,
 } from "./scaffolds/index";
 export { centeredPageWidths, pageShell } from "./scaffolds/defaults";
 

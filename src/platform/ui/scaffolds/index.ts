@@ -15,3 +15,5 @@ export type {
   PanelCollectionScaffoldProps,
   PageScaffoldProps,
 } from "./Scaffolds";
+export { ScreenScaffold } from "./ScreenScaffold.scaffold";
+export type { ScreenScaffoldProps } from "./ScreenScaffold.scaffold";
