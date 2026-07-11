@@ -7,6 +7,7 @@ export const MobileBottomNavItemSchema = z.object({
   contract: z.custom<MobileBottomNavItemContract>(),
   route: z.custom<AppRoute>(),
   icon: z.custom<IconName>(),
+  label: z.string(),
   accessibilityLabel: z.string(),
 });
 

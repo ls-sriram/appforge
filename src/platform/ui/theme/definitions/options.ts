@@ -12,5 +12,7 @@ export interface ThemeOptions {
   brand: BrandColors;
   dark?: boolean;
   fontFamily?: string;
+  /** Display face for large headings; defaults to `fontFamily` when omitted. */
+  displayFontFamily?: string;
   radiusScale?: number;
 }

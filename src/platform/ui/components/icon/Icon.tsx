@@ -47,7 +47,10 @@ export type IconName =
   | "help"
   | "info"
   | "key"
-  | "eye";
+  | "eye"
+  | "clock"
+  | "check-circle"
+  | "trash";
 
 const icons: Record<IconName, (color: string) => React.ReactNode> = {
   "panel-size-sm": (c) => (
@@ -303,6 +306,26 @@ const icons: Record<IconName, (color: string) => React.ReactNode> = {
         strokeLinejoin="round"
       />
       <Circle cx="12" cy="12" r="2.5" stroke={c} strokeWidth="2" fill="none" />
+    </>
+  ),
+  clock: (c) => (
+    <>
+      <Circle cx="12" cy="12" r="9" stroke={c} strokeWidth="2" fill="none" />
+      <Path d="M12 7v5l3.5 2" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    </>
+  ),
+  "check-circle": (c) => (
+    <>
+      <Circle cx="12" cy="12" r="9" stroke={c} strokeWidth="2" fill="none" />
+      <Path d="M8 12l3 3 6-6" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+    </>
+  ),
+  trash: (c) => (
+    <>
+      <Path d="M4 7h16" stroke={c} strokeWidth="2" strokeLinecap="round" />
+      <Path d="M9 7V4h6v3" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <Path d="M6 7l1 13a2 2 0 002 2h6a2 2 0 002-2l1-13" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+      <Path d="M10 11v7M14 11v7" stroke={c} strokeWidth="2" strokeLinecap="round" />
     </>
   ),
 };

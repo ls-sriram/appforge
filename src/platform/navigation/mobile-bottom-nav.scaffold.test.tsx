@@ -35,6 +35,11 @@ jest.mock("../ui", () => {
       return stamp;
     },
     useTheme: () => ({
+      spacing: { xs: 4 },
+      typography: {
+        size: { xs: 11 },
+        weight: { medium: "500" },
+      },
       radii: { lg: 12 },
       palette: {
         surface: "#ffffff",
@@ -50,6 +55,7 @@ jest.mock("../ui", () => {
       return React.createElement("Pressable", props, rendered);
     },
     Icon: makeComponent("Icon"),
+    Body: makeComponent("Text"),
   };
 });
 
@@ -64,7 +70,7 @@ function renderTree(el: React.ReactElement) {
 }
 
 describe("MobileBottomNavScaffold", () => {
-  it("renders bottom safe-area chrome with logo and icon-only route items", () => {
+  it("renders bottom safe-area chrome with logo and icon-plus-label route items", () => {
     (usePathname as jest.Mock).mockReturnValue(routes.dashboard);
     const contract = defaultMobileBottomNavItemStyles(useTheme());
 
@@ -74,8 +80,8 @@ describe("MobileBottomNavScaffold", () => {
         logo={<>{React.createElement("Text", {}, "Logo")}</>}
         items={(
           <>
-            <MobileBottomNavItem contract={contract} route={routes.dashboard} icon="home" accessibilityLabel="Home" />
-            <MobileBottomNavItem contract={contract} route={routes.settings} icon="user" accessibilityLabel="Profile" />
+            <MobileBottomNavItem contract={contract} route={routes.dashboard} icon="home" label="Home" accessibilityLabel="Home" />
+            <MobileBottomNavItem contract={contract} route={routes.settings} icon="user" label="Profile" accessibilityLabel="Profile" />
           </>
         )}
       />,
@@ -85,12 +91,17 @@ describe("MobileBottomNavScaffold", () => {
     const rail = tree.root.findAll((node: any) => node.props.testID === "mobile-nav.rail")[0];
     const items = tree.root.findAll((node: any) => node.props.testID === "mobile-nav.items")[0];
     const icons = tree.root.findAll((node: any) => node.type === "Icon");
+    const labels = tree.root.findAll((node: any) => node.type === "Text" && (node.props.children === "Home" || node.props.children === "Profile"));
+    const itemStacks = tree.root.findAll((node: any) => node.type === "View" && node.props.style?.minHeight === contract.frame.minHeight);
 
     expect(root.props.edges).toEqual(["bottom", "left", "right"]);
     expect(rail.props.style.minHeight).toBe(mobileBottomNavChrome.minHeight);
     expect(items.props.style.flexDirection).toBe("row");
     expect(icons).toHaveLength(2);
+    expect(labels).toHaveLength(2);
     expect(icons[0].props.color).toBe(contract.interaction.activeColor);
     expect(icons[1].props.color).toBe(contract.interaction.inactiveColor);
+    expect(itemStacks[0].props.style.backgroundColor).toBe(contract.interaction.activeBackgroundColor);
+    expect(itemStacks[1].props.style.backgroundColor).toBeUndefined();
   });
 });

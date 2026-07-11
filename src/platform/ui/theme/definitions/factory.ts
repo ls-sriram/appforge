@@ -40,6 +40,7 @@ export function createTheme(options: ThemeOptions): Theme {
     brand,
     dark = false,
     fontFamily = "'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
+    displayFontFamily = fontFamily,
     radiusScale = 1,
   } = options;
 
@@ -101,6 +102,7 @@ export function createTheme(options: ThemeOptions): Theme {
     },
     typography: {
       family: fontFamily,
+      display: displayFontFamily,
       mono: "'SF Mono', 'JetBrains Mono', monospace",
       size: {
         xs: 11,

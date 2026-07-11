@@ -49,6 +49,8 @@ export interface Theme {
   };
   typography: {
     family: string;
+    /** Display face for large headings; falls back to `family` when the app doesn't set one. */
+    display: string;
     mono: string;
     size: {
       xs: number;

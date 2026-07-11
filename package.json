@@ -1,6 +1,6 @@
 {
   "name": "@appforge/platform",
-  "version": "0.4.1",
+  "version": "0.4.3",
   "description": "Shared UI, features, and API layer for AppForge-scaffolded apps.",
   "files": [
     "src/config/**/*.ts",

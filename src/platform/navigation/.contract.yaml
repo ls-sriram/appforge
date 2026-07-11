@@ -10,9 +10,14 @@ public_api:
   - AppRoute
   - NavItem
   - NavBarScaffold
+  - PathNavigationScaffold
+  - PathBreadcrumb
+  - NavigationActionBar
 invariants:
   - nav_items_derive_active_state_from_router_not_props
   - nav_bar_scaffold_owns_no_fixed_screen_placement
+  - path_navigation_spans_its_parent_width_and_delegates_navigation_to_callers
+  - navigation_action_bar_standardizes_back_forward_and_exit_presentation
 coupled_files:
   - pattern: "*.scaffold.tsx"
     also_pulls:

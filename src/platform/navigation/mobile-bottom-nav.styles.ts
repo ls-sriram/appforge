@@ -5,6 +5,11 @@ export interface MobileBottomNavItemContract {
     minHeight: number;
     borderRadius: number;
     iconSize: number;
+    gap: number;
+  };
+  text: {
+    fontSize: number;
+    fontWeight: string | number;
   };
   interaction: {
     restingOpacity: number;
@@ -29,6 +34,11 @@ export function defaultMobileBottomNavItemStyles(theme: ThemeDefinition): Mobile
       minHeight: 56,
       borderRadius: theme.radii.lg,
       iconSize: 22,
+      gap: theme.spacing.xs,
+    },
+    text: {
+      fontSize: theme.typography.size.xs,
+      fontWeight: theme.typography.weight.medium,
     },
     interaction: {
       restingOpacity: 0.72,

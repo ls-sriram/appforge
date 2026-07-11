@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { usePathname, useRouter } from "expo-router";
-import { Icon, Pressable } from "../ui";
+import { Body, Icon, Pressable } from "../ui";
 import { isRoute } from "./routes";
 import type { MobileBottomNavItemProps } from "./mobile-bottom-nav-item.contract";
 
@@ -12,6 +12,7 @@ export function MobileBottomNavItem({
   contract,
   route,
   icon,
+  label,
   accessibilityLabel,
 }: MobileBottomNavItemProps) {
   const pathname = usePathname();
@@ -38,12 +39,20 @@ export function MobileBottomNavItem({
                 minHeight: contract.frame.minHeight,
                 alignItems: "center",
                 justifyContent: "center",
+                gap: contract.frame.gap,
                 borderRadius: contract.frame.borderRadius,
                 backgroundColor,
                 opacity,
               }}
             >
               <Icon name={icon} color={color} size={contract.frame.iconSize} />
+              <Body
+                fontSize={contract.text.fontSize}
+                fontWeight={contract.text.fontWeight as any}
+                color={color}
+              >
+                {label}
+              </Body>
             </View>
           );
         }}

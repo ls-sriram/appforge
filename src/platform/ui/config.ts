@@ -123,9 +123,11 @@ const tokens = createTokens({
 })
 
 // ── Fonts ─────────────────────────────────────────────────────────────────────
-function makeFont(weight: string) {
+const DEFAULT_FONT_FAMILY = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, sans-serif";
+
+function makeFont(weight: string, family: string = DEFAULT_FONT_FAMILY) {
   return createFont({
-    family: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, sans-serif",
+    family,
     // Named keys mirror Theme.typography.size (theme/definitions/factory.ts) so
     // components can use $xs/$sm/... instead of raw numeric scale positions.
     size: {
@@ -402,6 +404,10 @@ export function createConfigForTheme(theme: PlatformTheme) {
   const runtimeTheme = createRuntimeTheme(theme)
   return createTamagui({
     ...baseConfig,
+    fonts: {
+      reg: makeFont('500', theme.typography.family),
+      bold: makeFont('700', theme.typography.display),
+    },
     themes: {
       dark: runtimeTheme,
       light: runtimeTheme,
