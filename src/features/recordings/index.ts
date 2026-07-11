@@ -7,3 +7,8 @@ export type { RecordingRuntimeAdapter } from "./recordings.adapter";
 export { DefaultRecordingRuntimeAdapter, getDefaultRecordingRuntimeAdapter } from "./default-recording.adapter";
 export { recordingTranscriptionContentResolver } from "./recording-transcription.resolver";
 export { RecordingTranscriptControl } from "./recording-transcript.block";
+export { RecordingStatusBlock } from "./recording-status.block";
+export { RecordingStatusBlockSchema } from "./recording-status.contract";
+export type { RecordingStatusBlockProps, RecordingStatusPulse, RecordingStatusSize, RecordingStatusState } from "./recording-status.contract";
+export { defaultRecordingStatusStyle } from "./recording-status.styles";
+export type { RecordingStatusStyle } from "./recording-status.styles";

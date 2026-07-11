@@ -2,6 +2,8 @@ import React from "react";
 import { runtime } from "../../platform/core/runtime";
 import { Body, Button, Heading, Icon, useUI, XStack, YStack } from "../../platform/ui/index";
 import type { RecordingModel, RecordingUiStatus } from "./recordings.model";
+import { RecordingStatusBlock } from "./recording-status.block";
+import { defaultRecordingStatusStyle } from "./recording-status.styles";
 import type { RecordingShareModel as RecordingShare } from "./share.model";
 
 interface RecordingViewProps {
@@ -56,15 +58,23 @@ export function RecordingView({
     [],
   );
 
-  const { contracts } = useUI();
+  const { contracts, theme } = useUI();
   const isRecording = status === "recording";
   const isUploading = status === "uploading";
   const canInlineAudio = runtime.isWeb;
   const micDisabled = isUploading || loading;
   const micLabel = isRecording ? "Stop recording" : "Start recording";
-  const micStatus = isUploading ? "Uploading audio..." : isRecording ? "Recording..." : "Ready to record";
   const micPress = isRecording ? onStop : onStart;
-  const timerLabel = `${String(Math.floor(secondsElapsed / 60)).padStart(2, "0")}:${String(secondsElapsed % 60).padStart(2, "0")} / ${maxSeconds}s`;
+  const recordingStatusStyle = defaultRecordingStatusStyle(theme);
+  const displayState = status === "idle"
+    ? "microphone"
+    : status === "recording"
+      ? "recording"
+      : status === "uploading"
+        ? "uploading"
+        : status === "ready"
+          ? "ready"
+          : "error";
 
   return (
     <YStack gap="$4">
@@ -157,7 +167,13 @@ export function RecordingView({
             <YStack f={1}>
               <YStack gap="$1">
                 <XStack ai="center" gap="$3">
-                  <Body fontSize="$2">{micStatus}</Body>
+                  <RecordingStatusBlock
+                    state={displayState}
+                    size="md"
+                    elapsedSeconds={secondsElapsed}
+                    maxSeconds={maxSeconds}
+                    style={recordingStatusStyle}
+                  />
                   <Button
                     contract={contracts.button!["ghost"]}
                     onPress={onRefresh}
@@ -166,7 +182,6 @@ export function RecordingView({
                     {loading ? "Refreshing..." : "Refresh"}
                   </Button>
                 </XStack>
-                <Body fontSize="$2" color={isRecording ? undefined : "$textMuted"}>{timerLabel}</Body>
                 {error ? <Body fontSize="$2" color="$error">{error}</Body> : null}
               </YStack>
             </YStack>
