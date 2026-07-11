@@ -5,6 +5,7 @@ import type { ChipContract } from "../../components/chip/chip.styles";
 import type { TabContract } from "../../components/tab/tab.styles";
 import type { IconButtonContract } from "../../components/icon-button/icon-button.styles";
 import type { CardContract } from "../../components/card/card.styles";
+import type { CardListContract } from "../../components/card-list/card-list.styles";
 import type { MenuItemContract } from "../../components/menu-item/menu-item.styles";
 import type { BadgeContract } from "../../components/badge/badge.styles";
 import type { TagContract } from "../../components/tag/tag.styles";
@@ -31,6 +32,7 @@ export interface PrimitiveContracts {
   tab?: Record<string, TabContract>;
   iconButton?: Record<string, IconButtonContract>;
   card?: Record<string, CardContract>;
+  cardList?: Record<string, CardListContract>;
   menuItem?: Record<string, MenuItemContract>;
   badge?: Record<string, BadgeContract>;
   tag?: Record<string, TagContract>;

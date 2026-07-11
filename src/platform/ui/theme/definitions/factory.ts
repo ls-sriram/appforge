@@ -14,6 +14,7 @@ import { defaultChipStyles } from "../../components/chip/chip.styles";
 import { defaultTabStyles } from "../../components/tab/tab.styles";
 import { defaultIconButtonStyles } from "../../components/icon-button/icon-button.styles";
 import { defaultCardStyles } from "../../components/card/card.styles";
+import { defaultCardListStyles } from "../../components/card-list/card-list.styles";
 import { defaultMenuItemStyles } from "../../components/menu-item/menu-item.styles";
 import { defaultBadgeStyles } from "../../components/badge/badge.styles";
 import { defaultTagStyles } from "../../components/tag/tag.styles";
@@ -229,6 +230,8 @@ export function createContracts(t: Theme): PrimitiveContracts {
     iconButton: defaultIconButtonStyles(t),
 
     card: defaultCardStyles(t),
+
+    cardList: defaultCardListStyles(t),
 
     menuItem: defaultMenuItemStyles(t),
 

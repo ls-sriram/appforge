@@ -20,6 +20,7 @@ export {
   type SegmentedTabContract,
   type IconButtonContract,
   type CardContract,
+  type CardListContract,
   type MenuItemContract,
   type BadgeContract,
   type TagContract,
@@ -72,6 +73,9 @@ export { IconButtonSchema } from "./components/icon-button/icon-button.contract"
 export { Card } from "./components/card/Card";
 export type { CardProps } from "./components/card/Card";
 export { CardSchema } from "./components/card/card.contract";
+export { CardList } from "./components/card-list/CardList";
+export type { CardListProps } from "./components/card-list/CardList";
+export { CardListSchema } from "./components/card-list/card-list.contract";
 export { MenuItem } from "./components/menu-item/MenuItem";
 export type { MenuItemProps } from "./components/menu-item/MenuItem";
 export { MenuItemSchema } from "./components/menu-item/menu-item.contract";

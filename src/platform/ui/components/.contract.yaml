@@ -10,6 +10,7 @@ public_api:
   - badge
   - button
   - card
+  - card-list
   - chip
   - color-palette-picker
   - color-swatch

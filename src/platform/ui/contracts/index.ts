@@ -7,6 +7,7 @@ export type { ChipContract } from "../components/chip/chip.styles";
 export type { TabContract as SegmentedTabContract } from "../components/tab/tab.styles";
 export type { IconButtonContract } from "../components/icon-button/icon-button.styles";
 export type { CardContract } from "../components/card/card.styles";
+export type { CardListContract } from "../components/card-list/card-list.styles";
 export type { MenuItemContract } from "../components/menu-item/menu-item.styles";
 export type { BadgeContract } from "../components/badge/badge.styles";
 export type { TagContract } from "../components/tag/tag.styles";

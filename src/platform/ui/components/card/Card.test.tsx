@@ -29,6 +29,14 @@ jest.mock("../text/Text", () => {
   };
 });
 
+jest.mock("../icon/Icon", () => {
+  const React = require("react");
+  const { View } = require("react-native");
+  return {
+    Icon: (props: any) => React.createElement(View, { ...props, testID: `icon-${props.name}` }),
+  };
+});
+
 function Wrapper({ children }: { children: React.ReactNode }) {
   return <ThemeProvider>{children}</ThemeProvider>;
 }
@@ -97,5 +105,47 @@ describe("Card", () => {
     });
 
     expect(onPress).toHaveBeenCalledTimes(1);
+  });
+
+  it("renders status on the left and an action on the right in a second row", () => {
+    const tree = render(
+      <Wrapper>
+        <Card
+          contract={cardContract}
+          accessibilityLabel="Deployment"
+          title="Production"
+          status={<Text testID="status">Healthy</Text>}
+          action={<Text testID="action">Manage</Text>}
+          onPress={() => {}}
+        />
+      </Wrapper>,
+    );
+
+    expect(tree.root.findByProps({ testID: "status" })).toBeTruthy();
+    expect(tree.root.findByProps({ testID: "action" })).toBeTruthy();
+  });
+
+  it("hides the second row until a collapsible card is expanded", () => {
+    const tree = render(
+      <Wrapper>
+        <Card
+          contract={cardContract}
+          accessibilityLabel="Deployment details"
+          title="Production"
+          status={<Text testID="status">Healthy</Text>}
+          action={<Text testID="action">Manage</Text>}
+          collapsible
+          onPress={() => {}}
+        />
+      </Wrapper>,
+    );
+
+    expect(tree.root.findAllByProps({ testID: "status" })).toHaveLength(0);
+    expect(findProbe(tree).props.accessibilityState.expanded).toBe(false);
+
+    act(() => findProbe(tree).props.onPress());
+
+    expect(tree.root.findAllByType(Text).filter((node: any) => node.props.testID === "status")).toHaveLength(1);
+    expect(findProbe(tree).props.accessibilityState.expanded).toBe(true);
   });
 });
