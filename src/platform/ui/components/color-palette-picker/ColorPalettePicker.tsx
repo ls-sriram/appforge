@@ -13,14 +13,14 @@ export { ColorPalettePickerSchema } from "./color-palette-picker.contract";
 
 const PickerRoot = styled(View, {
   name: "ColorPalettePickerRoot",
-  gap: "$3",
+  gap: "$sm",
 });
 
 const PaletteGrid = styled(View, {
   name: "ColorPalettePickerGrid",
   flexDirection: "row",
   flexWrap: "wrap",
-  gap: "$2",
+  gap: "$xs",
 });
 
 function normalizeHex(value: string): string {
@@ -92,7 +92,7 @@ export function ColorPalettePicker({
           {label}
         </Label>
       ) : null}
-      <View fd="row" ai="center" gap="$3">
+      <View fd="row" ai="center" gap="$sm">
         <View
           width={s.preview.size}
           height={s.preview.size}
@@ -102,7 +102,7 @@ export function ColorPalettePicker({
           borderColor={isValidHex(draft) ? s.preview.borderColor : s.preview.invalidBorderColor}
           testID={testID ? `${testID}-preview` : undefined}
         />
-        <View f={1} gap="$2">
+        <View f={1} gap="$xs">
           <Input
             contract={inputContract}
             value={draft}

@@ -226,6 +226,18 @@ export const radii = {
   pill: '$pill',
 } as const
 
+// Semantic font size/lineHeight constants — use instead of raw $1/$2/$3 etc. on
+// fontSize/lineHeight props. Maps to theme factory typography.size scale:
+// xs=11 sm=13 md=15 lg=18 xl=24 xxl=32
+export const fontSize = {
+  xs:  '$xs',
+  sm:  '$sm',
+  md:  '$md',
+  lg:  '$lg',
+  xl:  '$xl',
+  xxl: '$xxl',
+} as const
+
 export { YStackSchema, XStackSchema } from "./stack.contract";
 
 export const YStack = styled(View, {

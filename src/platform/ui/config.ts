@@ -126,11 +126,15 @@ const tokens = createTokens({
 function makeFont(weight: string) {
   return createFont({
     family: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, sans-serif",
+    // Named keys mirror Theme.typography.size (theme/definitions/factory.ts) so
+    // components can use $xs/$sm/... instead of raw numeric scale positions.
     size: {
       1: 11, 2: 13, 3: 15, 4: 18, 5: 24, 6: 26, 7: 32, 8: 42,
+      xs: 11, sm: 13, md: 15, lg: 18, xl: 24, xxl: 32,
     },
     lineHeight: {
       1: 16, 2: 20, 3: 22, 4: 26, 5: 30, 6: 32, 7: 40, 8: 52,
+      xs: 16, sm: 20, md: 22, lg: 26, xl: 30, xxl: 40,
     },
     weight: { 1: weight },
     letterSpacing: { 1: 0 },

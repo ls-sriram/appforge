@@ -404,10 +404,12 @@ const styles = {
     flex: 1,
     width: "100%",
     minWidth: 0,
+    minHeight: 0,
   },
   pageContent: {
     flex: 1,
     minWidth: 0,
+    minHeight: 0,
   },
   sidebarRail: {
     flexShrink: 0,

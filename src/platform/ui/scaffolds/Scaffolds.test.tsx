@@ -6,7 +6,7 @@ import TestRenderer, { act } from "react-test-renderer";
 import { ThemeProvider } from "../theme/ThemeProvider";
 import { ViewportProvider } from "../theme/ViewportProvider";
 import { createUi } from "../viz";
-import { CenteredPageScaffold } from "./Scaffolds";
+import { CenteredPageScaffold, PageScaffold } from "./Scaffolds";
 
 jest.mock("react-native", () => {
   const React = require("react");
@@ -123,5 +123,30 @@ describe("CenteredPageScaffold", () => {
 
     expect(findByTestId(tree, "centered.root").length).toBeGreaterThan(0);
     expect(tree.root.findAllByType(View).length).toBeGreaterThan(0);
+  });
+});
+
+describe("PageScaffold", () => {
+  it("keeps sidebar placement explicit on desktop surfaces", () => {
+    const tree = renderScaffold(
+      <Wrapper>
+        <PageScaffold
+          content={<Text>Content</Text>}
+          sidebar={<Text>Navigation</Text>}
+          sidebarPlacement="right"
+          ui={createUi("page")}
+        />
+      </Wrapper>,
+    );
+
+    const content = findByTestId(tree, "page.content")[0];
+    const sidebar = tree.root.findAll((node: any) => node.props["data-uiid"] === "page.sidebar")[0];
+    const body = content.parent;
+    const contentIndex = body.children.indexOf(content);
+    const sidebarIndex = body.children.indexOf(sidebar);
+
+    expect(contentIndex).toBeGreaterThanOrEqual(0);
+    expect(sidebarIndex).toBeGreaterThan(contentIndex);
+    expect(body.props.style).toEqual(expect.arrayContaining([expect.objectContaining({ flexDirection: "row" })]));
   });
 });

@@ -124,6 +124,13 @@ describe("NavBarScaffold", () => {
     expect(inactiveText.props.color).toBe(theme.palette.textSecondary);
     expect(inactiveItemView.props.style.opacity).toBe(contract.frame.restingOpacity);
     expect(inactiveItemView.props.style.backgroundColor).toBeUndefined();
+    const root = tree.root.findAll((node: any) => node.props.testID === undefined && node.type === "View")[0];
+    const items = tree.root.findAll((node: any) => node.props.testID === undefined && node.type === "View")[2];
+    expect(root.props.style.flexDirection).toBe("row");
+    expect(root.props.style.width).toBe("100%");
+    expect(items.props.style.flexDirection).toBe("row");
+    expect(items.props.style.minWidth).toBe(280);
+    expect(items.props.style.maxWidth).toBe(356);
   });
 
   it("switches to a vertical sidebar layout on wider viewport tiers", () => {

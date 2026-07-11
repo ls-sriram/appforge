@@ -7,38 +7,38 @@ export const Body = styled(TamaguiText, {
   name: "Body",
   fontFamily: "$reg",
   color: "$textPrimary",
-  fontSize: "$3",
-  lineHeight: "$3",
+  fontSize: "$md",
+  lineHeight: "$md",
 });
 
 export const Heading = styled(TamaguiText, {
   name: "Heading",
   fontFamily: "$reg",
   color: "$textPrimary",
-  fontSize: "$5",
-  lineHeight: "$5",
+  fontSize: "$xl",
+  lineHeight: "$xl",
 });
 
 export const Label = styled(TamaguiText, {
   name: "Label",
   fontFamily: "$reg",
   color: "$textPrimary",
-  fontSize: "$2",
-  lineHeight: "$2",
+  fontSize: "$sm",
+  lineHeight: "$sm",
 });
 
 export const Display = styled(TamaguiText, {
   name: "Display",
   fontFamily: "$bold",
   color: "$textPrimary",
-  fontSize: "$7",
-  lineHeight: "$7",
+  fontSize: "$xxl",
+  lineHeight: "$xxl",
 });
 
 export const Logo = styled(TamaguiText, {
   name: "Logo",
   fontFamily: "$bold",
   color: "$textPrimary",
-  fontSize: "$5",
-  lineHeight: "$5",
+  fontSize: "$xl",
+  lineHeight: "$xl",
 });
