@@ -1,10 +1,10 @@
 import React from "react";
-import { ScrollView, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View } from "react-native";
 import { useTheme } from "../theme/ThemeProvider";
 import { useViewport, type ViewportTier } from "../theme/Viewport";
 import { noopUi, type UiStamp } from "../viz";
 import { centeredPageWidths, pageShell } from "./defaults";
+import { ScreenScaffold } from "./ScreenScaffold.scaffold";
 
 type SlotNode = React.ReactNode;
 type SidebarPlacement = "left" | "right";
@@ -104,41 +104,34 @@ export function CenteredPageScaffold({
   const verticalPadding = viewport.isMobile ? theme.spacing.lg : theme.spacing.xl;
 
   return (
-    <SafeAreaView
-      edges={["top", "bottom", "left", "right"]}
-      style={[styles.safeArea, { backgroundColor: theme.palette.background }]}
-      testID={ui("root", "Centered page scaffold root").__uiid}
+    <ScreenScaffold
+      contentContainerStyle={{
+        paddingLeft: horizontalPadding,
+        paddingRight: horizontalPadding,
+        paddingTop: verticalPadding,
+        paddingBottom: verticalPadding,
+        alignItems: "center",
+      }}
+      scroll
+      showsVerticalScrollIndicator={false}
+      ui={ui.scope("screen")}
     >
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          paddingLeft: horizontalPadding,
-          paddingRight: horizontalPadding,
-          paddingTop: verticalPadding,
-          paddingBottom: verticalPadding,
-          alignItems: "center",
-        }}
-        keyboardShouldPersistTaps="handled"
-        showsVerticalScrollIndicator={false}
-        style={styles.scroll}
+      <View
+        nativeID={ui("well", "Centered page scaffold well").__uiid}
+        testID={ui("well", "Centered page scaffold well").__uiid}
+        style={[styles.centeredWell, { maxWidth: centeredPageWidths[width] }]}
       >
-        <View
-          nativeID={ui("well", "Centered page scaffold well").__uiid}
-          testID={ui("well", "Centered page scaffold well").__uiid}
-          style={[styles.centeredWell, { maxWidth: centeredPageWidths[width] }]}
-        >
-          <Section testID={ui("header", "Centered page scaffold header").__uiid}>
-            {header}
-          </Section>
-          <Section testID={ui("content", "Centered page scaffold content").__uiid}>
-            {content}
-          </Section>
-          <Section testID={ui("footer", "Centered page scaffold footer").__uiid}>
-            {footer}
-          </Section>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        <Section testID={ui("header", "Centered page scaffold header").__uiid}>
+          {header}
+        </Section>
+        <Section testID={ui("content", "Centered page scaffold content").__uiid}>
+          {content}
+        </Section>
+        <Section testID={ui("footer", "Centered page scaffold footer").__uiid}>
+          {footer}
+        </Section>
+      </View>
+    </ScreenScaffold>
   );
 }
 
@@ -344,12 +337,6 @@ export function PageScaffold({
 }
 
 const styles = {
-  safeArea: {
-    flex: 1,
-  },
-  scroll: {
-    flex: 1,
-  },
   centeredWell: {
     width: "100%",
   },

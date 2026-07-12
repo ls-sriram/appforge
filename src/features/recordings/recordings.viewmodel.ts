@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { createRecording, listRecordings, loadRecordingContent } from "./recording-actions.usecase";
-import { RecordingModel, RecordingUiStatus } from "./recordings.model";
+import { deleteRecording, finalizeRecording, listRecordings, loadRecordingContent } from "./recording-actions.usecase";
+import { RecordingFinalizeOptions, RecordingModel, RecordingUiStatus } from "./recordings.model";
 import { recordingConfig } from "./recording.config";
 import { getDefaultRecordingRuntimeAdapter } from "./default-recording.adapter";
 import { RecordingRuntimeAdapter } from "./recordings.adapter";
@@ -16,6 +16,7 @@ export function useRecordingsViewModel(adapter?: RecordingRuntimeAdapter) {
   const [playbackUrlById, setPlaybackUrlById] = useState<Record<string, string>>({});
   const [secondsElapsed, setSecondsElapsed] = useState(0);
   const [playingId, setPlayingId] = useState<string | undefined>(undefined);
+  const [deletingId, setDeletingId] = useState<string | undefined>(undefined);
   const recordingSinceRef = useRef<number | undefined>(undefined);
   const stopRef = useRef<() => Promise<void>>(async () => undefined);
 
@@ -67,7 +68,7 @@ export function useRecordingsViewModel(adapter?: RecordingRuntimeAdapter) {
     setStatus("recording");
   }, [status]);
 
-  const stop = useCallback(async () => {
+  const finalize = useCallback(async (options: RecordingFinalizeOptions = {}) => {
     if (status !== "recording") return;
     setStatus("uploading");
     const since = recordingSinceRef.current;
@@ -80,21 +81,31 @@ export function useRecordingsViewModel(adapter?: RecordingRuntimeAdapter) {
       setError(captured.error);
       return;
     }
-    const save = await createRecording({
+    const result = await finalizeRecording({
       audioBase64: captured.data.audioBase64,
       contentType: captured.data.contentType,
       durationSeconds: captured.data.durationSeconds ?? durationSeconds,
-    });
-    if (!save.ok) {
+    }, options);
+    if (!result.ok) {
       setStatus("error");
-      setError(save.error);
+      setError(result.error);
       return;
     }
-    await refresh();
+    if (result.data.outcome === "saved") {
+      await refresh();
+    }
     setStatus("ready");
     recordingSinceRef.current = undefined;
     setSecondsElapsed(0);
   }, [refresh, secondsElapsed, status]);
+
+  const stop = useCallback(async () => {
+    await finalize({ persistenceMode: "save" });
+  }, [finalize]);
+
+  const discard = useCallback(async () => {
+    await finalize({ persistenceMode: "discard" });
+  }, [finalize]);
 
   stopRef.current = stop;
 
@@ -113,6 +124,26 @@ export function useRecordingsViewModel(adapter?: RecordingRuntimeAdapter) {
     setPlayingId(recordingId);
   }, [playbackUrlById]);
 
+  const remove = useCallback(async (recordingId: string) => {
+    const id = recordingId.trim();
+    if (!id || deletingId) return;
+    setDeletingId(id);
+    const result = await deleteRecording(id);
+    if (!result.ok) {
+      setError(result.error);
+      setDeletingId(undefined);
+      return;
+    }
+    setRecordings((current) => current.filter((item) => item.id !== id));
+    setPlaybackUrlById((current) => {
+      const next = { ...current };
+      delete next[id];
+      return next;
+    });
+    setPlayingId((current) => (current === id ? undefined : current));
+    setDeletingId(undefined);
+  }, [deletingId]);
+
   const state = useMemo(() => ({
     status,
     error,
@@ -123,15 +154,18 @@ export function useRecordingsViewModel(adapter?: RecordingRuntimeAdapter) {
     secondsRemaining: Math.max(0, MAX_SECONDS - secondsElapsed),
     playbackUrlById,
     playingId,
-  }), [error, loading, playbackUrlById, playingId, recordings, secondsElapsed, status]);
+    deletingId,
+  }), [deletingId, error, loading, playbackUrlById, playingId, recordings, secondsElapsed, status]);
 
   return {
     state,
     actions: {
       start,
       stop,
+      discard,
       refresh,
       play,
+      deleteRecording: remove,
     },
   };
 }

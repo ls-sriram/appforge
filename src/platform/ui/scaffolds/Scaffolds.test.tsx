@@ -121,7 +121,8 @@ describe("CenteredPageScaffold", () => {
       </Wrapper>,
     );
 
-    expect(findByTestId(tree, "centered.root").length).toBeGreaterThan(0);
+    expect(findByTestId(tree, "centered.screen.root").length).toBeGreaterThan(0);
+    expect(tree.root.findAll((node: any) => node.type === "ScrollView")).toHaveLength(1);
     expect(tree.root.findAllByType(View).length).toBeGreaterThan(0);
   });
 });

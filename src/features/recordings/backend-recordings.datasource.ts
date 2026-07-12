@@ -51,6 +51,14 @@ export class BackendRecordingsRepository implements RecordingsRepository {
       },
     };
   }
+
+  async deleteRecording(recordingId: string): Promise<Result<void>> {
+    const id = recordingId.trim();
+    if (!id) return { ok: false, error: "Recording id is required." };
+    const result = await api.delete<void>(`${RECORDINGS_PATH}/${encodeURIComponent(id)}`);
+    if (!result.ok) return { ok: false, error: result.error };
+    return { ok: true, data: undefined };
+  }
 }
 
 function mapRecording(payload: RecordingResponsePayload): RecordingModel {

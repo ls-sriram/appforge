@@ -1,0 +1,15 @@
+schema: v1
+module: recordings
+layer: feature
+owner: recordings-team
+public_api:
+  - useRecordingsViewModel
+  - finalizeRecording
+  - listRecordings
+  - loadRecordingContent
+  - deleteRecording
+invariants:
+  - recording_finalization_explicitly_declares_persistence_intent
+  - discarded_recordings_never_reach_repository_storage
+  - saved_recording_lifecycle_flows_through_repository_and_datasource
+  - delete_removes_saved_recordings_from_normal_reads

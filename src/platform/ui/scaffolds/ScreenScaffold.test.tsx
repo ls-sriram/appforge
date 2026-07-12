@@ -97,8 +97,8 @@ describe("ScreenScaffold", () => {
       </ScreenScaffold>,
     );
 
-    expect(findHostByTestId(defaultTree, "default.root").props.edges).toEqual(["top", "bottom"]);
-    expect(findHostByTestId(toggledTree, "toggled.root").props.edges).toEqual([]);
+    expect(findHostByTestId(defaultTree, "default.root").props.edges).toEqual(["left", "right", "top", "bottom"]);
+    expect(findHostByTestId(toggledTree, "toggled.root").props.edges).toEqual(["left", "right"]);
     expect(defaultTree.root.findAllByType("SafeAreaView")).toHaveLength(1);
   });
 

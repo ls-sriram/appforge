@@ -17,10 +17,13 @@ interface RecordingViewProps {
   playbackUrlById: Record<string, string>;
   sharesByRecordingId: Record<string, RecordingShare[]>;
   shareLoadingByRecordingId: Record<string, boolean>;
+  deletingId?: string;
   onStart: () => void;
   onStop: () => void;
+  onDiscard: () => void;
   onRefresh: () => void;
   onPlay: (id: string) => void;
+  onDelete: (id: string) => void;
   onCreateShare: (id: string) => void;
   onRevokeShare: (id: string, shareUrl: string) => void;
   onLoadShares: (id: string) => void;
@@ -38,10 +41,13 @@ export function RecordingView({
   playbackUrlById,
   sharesByRecordingId,
   shareLoadingByRecordingId,
+  deletingId,
   onStart,
   onStop,
+  onDiscard,
   onRefresh,
   onPlay,
+  onDelete,
   onCreateShare,
   onRevokeShare,
   onLoadShares,
@@ -91,6 +97,7 @@ export function RecordingView({
                 const createdLabel = Number.isNaN(parsedTime)
                   ? recording.createdAt
                   : dateTimeFormatter.format(new Date(parsedTime));
+                const deleting = deletingId === recording.id;
                 const shares = sharesByRecordingId[recording.id] ?? [];
                 const activeShare = shares.find((item) => !item.revokedAt);
                 const shareLoading = shareLoadingByRecordingId[recording.id] === true;
@@ -101,6 +108,7 @@ export function RecordingView({
                         <Button
                           contract={contracts.button!["secondary"]}
                           onPress={() => onPlay(recording.id)}
+                          disabled={deleting}
                         >
                           {playingId === recording.id ? "Loaded" : "Play"}
                         </Button>
@@ -116,16 +124,23 @@ export function RecordingView({
                               onCreateShare(recording.id);
                             }
                           }}
-                          disabled={shareLoading}
+                          disabled={shareLoading || deleting}
                         >
                           {activeShare ? "Revoke Share" : "Share"}
                         </Button>
                         <Button
                           contract={contracts.button!["ghost"]}
                           onPress={() => onLoadShares(recording.id)}
-                          disabled={shareLoading}
+                          disabled={shareLoading || deleting}
                         >
                           {shareLoading ? "Loading..." : "Shares"}
+                        </Button>
+                        <Button
+                          contract={contracts.button!["ghost"]}
+                          onPress={() => onDelete(recording.id)}
+                          disabled={deleting}
+                        >
+                          {deleting ? "Deleting..." : "Delete"}
                         </Button>
                       </XStack>
                       {renderTranscriptControl?.(recording)}
@@ -181,6 +196,14 @@ export function RecordingView({
                   >
                     {loading ? "Refreshing..." : "Refresh"}
                   </Button>
+                  {isRecording ? (
+                    <Button
+                      contract={contracts.button!["ghost"]}
+                      onPress={onDiscard}
+                    >
+                      Discard
+                    </Button>
+                  ) : null}
                 </XStack>
                 {error ? <Body fontSize="$2" color="$error">{error}</Body> : null}
               </YStack>

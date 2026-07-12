@@ -17,7 +17,7 @@ export const NavigationTerminalActionSchema = z.object({
 export const NavigationActionBarSchema = z.object({
   ui: z.custom<UiStamp>().optional(),
   back: NavigationBackActionSchema,
-  action: NavigationTerminalActionSchema,
+  action: NavigationTerminalActionSchema.optional(),
 });
 
 export type NavigationBackAction = z.input<typeof NavigationBackActionSchema>;

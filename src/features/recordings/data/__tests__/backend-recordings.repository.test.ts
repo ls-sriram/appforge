@@ -4,6 +4,7 @@ jest.mock("@api/client", () => ({
   api: {
     post: jest.fn(),
     get: jest.fn(),
+    delete: jest.fn(),
     buildUrl: jest.fn((path: string) => `http://localhost:8080/api/v1${path}`),
   },
 }));
@@ -80,5 +81,18 @@ describe("BackendRecordingsRepository", () => {
     if (result.ok) {
       expect(result.data.playbackUrl).toBe("http://localhost:8080/api/v1/recordings/abc123/content");
     }
+  });
+
+  it("deletes a recording by canonical recordings path", async () => {
+    mockApi.delete.mockResolvedValueOnce({
+      ok: true,
+      data: undefined,
+    } as any);
+
+    const repo = new BackendRecordingsRepository();
+    const result = await repo.deleteRecording("abc123");
+
+    expect(result.ok).toBe(true);
+    expect(mockApi.delete).toHaveBeenCalledWith("/recordings/abc123");
   });
 });

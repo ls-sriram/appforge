@@ -9,8 +9,8 @@ export { NavigationActionBarSchema, NavigationBackActionSchema, NavigationTermin
 export function NavigationActionBar({ ui = noopUi, back, action }: NavigationActionBarProps) {
   const s = pathNavigationStyles(useTheme());
   const backLabel = back.label ?? "Back";
-  const actionLabel = action.label ?? (action.kind === "forward" ? "Continue" : "Exit");
-  const actionColor = action.kind === "exit" ? s.action.exitColor : s.action.color;
+  const actionLabel = action?.label ?? (action?.kind === "forward" ? "Continue" : "Exit");
+  const actionColor = action?.kind === "exit" ? s.action.exitColor : s.action.color;
 
   return (
     <View nativeID={ui("root", "Navigation action bar root").__uiid} testID={ui("root", "Navigation action bar root").__uiid} style={{ width: "100%", flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
@@ -20,12 +20,14 @@ export function NavigationActionBar({ ui = noopUi, back, action }: NavigationAct
           <Body fontSize={s.action.fontSize} fontWeight={s.action.fontWeight} color={s.action.color}>{backLabel}</Body>
         </View>
       </Pressable>
-      <Pressable accessibilityRole="button" accessibilityLabel={actionLabel} disabled={action.disabled} onPress={action.onPress} style={{ opacity: action.disabled ? s.action.disabledOpacity : 1 }}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: s.action.gap, paddingHorizontal: s.action.paddingHorizontal, paddingVertical: s.action.paddingVertical }}>
-          <Body fontSize={s.action.fontSize} fontWeight={s.action.fontWeight} color={actionColor}>{actionLabel}</Body>
-          <Icon name={action.kind === "forward" ? "chevron-right" : "x"} size={16} color={actionColor} />
-        </View>
-      </Pressable>
+      {action ? (
+        <Pressable accessibilityRole="button" accessibilityLabel={actionLabel} disabled={action.disabled} onPress={action.onPress} style={{ opacity: action.disabled ? s.action.disabledOpacity : 1 }}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: s.action.gap, paddingHorizontal: s.action.paddingHorizontal, paddingVertical: s.action.paddingVertical }}>
+            <Body fontSize={s.action.fontSize} fontWeight={s.action.fontWeight} color={actionColor}>{actionLabel}</Body>
+            <Icon name={action.kind === "forward" ? "chevron-right" : "x"} size={16} color={actionColor} />
+          </View>
+        </Pressable>
+      ) : null}
     </View>
   );
 }

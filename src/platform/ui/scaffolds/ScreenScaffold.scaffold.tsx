@@ -55,7 +55,7 @@ export function ScreenScaffold({
   accessibilityLabel,
 }: ScreenScaffoldProps) {
   const theme = useTheme();
-  const edges: Edge[] = [];
+  const edges: Edge[] = ["left", "right"];
 
   if (safeAreaTop) edges.push("top");
   if (safeAreaBottom) edges.push("bottom");
