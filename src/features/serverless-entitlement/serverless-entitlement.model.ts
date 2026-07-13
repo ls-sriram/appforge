@@ -17,6 +17,8 @@ export interface NativeStoreSubscriptionPeriod {
 
 export interface NativeStoreProduct {
   id: string;
+  /** Server catalog id when the store SKU is platform-specific. */
+  canonicalProductId?: string;
   kind: NativeStoreProductKind;
   platform: NativeStorePlatform;
   planKind: NativeStoreEntitlementPlanKind;

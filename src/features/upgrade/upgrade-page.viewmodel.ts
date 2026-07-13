@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import { Platform } from "react-native";
 import { dialog, linking } from "../../platform/ui/index";
+import { useOptionalBackendNativeEntitlementContext } from "../../platform/providers/BackendNativeEntitlementProvider";
 import { BackendBillingService, type CheckoutPaymentType, type PricingCard } from "./billing.service";
 import { BackendUserProfileService, type Plan } from "../settings/user-profile.service";
 
@@ -13,6 +15,7 @@ export interface UpgradePageState {
 }
 
 export function useUpgradePage() {
+  const nativeBilling = useOptionalBackendNativeEntitlementContext();
   const billingService = useMemo(() => new BackendBillingService(), []);
   const profileService = useMemo(() => new BackendUserProfileService(), []);
   const [state, setState] = useState<UpgradePageState>({
@@ -59,6 +62,14 @@ export function useUpgradePage() {
   }, [billingService, profileService]);
 
   const checkout = async (card: PricingCard) => {
+    if (nativeBilling && (Platform.OS === "ios" || Platform.OS === "android")) {
+      setState((current) => ({ ...current, checkoutBusyId: card.id }));
+      const result = await nativeBilling.purchaseProduct({ productId: card.id });
+      setState((current) => ({ ...current, checkoutBusyId: undefined }));
+      if (!result.ok) dialog.alert("Billing", result.error);
+      return;
+    }
+
     if (!state.identityEmail) {
       console.warn("[upgrade] checkout blocked due to missing identity email");
       dialog.alert("Billing", "Missing account email. Please sign in again.");

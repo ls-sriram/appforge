@@ -5,6 +5,11 @@ export {
   useServerlessEntitlementContext,
 } from "./ServerlessEntitlementProvider";
 export {
+  BackendNativeEntitlementProvider,
+  useBackendNativeEntitlementContext,
+  useOptionalBackendNativeEntitlementContext,
+} from "./BackendNativeEntitlementProvider";
+export {
   WorkspaceProvider,
   useWorkspaceActions,
   useWorkspaceContext,

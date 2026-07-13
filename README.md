@@ -11,6 +11,29 @@ Play Billing require a development or store build and are unavailable in Expo
 Go. Product identifiers must exist in App Store Connect and Play Console before
 lookup or purchase can succeed.
 
+## Native billing with AppForge Server
+
+Apps with an AppForge backend use `BackendNativeEntitlementProvider` instead of
+the serverless provider, normally nested with the existing `EntitlementProvider`.
+The native store still presents the purchase UI, but the provider sends the
+App Store transaction ID or Google Play purchase token to
+`POST /api/v1/billing/native/confirm`. Paid features are exposed only after the
+server verifies the purchase and returns its authoritative entitlement.
+
+Platform-specific SKUs can declare `canonicalProductId` to map back to the
+server billing catalog:
+
+```ts
+const products = [{
+  id: "pro_monthly_ios",
+  canonicalProductId: "pro_monthly",
+  platform: "ios",
+  kind: "subscription",
+  planKind: "subscription",
+  subscriptionPeriod: { unit: "month", count: 1 },
+}] satisfies NativeStoreProduct[];
+```
+
 ## Purpose
 
 This public repo is centered on the `example-app` reference implementation and the tooling around it:

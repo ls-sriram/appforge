@@ -1,7 +1,11 @@
 import React from "react";
 import { BackendEntitlementService } from "../../features/entitlements/entitlement.service";
 import type { EntitlementSnapshot } from "../../features/entitlements/entitlements.model";
-import { setEntitlementSnapshot, clearEntitlementSnapshot } from "../../features/entitlements/entitlements.store";
+import {
+  setEntitlementSnapshot,
+  clearEntitlementSnapshot,
+  subscribeEntitlementSnapshot,
+} from "../../features/entitlements/entitlements.store";
 import { useSessionContext } from "./SessionProvider";
 
 type EntitlementContextValue = {
@@ -16,6 +20,8 @@ export function EntitlementProvider({ children }: { children: React.ReactNode })
   const { authenticated } = useSessionContext();
   const [loading, setLoading] = React.useState(false);
   const [snapshot, setSnapshot] = React.useState<EntitlementSnapshot | undefined>(undefined);
+
+  React.useEffect(() => subscribeEntitlementSnapshot(setSnapshot), []);
 
   React.useEffect(() => {
     let cancelled = false;
@@ -60,4 +66,3 @@ export function useEntitlementContext(): EntitlementContextValue {
   }
   return ctx;
 }
-
