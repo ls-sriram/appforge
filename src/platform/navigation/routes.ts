@@ -8,6 +8,7 @@ export const routes = {
   settings: "/settings" as const,
   settingsProfile: "/settings/profile" as const,
   recordings: "/recordings" as const,
+  chat: "/chat" as const,
   tasks: "/tasks" as const,
   textEditor: "/text-editor" as const,
   sharedRecordings: "/shared-recordings" as const,

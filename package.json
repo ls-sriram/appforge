@@ -22,6 +22,8 @@
     "src/features/settings/**/*.tsx",
     "src/features/recordings/**/*.ts",
     "src/features/recordings/**/*.tsx",
+    "src/features/chat/**/*.ts",
+    "src/features/chat/**/*.tsx",
     "src/features/transcription/**/*.ts",
     "src/features/transcription/**/*.tsx",
     "src/types/**/*.d.ts",
@@ -53,6 +55,7 @@
     "./features/billing": "./src/features/upgrade/index.ts",
     "./features/settings": "./src/features/settings/index.ts",
     "./features/recordings": "./src/features/recordings/index.ts",
+    "./features/chat": "./src/features/chat/index.ts",
     "./features/transcription": "./src/features/transcription/index.ts"
   },
   "scripts": {

@@ -1,0 +1,19 @@
+schema: v1
+module: chat
+layer: feature
+owner: support-experience
+public_api:
+  - useChatSupportViewModel
+  - ChatSupportView
+  - ChatThreadListBlock
+  - ChatMessageListBlock
+  - ChatComposerBlock
+  - listChatThreads
+  - createChatThread
+  - sendChatMessage
+  - cancelChatRun
+invariants:
+  - chat_threads_are_primary_grouping_unit
+  - chat_tags_are_secondary_filter_metadata
+  - agent_execution_is_backend_owned
+  - streaming_transport_is_feature_local_and_does_not_change_shared_api_client
