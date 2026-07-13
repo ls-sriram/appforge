@@ -13,6 +13,7 @@
     "src/features/entitlements/**/*.tsx",
     "src/features/serverless-entitlement/**/*.ts",
     "src/features/serverless-entitlement/**/*.tsx",
+    "src/features/upgrade/**/*.ts",
     "src/features/login/**/*.ts",
     "src/features/login/**/*.tsx",
     "src/features/register/**/*.ts",
@@ -49,6 +50,7 @@
     "./features/login": "./src/features/login/index.ts",
     "./features/register": "./src/features/register/index.ts",
     "./features/serverless-entitlement": "./src/features/serverless-entitlement/index.ts",
+    "./features/billing": "./src/features/upgrade/index.ts",
     "./features/settings": "./src/features/settings/index.ts",
     "./features/recordings": "./src/features/recordings/index.ts",
     "./features/transcription": "./src/features/transcription/index.ts"
@@ -105,7 +107,11 @@
     "react-native-safe-area-context": "*",
     "react-native-screens": "*",
     "react-native-svg": "*",
-    "react-native-web": "*"
+    "react-native-web": "*",
+    "expo-iap": "^4.4.1"
+  },
+  "peerDependenciesMeta": {
+    "expo-iap": { "optional": true }
   },
   "devDependencies": {
     "@babel/core": "^7.25.0",

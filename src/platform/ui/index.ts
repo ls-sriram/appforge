@@ -17,6 +17,7 @@ export {
   type PressableContract,
   type ListItemContract,
   type ChipContract,
+  type SelectableChipContract,
   type SegmentedTabContract,
   type IconButtonContract,
   type CardContract,

@@ -16,6 +16,6 @@ export const routes = {
 
 export type AppRoute = (typeof routes)[keyof typeof routes];
 
-export function isRoute(pathname: string, route: AppRoute): boolean {
+export function isRoute(pathname: string, route: string): boolean {
   return pathname === route;
 }

@@ -17,7 +17,7 @@ export function MobileBottomNavItem({
 }: MobileBottomNavItemProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const active = isRoute(pathname, route);
+  const active = isRoute(pathname, String(route));
 
   return (
     <View style={{ flex: 1 }}>

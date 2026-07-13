@@ -15,12 +15,14 @@ import { Result } from "../../platform/core/types";
 import { callProto } from "../../platform/api/proto-client";
 import { api } from "../../platform/api/client";
 import type { AuthState } from "./auth.repository";
-import type {
-  SessionLoginRequest,
-  SessionLoginResponse,
-  SessionLogoutResponse,
-  SessionMeResponse,
-} from "../../generated/proto/auth/v1/auth";
+interface SessionLoginRequest { idToken: string }
+interface SessionLoginResponse { success?: boolean }
+interface SessionLogoutResponse { success?: boolean }
+interface SessionMeResponse {
+  identity?: { uid?: string; email?: string; name?: string };
+  uid?: string;
+  onboardingCompleted?: boolean;
+}
 
 // ─── Service interface ───────────────────────────────────────────
 

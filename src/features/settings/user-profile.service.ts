@@ -18,7 +18,15 @@ import {
   type ProtoTimestampLike,
 } from "../../platform/core/dates/index";
 import { callProto } from "../../platform/api/proto-client";
-import type { SessionMeResponse } from "../../generated/proto/auth/v1/auth";
+interface SessionMeResponse {
+  identity?: {
+    uid?: string;
+    email?: string;
+    name?: string;
+    createdAt?: ProtoTimestampLike;
+    lastLoginAt?: ProtoTimestampLike;
+  };
+}
 
 type UserProfileResponse = components["schemas"]["UserProfileResponse"];
 type PlanInfo = NonNullable<UserProfileResponse["plan"]>;

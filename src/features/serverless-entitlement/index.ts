@@ -83,3 +83,5 @@ export {
 export { GooglePlayStoreBridge } from "./google-play-billing.bridge";
 export { PlatformServerlessEntitlementRuntime } from "./platform.runtime";
 export { UnsupportedServerlessEntitlementRuntime } from "./unsupported.runtime";
+export { ExpoIapAppleImplementation, ExpoIapGooglePlayImplementation } from "./expo-iap.implementation";
+export type { ExpoIapModuleAdapter } from "./expo-iap.implementation";

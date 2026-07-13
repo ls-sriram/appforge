@@ -55,15 +55,17 @@ import { EntitlementProvider, SessionProvider, useSessionContext } from "@appfor
 import { api, apiRoutes, callProto, type ApiRouteDefinition } from "@appforge/platform/api";
 import { isRoute, routes, type AppRoute } from "@appforge/platform/navigation";
 import { ForgotPasswordRouteScreen } from "@appforge/platform/features/auth";
-import { LoginRouteScreen } from "@appforge/platform/features/login";
+import { LoginScreen } from "@appforge/platform/features/login";
 import {
-  FirebaseRegisterModel,
+  FirebaseRegisterService,
   RegisterController,
   RegisterView,
   type RegisterAction,
-  type RegisterModel,
+  type RegisterService,
   type RegisterViewData,
 } from "@appforge/platform/features/register";
+import { ExpoIapAppleImplementation, ExpoIapGooglePlayImplementation } from "@appforge/platform/features/serverless-entitlement";
+import { BackendBillingService, useUpgradePage } from "@appforge/platform/features/billing";
 import { useProfileEditViewModel } from "@appforge/platform/features/settings";
 
 void Badge;
@@ -88,8 +90,13 @@ void YStack;
 void createUi;
 void EntitlementProvider;
 void SessionProvider;
+void LoginScreen;
+void FirebaseRegisterService;
+void ExpoIapAppleImplementation;
+void ExpoIapGooglePlayImplementation;
+void BackendBillingService;
+void useUpgradePage;
 void ForgotPasswordRouteScreen;
-void LoginRouteScreen;
 void RegisterView;
 void useSessionContext;
 void useProfileEditViewModel;
@@ -150,8 +157,8 @@ const route: AppRoute = routes.login;
 const routeDefinition: ApiRouteDefinition | undefined =
   apiRoutes[Object.keys(apiRoutes)[0] ?? ""];
 
-const registerModel: RegisterModel = new FirebaseRegisterModel();
-const registerController = new RegisterController(registerModel);
+const registerService: RegisterService = new FirebaseRegisterService();
+const registerController = new RegisterController(registerService);
 const registerData: RegisterViewData = registerController.getInitialData();
 const registerAction: RegisterAction = { type: "go_to_login" };
 

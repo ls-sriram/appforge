@@ -2,6 +2,15 @@
 
 AppForge is a scaffold-first workspace for shipping one app across web, mobile, desktop, and a co-located backend from a single codebase.
 
+## Native serverless billing
+
+Paid serverless Expo apps use the exported `ExpoIapAppleImplementation` and
+`ExpoIapGooglePlayImplementation` adapters with `ServerlessEntitlementProvider`.
+Install the optional `expo-iap` peer in the consuming app. StoreKit and Google
+Play Billing require a development or store build and are unavailable in Expo
+Go. Product identifiers must exist in App Store Connect and Play Console before
+lookup or purchase can succeed.
+
 ## Purpose
 
 This public repo is centered on the `example-app` reference implementation and the tooling around it:
