@@ -119,6 +119,10 @@ const tokens = createTokens({
   },
   zIndex: {
     0: 0, 1: 10, 2: 20, 3: 100,
+    // Toast/Sheet overlay tier — above Select's dropdown (100), the highest
+    // in-page z-index used so far.
+    4: 1000,
+    overlay: 1000,
   },
 })
 
@@ -351,7 +355,7 @@ function createRuntimeTheme(theme: PlatformTheme) {
     infoMuted:     hexToRgba(p.info, 0.12),
     chipBg:        p.surfaceAlt,
     chipBorder:    p.border,
-    scrim:         'rgba(5,10,18,0.64)',
+    scrim:         p.scrim,
   } as const
 }
 

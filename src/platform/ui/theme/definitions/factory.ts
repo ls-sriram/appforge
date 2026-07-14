@@ -92,6 +92,7 @@ export function createTheme(options: ThemeOptions): Theme {
       infoMuted: alpha(info, 0.12),
       ...base,
       borderFocus: primary,
+      scrim: "rgba(5,10,18,0.64)",
     },
     spacing: {
       xs: 6,
@@ -167,6 +168,20 @@ export function createTheme(options: ThemeOptions): Theme {
       mobile: 0,
       tablet: 768,
       desktop: 1024,
+    },
+    motion: {
+      duration: {
+        fast: 150,
+        medium: 250,
+        slow: 400,
+      },
+      // Matches the spring feel of config.ts's Tamagui `animations` (fast/medium/slow)
+      // for the subset of interactions (sheet/toast) driven by Reanimated instead.
+      easing: {
+        standard: [0.4, 0, 0.2, 1],
+        decelerate: [0, 0, 0.2, 1],
+        accelerate: [0.4, 0, 1, 1],
+      },
     },
   };
 }

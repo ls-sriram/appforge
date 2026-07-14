@@ -170,6 +170,15 @@ export { TableSchema } from "./components/table/table.contract";
 export { dialog } from "./primitives/dialog";
 export type { DialogButton } from "./primitives/dialog";
 export { linking } from "./primitives/linking";
+export { haptics } from "./primitives/haptics";
+export { motion, useSharedValue, useAnimatedStyle } from "./primitives/motion";
+export type { SharedValue } from "./primitives/motion";
+export { Toast, ToastProvider, useToast } from "./components/toast/index";
+export type { ToastContract, ToastItem, ToastVariant, ToastOptions } from "./components/toast/index";
+export { ToastSchema, ToastVariantSchema, ToastOptionsSchema } from "./components/toast/index";
+export { Sheet, SheetProvider, useSheet } from "./components/sheet/index";
+export type { SheetContract, SheetProps, SheetOptions } from "./components/sheet/index";
+export { SheetSchema, SheetOptionsSchema } from "./components/sheet/index";
 export { createUi, noopUi } from "./viz";
 export type { UiStamp, UiStampAttrs } from "./viz";
 export {

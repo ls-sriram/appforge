@@ -39,6 +39,8 @@ export interface Theme {
     textSecondary: string;
     textMuted: string;
     textInverse: string;
+    /** Modal/sheet backdrop — matches config.ts's static `scrim` Tamagui token. */
+    scrim: string;
   };
   spacing: {
     xs: number;
@@ -85,6 +87,19 @@ export interface Theme {
     mobile: number;
     tablet: number;
     desktop: number;
+  };
+  motion: {
+    duration: {
+      fast: number;
+      medium: number;
+      slow: number;
+    };
+    /** Cubic-bezier control points, consumed by primitives/motion.ts to build Reanimated Easing curves. */
+    easing: {
+      standard: [number, number, number, number];
+      decelerate: [number, number, number, number];
+      accelerate: [number, number, number, number];
+    };
   };
 }
 
